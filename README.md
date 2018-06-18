@@ -2,7 +2,7 @@
 
 Transforms Python source code into it's most compact representation.
 
-python-minifier supports Python 2.6 to 2.7 and Python 3.3 to 3.5..
+python-minifier supports Python 2.6 to 2.7 and Python 3.3 to 3.5.
 
 As an example, the following python source:
 
@@ -97,4 +97,4 @@ with open('hello.py') as f:
 
 Available under the MIT License. Full text is in the [LICENSE](LICENSE) file.
 
-Copyright 2018 Daniel Flook
+Copyright (c) 2018 Daniel Flook
