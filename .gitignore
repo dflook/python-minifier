@@ -1,0 +1,12 @@
+.tox/
+.idea/
+__pycache__/
+*.py[cod]
+dist/
+downloads/
+eggs/
+.eggs/
+wheels/
+*.egg-info/
+*.egg
+venv/

@@ -1,0 +1,53 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: danielflook/python-minifier-build
+    steps:
+      - checkout
+
+      - run:
+          name: Set version statically
+          command: |
+            VERSION=$(python setup.py --version)
+            sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+
+      - run:
+          name: tox
+          command: |
+            pip install -r requirements-tox.txt
+            tox -e py27,py34,py35,pypy
+
+  publish:
+    docker:
+      - image: danielflook/python-minifier-build
+    steps:
+      - checkout
+
+      - run:
+          name: Set version statically
+          command: |
+            VERSION=$(python setup.py --version)
+            sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+
+      - run:
+          name: Add signing key
+          command: |
+            echo $SIGNING_KEY | base64 -d > private.key
+            gpg --import private.key
+
+      - run:
+          name: sdist
+          command: |
+            pip3 install --upgrade setuptools wheel twine pip
+            python3 setup.py sdist bdist_wheel
+            twine upload --sign dist/*
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - publish:
+          requires:
+            - test
