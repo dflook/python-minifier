@@ -24,7 +24,7 @@ setup(
     long_description=long_desc,
     long_description_content_type='text/markdown',
 
-    python_requires='>=2.6, !=3.0.*, !=3.1.*, !=3.2.*, <3.6',
+    python_requires='>=2.6, !=3.0.*, !=3.1.*, !=3.2.*, <3.8',
     setup_requires=['setuptools_scm'],
 
     classifiers=[
@@ -35,6 +35,8 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
