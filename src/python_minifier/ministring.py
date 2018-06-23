@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 BACKSLASH = '\\'
 
 
@@ -38,13 +36,9 @@ class MiniString(object):
             if self._safe_mode:
                 raise
 
-            print('Unicode encoding error!')
             self._safe_mode = True
 
-        if eval(self.quote + s + self.quote) != self._s:
-            print('Expected [%r]' % self._s)
-            print('Actual [%r]' % s)
-            assert eval(self.quote + s + self.quote) == self._s
+        assert eval(self.quote + s + self.quote) == self._s
 
         return s
 
@@ -142,10 +136,7 @@ class MiniBytes(object):
         else:
             s = self.to_long()
 
-        if eval('b' + self.quote + s + self.quote) != self._b:
-            print('Expected [%r]' % self._b)
-            print('Actual [%r]' % s)
-            assert eval('b' + self.quote + s + self.quote) == self._b
+        assert eval('b' + self.quote + s + self.quote) == self._b
 
         return s
 

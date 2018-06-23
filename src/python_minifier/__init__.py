@@ -1,7 +1,7 @@
 import ast
 
 from python_minifier.ast_compare import AstComparer, CompareError
-from python_minifier.miniprinter import MiniPrinter
+from python_minifier.module_printer import ModulePrinter
 
 
 class UnstableMinification(RuntimeError):
@@ -31,7 +31,7 @@ def minify(source, filename=None):
     # This will raise if the source file can't be parsed
     module = ast.parse(source, filename)
 
-    printer = MiniPrinter()
+    printer = ModulePrinter()
     printer(module)
 
     try:
