@@ -41,7 +41,10 @@ jobs:
           command: |
             pip3 install --upgrade setuptools wheel twine pip
             python3 setup.py sdist bdist_wheel
-            twine upload --sign dist/*
+
+            if [[ "$(python setup.py --version)" != *"+"* ]]; then
+              twine upload --sign dist/*
+            fi
 
 workflows:
   version: 2
