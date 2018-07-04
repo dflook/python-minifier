@@ -15,7 +15,7 @@ jobs:
       - run:
           name: tox
           command: |
-            pip install -r requirements-tox.txt
+            pip install -r requirements-dev.txt
             tox -e py27,py34,py35,py36,py37,pypy
 
   publish:
