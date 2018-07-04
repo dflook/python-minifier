@@ -1,9 +1,14 @@
+import sys
 import os.path
 from setuptools import setup, find_packages
 
 readme_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'README.md')
 with open(readme_path) as f:
     long_desc = f.read()
+
+install_requires = []
+if sys.version_info < (2, 7):
+    install_requires = ['argparse']
 
 setup(
     name='python_minifier',
@@ -49,6 +54,8 @@ setup(
     entry_points = {
         'console_scripts': ['pyminify=python_minifier.__main__:main']
     },
+
+    install_requires=install_requires,
 
     zip_safe=True
 )

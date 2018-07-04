@@ -7,55 +7,91 @@ python-minifier supports Python 2.6 to 2.7 and Python 3.3 to 3.7.
 As an example, the following python source:
 
 ```python
-import ast
-
-from python_minifier.miniprinter import MiniPrinter
-from python_minifier.ast_compare import AstCompare
-
-class UnstableMinification(Exception):
-    def __init__(self, original, minified, exception):
-        self.original = original
-        self.minified = minified
-        self.exception = exception
-
-    def __str__(self):
-        return str(self.exception)
-
-def minify(source):
-
-    code = ast.parse(source)
-    minifier = MiniPrinter()
-
-    minifier.visit(code)
-
+def handler(event, context):
+    l.info(event)
     try:
-        # Check that the minified code is identical to the original
-        minified_code = ast.parse(minifier.code)
-        comparer = AstCompare()
-        comparer.compare(code, minified_code)
-    except Exception as exception:
-        raise UnstableMinification(source, minifier.code, exception)
+        i_token = hashlib.new('md5', (event['RequestId'] + event['StackId']).encode()).hexdigest()
+        props = event['ResourceProperties']
 
-    return minifier.code
+        if event['RequestType'] == 'Create':
+            event['PhysicalResourceId'] = 'None'
+            event['PhysicalResourceId'] = create_cert(props, i_token)
+            add_tags(event['PhysicalResourceId'], props)
+            validate(event['PhysicalResourceId'], props)
+
+            if wait_for_issuance(event['PhysicalResourceId'], context):
+                event['Status'] = 'SUCCESS'
+                return send(event)
+            else:
+                return reinvoke(event, context)
+
+        elif event['RequestType'] == 'Delete':
+            if event['PhysicalResourceId'] != 'None':
+                acm.delete_certificate(CertificateArn=event['PhysicalResourceId'])
+            event['Status'] = 'SUCCESS'
+            return send(event)
+
+        elif event['RequestType'] == 'Update':
+
+            if replace_cert(event):
+                event['PhysicalResourceId'] = create_cert(props, i_token)
+                add_tags(event['PhysicalResourceId'], props)
+                validate(event['PhysicalResourceId'], props)
+
+                if not wait_for_issuance(event['PhysicalResourceId'], context):
+                    return reinvoke(event, context)
+            else:
+                if 'Tags' in event['OldResourceProperties']:
+                    acm.remove_tags_from_certificate(CertificateArn=event['PhysicalResourceId'],
+                                                     Tags=event['OldResourceProperties']['Tags'])
+
+                add_tags(event['PhysicalResourceId'], props)
+
+            event['Status'] = 'SUCCESS'
+            return send(event)
+        else:
+            raise RuntimeError('Unknown RequestType')
+
+    except Exception as ex:
+        l.exception('')
+        event['Status'] = 'FAILED'
+        event['Reason'] = str(ex)
+        return send(event)
 ```
 
 Becomes:
 
 ```python
-import ast
-from python_minifier.miniprinter import MiniPrinter
-from python_minifier.ast_compare import AstCompare
-class UnstableMinification(Exception):
-    def __init__(self,original,minified,exception):
-        self.original=original;self.minified=minified;self.exception=exception
-    def __str__(self):return str(self.exception)
-def minify(source):
-    code=ast.parse(source);minifier=MiniPrinter();minifier.visit(code)
-    try:
-        minified_code=ast.parse(minifier.code);comparer=AstCompare();comparer.compare(code,minified_code)
-    except Exception as exception:
-        raise UnstableMinification(source,minifier.code,exception)
-    return minifier.code
+A='PhysicalResourceId'
+B='Status'
+C='RequestType'
+D='SUCCESS'
+E='None'
+F='Tags'
+G='OldResourceProperties'
+def handler(event,context):
+	l.info(event)
+	try:
+		i_token=hashlib.new('md5',(event['RequestId']+event['StackId']).encode()).hexdigest();props=event['ResourceProperties']
+		if event[C]=='Create':
+			event[A]=E;event[A]=create_cert(props,i_token);add_tags(event[A],props);validate(event[A],props)
+			if wait_for_issuance(event[A],context):
+				event[B]=D;return send(event)
+			else:return reinvoke(event,context)
+		elif event[C]=='Delete':
+			if event[A]!=E:acm.delete_certificate(CertificateArn=event[A])
+			event[B]=D;return send(event)
+		elif event[C]=='Update':
+			if replace_cert(event):
+				event[A]=create_cert(props,i_token);add_tags(event[A],props);validate(event[A],props)
+				if not wait_for_issuance(event[A],context):return reinvoke(event,context)
+			else:
+				if F in event[G]:acm.remove_tags_from_certificate(CertificateArn=event[A],Tags=event[G][F])
+				add_tags(event[A],props)
+			event[B]=D;return send(event)
+		else:raise RuntimeError('Unknown RequestType')
+	except Exception as ex:
+		l.exception('');event[B]='FAILED';event['Reason']=str(ex);return send(event)
 ```
 
 ## Why?

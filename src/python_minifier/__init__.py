@@ -1,3 +1,9 @@
+"""
+This package transforms python source code strings or ast.Module Nodes into
+a 'minified' representation of the same source code.
+
+"""
+
 import ast
 
 from python_minifier.ast_compare import AstComparer, CompareError
@@ -10,6 +16,15 @@ from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.hoist_literals import HoistLiterals
 
 class UnstableMinification(RuntimeError):
+    """
+    Raised when a minified module differs from the original module in an unexpected way.
+
+    This is raised when the minifier generates source code that doesn't parse back into the
+    original module (after known transformations).
+    This should never occur and is a bug.
+
+    """
+
     def __init__(self, exception, source, minified):
         self.exception = exception
         self.source = source
@@ -21,16 +36,19 @@ class UnstableMinification(RuntimeError):
 
 def minify(source,
            filename=None,
-           remove_annotations=False,
-           remove_pass=False,
+           remove_annotations=True,
+           remove_pass=True,
            remove_literal_statements=False,
-           combine_imports=False,
-           hoist_literals=False):
+           combine_imports=True,
+           hoist_literals=True):
     """
     Minify a python module
 
-    Using the default arguments no transformations are made to the AST, the returned string will
+    The module is transformed according the the arguments.
+    If all transformation arguments are False, no transformations are made to the AST, the returned string will
     parse into exactly the same module.
+
+    Using the default arguments only transformations that are always or almost always safe are enabled.
 
     :param str source: The python module source code
     :param str filename: The original source filename if known
@@ -75,7 +93,7 @@ def unparse(module):
     such that it can be parsed back into the same AST.
 
     :param module: The module to turn into python code
-    :type: module :class:`ast.Module`
+    :type: module: :class:`ast.Module`
     :rtype: str
 
     """

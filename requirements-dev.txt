@@ -1,0 +1,6 @@
+tox
+virtualenv<16.0.0
+pytest
+sphinx
+sphinxcontrib-programoutput
+sphinx_rtd_theme

@@ -1,0 +1,27 @@
+Remove Annotations
+==================
+
+This transform removes function annotations and variable annotations.
+
+This transform is generally safe to use. Although the annotations have no meaning to python,
+they are made available at runtime. If you know the module requires the annotations to be kept, disable this transform.
+
+If a variable annotation without assignment is used the annotation is changed to a literal zero instead of being removed.
+
+The transform is enabled by default.
+Disable this source transformation by passing the ``remove_annotations=False`` argument to the :func:`python_minifier.minify` function,
+or passing ``--no-remove-annotations`` to the pyminify command.
+
+Examples
+--------
+
+Input
+~~~~~
+
+.. literalinclude:: remove_annotations.py
+
+Output
+~~~~~~
+
+.. literalinclude:: remove_annotations.py.min
+    :language: python

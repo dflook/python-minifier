@@ -1,3 +1,0 @@
-tox
-virtualenv<16.0.0
-pytest
