@@ -4,6 +4,10 @@ Transforms Python source code into it's most compact representation.
 
 python-minifier supports Python 2.6 to 2.7 and Python 3.3 to 3.7.
 
+* [PyPi](https://pypi.org/project/python-minifier/)
+* [Documentation](https://dflook.github.io/python-minifier/)
+* [Issues](https://github.com/dflook/python-minifier/issues)
+
 As an example, the following python source:
 
 ```python
@@ -128,6 +132,8 @@ import python_minifier
 with open('hello.py') as f:
     print(python_minifier.minify(f.read()))
 ```
+
+Documentation is available at [dflook.github.io/python-minifier/](https://dflook.github.io/python-minifier/)
 
 ## License
 
