@@ -32,6 +32,8 @@ class ModulePrinter(ExpressionPrinter):
         """
         Ensure there is a newline at the end of the output
         """
+        if self.code == '':
+            return
 
         self.code = self.code.rstrip('\n' + self.indent_char + ';')
         self.code += '\n'
@@ -450,7 +452,7 @@ class ModulePrinter(ExpressionPrinter):
                     self.code += ','
 
                 if self.precedence(item.context_expr) != 0 and self.precedence(item.context_expr) <= self.precedence(
-                        node
+                    node
                 ):
                     self.code += '('
                     self.visit_withitem(item)
@@ -475,7 +477,7 @@ class ModulePrinter(ExpressionPrinter):
 
     def visit_FunctionDef(self, node, is_async=False):
         assert isinstance(node, ast.FunctionDef) or (
-                hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef)
+            hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef)
         )
 
         self.newline()
@@ -613,13 +615,15 @@ class ModulePrinter(ExpressionPrinter):
             'AsyncWith',
         ]
 
-        if len(node_list) == 1 and node_list[0].__class__.__name__ not in compound_statements:
-            self._suite_body(node_list)
-            self.newline()
-        else:
+        if [node for node in node_list if node.__class__.__name__ in compound_statements]:
             self.enter_block()
             self._suite_body(node_list)
             self.leave_block()
+        else:
+            self.indent += 1
+            self._suite_body(node_list)
+            self.indent -= 1
+            self.newline()
 
     def _suite_body(self, node_list):
 

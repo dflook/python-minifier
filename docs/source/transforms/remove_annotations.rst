@@ -12,8 +12,8 @@ The transform is enabled by default.
 Disable this source transformation by passing the ``remove_annotations=False`` argument to the :func:`python_minifier.minify` function,
 or passing ``--no-remove-annotations`` to the pyminify command.
 
-Examples
---------
+Example
+-------
 
 Input
 ~~~~~
@@ -23,5 +23,5 @@ Input
 Output
 ~~~~~~
 
-.. literalinclude:: remove_annotations.py.min
+.. literalinclude:: remove_annotations.min.py
     :language: python

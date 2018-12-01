@@ -1,6 +1,6 @@
 import ast
 from python_minifier.transforms.remove_pass import RemovePass
-from python_minifier.ast_compare import AstComparer
+from python_minifier.ast_compare import compare_ast
 
 
 def test_remove_pass_empty_module():
@@ -9,7 +9,7 @@ def test_remove_pass_empty_module():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_pass_module():
     source = '''import collections
@@ -21,7 +21,7 @@ a=1'''
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_if_empty():
     source = '''if True:
@@ -31,7 +31,7 @@ def test_remove_if_empty():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_if_line():
     source = '''if True: pass'''
@@ -39,7 +39,7 @@ def test_remove_if_line():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_suite():
     source = '''if True: 
@@ -53,7 +53,7 @@ def test_remove_suite():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_from_class():
     source = '''class A:
@@ -73,7 +73,7 @@ def test_remove_from_class():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_from_class_empty():
     source = '''class A:
@@ -83,7 +83,7 @@ def test_remove_from_class_empty():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_remove_from_class_func_empty():
     source = '''class A:
@@ -95,4 +95,4 @@ def test_remove_from_class_func_empty():
 
     expected_ast = ast.parse(expected)
     actual_ast = RemovePass()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)

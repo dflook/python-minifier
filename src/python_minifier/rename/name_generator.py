@@ -1,11 +1,24 @@
-import string
 import itertools
 import keyword
+import random
+import string
+
+from python_minifier.rename.util import builtins
+
+
+def random_generator(length=40):
+    valid_first = string.ascii_uppercase + string.ascii_lowercase
+    valid_rest = string.digits + valid_first + '_'
+
+    while True:
+        first = [random.choice(valid_first)]
+        rest = [random.choice(valid_rest) for i in range(length - 1)]
+        yield ''.join(first + rest)
+
 
 def name_generator():
-
-    valid_first = string.ascii_uppercase + '_' + string.ascii_lowercase
-    valid_rest = string.digits + valid_first
+    valid_first = string.ascii_uppercase + string.ascii_lowercase
+    valid_rest = string.digits + valid_first + '_'
 
     for c in valid_first:
         yield c
@@ -17,7 +30,8 @@ def name_generator():
                 name += ''.join(rest)
                 yield name
 
-def name_filter(predefined=None):
+
+def name_filter():
     """
     Yield all valid python identifiers
 
@@ -25,23 +39,12 @@ def name_filter(predefined=None):
 
     Names that already have meaning in python (keywords and builtins)
     will not be included in the output.
-    Names in predefined will also not be included in the output.
 
-    :param predefined: Predefined names that will not be returned
-    :type predefined: list[str]
     :rtype: Iterable[str]
 
     """
 
-    try:
-        import builtins
-    except ImportError:
-        import __builtin__ as builtins
-
     reserved = keyword.kwlist + dir(builtins)
-
-    if predefined:
-        reserved += predefined
 
     for name in name_generator():
         if name not in reserved:

@@ -2,8 +2,15 @@ import ast
 import sys
 import pytest
 
+from python_minifier import add_namespace
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
-from python_minifier.ast_compare import AstComparer
+from python_minifier.ast_compare import compare_ast
+
+def remove_annotations(source):
+    module = ast.parse(source)
+    add_namespace(module)
+    RemoveAnnotations()(module)
+    return module
 
 def test_AnnAssign():
 
@@ -18,8 +25,8 @@ b = 2
 c = 3'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveAnnotations()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_FunctionDef():
     if sys.version_info < (3,):
@@ -31,8 +38,8 @@ def test_FunctionDef():
     pass'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveAnnotations()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_AsyncFunctionDef():
     if sys.version_info < (3, 6):
@@ -44,8 +51,8 @@ def test_AsyncFunctionDef():
     pass'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveAnnotations()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_AnnAssign_novalue():
     if sys.version_info < (3, 6):
@@ -56,5 +63,47 @@ def test_AnnAssign_novalue():
     expected = '''a:0'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveAnnotations()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)
+
+def test_no_remove_dataclass():
+    if sys.version_info < (3, 6):
+        pytest.skip('annotations unavailable in python < 3.6')
+
+    if sys.version_info < (3, 7):
+        pytest.skip('dataclass unavailable in python < 3.7')
+
+    source = '''
+@dataclass
+class MyClass:
+    myfield: int
+    mysecondfile: str
+'''
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)
+
+def test_remove_dataclass():
+    if sys.version_info < (3, 6):
+        pytest.skip('annotations unavailable in python < 3.6')
+
+    if sys.version_info >= (3, 7):
+        pytest.skip('dataclass available in python >= 3.7')
+
+    source = '''
+@dataclass
+class MyClass:
+    myfield: int
+    mysecondfile: str
+'''
+    expected = '''
+@dataclass
+class MyClass:
+    myfield: 0
+    mysecondfile: 0
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)

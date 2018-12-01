@@ -1,12 +1,10 @@
 import itertools
 
-from python_minifier.transforms.name_generator import name_filter
+from python_minifier.rename.name_generator import name_filter
 
 def test_name_generator():
 
-    predefined = ['hi', 'oh', 'AA']
-
-    ng = name_filter(predefined)
+    ng = name_filter()
 
     names = set()
     for name in itertools.islice(ng, 10000):
@@ -21,7 +19,3 @@ def test_name_generator():
     # Check no builtins returned
     assert 'id' not in names
     assert 'abs' not in names
-
-    # Check predefined names not returned
-    for name in predefined:
-        assert name not in names

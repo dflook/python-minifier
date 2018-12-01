@@ -60,11 +60,7 @@ class ExpressionPrinter(object):
 
         """
 
-        if isinstance(node, ast.BinOp):
-            return self.precedences[node.op.__class__.__name__]
-        elif isinstance(node, ast.UnaryOp):
-            return self.precedences[node.op.__class__.__name__]
-        elif isinstance(node, ast.BoolOp):
+        if isinstance(node, (ast.BinOp, ast.UnaryOp, ast.BoolOp)):
             return self.precedences[node.op.__class__.__name__]
         elif isinstance(node, ast.Compare):
             return min(self.precedences[n.__class__.__name__] for n in node.ops)
@@ -294,12 +290,12 @@ class ExpressionPrinter(object):
             else:
                 self._expression(node.op)
 
-            value_precendence = self.precedence(v)
+            value_precedence = self.precedence(v)
 
-            if value_precendence != 0 and (
-                    (op_precedence > value_precendence)
-                    or op_precedence == value_precendence
-                    and self._is_left_associative(node.op)
+            if value_precedence != 0 and (
+                (op_precedence > value_precedence)
+                or op_precedence == value_precedence
+                and self._is_left_associative(node.op)
             ):
                 self.code += '('
                 self._expression(v)
@@ -714,8 +710,8 @@ class ExpressionPrinter(object):
         op_precedence = self.precedence(op_node)
 
         if left_precedence != 0 and (
-                (op_precedence > left_precedence)
-                or (op_precedence == left_precedence and self._is_right_associative(op_node))
+            (op_precedence > left_precedence)
+            or (op_precedence == left_precedence and self._is_right_associative(op_node))
         ):
             self.code += '('
             self._expression(left_node)
@@ -727,8 +723,10 @@ class ExpressionPrinter(object):
         right_precedence = self.precedence(right_node)
         op_precedence = self.precedence(op_node)
 
-        if right_precedence != 0 and ((op_precedence > right_precedence) or (
-                op_precedence == right_precedence and self._is_left_associative(op_node))):
+        if right_precedence != 0 and (
+            (op_precedence > right_precedence)
+            or (op_precedence == right_precedence and self._is_left_associative(op_node))
+        ):
             self.code += '('
             self._expression(right_node)
             self.code += ')'
@@ -746,5 +744,6 @@ class ExpressionPrinter(object):
         assert isinstance(node, ast.JoinedStr)
 
         import python_minifier.f_string
+
         self.token_break()
         self.code += str(python_minifier.f_string.OuterFString(node))

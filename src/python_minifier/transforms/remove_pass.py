@@ -1,5 +1,6 @@
 import ast
 
+
 class RemovePass(ast.NodeTransformer):
     """
     Remove Pass keywords from source

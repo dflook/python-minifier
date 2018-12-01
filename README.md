@@ -66,36 +66,34 @@ def handler(event, context):
 Becomes:
 
 ```python
-A='PhysicalResourceId'
-B='Status'
-C='RequestType'
-D='SUCCESS'
-E='None'
-F='Tags'
-G='OldResourceProperties'
+K='OldResourceProperties'
+J='Tags'
+I='None'
+G='SUCCESS'
+F='RequestType'
+E='Status'
+B='PhysicalResourceId'
 def handler(event,context):
-	l.info(event)
+	D=context;A=event;l.info(A)
 	try:
-		i_token=hashlib.new('md5',(event['RequestId']+event['StackId']).encode()).hexdigest();props=event['ResourceProperties']
-		if event[C]=='Create':
-			event[A]=E;event[A]=create_cert(props,i_token);add_tags(event[A],props);validate(event[A],props)
-			if wait_for_issuance(event[A],context):
-				event[B]=D;return send(event)
-			else:return reinvoke(event,context)
-		elif event[C]=='Delete':
-			if event[A]!=E:acm.delete_certificate(CertificateArn=event[A])
-			event[B]=D;return send(event)
-		elif event[C]=='Update':
-			if replace_cert(event):
-				event[A]=create_cert(props,i_token);add_tags(event[A],props);validate(event[A],props)
-				if not wait_for_issuance(event[A],context):return reinvoke(event,context)
+		H=hashlib.new('md5',(A['RequestId']+A['StackId']).encode()).hexdigest();C=A['ResourceProperties']
+		if A[F]=='Create':
+			A[B]=I;A[B]=create_cert(C,H);add_tags(A[B],C);validate(A[B],C)
+			if wait_for_issuance(A[B],D):A[E]=G;return send(A)
+			else:return reinvoke(A,D)
+		elif A[F]=='Delete':
+			if A[B]!=I:acm.delete_certificate(CertificateArn=A[B])
+			A[E]=G;return send(A)
+		elif A[F]=='Update':
+			if replace_cert(A):
+				A[B]=create_cert(C,H);add_tags(A[B],C);validate(A[B],C)
+				if not wait_for_issuance(A[B],D):return reinvoke(A,D)
 			else:
-				if F in event[G]:acm.remove_tags_from_certificate(CertificateArn=event[A],Tags=event[G][F])
-				add_tags(event[A],props)
-			event[B]=D;return send(event)
+				if J in A[K]:acm.remove_tags_from_certificate(CertificateArn=A[B],Tags=A[K][J])
+				add_tags(A[B],C)
+			A[E]=G;return send(A)
 		else:raise RuntimeError('Unknown RequestType')
-	except Exception as ex:
-		l.exception('');event[B]='FAILED';event['Reason']=str(ex);return send(event)
+	except Exception as L:l.exception('');A[E]='FAILED';A['Reason']=str(L);return send(A)
 ```
 
 ## Why?

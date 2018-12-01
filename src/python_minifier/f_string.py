@@ -9,9 +9,9 @@ Mostly because FStrings feel like a hack.
 import ast
 import copy
 
-import python_minifier.ast_compare
 from python_minifier import UnstableMinification
-from python_minifier.ast_compare import AstComparer, CompareError
+from python_minifier.ast_compare import CompareError
+from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
 
@@ -26,12 +26,11 @@ class FString(object):
 
         self.node = node
         self.allowed_quotes = allowed_quotes
-        self.comparer = python_minifier.ast_compare.AstComparer()
 
     def is_correct_ast(self, code):
         try:
             c = ast.parse(code, 'FString candidate', mode='eval')
-            self.comparer.compare(self.node, c.body)
+            compare_ast(self.node, c.body)
             return True
         except Exception as e:
             return False
@@ -51,8 +50,9 @@ class FString(object):
                         continue
                 elif isinstance(v, ast.FormattedValue):
                     try:
-                        candidates = [x + y for x in candidates
-                                            for y in FormattedValue(v, nested_allowed).get_candidates()]
+                        candidates = [
+                            x + y for x in candidates for y in FormattedValue(v, nested_allowed).get_candidates()
+                        ]
                     except:
                         continue
                 else:
@@ -93,8 +93,7 @@ class OuterFString(FString):
                 raise UnstableMinification(syntax_error, '', candidate)
 
             try:
-                comparer = AstComparer()
-                comparer.compare(self.node, minified_f_string)
+                compare_ast(self.node, minified_f_string)
             except CompareError as compare_error:
                 raise UnstableMinification(compare_error, '', candidate)
 
@@ -146,16 +145,13 @@ class FormattedValue(ExpressionPrinter):
         return self.candidates
 
     def is_curly(self, node):
-        if (isinstance(node, ast.SetComp)
-                or isinstance(node, ast.DictComp)
-                or isinstance(node, ast.Set)
-                or isinstance(node, ast.Dict)):
+        if isinstance(node, (ast.SetComp, ast.DictComp, ast.Set, ast.Dict)):
             return True
 
-        if isinstance(node, ast.Expr):
+        if isinstance(node, (ast.Expr, ast.Attribute, ast.Subscript)):
             return self.is_curly(node.value)
 
-        if isinstance(node, ast.Compare):
+        if isinstance(node, (ast.Compare, ast.BinOp)):
             return self.is_curly(node.left)
 
         if isinstance(node, ast.Call):
@@ -163,15 +159,6 @@ class FormattedValue(ExpressionPrinter):
 
         if isinstance(node, ast.BoolOp):
             return self.is_curly(node.values[0])
-
-        if isinstance(node, ast.BinOp):
-            return self.is_curly(node.left)
-
-        if isinstance(node, ast.Attribute):
-            return self.is_curly(node.value)
-
-        if isinstance(node, ast.Subscript):
-            return self.is_curly(node.value)
 
         if isinstance(node, ast.IfExp):
             return self.is_curly(node.body)
@@ -304,8 +291,9 @@ class FormatSpec(object):
             if isinstance(v, ast.Str):
                 candidates = [x + self.str_for(v.s) for x in candidates]
             elif isinstance(v, ast.FormattedValue):
-                candidates = [x + y for x in candidates
-                                    for y in FormattedValue(v, self.allowed_quotes).get_candidates()]
+                candidates = [
+                    x + y for x in candidates for y in FormattedValue(v, self.allowed_quotes).get_candidates()
+                ]
             else:
                 raise RuntimeError('Unexpected JoinedStr value')
 
@@ -391,7 +379,7 @@ class Bytes(object):
                     s += ' '
                 s += l
 
-            assert (eval(s) == self._b)
+            assert eval(s) == self._b
             candidates.append(s)
 
         return min(candidates, key=len)

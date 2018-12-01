@@ -1,6 +1,7 @@
 import ast
 from python_minifier.transforms.combine_imports import CombineImports
-from python_minifier.ast_compare import AstComparer
+from python_minifier.ast_compare import compare_ast
+
 
 def test_import():
     source = '''import builtins
@@ -10,7 +11,7 @@ import collections'''
 
     expected_ast = ast.parse(expected)
     actual_ast = CombineImports()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_import_as():
     source = '''import builtins
@@ -25,7 +26,7 @@ pass'''
 
     expected_ast = ast.parse(expected)
     actual_ast = CombineImports()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 
 def test_import_from():
@@ -39,7 +40,7 @@ from collections import abc'''
 
     expected_ast = ast.parse(expected)
     actual_ast = CombineImports()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 def test_import_in_function():
     source = '''def test():
@@ -55,7 +56,7 @@ def test_import_in_function():
 
     expected_ast = ast.parse(expected)
     actual_ast = CombineImports()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)
 
 
 def test_import_star():
@@ -73,4 +74,4 @@ from breakfast import sausage, bacon
 
     expected_ast = ast.parse(expected)
     actual_ast = CombineImports()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    compare_ast(expected_ast, actual_ast)

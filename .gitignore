@@ -10,3 +10,7 @@ wheels/
 *.egg-info/
 *.egg
 venv/
+docs/build/
+docs/source/transforms/*.min.py
+.cache/
+.pytest_cache/

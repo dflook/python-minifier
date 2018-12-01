@@ -1,6 +1,8 @@
-tox
-virtualenv<16.0.0
+tox<3
+virtualenv<16
 pytest
 sphinx
 sphinxcontrib-programoutput
 sphinx_rtd_theme
+pyyaml
+sh

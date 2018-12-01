@@ -7,10 +7,19 @@ always safe.
 They can be enabled or disabled through the minify function, or passing options to the pyminify command.
 
 .. toctree::
+   :caption: Enabled by default
    :maxdepth: 1
 
    combine_imports
    remove_pass
    hoist_literals
-   remove_literal_statements
    remove_annotations
+   rename_locals
+
+
+.. toctree::
+   :caption: Disabled by default
+   :maxdepth: 1
+
+   remove_literal_statements
+   rename_globals

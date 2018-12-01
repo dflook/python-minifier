@@ -1,5 +1,6 @@
 import ast
 
+
 class CombineImports(ast.NodeTransformer):
     """
     Combine multiple import statements where possible
@@ -101,7 +102,7 @@ class CombineImports(ast.NodeTransformer):
             if len(statement.names) == 1 and statement.names[0].name == '*':
                 return False
 
-            if prev_import == None:
+            if prev_import is None:
                 return True
 
             if statement.module == prev_import.module and statement.level == prev_import.level:

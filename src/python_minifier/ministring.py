@@ -64,9 +64,9 @@ class MiniString(object):
             else:
                 if self.safe_mode:
                     unicode_value = ord(c)
-                    if unicode_value <= 0x7f:
+                    if unicode_value <= 0x7F:
                         s += c
-                    elif unicode_value <= 0xffFF:
+                    elif unicode_value <= 0xFFFF:
                         s += BACKSLASH + 'u' + format(unicode_value, '04x')
                     else:
                         s += BACKSLASH + 'U' + format(unicode_value, '08x')
@@ -96,9 +96,9 @@ class MiniString(object):
             else:
                 if self.safe_mode:
                     unicode_value = ord(c)
-                    if unicode_value <= 0x7f:
+                    if unicode_value <= 0x7F:
                         s += c
-                    elif unicode_value <= 0xffFF:
+                    elif unicode_value <= 0xFFFF:
                         s += BACKSLASH + 'u' + format(unicode_value, '04x')
                     else:
                         s += BACKSLASH + 'U' + format(unicode_value, '08x')

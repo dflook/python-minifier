@@ -1,5 +1,23 @@
 import ast
 
+
+def find_doc(node):
+
+    if isinstance(node, ast.Attribute):
+        if node.attr == '__doc__':
+            raise ValueError('__doc__ found!')
+
+    for child in ast.iter_child_nodes(node):
+        find_doc(child)
+
+
+def _doc_in_module(module):
+    try:
+        find_doc(module)
+        return False
+    except:
+        return True
+
 class RemoveLiteralStatements(ast.NodeTransformer):
     """
     Remove literal expressions from the code
@@ -8,6 +26,8 @@ class RemoveLiteralStatements(ast.NodeTransformer):
     """
 
     def __call__(self, node):
+        if _doc_in_module(node):
+            return node
         return self.visit(node)
 
     def visit_ClassDef(self, node):
@@ -66,6 +86,11 @@ class RemoveLiteralStatements(ast.NodeTransformer):
         return self.visit_With(node)
 
     def visit_Module(self, node):
+        for binding in node.bindings:
+            if binding.name == '__doc__':
+                node.body = [self.visit(a) for a in node.body]
+                return node
+
         node.body = self.suite(node.body, module=True)
         return node
 
@@ -73,7 +98,11 @@ class RemoveLiteralStatements(ast.NodeTransformer):
         if not isinstance(node, ast.Expr):
             return False
 
-        if isinstance(node.value, ast.Num) or isinstance(node.value, ast.Str) or node.value.__class__.__name__ == 'Bytes':
+        if (
+            isinstance(node.value, ast.Num)
+            or isinstance(node.value, ast.Str)
+            or node.value.__class__.__name__ == 'Bytes'
+        ):
             return True
 
         return False

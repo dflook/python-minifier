@@ -1,27 +1,85 @@
 from __future__ import print_function
-import argparse
 
 import sys
 
+import argparse
+from pkg_resources import get_distribution, DistributionNotFound
+
 from python_minifier import minify
 
-from pkg_resources import get_distribution, DistributionNotFound
 try:
     version = get_distribution('python_minifier').version
 except DistributionNotFound:
     version = '0.0.0'
 
+
 def main():
 
     parser = argparse.ArgumentParser(description='Minify Python source')
 
-    parser.add_argument('path', type=str, help='The source file to minify. Use "-" to read from stdin')
+    parser.add_argument(
+        'path',
+        type=str,
+        help='The source file to minify. Use "-" to read from stdin'
+    )
 
-    parser.add_argument('--no-combine-imports', action='store_false', help='Disable combining adjacent import statements', dest='combine_imports')
-    parser.add_argument('--no-remove-pass', action='store_false', default=True, help='Disable removing Pass statements', dest='remove_pass')
-    parser.add_argument('--remove-literal-statements', action='store_true', help='Enable removing statements that are just a literal (including docstrings)', dest='remove_literal_statements')
-    parser.add_argument('--no-remove-annotations', action='store_false', help='Disable removing function and variable annotations', dest='remove_annotations')
-    parser.add_argument('--no-hoist-literals', action='store_false', help='Disable replacing string and bytes literals with variables', dest='hoist_literals')
+    parser.add_argument(
+        '--no-combine-imports',
+        action='store_false',
+        help='Disable combining adjacent import statements',
+        dest='combine_imports',
+    )
+    parser.add_argument(
+        '--no-remove-pass',
+        action='store_false',
+        default=True,
+        help='Disable removing Pass statements',
+        dest='remove_pass',
+    )
+    parser.add_argument(
+        '--remove-literal-statements',
+        action='store_true',
+        help='Enable removing statements that are just a literal (including docstrings)',
+        dest='remove_literal_statements',
+    )
+    parser.add_argument(
+        '--no-remove-annotations',
+        action='store_false',
+        help='Disable removing function and variable annotations',
+        dest='remove_annotations',
+    )
+    parser.add_argument(
+        '--no-hoist-literals',
+        action='store_false',
+        help='Disable replacing string and bytes literals with variables',
+        dest='hoist_literals',
+    )
+    parser.add_argument(
+        '--no-rename-locals',
+        action='store_false',
+        help='Disable shortening of local names',
+        dest='rename_locals'
+    )
+    parser.add_argument(
+        '--preserve-locals',
+        type=str,
+        action='append',
+        help='Comma separated list of local names that will not be shortened',
+        dest='preserve_locals'
+    )
+    parser.add_argument(
+        '--rename-globals',
+        action='store_true',
+        help='Enable shortening of global names',
+        dest='rename_globals'
+    )
+    parser.add_argument(
+        '--preserve-globals',
+        type=str,
+        action='append',
+        help='Comma separated list of global names that will not be shortened',
+        dest='preserve_globals'
+    )
 
     parser.add_argument('-v', '--version', action='version', version=version)
 
@@ -33,14 +91,33 @@ def main():
         with open(args.path, 'rb') as f:
             source = f.read()
 
-    print(minify(
-        source,
-        filename=args.path,
-        combine_imports=args.combine_imports,
-        remove_pass=args.remove_pass,
-        remove_literal_statements=args.remove_literal_statements,
-        hoist_literals=args.hoist_literals
-    ))
+    preserve_globals = []
+    if args.preserve_globals:
+        for arg in args.preserve_globals:
+            names = [name.strip() for name in arg.split(',') if name]
+            preserve_globals.extend(names)
+
+    preserve_locals = []
+    if args.preserve_locals:
+        for arg in args.preserve_locals:
+            names = [name.strip() for name in arg.split(',') if name]
+            preserve_locals.extend(names)
+
+    sys.stdout.write(
+        minify(
+            source,
+            filename=args.path,
+            combine_imports=args.combine_imports,
+            remove_pass=args.remove_pass,
+            remove_literal_statements=args.remove_literal_statements,
+            hoist_literals=args.hoist_literals,
+            rename_locals=args.rename_locals,
+            preserve_locals=preserve_locals,
+            rename_globals=args.rename_globals,
+            preserve_globals=preserve_globals
+        )
+    )
+
 
 if __name__ == '__main__':
     main()

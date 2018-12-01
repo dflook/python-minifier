@@ -1,11 +1,18 @@
 import ast
-import sys
-import pytest
-from python_minifier.transforms.hoist_literals import HoistLiterals
-from python_minifier.ast_compare import AstComparer
+from python_minifier import unparse
+from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names, rename, rename_literals, allow_rename_locals, allow_rename_globals
 
-if sys.version_info < (2, 7):
-    pytestmark = pytest.mark.skip('No support on python 2.6')
+def hoist(source):
+    module = ast.parse(source)
+    add_namespace(module)
+    bind_names(module)
+    resolve_names(module)
+    allow_rename_locals(module, False)
+    allow_rename_globals(module, False)
+    rename_literals(module)
+    rename(module)
+    return module
 
 def test_nohoist_single_usage():
     source = '''
@@ -17,8 +24,8 @@ a = 'Hello'
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_hoist_multiple_usage():
     source = '''
@@ -33,23 +40,23 @@ B = C
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_no_hoist_multiple_small():
     source = '''
-A = '.'
-B = '.'
+A = ''
+B = ''
 '''
 
     expected = '''
-A = '.'
-B = '.'
+A = ''
+B = ''
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_hoist_multiple_small():
     source = '''
@@ -74,8 +81,8 @@ G = H
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_hoist_insert_after_docstring():
     source = '''
@@ -94,8 +101,8 @@ B = C
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 
 def test_hoist_insert_after_future():
@@ -115,8 +122,8 @@ B = C
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_hoist_insert_after_future_docstring():
     source = '''
@@ -137,8 +144,8 @@ B = C
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_hoist_bytes():
     source = '''
@@ -159,8 +166,8 @@ B = C
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
 
 def test_hoist_after_multiple_future():
     source = '''
@@ -183,5 +190,5 @@ B = C
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = HoistLiterals()(ast.parse(source))
-    AstComparer()(expected_ast, actual_ast)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)

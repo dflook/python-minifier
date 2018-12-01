@@ -1,6 +1,7 @@
 import ast
 import sys
 
+
 class RemoveAnnotations(ast.NodeTransformer):
     """
     Remove type annotations from source
@@ -51,7 +52,27 @@ class RemoveAnnotations(ast.NodeTransformer):
 
     def visit_AnnAssign(self, node):
 
-        if node.value:
+        def is_dataclass_field(node):
+            if sys.version_info < (3, 7):
+                return False
+
+            if not isinstance(node.parent, ast.ClassDef):
+                return False
+
+            if len(node.parent.decorator_list) == 0:
+                return False
+
+            for node in node.parent.decorator_list:
+                if isinstance(node, ast.Name) and node.id == 'dataclass':
+                    return True
+                elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'dataclass':
+                    return True
+
+            return False
+
+        if is_dataclass_field(node):
+            return node
+        elif node.value:
             return ast.Assign([node.target], node.value)
         else:
             # Valueless annotations cause the interpreter to treat the variable as a local.
@@ -60,4 +81,3 @@ class RemoveAnnotations(ast.NodeTransformer):
 
             node.annotation = ast.Num(0)
             return node
-

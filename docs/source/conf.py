@@ -32,12 +32,28 @@ except DistributionNotFound:
     version = '0.0.0'
 
 import os
-from python_minifier import awslambda
+from python_minifier import minify
+
+def create_example(option):
+    options = {
+        'combine_imports': False,
+        'hoist_literals': False,
+        'remove_annotations': False,
+        'remove_literal_statements': False,
+        'remove_pass': False,
+        'rename_globals': False,
+        'rename_locals': False
+    }
+
+    options[option] = True
+
+    with open(f'transforms/{option}.py') as source:
+        with open(f'transforms/{option}.min.py', 'w') as minified:
+            minified.write(minify(source.read(), filename=f'{option}.py', **options))
+
 for file in os.listdir('transforms'):
-    if file.endswith('.py'):
-        with open('transforms/' + file) as source:
-            with open('transforms/' + file + '.min', 'w') as minified:
-                minified.write(awslambda(source.read(), filename=file))
+    if file.endswith('.py') and not file.endswith('.min.py'):
+        create_example(file[:-len('.py')])
 
 # -- General configuration ---------------------------------------------------
 
