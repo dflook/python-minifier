@@ -25,6 +25,7 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(module, ast.Module)
 
         self.visit_Module(module)
+        self.code = self.code.rstrip('\n' + self.indent_char + ';')
         return self.code
 
     def newline(self):
