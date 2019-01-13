@@ -1,4 +1,4 @@
-Rename globals
+Rename Globals
 ==============
 
 This transform shortens names in the module scope. This includes introducing short names for builtins.

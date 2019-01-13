@@ -42,7 +42,8 @@ def create_example(option):
         'remove_literal_statements': False,
         'remove_pass': False,
         'rename_globals': False,
-        'rename_locals': False
+        'rename_locals': False,
+        'remove_object_base': False
     }
 
     options[option] = True

@@ -20,6 +20,7 @@ from python_minifier.rename import (
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
+from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
 
 
@@ -54,6 +55,7 @@ def minify(
     preserve_locals=None,
     rename_globals=False,
     preserve_globals=None,
+    remove_object_base=True
 ):
     """
     Minify a python module
@@ -78,6 +80,7 @@ def minify(
     :param bool rename_globals: If global names may be shortened
     :param preserve_globals: Global names to leave unchanged when rename_globals is True
     :type preserve_globals: list[str]
+    :param bool remove_object_base: If object as a base class may be removed
 
     :rtype: str
 
@@ -103,6 +106,9 @@ def minify(
 
     if remove_pass:
         module = RemovePass()(module)
+
+    if remove_object_base:
+        module = RemoveObject()(module)
 
     if module.tainted:
         rename_globals = False
@@ -172,12 +178,7 @@ def awslambda(source, filename=None, entrypoint=None):
     return minify(
         source,
         filename,
-        remove_annotations=True,
-        remove_pass=True,
         remove_literal_statements=True,
-        combine_imports=True,
-        hoist_literals=True,
-        rename_locals=True,
         rename_globals=rename_globals,
         preserve_globals=[entrypoint],
     )

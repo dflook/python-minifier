@@ -1,4 +1,4 @@
-Rename locals
+Rename Locals
 =============
 
 This transform shortens any non-global names.

@@ -15,7 +15,7 @@ They can be enabled or disabled through the minify function, or passing options 
    hoist_literals
    remove_annotations
    rename_locals
-
+   remove_object_base
 
 .. toctree::
    :caption: Disabled by default

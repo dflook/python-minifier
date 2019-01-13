@@ -80,6 +80,12 @@ def main():
         help='Comma separated list of global names that will not be shortened',
         dest='preserve_globals'
     )
+    parser.add_argument(
+        '--no-remove-object-base',
+        action='store_false',
+        help='Disable removing object from base class list',
+        dest='remove_object_base',
+    )
 
     parser.add_argument('-v', '--version', action='version', version=version)
 
@@ -114,7 +120,8 @@ def main():
             rename_locals=args.rename_locals,
             preserve_locals=preserve_locals,
             rename_globals=args.rename_globals,
-            preserve_globals=preserve_globals
+            preserve_globals=preserve_globals,
+            remove_object_base=args.remove_object_base
         )
     )
 

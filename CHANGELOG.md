@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2019-01-13
+## [2.0.1] - 2019-01-13
+
+## [Unreleased]
+### Added
+- Optional source transforms:
+    - remove object base, enabled by default
+
+### Changed
+- Return statements no longer wrap tuples in extraneous parentheses
+
+## [2.0.0] - 2018-01-13
 ### Added
 - Optional source transformations:
     - Rename locals, enabled by default
@@ -18,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The module docstring is not removed by the remove literal statements transformation if there is a name bound for it
 
 ### Fixed
-- Python 3.7 dataclass field annotations are no longer removed when the remove annotation transformation is enabled.
+- Python 3.7 dataclass field annotations are no longer removed when the remove annotation transformation is enabled
 
 ## [1.1.0] - 2018-06-05
 ### Added
@@ -34,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - python-minifier package
 - pyminify command
 
+[Unreleased]: https://github.com/dflook/python-minifier/compare/2.0.0...HEAD
 [2.0.0]: https://github.com/dflook/python-minifier/compare/1.1.0...2.0.0
 [1.1.0]: https://github.com/dflook/python-minifier/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/dflook/python-minifier/tree/1.0.0
