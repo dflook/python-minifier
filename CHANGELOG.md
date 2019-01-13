@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2018-05-25
 ### Added
-- python-minifer package
+- python-minifier package
 - pyminify command
 
 [2.0.0]: https://github.com/dflook/python-minifier/compare/1.1.0...2.0.0
