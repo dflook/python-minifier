@@ -161,7 +161,7 @@ class ModulePrinter(ExpressionPrinter):
         self.token_break()
         self.code += 'return'
         if node.value is not None:
-            self._expression(node.value)
+            self._testlist(node.value)
         self.end_statement()
 
     def visit_Print(self, node):
