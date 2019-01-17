@@ -949,25 +949,33 @@
   test_runs:
   - ok: true
     options: {}
+    hoist_literals: false
   - ok: true
     options: {rename_globals: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true, rename_globals: true}
+    hoist_literals: false
 /usr/lib64/python2.7/test/test_descrtut.py:
   ok: true
   test_runs:
   - ok: true
     options: {}
+    hoist_literals: false
   - ok: true
     options: {rename_globals: true}
     preserve_globals: [defaultdict, defaultdict2, sortdict, pprint, A, B, C, D]
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true, rename_globals: true}
     preserve_globals: [defaultdict, defaultdict2, sortdict, pprint, A, B, C, D]
+    hoist_literals: false
 /usr/lib64/python2.7/test/test_dict.py:
   ok: true
   test_runs:

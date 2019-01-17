@@ -5,6 +5,15 @@ from python_minifier.rename.util import insert
 
 
 class Replacer(ast.NodeTransformer):
+    """
+    Replace nodes with a name binding
+
+    :param replace: The list of nodes to replace
+    :type replace: [ast.Str or ast.Bytes or ast.NameConstant]
+    :param str name: The name of the binding
+
+    """
+
     def __init__(self, replace, name):
         self.replace = replace
         self.name = name
@@ -27,44 +36,72 @@ class Replacer(ast.NodeTransformer):
         return node
 
 
-class HoistedLiteral(Binding):
-    def __init__(self, value, namespace, *args, **kwargs):
-        super(HoistedLiteral, self).__init__(*args, **kwargs)
-        self._value = value
-        self.namespace = namespace
+class HoistedBinding(Binding):
+    def __init__(self, value_node, *args, **kwargs):
+        super(HoistedBinding, self).__init__(*args, **kwargs)
+        self._value_node = value_node
+        self._local_namespace = None
+
+    def __eq__(self, other):
+        return type(self.value) is type(other.value) and self.value == other.value
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __hash__(self):
+        return hash(repr(self.value))
+
+    def set_local_namespace(self, node):
+        self._local_namespace = node
 
     @property
     def value(self):
-        return self._value
+        if isinstance(self._value_node, ast.Str) or (hasattr(ast, 'Bytes') and isinstance(self._value_node, ast.Bytes)):
+            return self._value_node.s
+        else:
+            return self._value_node.value
 
     def __repr__(self):
-        return self.__class__.__name__ + '(value=%r)' % self._value.s
+        return self.__class__.__name__ + '(value=%r)' % self.value
 
     def rename(self, new_name):
-        Replacer(self.references, new_name).visit(self.namespace)
+        Replacer(self.references, new_name).visit(self._local_namespace)
 
-        self.namespace.body = list(
-            insert(self.namespace.body, ast.Assign(targets=[ast.Name(id=new_name, ctx=ast.Store())], value=self._value))
+        self._local_namespace.body = list(
+            insert(self._local_namespace.body, ast.Assign(targets=[ast.Name(id=new_name, ctx=ast.Store())], value=self._value_node))
         )
 
         self._name = new_name
 
     def should_rename(self, new_name):
-        current_cost = len(self.references) * len(repr(self._value.s))
+        current_cost = len(self.references) * len(repr(self.value))
         rename_cost = (len(self.references) * len(new_name)) + self._rename_cost
 
         return rename_cost <= current_cost
 
 
-class HoistedConstant(HoistedLiteral):
-    def __repr__(self):
-        return self.__class__.__name__ + '(value=%r)' % self._value.value
+class HoistedValue(object):
+    """
+    HoistedValue comparator object
 
-    def should_rename(self, new_name):
-        current_cost = len(self.references) * len(repr(self._value.value))
-        rename_cost = (len(self.references) * len(new_name)) + self._rename_cost
+    This is for wrapping a value in a set or dict key, and
+    ensures different types hash differently, even if they compare equal.
 
-        return rename_cost <= current_cost
+    The problematic values are str/bytes/unicode and int/float.
+
+    """
+
+    def __init__(self, value):
+        self._value = value
+
+    def __hash__(self):
+        return hash(str(type(self._value)) + str(hash(self._value)))
+
+    def __eq__(self, other):
+        return type(self._value) == type(other._value) and self._value == other._value
+
+    def __ne__(self, other):
+        return not self == other
 
 
 class HoistLiterals(ast.NodeVisitor):
@@ -74,7 +111,90 @@ class HoistLiterals(ast.NodeVisitor):
 
     def __call__(self, module):
         self.module = module
+        self._hoisted = {}
         self.visit(module)
+        self.place_bindings()
+
+    def nearest_function_namespace(self, node):
+        """
+        Return the namespace node for the nearest function scope.
+
+        This could be itself.
+
+        :param node: The node to get the function namespace of
+        :type node: ast.Node
+        :rtype: ast.Node
+
+        """
+
+        if isinstance(node.namespace, (ast.FunctionDef, ast.Module)):
+            return node.namespace
+        if hasattr(ast, 'AsyncFunctionDef') and isinstance(node.namespace, ast.AsyncFunctionDef):
+            return node.namespace
+        return self.nearest_function_namespace(node.namespace)
+
+    def namespace_path(self, node):
+        """
+        Return the path of function namespace nodes from the module node down to the input node
+
+        With the source module:
+        >>> def a():
+        ...   def b():
+        ...     c
+
+        >>> namespace_path(c)
+        [a, b, c]
+
+        :param node:
+        :type node: ast.Node
+        :rtype: list[ast.AST]
+
+        """
+
+        l = []
+
+        while True:
+            namespace = self.nearest_function_namespace(node)
+            l.insert(0, namespace)
+
+            if isinstance(namespace, ast.Module):
+                break
+
+            node = namespace
+
+        return l
+
+    def common_path(self, n1_path, n2_path):
+
+        path = []
+        for n1_step, n2_step in zip(n1_path, n2_path):
+            if n1_step is not n2_step:
+                return path
+            path.append(n1_step)
+        return path
+
+    def place_bindings(self):
+        for binding in self._hoisted.values():
+
+            namespace_path = []
+
+            for node in binding.references:
+                if not namespace_path:
+                    namespace_path = self.namespace_path(node)
+                else:
+                    namespace_path = self.common_path(namespace_path, self.namespace_path(node))
+
+            namespace_path[-1].bindings.append(binding)
+            binding.set_local_namespace(namespace_path[-1])
+
+    def get_binding(self, value, node):
+        hoisted_value = HoistedValue(value)
+        if hoisted_value in self._hoisted:
+            return self._hoisted[hoisted_value]
+
+        binding = HoistedBinding(node, rename_cost=len('=' + repr(value)))
+        self._hoisted[hoisted_value] = binding
+        return binding
 
     def visit_Str(self, node):
 
@@ -83,16 +203,7 @@ class HoistLiterals(ast.NodeVisitor):
             # The RemoveLiteralStatements transformer must have left it here, so ignore it.
             return
 
-        def get_binding():
-            for binding in self.module.bindings:
-                if type(binding) is HoistedLiteral:
-                    if type(binding.value.s) == type(node.s) and binding.value.s == node.s:
-                        return binding
-            binding = HoistedLiteral(node, self.module, rename_cost=len('=' + repr(node.s)))
-            self.module.bindings.append(binding)
-            return binding
-
-        get_binding().add_reference(node)
+        self.get_binding(node.s, node).add_reference(node)
 
     def visit_Bytes(self, node):
         self.visit_Str(node)
@@ -106,15 +217,7 @@ class HoistLiterals(ast.NodeVisitor):
                 self.visit(v)
 
     def visit_NameConstant(self, node):
-        def get_binding():
-            for binding in self.module.bindings:
-                if type(binding) is HoistedConstant and binding.value.value == node.value:
-                    return binding
-            binding = HoistedConstant(node, self.module, rename_cost=len('=' + repr(node.value)))
-            self.module.bindings.append(binding)
-            return binding
-
-        get_binding().add_reference(node)
+        self.get_binding(node.value, node).add_reference(node)
 
 
 def rename_literals(module):
