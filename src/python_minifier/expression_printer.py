@@ -559,9 +559,7 @@ class ExpressionPrinter(object):
         self.token_break()
         self.code += 'lambda'
 
-        if node.args:
-            self.token_break()
-            self.visit_arguments(node.args)
+        self.visit_arguments(node.args)
 
         self.code += ':'
 
@@ -575,6 +573,7 @@ class ExpressionPrinter(object):
             if not first:
                 self.code += ','
             else:
+                self.token_break()
                 first = False
 
             self._expression(arg)
@@ -587,6 +586,7 @@ class ExpressionPrinter(object):
             if not first:
                 self.code += ','
             else:
+                self.token_break()
                 first = False
 
             self.code += '*'
@@ -607,6 +607,7 @@ class ExpressionPrinter(object):
                 if not first:
                     self.code += ','
                 else:
+                    self.token_break()
                     first = False
 
                 self.code += '*'
@@ -622,6 +623,9 @@ class ExpressionPrinter(object):
         if node.kwarg:
             if not first:
                 self.code += ','
+            else:
+                self.token_break()
+                first = False
 
             self.code += '**'
 
