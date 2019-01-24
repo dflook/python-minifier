@@ -66,34 +66,27 @@ def handler(event, context):
 Becomes:
 
 ```python
-K='OldResourceProperties'
-J='Tags'
-I='None'
-G='SUCCESS'
-F='RequestType'
-E='Status'
-B='PhysicalResourceId'
 def handler(event,context):
-	D=context;A=event;l.info(A)
+	L='OldResourceProperties';K='Tags';J='None';H='SUCCESS';G='RequestType';E='Status';D=context;B='PhysicalResourceId';A=event;l.info(A)
 	try:
-		H=hashlib.new('md5',(A['RequestId']+A['StackId']).encode()).hexdigest();C=A['ResourceProperties']
-		if A[F]=='Create':
-			A[B]=I;A[B]=create_cert(C,H);add_tags(A[B],C);validate(A[B],C)
-			if wait_for_issuance(A[B],D):A[E]=G;return send(A)
+		F=hashlib.new('md5',(A['RequestId']+A['StackId']).encode()).hexdigest();C=A['ResourceProperties']
+		if A[G]=='Create':
+			A[B]=J;A[B]=create_cert(C,F);add_tags(A[B],C);validate(A[B],C)
+			if wait_for_issuance(A[B],D):A[E]=H;return send(A)
 			else:return reinvoke(A,D)
-		elif A[F]=='Delete':
-			if A[B]!=I:acm.delete_certificate(CertificateArn=A[B])
-			A[E]=G;return send(A)
-		elif A[F]=='Update':
+		elif A[G]=='Delete':
+			if A[B]!=J:acm.delete_certificate(CertificateArn=A[B])
+			A[E]=H;return send(A)
+		elif A[G]=='Update':
 			if replace_cert(A):
-				A[B]=create_cert(C,H);add_tags(A[B],C);validate(A[B],C)
+				A[B]=create_cert(C,F);add_tags(A[B],C);validate(A[B],C)
 				if not wait_for_issuance(A[B],D):return reinvoke(A,D)
 			else:
-				if J in A[K]:acm.remove_tags_from_certificate(CertificateArn=A[B],Tags=A[K][J])
+				if K in A[L]:acm.remove_tags_from_certificate(CertificateArn=A[B],Tags=A[L][K])
 				add_tags(A[B],C)
-			A[E]=G;return send(A)
+			A[E]=H;return send(A)
 		else:raise RuntimeError('Unknown RequestType')
-	except Exception as L:l.exception('');A[E]='FAILED';A['Reason']=str(L);return send(A)
+	except Exception as I:l.exception('');A[E]='FAILED';A['Reason']=str(I);return send(A)
 ```
 
 ## Why?
