@@ -5030,26 +5030,30 @@
         "test_runs": [
             {
                 "options": {}, 
-                "ok": true
+                "ok": true,
+                "hoist_literals": false
             }, 
             {
                 "options": {
                     "rename_globals": true
                 }, 
-                "ok": true
+                "ok": true,
+                "hoist_literals": false
             }, 
             {
                 "options": {
                     "remove_literal_statements": true
                 }, 
-                "ok": true
+                "ok": true,
+                "hoist_literals": false
             }, 
             {
                 "options": {
                     "rename_globals": true, 
                     "remove_literal_statements": true
                 }, 
-                "ok": true
+                "ok": true,
+                "hoist_literals": false
             }
         ], 
         "ok": true

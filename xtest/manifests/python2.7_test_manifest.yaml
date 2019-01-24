@@ -3039,7 +3039,7 @@
   - ok: true
     options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_socket.py:
-  ok: true
+  ok: false
   test_runs:
   - ok: true
     options: {}

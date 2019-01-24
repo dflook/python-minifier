@@ -305,7 +305,7 @@
 /usr/lib64/pypy-5.10/lib-python/2.7/test/test_slice.py: {ok: true}
 /usr/lib64/pypy-5.10/lib-python/2.7/test/test_smtplib.py: {ok: true}
 /usr/lib64/pypy-5.10/lib-python/2.7/test/test_smtpnet.py: {ok: true}
-/usr/lib64/pypy-5.10/lib-python/2.7/test/test_socket.py: {ok: true}
+/usr/lib64/pypy-5.10/lib-python/2.7/test/test_socket.py: {ok: false}
 /usr/lib64/pypy-5.10/lib-python/2.7/test/test_socketserver.py: {ok: true}
 /usr/lib64/pypy-5.10/lib-python/2.7/test/test_softspace.py: {ok: true}
 /usr/lib64/pypy-5.10/lib-python/2.7/test/test_sort.py: {ok: true}

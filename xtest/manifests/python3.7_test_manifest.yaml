@@ -1068,12 +1068,16 @@
   test_runs:
   - ok: true
     options: {}
+    hoist_literals: false
   - ok: true
     options: {rename_globals: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true, rename_globals: true}
+    hoist_literals: false
 /usr/lib64/python3.7/test/test_descrtut.py:
   ok: true
   test_runs:
@@ -3388,7 +3392,7 @@
   - ok: true
     options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python3.7/test/test_socket.py:
-  ok: true
+  ok: false
   test_runs:
   - ok: true
     options: {}

@@ -1065,12 +1065,16 @@
   test_runs:
   - ok: true
     options: {}
+    hoist_literals: false
   - ok: true
     options: {rename_globals: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true}
+    hoist_literals: false
   - ok: true
     options: {remove_literal_statements: true, rename_globals: true}
+    hoist_literals: false
 /usr/lib64/python3.5/test/test_descrtut.py:
   ok: true
   test_runs:
