@@ -2,6 +2,8 @@
 
 Transforms Python source code into it's most compact representation.
 
+[Try it out!](https://python-minifier.com)
+
 python-minifier supports Python 2.6 to 2.7 and Python 3.3 to 3.7.
 
 * [PyPi](https://pypi.org/project/python-minifier/)
