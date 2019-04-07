@@ -16,6 +16,7 @@ class ExpressionPrinter(object):
         self.precedences = {
             'Lambda': 2,
             'IfExp': 3,
+            'comprehension': 3.5,
             'Or': 4,
             'And': 5,
             'Not': 6,
@@ -31,7 +32,6 @@ class ExpressionPrinter(object):
             'Await': 16,
             'Subscript': 17, 'Call': 17, 'Attribute': 17,
             'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18,
-            'comprehension': 18
         }
 
     def __call__(self, module):
