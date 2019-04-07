@@ -1,8 +1,8 @@
 tox<3
 virtualenv<16
-pytest
-sphinx
-sphinxcontrib-programoutput
-sphinx_rtd_theme
-pyyaml
-sh
+pytest<=4.3.0
+sphinx==1.8.4
+sphinxcontrib-programoutput==0.13
+sphinx_rtd_theme==0.4.3
+pyyaml==3.13
+sh==1.12.14
