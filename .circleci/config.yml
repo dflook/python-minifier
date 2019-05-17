@@ -1,8 +1,9 @@
-version: 2
+version: 2.1
+
 jobs:
   test:
     docker:
-      - image: danielflook/python-minifier-build
+      - image: danielflook/python-minifier-build:<< parameters.image >>
     steps:
       - checkout
 
@@ -15,8 +16,15 @@ jobs:
       - run:
           name: tox
           command: |
-            pip install -r requirements-dev.txt
-            tox -r
+            pip install tox virtualenv
+            tox -r -e << parameters.python >>
+
+    parameters:
+      python:
+        type: string
+      image:
+        type: string
+        default: fedora30
 
   publish:
     docker:
@@ -80,13 +88,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - test
-      - publish:
-          requires:
-            - test
-          filters:
-            branches:
-              only: master
-      - publish_docs:
-          requires:
-            - publish
+      - test:
+          python: python36
+      - test:
+          python: python37

@@ -3,38 +3,21 @@ import ast
 from python_minifier.rename.binding import Binding
 from python_minifier.rename.util import insert
 
+def replace(old_node, new_node):
+    parent = old_node.parent
+    new_node.parent = parent
+    new_node.namespace = old_node.namespace
 
-class Replacer(ast.NodeTransformer):
-    """
-    Replace nodes with a name binding
+    for field, old_value in ast.iter_fields(parent):
+        if old_value is old_node:
+            setattr(parent, field, new_node)
+            return
 
-    :param replace: The list of nodes to replace
-    :type replace: [ast.Str or ast.Bytes or ast.NameConstant]
-    :param str name: The name of the binding
-
-    """
-
-    def __init__(self, replace, name):
-        self.replace = replace
-        self.name = name
-
-    def visit_NameConstant(self, node):
-        if node in self.replace:
-            return ast.Name(id=self.name, ctx=ast.Load())
-        return node
-
-    def visit_Str(self, node):
-        if node in self.replace:
-            return ast.Name(id=self.name, ctx=ast.Load())
-        return node
-
-    def visit_Bytes(self, node):
-        return self.visit_Str(node)
-
-    def visit_JoinedStr(self, node):
-        node.values = [self.visit(v) if isinstance(v, ast.Str) else v for v in node.values]
-        return node
-
+        if isinstance(old_value, list):
+            for i, value in enumerate(old_value):
+                if value is old_node:
+                    old_value[i] = new_node
+                    return
 
 class HoistedBinding(Binding):
     def __init__(self, value_node, *args, **kwargs):
@@ -65,7 +48,9 @@ class HoistedBinding(Binding):
         return self.__class__.__name__ + '(value=%r)' % self.value
 
     def rename(self, new_name):
-        Replacer(self.references, new_name).visit(self._local_namespace)
+
+        for node in self.references:
+            replace(node, ast.Name(id=new_name, ctx=ast.Load()))
 
         self._local_namespace.body = list(
             insert(self._local_namespace.body, ast.Assign(targets=[ast.Name(id=new_name, ctx=ast.Store())], value=self._value_node))
