@@ -1,4052 +1,1843 @@
 /usr/lib64/python2.7/test/test_MimeWriter.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_SimpleHTTPServer.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_StringIO.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test___all__.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test___future__.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test__locale.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test__osx_support.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_abc.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_abstract_numbers.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_aepack.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_aepack.py: []
 /usr/lib64/python2.7/test/test_aifc.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_al.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_al.py: []
 /usr/lib64/python2.7/test/test_anydbm.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_applesingle.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_applesingle.py: []
 /usr/lib64/python2.7/test/test_argparse.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_array.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_ascii_formatd.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_ast.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_asynchat.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_asyncore.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_atexit.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_audioop.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_augassign.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_base64.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bastion.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bigaddrspace.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bigmem.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_binascii.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_binhex.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_binop.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_bisect.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_bisect.py: []
 /usr/lib64/python2.7/test/test_bool.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bsddb.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_bsddb185.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_bsddb185.py: []
 /usr/lib64/python2.7/test/test_bsddb3.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_buffer.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bufio.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_builtin.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bytes.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_bz2.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_calendar.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_call.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_capi.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_cd.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_cd.py: []
 /usr/lib64/python2.7/test/test_cfgparser.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_cgi.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_charmapcodec.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_cl.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_cl.py: []
 /usr/lib64/python2.7/test/test_class.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_cmath.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_cmd.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [samplecmdclass]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [samplecmdclass]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_cmd_line.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_cmd_line_script.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_code.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codeccallbacks.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codecencodings_cn.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codecencodings_hk.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codecencodings_iso2022.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codecencodings_jp.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codecencodings_kr.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codecencodings_tw.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_codecmaps_cn.py: {ok: false}
-/usr/lib64/python2.7/test/test_codecmaps_hk.py: {ok: false}
-/usr/lib64/python2.7/test/test_codecmaps_jp.py: {ok: false}
-/usr/lib64/python2.7/test/test_codecmaps_kr.py: {ok: false}
-/usr/lib64/python2.7/test/test_codecmaps_tw.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_codecmaps_cn.py: []
+/usr/lib64/python2.7/test/test_codecmaps_hk.py: []
+/usr/lib64/python2.7/test/test_codecmaps_jp.py: []
+/usr/lib64/python2.7/test/test_codecmaps_kr.py: []
+/usr/lib64/python2.7/test/test_codecmaps_tw.py: []
 /usr/lib64/python2.7/test/test_codecs.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_codeop.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_coercion.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_collections.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_colorsys.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_commands.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_compare.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_compile.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_compile.py: []
 /usr/lib64/python2.7/test/test_compileall.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_compiler.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_complex.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_complex_args.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_contains.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_contextlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_cookie.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_cookielib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_copy.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_copy_reg.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_cpickle.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_cprofile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_crypt.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_csv.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {remove_literal_statements: true}
 /usr/lib64/python2.7/test/test_ctypes.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_curses.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_datetime.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_dbm.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_decimal.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_decorators.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_defaultdict.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_deque.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_descr.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-    hoist_literals: false
-  - ok: true
-    options: {rename_globals: true}
-    hoist_literals: false
-  - ok: true
-    options: {remove_literal_statements: true}
-    hoist_literals: false
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-    hoist_literals: false
+- options: {hoist_literals: false}
+- options: {hoist_literals: false, rename_globals: true}
+- options: {hoist_literals: false, remove_literal_statements: true}
+- options: {hoist_literals: false, remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_descrtut.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
+- options: {hoist_literals: false}
+- options:
     hoist_literals: false
-  - ok: true
-    options: {rename_globals: true}
     preserve_globals: [defaultdict, defaultdict2, sortdict, pprint, A, B, C, D]
+    rename_globals: true
+- options: {hoist_literals: false, remove_literal_statements: true}
+- options:
     hoist_literals: false
-  - ok: true
-    options: {remove_literal_statements: true}
-    hoist_literals: false
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
     preserve_globals: [defaultdict, defaultdict2, sortdict, pprint, A, B, C, D]
-    hoist_literals: false
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_dict.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_dictcomps.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_dictviews.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_difflib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_dircache.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_dis.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_distutils.py: {ok: false}
-/usr/lib64/python2.7/test/test_dl.py: {ok: false}
-/usr/lib64/python2.7/test/test_doctest.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_doctest2.py:
-  ok: false
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_dis.py: []
+/usr/lib64/python2.7/test/test_distutils.py: []
+/usr/lib64/python2.7/test/test_dl.py: []
+/usr/lib64/python2.7/test/test_doctest.py: []
+/usr/lib64/python2.7/test/test_doctest2.py: []
 /usr/lib64/python2.7/test/test_docxmlrpc.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
+- options:
     preserve_locals: [add]
-  - ok: true
-    options: {rename_globals: true}
+- options:
     preserve_locals: [add]
-  - ok: false
-    options: {remove_literal_statements: true}
-    preserve_locals: [add]
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    preserve_locals: [add]
-    skip: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_dumbdbm.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_dummy_thread.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_dummy_threading.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_email.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_email.py: []
 /usr/lib64/python2.7/test/test_email_codecs.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_email_renamed.py: {ok: false}
-/usr/lib64/python2.7/test/test_ensurepip.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_email_renamed.py: []
+/usr/lib64/python2.7/test/test_ensurepip.py: []
 /usr/lib64/python2.7/test/test_enumerate.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_eof.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_epoll.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_errno.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_exception_variations.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_exceptions.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_extcall.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [test_support]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [test_support]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_fcntl.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_file.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_file2k.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_file_eintr.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_filecmp.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_fileinput.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_fileio.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_float.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_fnmatch.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_fork1.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_format.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_fpformat.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_fractions.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_frozen.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_ftplib.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_ftplib.py: []
 /usr/lib64/python2.7/test/test_funcattrs.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_functools.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
+- options:
     preserve_locals: [f, wrapper]
-  - ok: true
-    options: {rename_globals: true}
+- options:
     preserve_locals: [f, wrapper]
-  - ok: true
-    options: {remove_literal_statements: true}
+    rename_globals: true
+- options:
     preserve_locals: [f, wrapper]
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    remove_literal_statements: true
+- options:
     preserve_locals: [f, wrapper]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_future.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_future1.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_future2.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_future3.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_future4.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_future5.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_future5.py: []
 /usr/lib64/python2.7/test/test_future_builtins.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_gc.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_gdb.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_gdb.py: []
 /usr/lib64/python2.7/test/test_gdbm.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_generators.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [conjoin, Queens, Knights]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [conjoin, Queens, Knights]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_genericpath.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_genexps.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_getargs.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_getargs2.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_getopt.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_gettext.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_gl.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_gl.py: []
 /usr/lib64/python2.7/test/test_glob.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_global.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_grammar.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_grp.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_gzip.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_hash.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_hashlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_heapq.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_hmac.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_hotshot.py:
-  ok: true
-  test_runs:
-  - ok: false
-    options: {}
-    skip: true
-  - ok: false
-    options: {rename_globals: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    skip: true
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_hotshot.py: []
 /usr/lib64/python2.7/test/test_htmllib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_htmlparser.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_httplib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_httplib.py: []
 /usr/lib64/python2.7/test/test_httpservers.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_idle.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_idle.py: []
 /usr/lib64/python2.7/test/test_imageop.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_imaplib.py: {ok: false}
-/usr/lib64/python2.7/test/test_imgfile.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_imaplib.py: []
+/usr/lib64/python2.7/test/test_imgfile.py: []
 /usr/lib64/python2.7/test/test_imghdr.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_imp.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_import.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_import_magic.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_importhooks.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_importlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_index.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_inspect.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_int.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
+- options:
     preserve_locals: [NonIntegral]
-  - ok: true
-    options: {rename_globals: true}
+- options:
     preserve_locals: [NonIntegral]
-  - ok: true
-    options: {remove_literal_statements: true}
+    rename_globals: true
+- options:
     preserve_locals: [NonIntegral]
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    remove_literal_statements: true
+- options:
     preserve_locals: [NonIntegral]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_int_literal.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_io.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_ioctl.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_ioctl.py: []
 /usr/lib64/python2.7/test/test_isinstance.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_iter.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_iterlen.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_itertools.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_json.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_kqueue.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_kqueue.py: []
 /usr/lib64/python2.7/test/test_largefile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_lib2to3.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_linecache.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_linuxaudiodev.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_linuxaudiodev.py: []
 /usr/lib64/python2.7/test/test_list.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_locale.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_logging.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [ExceptionFormatter, formatFunc, CustomHandler]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [ExceptionFormatter, formatFunc, CustomHandler]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_long.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_long_future.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_longexp.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_macos.py: {ok: false}
-/usr/lib64/python2.7/test/test_macostools.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_macos.py: []
+/usr/lib64/python2.7/test/test_macostools.py: []
 /usr/lib64/python2.7/test/test_macpath.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_macurl2path.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_mailbox.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_marshal.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_math.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_md5.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_memoryio.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
+- options:
     preserve_locals: [PickleTestMemIO]
-  - ok: true
-    options: {rename_globals: true}
+- options:
     preserve_locals: [PickleTestMemIO]
-  - ok: true
-    options: {remove_literal_statements: true}
+    rename_globals: true
+- options:
     preserve_locals: [PickleTestMemIO]
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    remove_literal_statements: true
+- options:
     preserve_locals: [PickleTestMemIO]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_memoryview.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_mhlib.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_mhlib.py: []
 /usr/lib64/python2.7/test/test_mimetools.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_mimetypes.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_minidom.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_mmap.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_module.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_modulefinder.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_msilib.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_msilib.py: []
 /usr/lib64/python2.7/test/test_multibytecodec.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_multifile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_multiprocessing.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_mutants.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_mutex.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_netrc.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_new.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_nis.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_nntplib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_normalization.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_normalization.py: []
 /usr/lib64/python2.7/test/test_ntpath.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_old_mailbox.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_opcodes.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_openpty.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_operator.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_optparse.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_ordered_dict.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_os.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_ossaudiodev.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_ossaudiodev.py: []
 /usr/lib64/python2.7/test/test_parser.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pdb.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_peepholer.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-    skip: true
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    skip: true
+- options: {}
+- options: {remove_literal_statements: true}
 /usr/lib64/python2.7/test/test_pep247.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_pep277.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_pep277.py: []
 /usr/lib64/python2.7/test/test_pep352.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pickle.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_pickletools.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
       I, K]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_pipes.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pkg.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pkgimport.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pkgutil.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_platform.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_plistlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_poll.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_popen.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_popen2.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_poplib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_posix.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_posixpath.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pow.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pprint.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [set2, set3, frozenset2, frozenset3]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [set2, set3, frozenset2, frozenset3]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_print.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_profile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_property.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pstats.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_pty.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_pty.py: []
 /usr/lib64/python2.7/test/test_pwd.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_py3kwarn.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_py3kwarn.py: []
 /usr/lib64/python2.7/test/test_py_compile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_pyclbr.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_pydoc.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-    preserve_locals: [A, B]
-  - ok: false
-    options: {rename_globals: true}
-    preserve_locals: [A, B]
-  - ok: false
-    options: {remove_literal_statements: true}
-    preserve_locals: [A, B]
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    preserve_locals: [A, B]
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_pydoc.py: []
 /usr/lib64/python2.7/test/test_pyexpat.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_queue.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_quopri.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_random.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_re.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_readline.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_regrtest.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_regrtest.py: []
 /usr/lib64/python2.7/test/test_repr.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [ClassWithFailingRepr]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [ClassWithFailingRepr]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_resource.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_rfc822.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_richcmp.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_rlcompleter.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_robotparser.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_runpy.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_runpy.py: []
 /usr/lib64/python2.7/test/test_sax.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_scope.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_scriptpackages.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_scriptpackages.py: []
 /usr/lib64/python2.7/test/test_select.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_set.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_setcomps.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_sets.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_sgmllib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_sha.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_shelve.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_shlex.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_shutil.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_signal.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_site.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_site.py: []
 /usr/lib64/python2.7/test/test_slice.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_smtplib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_smtpnet.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_socket.py:
-  ok: false
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_socket.py: []
 /usr/lib64/python2.7/test/test_socketserver.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_softspace.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_sort.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_source_encoding.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_spwd.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_sqlite.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_ssl.py: {ok: false}
-/usr/lib64/python2.7/test/test_startfile.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_ssl.py: []
+/usr/lib64/python2.7/test/test_startfile.py: []
 /usr/lib64/python2.7/test/test_stat.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_str.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_strftime.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_string.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_stringprep.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_strop.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_strptime.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_strtod.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_struct.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_structmembers.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_structseq.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_subprocess.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_sunau.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_sunaudiodev.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_sunaudiodev.py: []
 /usr/lib64/python2.7/test/test_sundry.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_support.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_symtable.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_syntax.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_sys.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_sys.py: []
 /usr/lib64/python2.7/test/test_sys_setprofile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_sys_settrace.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_sys_settrace.py: []
 /usr/lib64/python2.7/test/test_sysconfig.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_tarfile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_tcl.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_tcl.py: []
 /usr/lib64/python2.7/test/test_telnetlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_tempfile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_test_support.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [unittest, ClassicClass, NewStyleClass]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [unittest, ClassicClass, NewStyleClass]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_textwrap.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_thread.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_threaded_import.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_threadedtempfile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_threading.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
+- options: {}
+- options:
     preserve_globals: [TestThread]
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+    rename_globals: true
+- options: {remove_literal_statements: true}
+- options:
     preserve_globals: [TestThread]
+    remove_literal_statements: true
+    rename_globals: true
 /usr/lib64/python2.7/test/test_threading_local.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_threadsignals.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_time.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_timeit.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_timeout.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_tk.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_tk.py: []
 /usr/lib64/python2.7/test/test_tokenize.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_tools.py: {ok: false}
-/usr/lib64/python2.7/test/test_trace.py:
-  ok: true
-  test_runs:
-  - ok: false
-    options: {}
-    skip: true
-  - ok: false
-    options: {rename_globals: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    skip: true
-/usr/lib64/python2.7/test/test_traceback.py:
-  ok: true
-  test_runs:
-  - ok: false
-    options: {}
-    skip: true
-  - ok: false
-    options: {rename_globals: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    skip: true
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_tools.py: []
+/usr/lib64/python2.7/test/test_trace.py: []
+/usr/lib64/python2.7/test/test_traceback.py: []
 /usr/lib64/python2.7/test/test_transformer.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_ttk_guionly.py: {ok: false}
-/usr/lib64/python2.7/test/test_ttk_textonly.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_ttk_guionly.py: []
+/usr/lib64/python2.7/test/test_ttk_textonly.py: []
 /usr/lib64/python2.7/test/test_tuple.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_turtle.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_turtle.py: []
 /usr/lib64/python2.7/test/test_typechecks.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_types.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_ucn.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_unary.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_undocumented_details.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_unicode.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_unicode_file.py:
-  ok: true
-  test_runs:
-  - ok: false
-    options: {}
-    skip: true
-  - ok: false
-    options: {rename_globals: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    skip: true
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_unicode_file.py: []
 /usr/lib64/python2.7/test/test_unicodedata.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_unittest.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_univnewlines.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_univnewlines2k.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_unpack.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_urllib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_urllib2.py: {ok: false}
-/usr/lib64/python2.7/test/test_urllib2_localnet.py: {ok: false}
-/usr/lib64/python2.7/test/test_urllib2net.py: {ok: false}
-/usr/lib64/python2.7/test/test_urllibnet.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_urllib.py: []
+/usr/lib64/python2.7/test/test_urllib2.py: []
+/usr/lib64/python2.7/test/test_urllib2_localnet.py: []
+/usr/lib64/python2.7/test/test_urllib2net.py: []
+/usr/lib64/python2.7/test/test_urllibnet.py: []
 /usr/lib64/python2.7/test/test_urlparse.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_userdict.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_userlist.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_userstring.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_uu.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_uuid.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_wait3.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_wait4.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_warnings.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_wave.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_weakref.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_weakset.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_whichdb.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_winreg.py: {ok: false}
-/usr/lib64/python2.7/test/test_winsound.py: {ok: false}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_winreg.py: []
+/usr/lib64/python2.7/test/test_winsound.py: []
 /usr/lib64/python2.7/test/test_with.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_wsgiref.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_xdrlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_xml_etree.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_xml_etree_c.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_xmllib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_xmlrpc.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
+- options:
     preserve_locals: [my_function]
-  - ok: true
-    options: {rename_globals: true}
+- options:
     preserve_locals: [my_function]
-  - ok: false
-    options: {remove_literal_statements: true}
-    preserve_locals: [my_function]
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    preserve_locals: [my_function]
-    skip: true
-/usr/lib64/python2.7/test/test_xpickle.py:
-  ok: false
-  test_runs:
-  - ok: false
-    options: {}
-  - ok: false
-    options: {rename_globals: true}
-    preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
-      I, K]
-  - ok: false
-    options: {remove_literal_statements: true}
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    preserve_globals: [WithPrivate, _WithLeadingUnderscoreAndPrivate, C, D, E, H,
-      I, K]
+    rename_globals: true
+/usr/lib64/python2.7/test/test_xpickle.py: []
 /usr/lib64/python2.7/test/test_xrange.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_zipfile.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python2.7/test/test_zipfile64.py:
-  ok: true
-  test_runs:
-  - ok: false
-    options: {}
-    skip: true
-  - ok: false
-    options: {rename_globals: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true}
-    skip: true
-  - ok: false
-    options: {remove_literal_statements: true, rename_globals: true}
-    skip: true
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_zipfile64.py: []
 /usr/lib64/python2.7/test/test_zipimport.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_zipimport_support.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_zlib.py:
-  ok: true
-  test_runs:
-  - ok: true
-    options: {}
-  - ok: true
-    options: {rename_globals: true}
-  - ok: true
-    options: {remove_literal_statements: true}
-  - ok: true
-    options: {remove_literal_statements: true, rename_globals: true}
+- options: {}
+- options: {rename_globals: true}
+- options: {remove_literal_statements: true}
+- options: {remove_literal_statements: true, rename_globals: true}

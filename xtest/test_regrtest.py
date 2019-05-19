@@ -1,49 +1,43 @@
+import json
 import os
+import platform
 import shutil
 import sys
-import ast
+
 import pytest
-import platform
 
 from python_minifier import minify
-
-import os
-
-import json
 
 try:
     import yaml
 except ImportError:
     pass
 
-def execute(python, path):
-    from sh import Command
-    python = Command(python)
-    python(path)
 
 class TestManifest(object):
+    """
+    The test manifest for a python interpreter
 
-    def __init__(self, python_version):
-        self._python_version = python_version
+    :param str interpreter: The python interpreter to use
+    """
 
-        if python_version == 'python2.6':
-            self._manifest_path = 'xtest/manifests/' + python_version + '_test_manifest.json'
+    def __init__(self, interpreter):
+        self._interpreter = interpreter
+
+        if interpreter == 'python2.6':
+            self._manifest_path = 'xtest/manifests/' + interpreter + '_test_manifest.json'
         else:
-            self._manifest_path = 'xtest/manifests/' + python_version + '_test_manifest.yaml'
+            self._manifest_path = 'xtest/manifests/' + interpreter + '_test_manifest.yaml'
 
         self._files = {}
         self.load()
 
-        if python_version == 'pypy':
-            self._base_path = '/usr/lib64/pypy-5.10/lib-python/2.7/test/'
-        elif python_version == 'pypy3':
-            self._base_path = '/usr/lib64/pypy3-5.10/lib-python/3/test/'
+        if interpreter == 'pypy':
+            self._base_path = '/usr/lib64/pypy-7.0/lib-python/2.7/test/'
+        elif interpreter == 'pypy3':
+            self._base_path = '/usr/lib64/pypy3-7.0/lib-python/3/test/'
         else:
-            self._base_path = os.path.join('/usr/lib64', python_version, 'test')
-
-    @property
-    def base_path(self):
-        return self._base_path
+            self._base_path = os.path.join('/usr/lib64', interpreter, 'test')
 
     def load(self):
         if self._manifest_path.endswith('.json'):
@@ -55,36 +49,66 @@ class TestManifest(object):
             with open(self._manifest_path) as f:
                 self._files = yaml.load(f)
 
-    def all_runs(self):
+    def __len__(self):
+        return sum([len(test_cases) for test_cases in self._files.values()])
+
+    def __iter__(self):
         for path in sorted(self._files.keys()):
-            info = self._files[path]
+            for test_case in self._files[path]:
+                yield TestCase(path, **test_case['options'])
 
-            if not info['ok']:
-                continue
+    def verify(self):
+        """
+        Verify all test cases in the manifest pass
+        """
+        print('1..%i' % len(self))
 
-            if 'test_runs' not in info:
-                self._files[path]['test_runs'] = []
+        failed = 0
 
-            for options in [{}, {'rename_globals': True}, {'remove_literal_statements': True}, {'remove_literal_statements': True, 'rename_globals': True}]:
-                run_info = self.get_run(path, options)
+        for i, test_case in enumerate(self):
+            try:
+                test_case.run_test()
+                print('ok %i - %s' % (i, test_case))
+            except Exception as e:
+                failed += 1
+                print('not ok %i - %s' % (i, test_case))
+                print(e)
 
-                if run_info is None:
-                    continue
+        return failed
 
-                if not run_info['ok']:
-                    continue
+class TestCase(object):
+    def __init__(self, test_path, **options):
+        self.test_path = test_path
+        self.options = options
 
-                if 'skip' in run_info:
-                    continue
+    def __str__(self):
+        return '%s with options %r' % (self.test_path, self.options)
 
-                yield path, run_info
+    def run_test(self):
+        def execute(python, path):
+            from sh import Command
+            python = Command(python)
+            python(path)
 
-    def get_run(self, path, options):
-        for run in self._files[path]['test_runs']:
-            if run['options'] == options:
-                return run
+        try:
+            with open(self.test_path, 'rb') as f:
+                source = f.read()
 
-def get_manifest():
+            shutil.copy(self.test_path, self.test_path + '.bak')
+
+            with open(self.test_path, 'wb') as f:
+                f.write(minify(source, self.test_path, **self.options).encode())
+
+            execute(sys.executable, self.test_path)
+        finally:
+            shutil.copy(self.test_path + '.bak', self.test_path)
+
+
+def get_active_manifest():
+    """
+    The TestManifest for the current interpreter
+    """
+
     if platform.python_implementation() == 'CPython':
         return TestManifest('python%i.%i' % (sys.version_info[0], sys.version_info[1]))
     else:
@@ -93,32 +117,14 @@ def get_manifest():
         else:
             return TestManifest('pypy3')
 
-manifest = get_manifest()
 
-@pytest.mark.parametrize('test_run', manifest.all_runs())
-def test_file(test_run):
+manifest = get_active_manifest()
 
-    path, info = test_run
 
-    options = info['options'].copy()
-    if 'preserve_globals' in info:
-        options['preserve_globals'] = info['preserve_globals']
-    if 'preserve_locals' in info:
-        options['preserve_locals'] = info['preserve_locals']
-    if 'remove_annotations' in info:
-        options['remove_annotations'] = info['remove_annotations']
-    if 'hoist_literals' in info:
-        options['hoist_literals'] = info['hoist_literals']
+@pytest.mark.parametrize('test_case', list(manifest))
+def test_file(test_case):
+    test_case.run_test()
 
-    try:
-        with open(path, 'rb') as f:
-            source = f.read()
 
-        shutil.copy(path, path + '.bak')
-
-        with open(path, 'wb') as f:
-            f.write(minify(source, path, **options).encode())
-
-        execute(sys.executable, path)
-    finally:
-        shutil.copy(path + '.bak', path)
+if __name__ == '__main__':
+    exit(manifest.verify())

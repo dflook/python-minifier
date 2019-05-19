@@ -1,0 +1,19 @@
+# This file should be pushed to danielflook/python-minifier-build:fedora28-<date>
+FROM fedora:28
+
+# CircleCI required tools
+RUN dnf install -y \
+      git \
+      openssh \
+      tar \
+      gzip \
+      gpg \
+      ca-certificates \
+ && dnf update -y
+
+# Python versions
+RUN dnf install -y \
+      python33
+
+WORKDIR /tmp/work
+ENTRYPOINT ["/bin/bash"]

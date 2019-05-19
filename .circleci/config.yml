@@ -1,26 +1,79 @@
 version: 2.1
 
-jobs:
-  test:
-    docker:
-      - image: danielflook/python-minifier-build:<< parameters.image >>
+commands:
+  set_package_version:
+    description: Set version statically
     steps:
-      - checkout
-
       - run:
           name: Set version statically
           command: |
-            VERSION=$(python setup.py --version)
+            VERSION=$(python3 setup.py --version)
             sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+
+jobs:
+
+  test_python26:
+    docker:
+      - image: danielflook/python-minifier-build:fedora30-2019-06-26
+    steps:
+      - checkout
+      - set_package_version
 
       - run:
           name: tox
           command: |
-            pip install tox virtualenv
-            tox -r -e << parameters.python >>
+            pip3 install 'tox<3' 'virtualenv<16'
+            tox -r -e python26
+
+  test_python33:
+    docker:
+      - image: danielflook/python-minifier-build:fedora28-2019-06-26
+    steps:
+      - checkout
+      - set_package_version
+
+      - run:
+          name: tox
+          command: |
+            pip3 install 'tox<3' 'virtualenv<16'
+            tox -r -e python33
+
+  test:
+    docker:
+      - image: danielflook/python-minifier-build:fedora30-2019-06-26
+    steps:
+      - checkout
+      - set_package_version
+
+      - run:
+          name: tox
+          command: |
+            pip3 install tox==3.11.1 virtualenv==16.6.0
+            tox -r -e python27,python34,python35,python36,python37,pypy,pypy3
+
+  xtest:
+    docker:
+      - image: danielflook/python-minifier-build:<< parameters.image >>-2019-06-26
+    steps:
+      - checkout
+      - set_package_version
+
+      - run:
+          name: tox
+          command: |
+
+            if [[ "<< parameters.interpreter >>" == "python26" ]]; then
+              pip3 install 'tox<3' 'virtualenv<16'
+            elif [[ "<< parameters.interpreter >>" == "python33" ]]; then
+              pip3 install 'tox<3' 'virtualenv<16'
+            else
+              pip3 install tox==3.11.1 virtualenv==16.6.0
+            fi
+
+            tox -r -e << parameters.interpreter >> xtest
 
     parameters:
-      python:
+      interpreter:
         type: string
       image:
         type: string
@@ -28,15 +81,10 @@ jobs:
 
   publish:
     docker:
-      - image: danielflook/python-minifier-build
+      - image: danielflook/python-minifier-build:fedora30-2019-06-26
     steps:
       - checkout
-
-      - run:
-          name: Set version statically
-          command: |
-            VERSION=$(python setup.py --version)
-            sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+      - set_package_version
 
       - run:
           name: Add signing key
@@ -59,7 +107,7 @@ jobs:
 
   publish_docs:
     docker:
-      - image: danielflook/python-minifier-build
+      - image: danielflook/python-minifier-build:fedora30-2019-06-26
     steps:
       - checkout
 
@@ -67,7 +115,7 @@ jobs:
           name: sphinx build
           command: |
             pip3 install --upgrade setuptools wheel twine
-            pip3 install -r requirements-dev.txt
+            pip3 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
             python3 setup.py install
             sphinx-build docs/source /tmp/build
 
@@ -75,20 +123,79 @@ jobs:
           name: git push
           command: |
             git config user.email "daniel@flook.org"
-            git config user.name "Daniel Flook"
+            git config user.name "CircleCI"
 
             git checkout gh-pages
             rm -rf * .circleci
             cp -R /tmp/build/. .
             git add --all
-            git commit -m "Update docs" || true
+            git commit -m "Update docs\n[skip ci]" || true
             git push
 
 workflows:
   version: 2
   build:
     jobs:
-      - test:
-          python: python36
-      - test:
-          python: python37
+      - test_python26
+      - test_python33
+      - test
+#
+#      - xtest:
+#          name: xtest_python26
+#          interpreter: python26
+#          requires:
+#            - test_python26
+#      - xtest:
+#          name: xtest_python27
+#          interpreter: python27
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python33
+#          interpreter: python33
+#          image: fedora28
+#          requires:
+#            - test_python33
+#      - xtest:
+#          name: xtest_python34
+#          interpreter: python34
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python35
+#          interpreter: python35
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python36
+#          interpreter: python36
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python37
+#          interpreter: python37
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_pypy3
+#          interpreter: pypy3
+#          requires:
+#            - test
+#
+      - publish:
+#          requires:
+#            - xtest_python26
+#            - xtest_python27
+#            - xtest_python33
+#            - xtest_python34
+#            - xtest_python35
+#            - xtest_python36
+#            - xtest_python37
+#            - xtest_pypy3
+          filters:
+            branches:
+              only: master
+
+      - publish_docs:
+          requires:
+            - publish

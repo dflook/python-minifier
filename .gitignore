@@ -14,3 +14,4 @@ docs/build/
 docs/source/transforms/*.min.py
 .cache/
 .pytest_cache/
+.circleci-config.yml
