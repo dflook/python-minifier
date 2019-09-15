@@ -183,7 +183,10 @@ workflows:
 #            - test
 #
       - publish:
-#          requires:
+          requires:
+            - test
+            - test_python26
+            - test_python33
 #            - xtest_python26
 #            - xtest_python27
 #            - xtest_python33
