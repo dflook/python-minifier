@@ -91,7 +91,7 @@ def main():
 
     args = parser.parse_args()
 
-    if args.path is '-':
+    if args.path == '-':
         source = sys.stdin.read()
     else:
         with open(args.path, 'rb') as f:

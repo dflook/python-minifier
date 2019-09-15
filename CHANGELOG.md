@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Removed unnecessary parenthesis around yield statements
 
+### Fixed
+- Reading from stdin
+
 ## [2.1.2] - 2019-06-27
 ### Changed
 - Improved renaming performance
