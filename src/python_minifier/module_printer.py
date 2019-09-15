@@ -63,7 +63,13 @@ class ModulePrinter(ExpressionPrinter):
     def visit_Expr(self, node):
         assert isinstance(node, ast.Expr)
 
-        self._testlist(node.value)
+        if isinstance(node.value, ast.Yield):
+            self._yield_expr(node.value)
+        elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
+            self._yield_expr(node.value)
+        else:
+            self._testlist(node.value)
+
         self.end_statement()
 
     def visit_Assert(self, node):
@@ -88,9 +94,9 @@ class ModulePrinter(ExpressionPrinter):
             self.code += '='
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if isinstance(node.value, ast.Expr) and isinstance(node.value.value, ast.Yield):
+        if isinstance(node.value, ast.Yield):
             self._yield_expr(node.value)
-        elif isinstance(node.value, ast.Expr) and isinstance(node.value.value, ast.YieldFrom):
+        elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -105,9 +111,9 @@ class ModulePrinter(ExpressionPrinter):
         self.code += '='
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if isinstance(node.value, ast.Expr) and isinstance(node.value.value, ast.Yield):
+        if  isinstance(node.value, ast.Yield):
             self._yield_expr(node.value)
-        elif isinstance(node.value, ast.Expr) and isinstance(node.value.value, ast.YieldFrom):
+        elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -132,9 +138,9 @@ class ModulePrinter(ExpressionPrinter):
             self.code += '='
 
             # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-            if isinstance(node.value, ast.Expr) and isinstance(node.value.value, ast.Yield):
+            if isinstance(node.value, ast.Yield):
                 self._yield_expr(node.value)
-            elif isinstance(node.value, ast.Expr) and isinstance(node.value.value, ast.YieldFrom):
+            elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
                 self._yield_expr(node.value)
             else:
                 self._expression(node.value)
