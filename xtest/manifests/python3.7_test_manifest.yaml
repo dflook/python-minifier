@@ -1944,10 +1944,10 @@
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python3.7/test/test_wsgiref.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options: {remove_literal_statements: true, rename_globals: true}
+- options: {preserve_locals: [CustomException]}
+- options: {rename_globals: true, preserve_locals: [CustomException]}
+- options: {remove_literal_statements: true, preserve_locals: [CustomException]}
+- options: {remove_literal_statements: true, rename_globals: true, preserve_locals: [CustomException]}
 /usr/lib64/python3.7/test/test_xdrlib.py:
 - options: {}
 - options: {rename_globals: true}
