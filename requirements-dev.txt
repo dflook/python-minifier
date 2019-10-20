@@ -6,3 +6,4 @@ sphinxcontrib-programoutput
 sphinx_rtd_theme
 pyyaml
 sh
+hypothesis
