@@ -741,7 +741,7 @@ class ExpressionPrinter(object):
         if len(self.code) == 0:
             return
 
-        if self.code[-1].isalnum() or self.code[-1] == '_':
+        if self.code[-1] not in '[]{}() :"\'=\n\t':
             self.code += ' '
 
     def visit_JoinedStr(self, node):
