@@ -62,12 +62,15 @@ def compare_ast(l_ast, r_ast):
     if type(l_ast) != type(r_ast):
         raise CompareError(l_ast, r_ast, msg='Nodes do not match! %r != %r' % (l_ast, r_ast))
 
-    for field in l_ast._fields:
+    for field in set(l_ast._fields + r_ast._fields):
 
-        if isinstance(getattr(l_ast, field), list):
+        if field == 'kind' and isinstance(l_ast, ast.Constant):
+            continue
 
-            l_list = getattr(l_ast, field)
-            r_list = getattr(r_ast, field)
+        if isinstance(getattr(l_ast, field, None), list):
+
+            l_list = getattr(l_ast, field, None)
+            r_list = getattr(r_ast, field, None)
 
             if len(l_list) != len(r_list):
                 raise CompareError(
@@ -89,8 +92,8 @@ def compare_ast(l_ast, r_ast):
                     )
 
         else:
-            l = getattr(l_ast, field)
-            r = getattr(r_ast, field)
+            l = getattr(l_ast, field, None)
+            r = getattr(r_ast, field, None)
 
             if isinstance(l, ast.AST) or isinstance(r, ast.AST):
                 compare_ast(l, r)

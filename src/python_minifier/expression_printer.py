@@ -95,6 +95,24 @@ class ExpressionPrinter(object):
 
     # region Literals
 
+    def visit_Constant(self, node):
+        if node.value in [None, True, False]:
+            return self.visit_NameConstant(node)
+        elif isinstance(node.value, int):
+            return self.visit_Num(node)
+        elif isinstance(node.value, float):
+            return self.visit_Num(node)
+        elif isinstance(node.value, complex):
+            return self.visit_Num(node)
+        elif isinstance(node.value, str):
+            return self.visit_Str(node)
+        elif isinstance(node.value, bytes):
+            return self.visit_Bytes(node)
+        elif node.value == Ellipsis:
+            return self.visit_Ellipsis(node)
+
+        raise RuntimeError('Unknown Constant value %r' % type(node.value))
+
     def visit_Num(self, node):
         self.token_break()
 
