@@ -586,8 +586,10 @@ class ExpressionPrinter(object):
     def visit_arguments(self, node):
         first = True
 
-        count_no_defaults = len(node.args) - len(node.defaults)
-        for i, arg in enumerate(node.args):
+        args = getattr(node, 'posonlyargs', []) + node.args
+
+        count_no_defaults = len(args) - len(node.defaults)
+        for i, arg in enumerate(args):
             if not first:
                 self.code += ','
             else:
@@ -599,6 +601,9 @@ class ExpressionPrinter(object):
             if i >= count_no_defaults:
                 self.code += '='
                 self._expression(node.defaults[i - count_no_defaults])
+
+            if hasattr(node, 'posonlyargs') and node.posonlyargs and i + 1 == len(node.posonlyargs):
+                self.code += ',/'
 
         if node.vararg:
             if not first:

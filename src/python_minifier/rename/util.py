@@ -53,6 +53,8 @@ def arg_rename_in_place(node):
     can be safely renamed. Comprehension arguments are not accessible from outside, so
     can be renamed.
 
+    If the argument is positional-only, it can be safely renamed
+
     Other arguments may be referenced by the caller as keyword arguments, so should not be
     renamed in place. The name assigner may still decide to bind the argument to a new name
     inside the function namespace.
@@ -83,6 +85,9 @@ def arg_rename_in_place(node):
 
     if func.args.vararg is node or func.args.kwarg is node:
         # starargs
+        return True
+
+    if hasattr(func.args, 'posonlyargs') and node in func.args.posonlyargs:
         return True
 
     return False

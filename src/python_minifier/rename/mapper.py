@@ -11,7 +11,7 @@ def add_parent_to_arguments(arguments, func):
     arguments.parent = func
     arguments.namespace = func
 
-    for arg in arguments.args:
+    for arg in getattr(arguments, 'posonlyargs', []) + arguments.args:
         add_parent(arg, arguments, func)
         if hasattr(arg, 'annotation') and arg.annotation is not None:
             add_parent(arg.annotation, arguments, func.namespace)
