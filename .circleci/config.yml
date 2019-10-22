@@ -14,7 +14,7 @@ jobs:
 
   test_python26:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-09-15
+      - image: danielflook/python-minifier-build:fedora30-2019-10-20
     steps:
       - checkout
       - set_package_version
@@ -27,7 +27,7 @@ jobs:
 
   test_python33:
     docker:
-      - image: danielflook/python-minifier-build:fedora28-2019-09-15
+      - image: danielflook/python-minifier-build:fedora28-2019-10-20
     steps:
       - checkout
       - set_package_version
@@ -40,7 +40,7 @@ jobs:
 
   test:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-09-15
+      - image: danielflook/python-minifier-build:fedora30-2019-10-20
     steps:
       - checkout
       - set_package_version
@@ -49,11 +49,12 @@ jobs:
           name: tox
           command: |
             pip3 install tox==3.11.1 virtualenv==16.6.0
-            tox -r -e python27,python34,python35,python36,python37,pypy,pypy3
+            tox -r -e python38
+            #tox -r -e python27,python34,python35,python36,python37,python38,pypy,pypy3
 
   xtest:
     docker:
-      - image: danielflook/python-minifier-build:<< parameters.image >>-2019-09-15
+      - image: danielflook/python-minifier-build:<< parameters.image >>-2019-10-20
     steps:
       - checkout
       - set_package_version
@@ -81,7 +82,7 @@ jobs:
 
   publish:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-09-15
+      - image: danielflook/python-minifier-build:fedora30-2019-10-20
     steps:
       - checkout
       - set_package_version
@@ -107,7 +108,7 @@ jobs:
 
   publish_docs:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-09-15
+      - image: danielflook/python-minifier-build:fedora30-2019-10-20
     steps:
       - checkout
 
@@ -139,49 +140,54 @@ workflows:
       - test_python26
       - test_python33
       - test
-#
-#      - xtest:
-#          name: xtest_python26
-#          interpreter: python26
-#          requires:
-#            - test_python26
-#      - xtest:
-#          name: xtest_python27
-#          interpreter: python27
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python33
-#          interpreter: python33
-#          image: fedora28
-#          requires:
-#            - test_python33
-#      - xtest:
-#          name: xtest_python34
-#          interpreter: python34
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python35
-#          interpreter: python35
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python36
-#          interpreter: python36
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python37
-#          interpreter: python37
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_pypy3
-#          interpreter: pypy3
-#          requires:
-#            - test
-#
+
+      - xtest:
+          name: xtest_python26
+          interpreter: python26
+          requires:
+            - test_python26
+      - xtest:
+          name: xtest_python27
+          interpreter: python27
+          requires:
+            - test
+      - xtest:
+          name: xtest_python33
+          interpreter: python33
+          image: fedora28
+          requires:
+            - test_python33
+      - xtest:
+          name: xtest_python34
+          interpreter: python34
+          requires:
+            - test
+      - xtest:
+          name: xtest_python35
+          interpreter: python35
+          requires:
+            - test
+      - xtest:
+          name: xtest_python36
+          interpreter: python36
+          requires:
+            - test
+      - xtest:
+          name: xtest_python37
+          interpreter: python37
+          requires:
+            - test
+      - xtest:
+          name: xtest_python38
+          interpreter: python38
+          requires:
+            - test
+      - xtest:
+          name: xtest_pypy3
+          interpreter: pypy3
+          requires:
+            - test
+
       - publish:
           requires:
             - test
@@ -194,6 +200,7 @@ workflows:
 #            - xtest_python35
 #            - xtest_python36
 #            - xtest_python37
+#            - xtest_python38
 #            - xtest_pypy3
           filters:
             branches:
