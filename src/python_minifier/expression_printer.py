@@ -687,6 +687,10 @@ class ExpressionPrinter(object):
             self.code += '('
             self.visit_Tuple(expression)
             self.code += ')'
+        elif hasattr(ast, 'NamedExpr') and isinstance(expression, ast.NamedExpr):
+            self.code += '('
+            self.visit_NamedExpr(expression)
+            self.code += ')'
         else:
             self.visit(expression)
 
@@ -694,6 +698,10 @@ class ExpressionPrinter(object):
         if isinstance(test, ast.Yield) or (hasattr(ast, 'YieldFrom') and isinstance(test, ast.YieldFrom)):
             self.code += '('
             self._yield_expr(test)
+            self.code += ')'
+        elif hasattr(ast, 'NamedExpr') and isinstance(test, ast.NamedExpr):
+            self.code += '('
+            self.visit_NamedExpr(test)
             self.code += ')'
         else:
             self.visit(test)
@@ -769,3 +777,8 @@ class ExpressionPrinter(object):
 
         self.token_break()
         self.code += str(python_minifier.f_string.OuterFString(node))
+
+    def visit_NamedExpr(self, node):
+        self._expression(node.target)
+        self.code += ':='
+        self._expression(node.value)
