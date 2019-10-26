@@ -49,8 +49,7 @@ jobs:
           name: tox
           command: |
             pip3 install tox==3.11.1 virtualenv==16.6.0
-            tox -r -e python38
-            #tox -r -e python27,python34,python35,python36,python37,python38,pypy,pypy3
+            tox -r -e python27,python34,python35,python36,python37,python38,pypy,pypy3
 
   xtest:
     docker:

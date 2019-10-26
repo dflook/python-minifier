@@ -20,7 +20,6 @@ setup(
     project_urls={
         'Issues': 'https://github.com/dflook/python-minifier/issues',
         'Documentation': 'https://dflook.github.io/python-minifier/',
-        'Say Thanks!': 'https://saythanks.io/to/dflook',
     },
     keywords='minify minifier',
 
