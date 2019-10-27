@@ -1182,11 +1182,7 @@
 - options: {rename_globals: true}
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python3.6/test/test_nntplib.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python3.6/test/test_nntplib.py: []
 /usr/lib64/python3.6/test/test_normalization.py: []
 /usr/lib64/python3.6/test/test_ntpath.py:
 - options: {}
@@ -1301,11 +1297,7 @@
 - options: {rename_globals: true}
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python3.6/test/test_posix.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python3.6/test/test_posix.py: []
 /usr/lib64/python3.6/test/test_posixpath.py:
 - options: {}
 - options: {rename_globals: true}

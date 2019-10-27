@@ -14,7 +14,7 @@ except ImportError:
     pass
 
 
-class TestManifest(object):
+class Manifest(object):
     """
     The test manifest for a python interpreter
 
@@ -47,7 +47,7 @@ class TestManifest(object):
         else:
 
             with open(self._manifest_path) as f:
-                self._files = yaml.load(f)
+                self._files = yaml.safe_load(f)
 
     def __len__(self):
         return sum([len(test_cases) for test_cases in self._files.values()])
@@ -55,7 +55,7 @@ class TestManifest(object):
     def __iter__(self):
         for path in sorted(self._files.keys()):
             for test_case in self._files[path]:
-                yield TestCase(path, **test_case['options'])
+                yield Case(path, **test_case['options'])
 
     def verify(self):
         """
@@ -76,7 +76,7 @@ class TestManifest(object):
 
         return failed
 
-class TestCase(object):
+class Case(object):
     def __init__(self, test_path, **options):
         self.test_path = test_path
         self.options = options
@@ -85,8 +85,11 @@ class TestCase(object):
         return '%s with options %r' % (self.test_path, self.options)
 
     def run_test(self):
+        from sh import Command, ErrorReturnCode
+
+        ErrorReturnCode.truncate_cap = 1000
+
         def execute(python, path):
-            from sh import Command
             python = Command(python)
             python(path)
 
@@ -100,6 +103,9 @@ class TestCase(object):
                 f.write(minify(source, self.test_path, **self.options).encode())
 
             execute(sys.executable, self.test_path)
+        except ErrorReturnCode as e:
+            print(e.stderr)
+            raise
         finally:
             shutil.copy(self.test_path + '.bak', self.test_path)
 
@@ -110,12 +116,12 @@ def get_active_manifest():
     """
 
     if platform.python_implementation() == 'CPython':
-        return TestManifest('python%i.%i' % (sys.version_info[0], sys.version_info[1]))
+        return Manifest('python%i.%i' % (sys.version_info[0], sys.version_info[1]))
     else:
         if sys.version_info[0] == 2:
-            return TestManifest('pypy')
+            return Manifest('pypy')
         else:
-            return TestManifest('pypy3')
+            return Manifest('pypy3')
 
 
 manifest = get_active_manifest()
