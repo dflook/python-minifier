@@ -140,52 +140,52 @@ workflows:
       - test_python33
       - test
 
-      - xtest:
-          name: xtest_python26
-          interpreter: python26
-          requires:
-            - test_python26
-      - xtest:
-          name: xtest_python27
-          interpreter: python27
-          requires:
-            - test
-      - xtest:
-          name: xtest_python33
-          interpreter: python33
-          image: fedora28
-          requires:
-            - test_python33
-      - xtest:
-          name: xtest_python34
-          interpreter: python34
-          requires:
-            - test
-      - xtest:
-          name: xtest_python35
-          interpreter: python35
-          requires:
-            - test
-      - xtest:
-          name: xtest_python36
-          interpreter: python36
-          requires:
-            - test
-      - xtest:
-          name: xtest_python37
-          interpreter: python37
-          requires:
-            - test
-      - xtest:
-          name: xtest_python38
-          interpreter: python38
-          requires:
-            - test
-      - xtest:
-          name: xtest_pypy3
-          interpreter: pypy3
-          requires:
-            - test
+#      - xtest:
+#          name: xtest_python26
+#          interpreter: python26
+#          requires:
+#            - test_python26
+#      - xtest:
+#          name: xtest_python27
+#          interpreter: python27
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python33
+#          interpreter: python33
+#          image: fedora28
+#          requires:
+#            - test_python33
+#      - xtest:
+#          name: xtest_python34
+#          interpreter: python34
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python35
+#          interpreter: python35
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python36
+#          interpreter: python36
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python37
+#          interpreter: python37
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python38
+#          interpreter: python38
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_pypy3
+#          interpreter: pypy3
+#          requires:
+#            - test
 
       - publish:
           requires:
