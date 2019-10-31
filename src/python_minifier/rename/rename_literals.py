@@ -1,7 +1,9 @@
 import ast
 
 from python_minifier.rename.binding import Binding
-from python_minifier.rename.util import insert
+from python_minifier.rename.util import insert, is_str
+from python_minifier.transforms.suite_transformer import NodeVisitor
+
 
 def replace(old_node, new_node):
     parent = old_node.parent
@@ -39,7 +41,7 @@ class HoistedBinding(Binding):
 
     @property
     def value(self):
-        if isinstance(self._value_node, ast.Str) or (hasattr(ast, 'Bytes') and isinstance(self._value_node, ast.Bytes)):
+        if is_str(self._value_node) or (hasattr(ast, 'Bytes') and isinstance(self._value_node, ast.Bytes)):
             return self._value_node.s
         else:
             return self._value_node.value
@@ -89,7 +91,7 @@ class HoistedValue(object):
         return not self == other
 
 
-class HoistLiterals(ast.NodeVisitor):
+class HoistLiterals(NodeVisitor):
     """
     Hoist literal strings to module level variables
     """
@@ -195,7 +197,7 @@ class HoistLiterals(ast.NodeVisitor):
 
     def visit_JoinedStr(self, node):
         for v in node.values:
-            if isinstance(v, ast.Str):
+            if is_str(v):
                 # Can't hoist this!
                 continue
             else:

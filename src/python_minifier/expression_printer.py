@@ -98,11 +98,7 @@ class ExpressionPrinter(object):
     def visit_Constant(self, node):
         if node.value in [None, True, False]:
             return self.visit_NameConstant(node)
-        elif isinstance(node.value, int):
-            return self.visit_Num(node)
-        elif isinstance(node.value, float):
-            return self.visit_Num(node)
-        elif isinstance(node.value, complex):
+        elif isinstance(node.value, (int, float, complex)):
             return self.visit_Num(node)
         elif isinstance(node.value, str):
             return self.visit_Str(node)

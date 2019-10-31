@@ -110,7 +110,7 @@ def insert(suite, new_node):
 
         if not inserted:
             if (isinstance(node, ast.ImportFrom) and node.module == '__future__') or (
-                isinstance(node, ast.Expr) and isinstance(node.value, ast.Str)
+                isinstance(node, ast.Expr) and is_str(node.value)
             ):
                 pass
             else:
@@ -162,7 +162,7 @@ def find__all__(module):
             continue
 
         for el in node.value.elts:
-            if isinstance(el, ast.Str):
+            if is_str(el):
                 names.append(el.s)
 
     return names
@@ -177,6 +177,16 @@ def allow_rename_globals(module, rename_globals=False, preserve_globals=None):
     for binding in module.bindings:
         if rename_globals is False or binding.name in preserve_globals:
             binding.disallow_rename()
+
+def is_str(node):
+    if isinstance(node, ast.Str):
+        return True
+
+    if hasattr(ast, 'Constant') and isinstance(node, ast.Constant):
+        if isinstance(node.value, str):
+            return True
+
+    return False
 
 try:
     import builtins

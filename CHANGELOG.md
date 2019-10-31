@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.1] - Unreleased
 
 ### Fixed
-- Unnecessary spaces after ';' in minified output have been removed.
+- Unnecessary spaces after ';' in minified output have been removed
+- Fixed PendingDeprecationWarnings
 
 ## [2.2.0] - 2019-10-27
 ### Added

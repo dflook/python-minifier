@@ -2,9 +2,10 @@ import ast
 
 from python_minifier.rename.binding import NameBinding
 from python_minifier.rename.util import arg_rename_in_place, get_global_namespace, get_nonlocal_namespace, builtins
+from python_minifier.transforms.suite_transformer import NodeVisitor
 
 
-class NameBinder(ast.NodeVisitor):
+class NameBinder(NodeVisitor):
     """
     Create a NameBinding for each name that is bound
 

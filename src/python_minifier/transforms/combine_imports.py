@@ -1,77 +1,15 @@
 import ast
 
+from python_minifier.transforms.suite_transformer import SuiteTransformer
 
-class CombineImports(ast.NodeTransformer):
+
+class CombineImports(SuiteTransformer):
     """
     Combine multiple import statements where possible
 
     This doesn't change the order of imports
 
     """
-
-    def __call__(self, node):
-        return self.visit(node)
-
-    def visit_ClassDef(self, node):
-        node.body = self.suite(node.body)
-        return node
-
-    def visit_FunctionDef(self, node):
-        node.body = self.suite(node.body)
-        return node
-
-    def visit_AsyncFunctionDef(self, node):
-        node.body = self.suite(node.body)
-        return node
-
-    def visit_For(self, node):
-        node.body = self.suite(node.body)
-
-        if node.orelse:
-            node.orelse = self.suite(node.orelse)
-
-        return node
-
-    def visit_AsyncFor(self, node):
-        return self.visit_For(node)
-
-    def visit_If(self, node):
-        node.body = self.suite(node.body)
-        if node.orelse:
-            node.orelse = self.suite(node.orelse)
-
-        return node
-
-    def visit_Try(self, node):
-        node.body = self.suite(node.body)
-
-        if node.orelse:
-            node.orelse = self.suite(node.orelse)
-
-        if node.finalbody:
-            node.finalbody = self.suite(node.finalbody)
-
-        return node
-
-    def visit_While(self, node):
-        node.body = self.suite(node.body)
-
-        if node.orelse:
-            node.orelse = self.suite(node.orelse)
-
-        return node
-
-    def visit_With(self, node):
-        node.body = self.suite(node.body)
-        return node
-
-    def visit_AsyncWith(self, node):
-        node.body = self.suite(node.body)
-        return node
-
-    def visit_Module(self, node):
-        node.body = self.suite(node.body)
-        return node
 
     def _combine_import(self, node_list):
 
@@ -124,7 +62,7 @@ class CombineImports(ast.NodeTransformer):
         if alias:
             yield ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level)
 
-    def suite(self, node_list):
+    def suite(self, node_list, parent):
         a = list(self._combine_import(node_list))
         b = list(self._combine_import_from(a))
 

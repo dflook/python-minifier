@@ -1,8 +1,11 @@
 import ast
 import sys
 
+from python_minifier.rename.mapper import add_parent
+from python_minifier.transforms.suite_transformer import SuiteTransformer
 
-class RemoveAnnotations(ast.NodeTransformer):
+
+class RemoveAnnotations(SuiteTransformer):
     """
     Remove type annotations from source
     """
@@ -73,11 +76,15 @@ class RemoveAnnotations(ast.NodeTransformer):
         if is_dataclass_field(node):
             return node
         elif node.value:
-            return ast.Assign([node.target], node.value)
+            assign = ast.Assign([node.target], node.value)
+            assign.parent = node.parent
+            assign.namespace = node.namespace
+            return  assign
         else:
             # Valueless annotations cause the interpreter to treat the variable as a local.
             # I don't know of another way to do that without assigning to it, so
             # keep it as an AnnAssign, but replace the annotation with '0'
 
             node.annotation = ast.Num(0)
+            add_parent(node, parent=node.parent, namespace=node.namespace)
             return node
