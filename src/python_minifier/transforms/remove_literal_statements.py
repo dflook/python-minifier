@@ -1,6 +1,5 @@
 import ast
 
-from python_minifier.rename.mapper import add_parent
 from python_minifier.transforms.suite_transformer import SuiteTransformer
 
 
@@ -46,24 +45,15 @@ class RemoveLiteralStatements(SuiteTransformer):
         if not isinstance(node, ast.Expr):
             return False
 
-        if (
-            isinstance(node.value, (ast.Num, ast.Str, ast.NameConstant))
-            or node.value.__class__.__name__ == 'Constant'
-            or node.value.__class__.__name__ == 'Bytes'
-        ):
-            return True
-
-        return False
+        return self.is_node(node.value, (ast.Num, ast.Str, 'NameConstant', 'Bytes'))
 
     def suite(self, node_list, parent):
-        without_literals = [self.visit(a) for a in filter(lambda n: not self.is_literal_statement(n), node_list)]
+        without_literals = [self.visit(n) for n in node_list if not self.is_literal_statement(n)]
 
         if len(without_literals) == 0:
             if isinstance(parent, ast.Module):
                 return []
             else:
-                expr = ast.Expr(value=ast.Num(0))
-                add_parent(expr, parent=parent, namespace=parent.namespace)
-                return [expr]
+                return [self.add_child(ast.Expr(value=ast.Num(0)), parent=parent)]
 
         return without_literals

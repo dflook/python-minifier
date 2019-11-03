@@ -1,7 +1,6 @@
 import ast
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
-from python_minifier.rename.mapper import add_parent
 
 
 class RemovePass(SuiteTransformer):
@@ -15,14 +14,12 @@ class RemovePass(SuiteTransformer):
         return self.visit(node)
 
     def suite(self, node_list, parent):
-        without_pass = [self.visit(a) for a in filter(lambda n: not isinstance(n, ast.Pass), node_list)]
+        without_pass = [self.visit(a) for a in filter(lambda n: not self.is_node(n, ast.Pass), node_list)]
 
         if len(without_pass) == 0:
             if isinstance(parent, ast.Module):
                 return []
             else:
-                expr = ast.Expr(value=ast.Num(0))
-                add_parent(expr, parent=parent, namespace=parent.namespace)
-                return [expr]
+                return [self.add_child(ast.Expr(value=ast.Num(0)), parent=parent)]
 
         return without_pass

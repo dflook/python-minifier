@@ -494,7 +494,7 @@ class ModulePrinter(ExpressionPrinter):
         self.visit_arguments(node.args)
         self.code += ')'
 
-        if hasattr(node, 'returns') and node.returns:
+        if hasattr(node, 'returns') and node.returns is not None:
             self.code += '->'
             self._expression(node.returns)
             self.code += ':'

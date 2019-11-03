@@ -11,7 +11,7 @@ class CombineImports(SuiteTransformer):
 
     """
 
-    def _combine_import(self, node_list):
+    def _combine_import(self, node_list, parent):
 
         alias = []
 
@@ -20,15 +20,17 @@ class CombineImports(SuiteTransformer):
                 alias += statement.names
             else:
                 if alias:
-                    yield ast.Import(names=alias)
+                    yield self.add_child(ast.Import(names=alias),
+                                         parent=parent)
                     alias = []
 
                 yield statement
 
         if alias:
-            yield ast.Import(names=alias)
+            yield self.add_child(ast.Import(names=alias),
+                                 parent=parent)
 
-    def _combine_import_from(self, node_list):
+    def _combine_import_from(self, node_list, parent):
 
         prev_import = None
         alias = []
@@ -54,16 +56,18 @@ class CombineImports(SuiteTransformer):
                 alias += statement.names
             else:
                 if alias:
-                    yield ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level)
+                    yield self.add_child(ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level),
+                                         parent=parent)
                     alias = []
 
                 yield statement
 
         if alias:
-            yield ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level)
+            yield self.add_child(ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level),
+                                 parent=parent)
 
     def suite(self, node_list, parent):
-        a = list(self._combine_import(node_list))
-        b = list(self._combine_import_from(a))
+        a = list(self._combine_import(node_list, parent))
+        b = list(self._combine_import_from(a, parent))
 
         return [self.visit(n) for n in b]

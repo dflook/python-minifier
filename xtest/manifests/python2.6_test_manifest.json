@@ -5494,22 +5494,28 @@
   ], 
   "/usr/lib64/python2.6/test/test_extcall.py": [
     {
-      "options": {}
+      "options": {},
+      "preserve_locals": ["a"]
     }, 
     {
       "options": {
-        "rename_globals": true
+        "rename_globals": true,
+        "preserve_globals": ["test_support"],
+        "preserve_locals": ["a"]
       }
     }, 
     {
       "options": {
-        "remove_literal_statements": true
+        "remove_literal_statements": true,
+        "preserve_locals": ["a"]
       }
     }, 
     {
       "options": {
         "remove_literal_statements": true, 
-        "rename_globals": true
+        "rename_globals": true,
+        "preserve_globals": ["test_support"],
+        "preserve_locals": ["a"]
       }
     }
   ], 

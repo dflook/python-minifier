@@ -1,5 +1,8 @@
 import ast
 
+from python_minifier.rename.mapper import add_parent
+
+
 class NodeVisitor(object):
 
     def visit(self, node):
@@ -35,6 +38,53 @@ class NodeVisitor(object):
         visitor = getattr(self, method, self.generic_visit)
         return visitor(node)
 
+    def is_node(self, node, types):
+        """
+        Is a node one of the specified node types
+
+        A node type may be an actual ast class, or a string naming one.
+        types is a single node type or an iterable of many.
+
+        If a node_type specified a specific Constant type (Str, Bytes, Num etc),
+        returns true for Constant nodes of the correct type.
+
+        :type node: ast.AST
+        :param types:
+        :rtype: bool
+        """
+
+
+        if not isinstance(types, tuple):
+            types = types,
+
+        actual_types = []
+        for type in types:
+            if isinstance(type, str):
+                node_type = getattr(ast, type, None)
+                if node_type is not None:
+                    actual_types.append(node_type)
+            else:
+                actual_types.append(type)
+
+        if isinstance(node, tuple(actual_types)):
+            return True
+
+        if hasattr(ast, 'Constant') and isinstance(node, ast.Constant):
+            if node.value in [None, True, False]:
+                return ast.NameConstant in types
+            elif isinstance(node.value, (int, float, complex)):
+                return ast.Num in types
+            elif isinstance(node.value, str):
+                return ast.Str in types
+            elif isinstance(node.value, bytes):
+                return ast.Bytes in types
+            elif node.value == Ellipsis:
+                return ast.Ellipsis in types
+            else:
+                raise RuntimeError('Unknown Constant value %r' % type(node.value))
+
+        return False
+
 class SuiteTransformer(NodeVisitor):
     """
     Transform suites of instructions
@@ -44,17 +94,39 @@ class SuiteTransformer(NodeVisitor):
         return self.visit(node)
 
     def visit_ClassDef(self, node):
+        node.bases = [self.visit(b) for b in node.bases]
+
         node.body = self.suite(node.body, parent=node)
+        node.decorator_list = [self.visit(d) for d in node.decorator_list]
+
+        if hasattr(node, 'starargs') and node.starargs is not None:
+            node.starargs = self.visit(node.starargs)
+
+        if hasattr(node, 'kwargs') and node.kwargs is not None:
+            node.kwargs = self.visit(node.kwargs)
+
+        if hasattr(node, 'keywords'):
+            node.keywords = [self.visit(kw) for kw in node.keywords]
+
         return node
 
     def visit_FunctionDef(self, node):
+        node.args = self.visit(node.args)
         node.body = self.suite(node.body, parent=node)
+        node.decorator_list = [self.visit(d) for d in node.decorator_list]
+
+        if hasattr(node, 'returns') and node.returns is not None:
+            node.returns = self.visit(node.returns)
+
         return node
 
     def visit_AsyncFunctionDef(self, node):
         return self.visit_FunctionDef(node)
 
     def visit_For(self, node):
+        node.target = self.visit(node.target)
+        node.iter = self.visit(node.iter)
+
         node.body = self.suite(node.body, parent=node)
 
         if node.orelse:
@@ -63,15 +135,13 @@ class SuiteTransformer(NodeVisitor):
         return node
 
     def visit_AsyncFor(self, node):
-        node.body = self.suite(node.body, parent=node)
-
-        if node.orelse:
-            node.orelse = self.suite(node.orelse, parent=node)
-
-        return node
+        return self.visit_For(node)
 
     def visit_If(self, node):
+        node.test = self.visit(node.test)
+
         node.body = self.suite(node.body, parent=node)
+
         if node.orelse:
             node.orelse = self.suite(node.orelse, parent=node)
 
@@ -79,6 +149,8 @@ class SuiteTransformer(NodeVisitor):
 
     def visit_Try(self, node):
         node.body = self.suite(node.body, parent=node)
+
+        node.handlers = [self.visit(h) for h in node.handlers]
 
         if node.orelse:
             node.orelse = self.suite(node.orelse, parent=node)
@@ -89,6 +161,8 @@ class SuiteTransformer(NodeVisitor):
         return node
 
     def visit_While(self, node):
+        node.test = self.visit(node.test)
+
         node.body = self.suite(node.body, parent=node)
 
         if node.orelse:
@@ -97,12 +171,20 @@ class SuiteTransformer(NodeVisitor):
         return node
 
     def visit_With(self, node):
+
+        if hasattr(node, 'items'):
+            node.items = [self.visit(i) for i in node.items]
+        else:
+            if node.context_expr:
+                node.context_expr = self.visit(node.context_expr)
+            if node.optional_vars:
+                node.optional_vars = self.visit(node.optional_vars)
+
         node.body = self.suite(node.body, parent=node)
         return node
 
     def visit_AsyncWith(self, node):
-        node.body = self.suite(node.body, parent=node)
-        return node
+        return self.visit_With(node)
 
     def visit_Module(self, node):
         node.body = self.suite(node.body, parent=node)
@@ -132,3 +214,29 @@ class SuiteTransformer(NodeVisitor):
                 else:
                     setattr(node, field, new_node)
         return node
+
+    def add_child(self, child, parent, namespace=None):
+
+        def nearest_function_namespace(node):
+            """
+            Return the namespace node for the nearest function scope.
+
+            This could be itself.
+
+            :param node: The node to get the function namespace of
+            :type node: ast.Node
+            :rtype: ast.Node
+
+            """
+
+            if isinstance(node, (ast.FunctionDef, ast.Module)):
+                return node
+            if hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef):
+                return node
+            return nearest_function_namespace(node.parent)
+
+        if namespace is None:
+            namespace = nearest_function_namespace(parent)
+
+        add_parent(child, parent=parent, namespace=namespace)
+        return child

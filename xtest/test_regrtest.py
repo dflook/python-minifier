@@ -104,6 +104,7 @@ class Case(object):
 
             execute(sys.executable, self.test_path)
         except ErrorReturnCode as e:
+            print(self.test_path)
             print(e.stderr)
             raise
         finally:

@@ -1,7 +1,6 @@
 import ast
 import sys
 
-from python_minifier.rename.mapper import add_parent
 from python_minifier.transforms.suite_transformer import SuiteTransformer
 
 
@@ -16,22 +15,21 @@ class RemoveAnnotations(SuiteTransformer):
         return self.visit(node)
 
     def visit_FunctionDef(self, node):
+        node.args = self.visit_arguments(node.args)
+        node.body = self.suite(node.body, parent=node)
+        node.decorator_list = [self.visit(d) for d in node.decorator_list]
+
         if hasattr(node, 'returns'):
             node.returns = None
-        node.body = [self.visit(a) for a in node.body]
-
-        if node.args:
-            node.args = self.visit_arguments(node.args)
 
         return node
 
-    def visit_AsyncFunctionDef(self, node):
-        return self.visit_FunctionDef(node)
-
     def visit_arguments(self, node):
+        assert isinstance(node, ast.arguments)
 
         if node.args:
             node.args = [self.visit_arg(a) for a in node.args]
+
         if hasattr(node, 'kwonlyargs') and node.kwonlyargs:
             node.kwonlyargs = [self.visit_arg(a) for a in node.kwonlyargs]
 
@@ -76,15 +74,11 @@ class RemoveAnnotations(SuiteTransformer):
         if is_dataclass_field(node):
             return node
         elif node.value:
-            assign = ast.Assign([node.target], node.value)
-            assign.parent = node.parent
-            assign.namespace = node.namespace
-            return  assign
+            return self.add_child(ast.Assign([node.target], node.value), parent=node.parent)
         else:
             # Valueless annotations cause the interpreter to treat the variable as a local.
             # I don't know of another way to do that without assigning to it, so
             # keep it as an AnnAssign, but replace the annotation with '0'
 
-            node.annotation = ast.Num(0)
-            add_parent(node, parent=node.parent, namespace=node.namespace)
+            node.annotation = self.add_child(ast.Num(0), parent=node.parent)
             return node
