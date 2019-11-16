@@ -7,7 +7,7 @@ from python_minifier.rename.util import get_global_namespace, get_nonlocal_names
 def get_binding(name, namespace):
     if name in namespace.global_names and not isinstance(namespace, ast.Module):
         return get_binding(name, get_global_namespace(namespace))
-    elif name in namespace.nonlocal_names:
+    elif name in namespace.nonlocal_names and not isinstance(namespace, ast.Module):
         return get_binding(name, get_nonlocal_namespace(namespace))
 
     for binding in namespace.bindings:

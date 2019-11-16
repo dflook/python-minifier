@@ -129,7 +129,7 @@ jobs:
             rm -rf * .circleci
             cp -R /tmp/build/. .
             git add --all
-            git commit -m "Update docs\n[skip ci]" || true
+            git commit -m "Update docs" -m "[skip ci]" || true
             git push
 
 workflows:

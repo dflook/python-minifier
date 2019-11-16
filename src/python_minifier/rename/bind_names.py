@@ -4,7 +4,6 @@ from python_minifier.rename.binding import NameBinding
 from python_minifier.rename.util import arg_rename_in_place, get_global_namespace, get_nonlocal_namespace, builtins
 from python_minifier.transforms.suite_transformer import NodeVisitor
 
-
 class NameBinder(NodeVisitor):
     """
     Create a NameBinding for each name that is bound
@@ -20,7 +19,7 @@ class NameBinder(NodeVisitor):
     def get_binding(self, name, namespace):
         if name in namespace.global_names and not isinstance(namespace, ast.Module):
             return self.get_binding(name, get_global_namespace(namespace))
-        elif name in namespace.nonlocal_names:
+        elif name in namespace.nonlocal_names and not isinstance(namespace, ast.Module):
             return self.get_binding(name, get_nonlocal_namespace(namespace))
 
         if isinstance(namespace, ast.ClassDef):
@@ -30,12 +29,16 @@ class NameBinder(NodeVisitor):
 
         for binding in namespace.bindings:
             if binding.name == name:
-                return binding
+                break
+        else:  # weeee!
+            binding = NameBinding(name)
+            namespace.bindings.append(binding)
 
-        binding = NameBinding(name)
-        namespace.bindings.append(binding)
+            if name in dir(builtins):
+                binding.disallow_rename()
 
-        if name in dir(builtins):
+        if name in namespace.nonlocal_names and isinstance(namespace, ast.Module):
+            # This is actually a syntax error - but we want the same syntax error after minifying!
             binding.disallow_rename()
 
         return binding
