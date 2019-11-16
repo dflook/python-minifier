@@ -115,13 +115,14 @@ def main():
             filename=args.path,
             combine_imports=args.combine_imports,
             remove_pass=args.remove_pass,
+            remove_annotations=args.remove_annotations,
             remove_literal_statements=args.remove_literal_statements,
             hoist_literals=args.hoist_literals,
             rename_locals=args.rename_locals,
             preserve_locals=preserve_locals,
             rename_globals=args.rename_globals,
             preserve_globals=preserve_globals,
-            remove_object_base=args.remove_object_base
+            remove_object_base=args.remove_object_base,
         )
     )
 
