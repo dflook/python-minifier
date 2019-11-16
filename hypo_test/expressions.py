@@ -190,23 +190,29 @@ def Await(draw, expression) -> ast.Await:
 
 @composite
 def Index(draw, expression) -> ast.Index:
-    return ast.Index(draw(expression))
+    return ast.Index(draw(Ellipsis() | expression))
 
 @composite
 def Slice(draw, expression) -> ast.Slice:
     return ast.Slice(
         lower=draw(expression),
         upper=draw(expression),
-        step=draw(expression)
+        step=draw(none() | expression)
     )
 
 @composite
+def Ellipsis(draw) -> ast.Ellipsis:
+    return ast.Ellipsis()
+
+@composite
 def ExtSlice(draw, expression) -> ast.ExtSlice:
-    return ast.ExtSlice(
+    slice = draw(Slice(expression))
+
+    return ast.ExtSlice([slice] +
         draw(lists(
             Index(expression) | Slice(expression),
-            min_size=2,
-            max_size=4
+            min_size=1,
+            max_size=3
         ))
     )
 
@@ -300,7 +306,7 @@ leaves = NameConstant() | \
         Str() | \
         Bytes()
 
-def expression() -> SearchStrategy:
+def async_expression() -> SearchStrategy:
     return recursive(
         leaves,
         lambda expression:
@@ -308,6 +314,34 @@ def expression() -> SearchStrategy:
             Yield(expression),
             YieldFrom(expression),
             Await(expression),
+            IfExp(expression),
+            Call(expression),
+            BinOp(expression),
+            Set(expression),
+            List(expression),
+            Tuple(expression),
+            BoolOp(expression),
+            UnaryOp(expression),
+            Attribute(expression),
+            Dict(expression),
+            Compare(expression),
+            Lambda(expression),
+            ListComp(expression),
+            GeneratorExp(expression),
+            DictComp(expression),
+            Subscript(expression)
+        ),
+        max_leaves=150
+    )
+
+def expression() -> SearchStrategy:
+    return recursive(
+        leaves,
+        lambda expression:
+        one_of(
+            Yield(expression),
+            YieldFrom(expression),
+            #Await(expression),
             IfExp(expression),
             Call(expression),
             BinOp(expression),

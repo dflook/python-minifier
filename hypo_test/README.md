@@ -9,7 +9,8 @@ Assignment targets: (in comprehensions too)
 - Tuples, sets??
 Starred
 Call arguments
-advanced slicing
 Delete targets
 ImportFrom levels
 functiondef args
+Await
+f-strings
