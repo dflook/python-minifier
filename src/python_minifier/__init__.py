@@ -92,8 +92,6 @@ def minify(
     module = ast.parse(source, filename)
 
     add_namespace(module)
-    bind_names(module)
-    resolve_names(module)
 
     if remove_literal_statements:
         module = RemoveLiteralStatements()(module)
@@ -109,6 +107,9 @@ def minify(
 
     if remove_object_base:
         module = RemoveObject()(module)
+
+    bind_names(module)
+    resolve_names(module)
 
     if module.tainted:
         rename_globals = False
