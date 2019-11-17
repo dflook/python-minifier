@@ -27,6 +27,9 @@ class RemoveAnnotations(SuiteTransformer):
     def visit_arguments(self, node):
         assert isinstance(node, ast.arguments)
 
+        if hasattr(node, 'posonlyargs') and node.posonlyargs:
+            node.posonlyargs = [self.visit_arg(a) for a in node.posonlyargs]
+
         if node.args:
             node.args = [self.visit_arg(a) for a in node.args]
 
