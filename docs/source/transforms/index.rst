@@ -16,6 +16,7 @@ They can be enabled or disabled through the minify function, or passing options 
    remove_annotations
    rename_locals
    remove_object_base
+   convert_posargs_to_args
 
 .. toctree::
    :caption: Disabled by default

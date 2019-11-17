@@ -22,6 +22,7 @@ from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
+from python_minifier.transforms.remove_posargs import remove_posargs
 
 
 class UnstableMinification(RuntimeError):
@@ -55,7 +56,8 @@ def minify(
     preserve_locals=None,
     rename_globals=False,
     preserve_globals=None,
-    remove_object_base=True
+    remove_object_base=True,
+    convert_posargs_to_args=True
 ):
     """
     Minify a python module
@@ -122,6 +124,9 @@ def minify(
         rename_literals(module)
 
     rename(module, prefix_globals=not rename_globals, preserved_globals=preserve_globals)
+
+    if convert_posargs_to_args:
+        module = remove_posargs(module)
 
     return unparse(module)
 

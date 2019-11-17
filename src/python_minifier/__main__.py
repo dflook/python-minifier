@@ -15,7 +15,8 @@ except DistributionNotFound:
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Minify Python source')
+    parser = argparse.ArgumentParser(prog='pyminify',
+                                     description='Minify Python source')
 
     parser.add_argument(
         'path',
@@ -86,6 +87,12 @@ def main():
         help='Disable removing object from base class list',
         dest='remove_object_base',
     )
+    parser.add_argument(
+        '--no-convert-posargs-to-args',
+        action='store_false',
+        help='Disable converting positional only arguments to normal arguments',
+        dest='convert_posargs_to_args',
+    )
 
     parser.add_argument('-v', '--version', action='version', version=version)
 
@@ -123,6 +130,7 @@ def main():
             rename_globals=args.rename_globals,
             preserve_globals=preserve_globals,
             remove_object_base=args.remove_object_base,
+            convert_posargs_to_args=args.convert_posargs_to_args
         )
     )
 
