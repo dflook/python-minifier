@@ -2749,6 +2749,7 @@
     - something
     - f
     - g
+    convert_posargs_to_args: false
 - options:
     preserve_globals:
     - f
@@ -2764,6 +2765,7 @@
     - f
     - g
     rename_globals: true
+    convert_posargs_to_args: false
 - options:
     preserve_locals:
     - a
@@ -2774,6 +2776,7 @@
     - f
     - g
     remove_literal_statements: true
+    convert_posargs_to_args: false
 - options:
     preserve_globals:
     - f
@@ -2790,6 +2793,7 @@
     - g
     remove_literal_statements: true
     rename_globals: true
+    convert_posargs_to_args: false
 /usr/lib64/python3.8/test/test_posix.py: []
 /usr/lib64/python3.8/test/test_posixpath.py:
 - options: {}
