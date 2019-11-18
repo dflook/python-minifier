@@ -1,7 +1,7 @@
-Convert Positional Argument to Arguments
+Convert Positional-Only Argument to Arguments
 ========================================
 
-This transform converts positional only arguments into normal arguments by removing the '/' separator in the
+This transform converts positional-only arguments into normal arguments by removing the '/' separator in the
 argument list.
 
 This transform is almost always safe to use and enabled by default.
