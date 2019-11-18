@@ -43,7 +43,8 @@ def create_example(option):
         'remove_pass': False,
         'rename_globals': False,
         'rename_locals': False,
-        'remove_object_base': False
+        'remove_object_base': False,
+        'convert_posargs_to_args': False
     }
 
     options[option] = True

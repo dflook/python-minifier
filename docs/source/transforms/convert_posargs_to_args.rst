@@ -15,10 +15,10 @@ Example
 Input
 ~~~~~
 
-.. literalinclude:: combine_imports.py
+.. literalinclude:: convert_posargs_to_args.py
 
 Output
 ~~~~~~
 
-.. literalinclude:: combine_imports.min.py
+.. literalinclude:: combine_posargs_to_args.min.py
     :language: python
