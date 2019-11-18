@@ -114,9 +114,10 @@ jobs:
       - run:
           name: sphinx build
           command: |
-            pip3 install --upgrade setuptools wheel twine
-            pip3 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
-            python3 setup.py install
+            python3.8 -m ensurepip
+            pip3.8 install --upgrade setuptools wheel twine
+            pip3.8 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
+            python3.8 setup.py install
             sphinx-build docs/source /tmp/build
 
       - run:
@@ -140,52 +141,52 @@ workflows:
       - test_python33
       - test
 
-      - xtest:
-          name: xtest_python26
-          interpreter: python26
-          requires:
-            - test_python26
-      - xtest:
-          name: xtest_python27
-          interpreter: python27
-          requires:
-            - test
-      - xtest:
-          name: xtest_python33
-          interpreter: python33
-          image: fedora28
-          requires:
-            - test_python33
-      - xtest:
-          name: xtest_python34
-          interpreter: python34
-          requires:
-            - test
-      - xtest:
-          name: xtest_python35
-          interpreter: python35
-          requires:
-            - test
-      - xtest:
-          name: xtest_python36
-          interpreter: python36
-          requires:
-            - test
-      - xtest:
-          name: xtest_python37
-          interpreter: python37
-          requires:
-            - test
-      - xtest:
-          name: xtest_python38
-          interpreter: python38
-          requires:
-            - test
-      - xtest:
-          name: xtest_pypy3
-          interpreter: pypy3
-          requires:
-            - test
+#      - xtest:
+#          name: xtest_python26
+#          interpreter: python26
+#          requires:
+#            - test_python26
+#      - xtest:
+#          name: xtest_python27
+#          interpreter: python27
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python33
+#          interpreter: python33
+#          image: fedora28
+#          requires:
+#            - test_python33
+#      - xtest:
+#          name: xtest_python34
+#          interpreter: python34
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python35
+#          interpreter: python35
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python36
+#          interpreter: python36
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python37
+#          interpreter: python37
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_python38
+#          interpreter: python38
+#          requires:
+#            - test
+#      - xtest:
+#          name: xtest_pypy3
+#          interpreter: pypy3
+#          requires:
+#            - test
 
       - publish:
           requires:

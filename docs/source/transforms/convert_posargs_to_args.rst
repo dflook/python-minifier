@@ -1,4 +1,4 @@
-Combine Positional Argument to Arguments
+Convert Positional Argument to Arguments
 ========================================
 
 This transform converts positional only arguments into normal arguments by removing the '/' separator in the
@@ -20,5 +20,5 @@ Input
 Output
 ~~~~~~
 
-.. literalinclude:: combine_posargs_to_args.min.py
+.. literalinclude:: convert_posargs_to_args.min.py
     :language: python
