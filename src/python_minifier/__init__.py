@@ -91,30 +91,29 @@ def minify(
 
     filename = filename or 'python_minifier.minify source'
 
-    # If shebang or encoding is declared in the source code, such magic comments will be kept in the output
-    shebang_line = None     # e.g. '#!/usr/bin/env python'
-    encoding_line = None    # e.g. '# -*- coding: UTF-8 -*-'
-    source_lines = source.splitlines()
-
-    if isinstance(source, str):
-        # compatible with Python 2
-        first_line = source_line[0] if len(source_lines) > 0 else ""
-        second_line = source_lines[1] if len(source_lines) > 1 else ""
-    else:
-        first_line = source_lines[0].decode() if len(source_lines) > 0 else ""
-        second_line = source_lines[1].decode() if len(source_lines) > 1 else ""
-
+    output_code = ""
+    
     # Defined in https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
     RE_PEP263 = r'^[ \t\f]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)'
     coding_pattern = re.compile(RE_PEP263)
 
-    if first_line.startswith('#!'):
-        shebang_line = first_line
-    
-    if not shebang_line and coding_pattern.match(first_line):
-        encoding_line = first_line
-    elif coding_pattern.match(second_line):
-        encoding_line = second_line
+    # If shebang or encoding is declared in the source code, such magic comments will be kept in the output
+    for idx, raw_line in enumerate(source.splitlines()[0:2]):
+        if isinstance(raw_line, str):
+            # Python 2
+            line = raw_line
+        else:
+            # Python 3
+            line = raw_line.decode()
+
+        if idx == 0 and line.startswith('#!'):
+            # Shebang comment found
+            # e.g. '#!/usr/bin/env python'
+            output_code += line + '\n'
+        elif coding_pattern.match(line):
+            # Encoding comment found
+            # e.g. '# -*- coding: UTF-8 -*-'
+            output_code += line + '\n'
 
 
     # This will raise if the source file can't be parsed
@@ -154,14 +153,6 @@ def minify(
 
     if convert_posargs_to_args:
         module = remove_posargs(module)
-
-    output_code = ""
-
-    if shebang_line:
-        output_code += shebang_line + '\n'
-    
-    if encoding_line:
-        output_code += encoding_line + '\n'
 
     output_code += unparse(module)
     return output_code
