@@ -8,7 +8,7 @@ This transform will strip docstrings from the source. If the module uses the ``_
 be retained.
 
 This transform is disabled by default. Enable by passing the ``remove_literal_statements=True`` argument to the :func:`python_minifier.minify` function,
-or passing ``--remove_literal_statements`` to the pyminify command.
+or passing ``--remove-literal-statements`` to the pyminify command.
 
 Example
 -------
