@@ -235,10 +235,15 @@ class NameBinding(Binding):
                 node.names = [new_name if n == self._name else n for n in node.names]
             elif isinstance(node, ast.arguments):
 
-                if node.vararg == self._name:
+                rename_vararg = (node.vararg == self._name) and not getattr(node, 'vararg_renamed', False)
+                rename_kwarg = (node.kwarg == self._name) and not getattr(node, 'kwarg_renamed', False)
+
+                if rename_vararg:
                     node.vararg = new_name
-                if node.kwarg == self._name:
+                    node.vararg_renamed = True
+                if rename_kwarg:
                     node.kwarg = new_name
+                    node.kwarg_renamed = True
 
         self._name = new_name
 

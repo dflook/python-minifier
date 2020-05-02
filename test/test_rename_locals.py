@@ -298,3 +298,15 @@ def t():
     expected_ast = ast.parse(expected)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
+def test_arg_rename():
+
+    source = '''
+def f(*B,**A):pass
+'''
+    expected = '''
+def f(*A,**B):pass
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = rename_locals(source)
+    assert_code(expected_ast, actual_ast)
