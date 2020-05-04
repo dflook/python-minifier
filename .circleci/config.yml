@@ -14,7 +14,7 @@ jobs:
 
   test_python26:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-10-20
+      - image: danielflook/python-minifier-build:fedora30-2020-05-03
     steps:
       - checkout
       - set_package_version
@@ -27,7 +27,7 @@ jobs:
 
   test_python33:
     docker:
-      - image: danielflook/python-minifier-build:fedora28-2019-10-20
+      - image: danielflook/python-minifier-build:fedora28-2020-05-03
     steps:
       - checkout
       - set_package_version
@@ -40,7 +40,7 @@ jobs:
 
   test:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-10-20
+      - image: danielflook/python-minifier-build:fedora30-2020-05-03
     steps:
       - checkout
       - set_package_version
@@ -53,7 +53,7 @@ jobs:
 
   xtest:
     docker:
-      - image: danielflook/python-minifier-build:<< parameters.image >>-2019-10-20
+      - image: danielflook/python-minifier-build:<< parameters.image >>
     steps:
       - checkout
       - set_package_version
@@ -77,11 +77,11 @@ jobs:
         type: string
       image:
         type: string
-        default: fedora30
+        default: fedora30-2020-05-03
 
   publish:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-10-20
+      - image: danielflook/python-minifier-build:fedora30-2020-05-03
     steps:
       - checkout
       - set_package_version
@@ -107,7 +107,7 @@ jobs:
 
   publish_docs:
     docker:
-      - image: danielflook/python-minifier-build:fedora30-2019-10-20
+      - image: danielflook/python-minifier-build:fedora30-2020-05-03
     steps:
       - checkout
 
@@ -154,7 +154,7 @@ workflows:
 #      - xtest:
 #          name: xtest_python33
 #          interpreter: python33
-#          image: fedora28
+#          image: fedora28-2020-05-03
 #          requires:
 #            - test_python33
 #      - xtest:
@@ -180,11 +180,13 @@ workflows:
 #      - xtest:
 #          name: xtest_python38
 #          interpreter: python38
+#          image: fedora30-2019-10-20
 #          requires:
 #            - test
 #      - xtest:
 #          name: xtest_pypy3
 #          interpreter: pypy3
+#          image: fedora30-2019-10-20
 #          requires:
 #            - test
 
@@ -193,15 +195,6 @@ workflows:
             - test
             - test_python26
             - test_python33
-#            - xtest_python26
-#            - xtest_python27
-#            - xtest_python33
-#            - xtest_python34
-#            - xtest_python35
-#            - xtest_python36
-#            - xtest_python37
-#            - xtest_python38
-#            - xtest_pypy3
           filters:
             branches:
               only: master

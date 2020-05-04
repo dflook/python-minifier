@@ -9,11 +9,17 @@ RUN dnf install -y \
       gzip \
       gpg \
       ca-certificates \
- && dnf update -y
+  && dnf clean all && rm -rf /var/cache/dnf/*
 
 # Python versions
 RUN dnf install -y \
-      python33
+      python33 \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+# Other packages required for tests
+RUN dnf install -y \
+      bzip2 \
+  && dnf clean all && rm -rf /var/cache/dnf/*
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]
