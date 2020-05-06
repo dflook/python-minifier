@@ -57,7 +57,7 @@ def minify(
     rename_globals=False,
     preserve_globals=None,
     remove_object_base=True,
-    convert_posargs_to_args=True
+    convert_posargs_to_args=True,
 ):
     """
     Minify a python module
@@ -83,6 +83,7 @@ def minify(
     :param preserve_globals: Global names to leave unchanged when rename_globals is True
     :type preserve_globals: list[str]
     :param bool remove_object_base: If object as a base class may be removed
+    :param bool convert_posargs_to_args: If positional-only arguments will be converted to normal arguments
 
     :rtype: str
 
@@ -182,9 +183,5 @@ def awslambda(source, filename=None, entrypoint=None):
         rename_globals = False
 
     return minify(
-        source,
-        filename,
-        remove_literal_statements=True,
-        rename_globals=rename_globals,
-        preserve_globals=[entrypoint],
+        source, filename, remove_literal_statements=True, rename_globals=rename_globals, preserve_globals=[entrypoint],
     )

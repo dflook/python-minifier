@@ -4,7 +4,6 @@ from python_minifier.rename.mapper import add_parent
 
 
 class NodeVisitor(object):
-
     def visit(self, node):
         """Visit a node."""
         method = 'visit_' + node.__class__.__name__
@@ -51,20 +50,20 @@ class NodeVisitor(object):
         :type node: ast.AST
         :param types:
         :rtype: bool
+
         """
 
-
         if not isinstance(types, tuple):
-            types = types,
+            types = (types,)
 
         actual_types = []
-        for type in types:
-            if isinstance(type, str):
-                node_type = getattr(ast, type, None)
+        for node_type in types:
+            if isinstance(node_type, str):
+                node_type = getattr(ast, node_type, None)
                 if node_type is not None:
                     actual_types.append(node_type)
             else:
-                actual_types.append(type)
+                actual_types.append(node_type)
 
         if isinstance(node, tuple(actual_types)):
             return True
@@ -84,6 +83,7 @@ class NodeVisitor(object):
                 raise RuntimeError('Unknown Constant value %r' % type(node.value))
 
         return False
+
 
 class SuiteTransformer(NodeVisitor):
     """
@@ -216,7 +216,6 @@ class SuiteTransformer(NodeVisitor):
         return node
 
     def add_child(self, child, parent, namespace=None):
-
         def nearest_function_namespace(node):
             """
             Return the namespace node for the nearest function scope.

@@ -83,6 +83,13 @@ class Binding(object):
 
         return self._references
 
+    @property
+    def name_references(self):
+        """
+        The number of times the name is used
+        """
+        return len(self._references)
+
     def add_reference(self, node, allow_rename=True, reserved=None, rename_cost=0):
         """
         Add a new reference to this binding

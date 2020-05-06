@@ -21,6 +21,7 @@ def replace(old_node, new_node):
                     old_value[i] = new_node
                     return
 
+
 class HoistedBinding(Binding):
     def __init__(self, value_node, *args, **kwargs):
         super(HoistedBinding, self).__init__(*args, **kwargs)
@@ -55,7 +56,10 @@ class HoistedBinding(Binding):
             replace(node, ast.Name(id=new_name, ctx=ast.Load()))
 
         self._local_namespace.body = list(
-            insert(self._local_namespace.body, ast.Assign(targets=[ast.Name(id=new_name, ctx=ast.Store())], value=self._value_node))
+            insert(
+                self._local_namespace.body,
+                ast.Assign(targets=[ast.Name(id=new_name, ctx=ast.Store())], value=self._value_node),
+            )
         )
 
         self._name = new_name

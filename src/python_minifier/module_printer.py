@@ -111,7 +111,7 @@ class ModulePrinter(ExpressionPrinter):
         self.code += '='
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if  isinstance(node.value, ast.Yield):
+        if isinstance(node.value, ast.Yield):
             self._yield_expr(node.value)
         elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
             self._yield_expr(node.value)

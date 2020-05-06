@@ -20,6 +20,7 @@ def _doc_in_module(module):
     except:
         return True
 
+
 class RemoveLiteralStatements(SuiteTransformer):
     """
     Remove literal expressions from the code

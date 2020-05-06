@@ -16,6 +16,7 @@ from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
 from python_minifier.rename.util import is_str
 
+
 class FString(object):
     """
     An F-string in the expression part of another f-string
@@ -193,7 +194,7 @@ class Str(object):
 
     """
 
-    def __init__(self, s, allowed_quotes=['"', "'", "'''", '"""']):
+    def __init__(self, s, allowed_quotes):
         self._s = s
         self.allowed_quotes = allowed_quotes
         self.current_quote = None
@@ -311,7 +312,7 @@ class Bytes(object):
 
     """
 
-    def __init__(self, b, allowed_quotes=['"', "'", "'''", '"""']):
+    def __init__(self, b, allowed_quotes):
         self._b = b
         self.allowed_quotes = allowed_quotes
         self.current_quote = None

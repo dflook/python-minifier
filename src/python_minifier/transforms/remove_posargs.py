@@ -1,5 +1,6 @@
 import ast
 
+
 def remove_posargs(node):
     if isinstance(node, ast.arguments):
         if hasattr(node, 'posonlyargs'):

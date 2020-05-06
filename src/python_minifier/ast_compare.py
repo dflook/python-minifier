@@ -16,9 +16,8 @@ class CompareError(RuntimeError):
 
     def namespace(self, node):
         if hasattr(node, 'namespace'):
-            if (
-                isinstance(node.namespace, (ast.FunctionDef, ast.ClassDef))
-                or (hasattr(ast, 'AsyncFunctionDef') and isinstance(node.namespace, ast.AsyncFunctionDef))
+            if isinstance(node.namespace, (ast.FunctionDef, ast.ClassDef)) or (
+                hasattr(ast, 'AsyncFunctionDef') and isinstance(node.namespace, ast.AsyncFunctionDef)
             ):
                 return self.namespace(node.namespace) + '.' + node.namespace.name
             elif isinstance(node.namespace, ast.Module):
