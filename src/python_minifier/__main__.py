@@ -15,14 +15,9 @@ except DistributionNotFound:
 
 def main():
 
-    parser = argparse.ArgumentParser(prog='pyminify',
-                                     description='Minify Python source')
+    parser = argparse.ArgumentParser(prog='pyminify', description='Minify Python source')
 
-    parser.add_argument(
-        'path',
-        type=str,
-        help='The source file to minify. Use "-" to read from stdin'
-    )
+    parser.add_argument('path', type=str, help='The source file to minify. Use "-" to read from stdin')
 
     parser.add_argument(
         '--no-combine-imports',
@@ -56,30 +51,24 @@ def main():
         dest='hoist_literals',
     )
     parser.add_argument(
-        '--no-rename-locals',
-        action='store_false',
-        help='Disable shortening of local names',
-        dest='rename_locals'
+        '--no-rename-locals', action='store_false', help='Disable shortening of local names', dest='rename_locals'
     )
     parser.add_argument(
         '--preserve-locals',
         type=str,
         action='append',
         help='Comma separated list of local names that will not be shortened',
-        dest='preserve_locals'
+        dest='preserve_locals',
     )
     parser.add_argument(
-        '--rename-globals',
-        action='store_true',
-        help='Enable shortening of global names',
-        dest='rename_globals'
+        '--rename-globals', action='store_true', help='Enable shortening of global names', dest='rename_globals'
     )
     parser.add_argument(
         '--preserve-globals',
         type=str,
         action='append',
         help='Comma separated list of global names that will not be shortened',
-        dest='preserve_globals'
+        dest='preserve_globals',
     )
     parser.add_argument(
         '--no-remove-object-base',
@@ -130,7 +119,7 @@ def main():
             rename_globals=args.rename_globals,
             preserve_globals=preserve_globals,
             remove_object_base=args.remove_object_base,
-            convert_posargs_to_args=args.convert_posargs_to_args
+            convert_posargs_to_args=args.convert_posargs_to_args,
         )
     )
 

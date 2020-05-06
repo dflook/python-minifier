@@ -4,6 +4,7 @@ from python_minifier.rename.binding import NameBinding
 from python_minifier.rename.util import arg_rename_in_place, get_global_namespace, get_nonlocal_namespace, builtins
 from python_minifier.transforms.suite_transformer import NodeVisitor
 
+
 class NameBinder(NodeVisitor):
     """
     Create a NameBinding for each name that is bound
@@ -142,7 +143,7 @@ class NameBinder(NodeVisitor):
 
 def bind_names(module):
     """
-    Bind namespace to their local namespace
+    Bind names to their local namespace
 
     :param module: The module to bind names in
     :type: :class:`ast.Module`

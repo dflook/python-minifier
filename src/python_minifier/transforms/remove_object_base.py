@@ -12,9 +12,10 @@ class RemoveObject(SuiteTransformer):
         return self.visit(node)
 
     def visit_ClassDef(self, node):
-        node.bases = [b for b in node.bases if not isinstance(b, ast.Name) or (isinstance(b, ast.Name) and b.id != 'object')]
+        node.bases = [
+            b for b in node.bases if not isinstance(b, ast.Name) or (isinstance(b, ast.Name) and b.id != 'object')
+        ]
 
         node.body = [self.visit(n) for n in node.body]
 
         return node
-

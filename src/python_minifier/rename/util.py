@@ -1,6 +1,7 @@
 import ast
 import sys
 
+
 def create_is_namespace():
 
     namespace_nodes = (ast.FunctionDef, ast.Lambda, ast.ClassDef, ast.Module, ast.GeneratorExp)
@@ -9,14 +10,16 @@ def create_is_namespace():
         namespace_nodes += (ast.SetComp, ast.DictComp)
 
     if sys.version_info >= (3, 0):
-        namespace_nodes += ast.ListComp,
+        namespace_nodes += (ast.ListComp,)
 
     if sys.version_info >= (3, 5):
-        namespace_nodes += ast.AsyncFunctionDef,
+        namespace_nodes += (ast.AsyncFunctionDef,)
 
     return lambda node: isinstance(node, namespace_nodes)
 
+
 is_namespace = create_is_namespace()
+
 
 def get_global_namespace(node):
     """
@@ -138,6 +141,7 @@ def allow_rename_locals(node, rename_locals, preserve_locals=None):
     for child in ast.iter_child_nodes(node):
         allow_rename_locals(child, rename_locals, preserve_locals)
 
+
 def find__all__(module):
 
     names = []
@@ -167,6 +171,7 @@ def find__all__(module):
 
     return names
 
+
 def allow_rename_globals(module, rename_globals=False, preserve_globals=None):
 
     if preserve_globals is None:
@@ -178,6 +183,7 @@ def allow_rename_globals(module, rename_globals=False, preserve_globals=None):
         if rename_globals is False or binding.name in preserve_globals:
             binding.disallow_rename()
 
+
 def is_str(node):
     if isinstance(node, ast.Str):
         return True
@@ -187,6 +193,7 @@ def is_str(node):
             return True
 
     return False
+
 
 try:
     import builtins

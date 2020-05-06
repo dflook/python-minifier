@@ -55,7 +55,6 @@ class RemoveAnnotations(SuiteTransformer):
         return node
 
     def visit_AnnAssign(self, node):
-
         def is_dataclass_field(node):
             if sys.version_info < (3, 7):
                 return False
