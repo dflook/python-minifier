@@ -47,14 +47,14 @@ class FString(object):
                 if is_str(v):
                     try:
                         candidates = [x + self.str_for(v.s, quote) for x in candidates]
-                    except:
+                    except Exception as e:
                         continue
                 elif isinstance(v, ast.FormattedValue):
                     try:
                         candidates = [
                             x + y for x in candidates for y in FormattedValue(v, nested_allowed).get_candidates()
                         ]
-                    except:
+                    except Exception as e:
                         continue
                 else:
                     raise RuntimeError('Unexpected JoinedStr value')

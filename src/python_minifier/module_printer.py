@@ -574,12 +574,6 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.AsyncFunctionDef)
         self.visit_FunctionDef(node, is_async=True)
 
-    def visit_Await(self, node):
-        assert isinstance(node, ast.Await)
-        self.token_break()
-        self.code += 'await'
-        self._rhs(node.value, node)
-
     def visit_AsyncFor(self, node):
         assert isinstance(node, ast.AsyncFor)
         self.visit_For(node, is_async=True)
