@@ -783,3 +783,9 @@ class ExpressionPrinter(object):
         self._expression(node.target)
         self.code += ':='
         self._expression(node.value)
+
+    def visit_Await(self, node):
+        assert isinstance(node, ast.Await)
+        self.token_break()
+        self.code += 'await'
+        self._rhs(node.value, node)
