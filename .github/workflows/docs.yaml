@@ -18,3 +18,9 @@ jobs:
           pip3.8 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
           python3.8 setup.py install
           sphinx-build docs/source /tmp/build
+
+      - name: Publish documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/build
