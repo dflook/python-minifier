@@ -5,12 +5,13 @@ on: [push]
 jobs:
   build_docs:
     runs-on: ubuntu-latest
+    container:
+      image: danielflook/python-minifier-build:fedora30-2020-05-03
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Build documentation
-        uses: docker://danielflook/python-minifier-build:fedora30-2020-05-03
         run: |
           python3.8 -m ensurepip
           pip3.8 install --upgrade setuptools wheel twine
