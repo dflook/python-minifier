@@ -79,60 +79,6 @@ jobs:
         type: string
         default: fedora30-2020-05-03
 
-  publish:
-    docker:
-      - image: danielflook/python-minifier-build:fedora30-2020-05-03
-    steps:
-      - checkout
-      - set_package_version
-
-      - run:
-          name: Add signing key
-          command: |
-            echo $SIGNING_KEY | base64 -d > private.key
-            gpg --import private.key
-
-      - run:
-          name: sdist
-          command: |
-            pip3 install --upgrade setuptools wheel twine
-            python3 setup.py sdist bdist_wheel
-
-            if [[ "$(python setup.py --version)" != *"+"* ]]; then
-              twine upload --sign dist/*
-            fi
-
-      - store_artifacts:
-          path: dist/
-
-  publish_docs:
-    docker:
-      - image: danielflook/python-minifier-build:fedora30-2020-05-03
-    steps:
-      - checkout
-
-      - run:
-          name: sphinx build
-          command: |
-            python3.8 -m ensurepip
-            pip3.8 install --upgrade setuptools wheel twine
-            pip3.8 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
-            python3.8 setup.py install
-            sphinx-build docs/source /tmp/build
-
-      - run:
-          name: git push
-          command: |
-            git config user.email "daniel@flook.org"
-            git config user.name "CircleCI"
-
-            git checkout gh-pages
-            rm -rf * .circleci
-            cp -R /tmp/build/. .
-            git add --all
-            git commit -m "Update docs" -m "[skip ci]" || true
-            git push
-
 workflows:
   version: 2
   build:
@@ -189,16 +135,3 @@ workflows:
 #          image: fedora30-2019-10-20
 #          requires:
 #            - test
-
-      - publish:
-          requires:
-            - test
-            - test_python26
-            - test_python33
-          filters:
-            branches:
-              only: master
-
-      - publish_docs:
-          requires:
-            - publish
