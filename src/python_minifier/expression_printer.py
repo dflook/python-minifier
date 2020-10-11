@@ -481,6 +481,10 @@ class ExpressionPrinter(object):
             self.visit_ExtSlice(node.slice)
         elif isinstance(node.slice, ast.Ellipsis):
             self.visit_Ellipsis(node)
+        elif sys.version_info >= (3, 9) and isinstance(node.slice, ast.Tuple):
+            self.visit_Tuple(node.slice)
+        elif sys.version_info >= (3, 9):
+            self._expression(node.slice)
         else:
             raise AssertionError('Unknown slice type %r' % node.slice)
 
