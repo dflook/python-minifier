@@ -1,6 +1,9 @@
 name: Build documentation
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build_docs:
