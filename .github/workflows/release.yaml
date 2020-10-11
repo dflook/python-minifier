@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  release:
+    types: [released]
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    container:
+      image: danielflook/python-minifier-build:fedora30-2020-05-03
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set version statically
+        run: |
+          VERSION=${{ github.event.release.tag_name }}
+          sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+
+      - name: Upload
+        run: |
+          pip3 install --upgrade setuptools wheel twine
+          python3 setup.py sdist bdist_wheel
+          twine upload dist/*
