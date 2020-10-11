@@ -20,7 +20,10 @@ jobs:
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
 
       - name: Upload
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
           pip3 install --upgrade setuptools wheel twine
           python3 setup.py sdist bdist_wheel
-          twine upload dist/*
+          twine upload --non-interactive dist/*
