@@ -16,15 +16,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_asyncio/test_futures.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_asyncio/test_pep492.py:
 - options: {}
 - options:
@@ -43,61 +34,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_asyncio/test_tasks.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_atexit.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_bdb.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_c_locale_coercion.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_cmd.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_compile.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_concurrent_futures.py:
 - options: {}
 - options:
     rename_globals: true
@@ -124,15 +61,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_coroutines.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_descr.py:
 - options: {}
 - options:
@@ -151,24 +79,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_dis.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_doctest.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_doctest2.py:
 - options: {}
 - options:
@@ -178,25 +88,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_docxmlrpc.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_email/test_contentmanager.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_frame.py:
 - options: {}
 - options:
     rename_globals: true
@@ -250,34 +142,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_logging.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_memoryio.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_pdb.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_peepholer.py:
 - options: {}
 - options:
     rename_globals: true
@@ -349,69 +214,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_sys.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_sys_settrace.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_tarfile.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_threading.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_trace.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_traceback.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_tracemalloc.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_typing.py:
 - options: {}
 - options:
@@ -430,15 +232,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_urllib.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test_weakref.py:
 - options: {}
 - options:
@@ -449,15 +242,6 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.9/test/test_wsgiref.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-/usr/local/lib/python3.9/test/test_xmlrpc.py:
 - options: {}
 - options:
     rename_globals: true
