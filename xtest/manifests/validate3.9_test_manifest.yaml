@@ -142,6 +142,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_asyncio/test_futures.py: []
 /usr/lib64/validate3.9/test/test_asyncio/test_locks.py:
 - options: {}
 - options:
@@ -232,6 +233,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_asyncio/test_tasks.py: []
 /usr/lib64/validate3.9/test/test_asyncio/test_threads.py:
 - options: {}
 - options:
@@ -268,6 +270,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_atexit.py: []
 /usr/lib64/validate3.9/test/test_audioop.py:
 - options: {}
 - options:
@@ -313,6 +316,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_bdb.py: []
 /usr/lib64/validate3.9/test/test_bigaddrspace.py:
 - options: {}
 - options:
@@ -421,6 +425,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_c_locale_coercion.py: []
 /usr/lib64/validate3.9/test/test_calendar.py:
 - options: {}
 - options:
@@ -673,6 +678,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_compile.py: []
 /usr/lib64/validate3.9/test/test_complex.py:
 - options: {}
 - options:
@@ -682,6 +688,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_concurrent_futures.py: []
 /usr/lib64/validate3.9/test/test_configparser.py:
 - options: {}
 - options:
@@ -727,6 +734,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_coroutines.py: []
 /usr/lib64/validate3.9/test/test_cprofile.py:
 - options: {}
 - options:
@@ -916,6 +924,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_dis.py: []
 /usr/lib64/validate3.9/test/test_distutils.py:
 - options: {}
 - options:
@@ -925,6 +934,8 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_doctest.py: []
+/usr/lib64/validate3.9/test/test_docxmlrpc.py: []
 /usr/lib64/validate3.9/test/test_dtrace.py:
 - options: {}
 - options:
@@ -1294,6 +1305,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_frame.py: []
 /usr/lib64/validate3.9/test/test_frozen.py:
 - options: {}
 - options:
@@ -1960,6 +1972,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_logging.py: []
 /usr/lib64/validate3.9/test/test_long.py:
 - options: {}
 - options:
@@ -2239,6 +2252,8 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_pdb.py: []
+/usr/lib64/validate3.9/test/test_peepholer.py: []
 /usr/lib64/validate3.9/test/test_peg_parser.py:
 - options: {}
 - options:
@@ -2923,6 +2938,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_sys.py: []
 /usr/lib64/validate3.9/test/test_sys_setprofile.py:
 - options: {}
 - options:
@@ -2932,6 +2948,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_sys_settrace.py: []
 /usr/lib64/validate3.9/test/test_sysconfig.py:
 - options: {}
 - options:
@@ -2959,6 +2976,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_tarfile.py: []
 /usr/lib64/validate3.9/test/test_tcl.py:
 - options: {}
 - options:
@@ -3013,6 +3031,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_threading.py: []
 /usr/lib64/validate3.9/test/test_threading_local.py:
 - options: {}
 - options:
@@ -3067,6 +3086,9 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_trace.py: []
+/usr/lib64/validate3.9/test/test_traceback.py: []
+/usr/lib64/validate3.9/test/test_tracemalloc.py: []
 /usr/lib64/validate3.9/test/test_ttk_textonly.py:
 - options: {}
 - options:
@@ -3202,6 +3224,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_urllib.py: []
 /usr/lib64/validate3.9/test/test_urllib2.py:
 - options: {}
 - options:
@@ -3418,6 +3441,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+/usr/lib64/validate3.9/test/test_xmlrpc.py: []
 /usr/lib64/validate3.9/test/test_xmlrpc_net.py:
 - options: {}
 - options:
