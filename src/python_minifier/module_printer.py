@@ -484,7 +484,7 @@ class ModulePrinter(ExpressionPrinter):
 
         for d in node.decorator_list:
             self.code += '@'
-            self.visit(d)
+            self._expression(d)
             self.newline()
 
         if is_async:
@@ -513,7 +513,7 @@ class ModulePrinter(ExpressionPrinter):
 
         for d in node.decorator_list:
             self.code += '@'
-            self.visit(d)
+            self._expression(d)
             self.newline()
 
         first = True
