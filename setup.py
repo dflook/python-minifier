@@ -29,7 +29,7 @@ setup(
     long_description=long_desc,
     long_description_content_type='text/markdown',
 
-    python_requires='>=2.6, !=3.0.*, !=3.1.*, !=3.2.*, <3.9',
+    python_requires='>=2.6, !=3.0.*, !=3.1.*, !=3.2.*, <3.10',
     setup_requires=['setuptools_scm'],
 
     classifiers=[
@@ -43,6 +43,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',

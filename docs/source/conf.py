@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Python Minifier'
-copyright = '2018, Daniel Flook'
+copyright = '2020, Daniel Flook'
 author = 'Daniel Flook'
 
 from pkg_resources import get_distribution, DistributionNotFound
