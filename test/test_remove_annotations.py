@@ -107,3 +107,53 @@ class MyClass:
     expected_ast = ast.parse(expected)
     actual_ast = remove_annotations(source)
     compare_ast(expected_ast, actual_ast)
+
+
+def test_no_remove_namedtuple():
+    if sys.version_info < (3, 6):
+        pytest.skip('annotations unavailable in python < 3.6')
+
+    source = '''
+class MyClass(NamedTuple):
+    myfield: int
+    mysecondfile: str
+
+class MyClass2(typing.NamedTuple):
+    myfield: int
+    mysecondfile: str
+
+class MyClass2(blah.NamedTuple):
+    myfield: int
+    mysecondfile: str
+'''
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)
+
+def test_remove():
+    if sys.version_info < (3, 6):
+        pytest.skip('annotations unavailable in python < 3.6')
+
+    source = '''
+class Dummy(NermedTupel):
+    myfield: int
+    mysecondfile: str
+
+class Dummy(typing.NermedTupel):
+    myfield: int
+    mysecondfile: str
+'''
+    expected = '''
+class Dummy(NermedTupel):
+    myfield: 0
+    mysecondfile: 0
+
+class Dummy(typing.NermedTupel):
+    myfield: 0
+    mysecondfile: 0
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)

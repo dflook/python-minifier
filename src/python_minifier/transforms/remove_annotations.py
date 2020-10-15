@@ -73,7 +73,25 @@ class RemoveAnnotations(SuiteTransformer):
 
             return False
 
-        if is_dataclass_field(node):
+        def is_named_tuple(node):
+            if sys.version_info < (3, 5):
+                return False
+
+            if not isinstance(node.parent, ast.ClassDef):
+                return False
+
+            if len(node.parent.bases) == 0:
+                return False
+
+            for node in node.parent.bases:
+                if isinstance(node, ast.Name) and node.id == 'NamedTuple':
+                    return True
+                elif isinstance(node, ast. Attribute) and node.attr == 'NamedTuple':
+                    return True
+
+            return False
+
+        if is_dataclass_field(node) or is_named_tuple(node):
             return node
         elif node.value:
             return self.add_child(ast.Assign([node.target], node.value), parent=node.parent)
