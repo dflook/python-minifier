@@ -41,3 +41,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: /tmp/build
+          enable_jekyll: false
+          force_orphan: true
+          full_commit_message: |
+            ${{ github.event.head_commit.message }}
+
+            [skip ci]
