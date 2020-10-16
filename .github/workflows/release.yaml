@@ -27,3 +27,17 @@ jobs:
           pip3 install --upgrade setuptools wheel twine
           python3 setup.py sdist bdist_wheel
           twine upload --non-interactive dist/*
+
+      - name: Build documentation
+        run: |
+          python3.8 -m ensurepip
+          pip3.8 install --upgrade setuptools wheel twine
+          pip3.8 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
+          pip3.8 install dist/*.tar.gz
+          sphinx-build docs/source /tmp/build
+
+      - name: Publish documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/build
