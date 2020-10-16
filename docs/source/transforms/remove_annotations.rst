@@ -3,8 +3,16 @@ Remove Annotations
 
 This transform removes function annotations and variable annotations.
 
-This transform is generally safe to use. Although the annotations have no meaning to python,
-they are made available at runtime. If you know the module requires the annotations to be kept, disable this transform.
+This transform is generally safe to use. Although the annotations have no meaning to the python language,
+they are made available at runtime. Some python library features require annotations to be kept.
+
+If these are detected, annotations are kept for that class:
+
+    - dataclasses.dataclass
+    - typing.NamedTuple
+    - typing.NamedDict
+
+If you know the module requires the annotations to be kept, disable this transform.
 
 If a variable annotation without assignment is used the annotation is changed to a literal zero instead of being removed.
 
