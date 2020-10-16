@@ -157,3 +157,47 @@ class Dummy(typing.NermedTupel):
     expected_ast = ast.parse(expected)
     actual_ast = remove_annotations(source)
     compare_ast(expected_ast, actual_ast)
+
+
+def test_no_remove_typeddict():
+    if sys.version_info < (3, 8):
+        pytest.skip('annotations unavailable in python < 3.6')
+
+    source = '''
+class Dummy(TypedDict):
+    myfield: int
+    mysecondfile: str
+
+class Dummy(HypedDict):
+    myfield: int
+    mysecondfile: str
+
+class Dummy(typing.TypedDict):
+    myfield: int
+    mysecondfile: str
+
+class Dummy(typing.TypedDic):
+    myfield: int
+    mysecondfile: str
+'''
+    expected = '''
+class Dummy(TypedDict):
+    myfield: int
+    mysecondfile: str
+    
+class Dummy(HypedDict):
+    myfield: 0
+    mysecondfile: 0    
+
+class Dummy(typing.TypedDict):
+    myfield: int
+    mysecondfile: str
+    
+class Dummy(typing.TypedDic):
+    myfield: 0
+    mysecondfile: 0
+        
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_annotations(source)
+    compare_ast(expected_ast, actual_ast)

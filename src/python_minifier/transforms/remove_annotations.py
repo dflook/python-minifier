@@ -73,7 +73,7 @@ class RemoveAnnotations(SuiteTransformer):
 
             return False
 
-        def is_named_tuple(node):
+        def is_typing_sensitive(node):
             if sys.version_info < (3, 5):
                 return False
 
@@ -83,15 +83,17 @@ class RemoveAnnotations(SuiteTransformer):
             if len(node.parent.bases) == 0:
                 return False
 
+            tricky_types = ['NamedTuple', 'TypedDict']
+
             for node in node.parent.bases:
-                if isinstance(node, ast.Name) and node.id == 'NamedTuple':
+                if isinstance(node, ast.Name) and node.id in tricky_types:
                     return True
-                elif isinstance(node, ast. Attribute) and node.attr == 'NamedTuple':
+                elif isinstance(node, ast. Attribute) and node.attr in tricky_types:
                     return True
 
             return False
 
-        if is_dataclass_field(node) or is_named_tuple(node):
+        if is_dataclass_field(node) or is_typing_sensitive(node):
             return node
         elif node.value:
             return self.add_child(ast.Assign([node.target], node.value), parent=node.parent)
