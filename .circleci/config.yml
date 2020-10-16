@@ -103,57 +103,57 @@ workflows:
       - test_python39
       - test
 
-#      - xtest:
-#          name: xtest_python26
-#          interpreter: python26
-#          requires:
-#            - test_python26
-#      - xtest:
-#          name: xtest_python27
-#          interpreter: python27
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python33
-#          interpreter: python33
-#          image: fedora28-2020-05-03
-#          requires:
-#            - test_python33
-#      - xtest:
-#          name: xtest_python34
-#          interpreter: python34
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python35
-#          interpreter: python35
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python36
-#          interpreter: python36
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python37
-#          interpreter: python37
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python38
-#          interpreter: python38
-#          image: fedora30-2019-10-20
-#          requires:
-#            - test
-#      - xtest:
-#          name: xtest_python39
-#          interpreter: python39
-#          image: fedora32-2020-10-11
-#          requires:
-#            - test_python39
-#      - xtest:
-#          name: xtest_pypy3
-#          interpreter: pypy3
-#          image: fedora30-2019-10-20
-#          requires:
-#            - test
+      - xtest:
+          name: xtest_python26
+          interpreter: python26
+          requires:
+            - test_python26
+      - xtest:
+          name: xtest_python27
+          interpreter: python27
+          requires:
+            - test
+      - xtest:
+          name: xtest_python33
+          interpreter: python33
+          image: fedora28-2020-05-03
+          requires:
+            - test_python33
+      - xtest:
+          name: xtest_python34
+          interpreter: python34
+          requires:
+           - test
+      - xtest:
+          name: xtest_python35
+          interpreter: python35
+          requires:
+            - test
+      - xtest:
+          name: xtest_python36
+          interpreter: python36
+          requires:
+            - test
+      - xtest:
+          name: xtest_python37
+          interpreter: python37
+          requires:
+            - test
+      - xtest:
+          name: xtest_python38
+          interpreter: python38
+          image: fedora30-2019-10-20
+          requires:
+            - test
+      - xtest:
+          name: xtest_python39
+          interpreter: python39
+          image: fedora32-2020-10-11
+          requires:
+            - test_python39
+      - xtest:
+          name: xtest_pypy3
+          interpreter: pypy3
+          image: fedora30-2019-10-20
+          requires:
+            - test
