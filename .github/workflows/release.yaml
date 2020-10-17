@@ -44,6 +44,6 @@ jobs:
           enable_jekyll: false
           force_orphan: true
           full_commit_message: |
-            ${{ github.event.head_commit.message }}
+            Update docs
 
             [skip ci]
