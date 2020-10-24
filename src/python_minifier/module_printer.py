@@ -268,13 +268,13 @@ class ModulePrinter(ExpressionPrinter):
     def visit_ImportFrom(self, node):
         assert isinstance(node, ast.ImportFrom)
 
-        if node.module is None:
-            self.code += 'from ' + ('.' * node.level) + ' '
-        else:
-            self.code += 'from ' + ('.' * node.level)
-            self.code += node.module
+        self.code += 'from' + ('.' * node.level)
+        if node.module is not None:
+            if node.level == 0:
+                self.code += ' '
+            self.code += node.module + ' '
 
-        self.code += ' import '
+        self.code += 'import '
         first = True
         for n in node.names:
             if first:
