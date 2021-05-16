@@ -1,5 +1,7 @@
 # Python Minifier
 
+[![python-minifier](https://circleci.com/gh/dflook/python-minifier/tree/master.svg?style=svg)](https://circleci.com/gh/dflook/python-minifier)
+
 Transforms Python source code into it's most compact representation.
 
 [Try it out!](https://python-minifier.com)
