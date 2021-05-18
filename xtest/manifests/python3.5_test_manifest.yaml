@@ -117,11 +117,7 @@
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python3.5/test/test_asyncio/test_streams.py: []
-/usr/lib64/python3.5/test/test_asyncio/test_subprocess.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python3.5/test/test_asyncio/test_subprocess.py: []
 /usr/lib64/python3.5/test/test_asyncio/test_tasks.py: []
 /usr/lib64/python3.5/test/test_asyncio/test_transports.py:
 - options: {}
@@ -744,11 +740,7 @@
 - options: {rename_globals: true}
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/python3.5/test/test_glob.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python3.5/test/test_glob.py: []
 /usr/lib64/python3.5/test/test_global.py:
 - options: {}
 - options: {rename_globals: true}
