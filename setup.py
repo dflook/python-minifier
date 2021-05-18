@@ -1,14 +1,9 @@
-import sys
 import os.path
 from setuptools import setup, find_packages
 
 readme_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'README.md')
 with open(readme_path) as f:
     long_desc = f.read()
-
-install_requires = []
-if sys.version_info < (2, 7):
-    install_requires = ['argparse']
 
 setup(
     name='python_minifier',
@@ -29,7 +24,7 @@ setup(
     long_description=long_desc,
     long_description_content_type='text/markdown',
 
-    python_requires='>=2.6, !=3.0.*, !=3.1.*, !=3.2.*, <3.10',
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, <3.10',
     setup_requires=['setuptools_scm'],
 
     classifiers=[
@@ -45,7 +40,6 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
@@ -56,8 +50,6 @@ setup(
     entry_points = {
         'console_scripts': ['pyminify=python_minifier.__main__:main']
     },
-
-    install_requires=install_requires,
 
     zip_safe=True
 )
