@@ -71,6 +71,9 @@ class Case(object):
         self.test_path = test_path
         self.options = options
 
+    def __repr__(self):
+        return 'Case(%r, **%r)' % (self.test_path, self.options)
+
     def __str__(self):
         return '%s with options %r' % (self.test_path, self.options)
 

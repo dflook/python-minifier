@@ -731,11 +731,7 @@
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
 /usr/lib64/python2.7/test/test_gl.py: []
-/usr/lib64/python2.7/test/test_glob.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options: {remove_literal_statements: true, rename_globals: true}
+/usr/lib64/python2.7/test/test_glob.py: []
 /usr/lib64/python2.7/test/test_global.py:
 - options: {}
 - options: {rename_globals: true}
