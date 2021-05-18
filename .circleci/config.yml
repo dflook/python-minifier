@@ -12,19 +12,6 @@ commands:
 
 jobs:
 
-  test_python26:
-    docker:
-      - image: danielflook/python-minifier-build:fedora30-2020-05-03
-    steps:
-      - checkout
-      - set_package_version
-
-      - run:
-          name: tox
-          command: |
-            pip3 install 'tox<3' 'virtualenv<16'
-            tox -r -e python26
-
   test_python33:
     docker:
       - image: danielflook/python-minifier-build:fedora28-2020-05-03
@@ -98,7 +85,56 @@ workflows:
   version: 2
   build:
     jobs:
-      - test_python26
       - test_python33
       - test_python39
       - test
+
+      - xtest:
+          name: xtest_python27
+          interpreter: python27
+          requires:
+            - test
+      - xtest:
+          name: xtest_python33
+          interpreter: python33
+          image: fedora28-2020-05-03
+          requires:
+            - test_python33
+      - xtest:
+          name: xtest_python34
+          interpreter: python34
+          requires:
+           - test
+      - xtest:
+          name: xtest_python35
+          interpreter: python35
+          requires:
+            - test
+      - xtest:
+          name: xtest_python36
+          interpreter: python36
+          requires:
+            - test
+      - xtest:
+          name: xtest_python37
+          interpreter: python37
+          requires:
+            - test
+      - xtest:
+          name: xtest_python38
+          interpreter: python38
+          image: fedora30-2019-10-20
+          requires:
+            - test
+      - xtest:
+          name: xtest_python39
+          interpreter: python39
+          image: fedora32-2020-10-11
+          requires:
+            - test_python39
+      - xtest:
+          name: xtest_pypy3
+          interpreter: pypy3
+          image: fedora30-2019-10-20
+          requires:
+            - test

@@ -1,4 +1,3 @@
-import json
 import os
 import platform
 import shutil
@@ -24,10 +23,7 @@ class Manifest(object):
     def __init__(self, interpreter):
         self._interpreter = interpreter
 
-        if interpreter == 'python2.6':
-            self._manifest_path = 'xtest/manifests/' + interpreter + '_test_manifest.json'
-        else:
-            self._manifest_path = 'xtest/manifests/' + interpreter + '_test_manifest.yaml'
+        self._manifest_path = 'xtest/manifests/' + interpreter + '_test_manifest.yaml'
 
         self._files = {}
         self.load()
@@ -40,14 +36,8 @@ class Manifest(object):
             self._base_path = os.path.join('/usr/lib64', interpreter, 'test')
 
     def load(self):
-        if self._manifest_path.endswith('.json'):
-
-            with open(self._manifest_path) as f:
-                self._files = json.load(f)
-        else:
-
-            with open(self._manifest_path) as f:
-                self._files = yaml.safe_load(f)
+        with open(self._manifest_path) as f:
+            self._files = yaml.safe_load(f)
 
     def __len__(self):
         return sum([len(test_cases) for test_cases in self._files.values()])
