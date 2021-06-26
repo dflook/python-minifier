@@ -1,4 +1,5 @@
 import ast
+import sys
 
 from .expression_printer import ExpressionPrinter
 
@@ -160,7 +161,14 @@ class ModulePrinter(ExpressionPrinter):
 
         self.token_break()
         self.code += 'return'
-        if node.value is not None:
+        if isinstance(node.value, ast.Tuple):
+            if sys.version_info < (3, 8) and hasattr(ast, 'Starred') and [n for n in node.value.elts if isinstance(n, ast.Starred)]:
+                self.code += '('
+                self._testlist(node.value)
+                self.code += ')'
+            else:
+                self._testlist(node.value)
+        elif node.value is not None:
             self._testlist(node.value)
         self.end_statement()
 

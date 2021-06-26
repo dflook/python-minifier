@@ -14,13 +14,13 @@ class ExpressionPrinter(object):
         self.unicode_literals = False
 
         self.precedences = {
-            'Lambda': 2,
-            'IfExp': 3,
+            'Lambda': 2,  # Lamdda
+            'IfExp': 3,  # IfExp
             'comprehension': 3.5,
-            'Or': 4,
+            'Or': 4,  # BoolOp
             'And': 5,
             'Not': 6,
-            'In': 7, 'NotIn': 7, 'Is': 7, 'IsNot': 7, 'Lt': 7, 'LtE': 7, 'Gt': 7, 'GtE': 7, 'NotEq': 7, 'Eq': 7,
+            'In': 7, 'NotIn': 7, 'Is': 7, 'IsNot': 7, 'Lt': 7, 'LtE': 7, 'Gt': 7, 'GtE': 7, 'NotEq': 7, 'Eq': 7,  # Compare
             'BitOr': 8,
             'BitXor': 9,
             'BitAnd': 10,
@@ -190,11 +190,18 @@ class ExpressionPrinter(object):
 
             if k is None:
                 self.code += '**'
+
+                if 0 < self.precedence(v) <=7:
+                    self.code += '('
+                    self._expression(v)
+                    self.code += ')'
+                else:
+                    self._expression(v)
             else:
                 self._expression(k)
                 self.code += ':'
 
-            self._expression(v)
+                self._expression(v)
 
         self.code += '}'
 

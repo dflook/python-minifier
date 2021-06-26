@@ -104,7 +104,11 @@ class OuterFString(FString):
         return min(candidates, key=len)
 
     def str_for(self, s, quote):
-        return str(MiniString(s, quote)).replace('{', '{{').replace('}', '}}')
+        mini_s =  str(MiniString(s, quote)).replace('{', '{{').replace('}', '}}')
+
+        if mini_s == '':
+            return '\\\n'
+        return mini_s
 
 
 class FormattedValue(ExpressionPrinter):
