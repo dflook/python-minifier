@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+- Rare Exceptions when encountering empty f-string str parts
+- Missing required parentheses in return statements for iterable unpacking in python <3.8
+- Missing parentheses in some complex dict expansions
+
 ### Removed
 - Python 2.6 support
 
