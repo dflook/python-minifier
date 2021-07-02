@@ -1,6 +1,7 @@
 import ast
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
+from python_minifier.util import is_ast_node
 
 
 def find_doc(node):
@@ -46,7 +47,7 @@ class RemoveLiteralStatements(SuiteTransformer):
         if not isinstance(node, ast.Expr):
             return False
 
-        return self.is_node(node.value, (ast.Num, ast.Str, 'NameConstant', 'Bytes'))
+        return is_ast_node(node.value, (ast.Num, ast.Str, 'NameConstant', 'Bytes'))
 
     def suite(self, node_list, parent):
         without_literals = [self.visit(n) for n in node_list if not self.is_literal_statement(n)]

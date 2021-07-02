@@ -1,6 +1,7 @@
 import ast
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
+from python_minifier.util import is_ast_node
 
 
 class RemovePass(SuiteTransformer):
@@ -14,7 +15,7 @@ class RemovePass(SuiteTransformer):
         return self.visit(node)
 
     def suite(self, node_list, parent):
-        without_pass = [self.visit(a) for a in filter(lambda n: not self.is_node(n, ast.Pass), node_list)]
+        without_pass = [self.visit(a) for a in filter(lambda n: not is_ast_node(n, ast.Pass), node_list)]
 
         if len(without_pass) == 0:
             if isinstance(parent, ast.Module):

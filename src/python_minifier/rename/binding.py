@@ -1,6 +1,7 @@
 import ast
 
 from python_minifier.rename.util import arg_rename_in_place, insert
+from python_minifier.util import is_ast_node
 
 
 class Binding(object):
@@ -209,9 +210,7 @@ class NameBinding(Binding):
                             )
                         )
 
-            elif isinstance(node, ast.FunctionDef) or (
-                hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef)
-            ):
+            elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')):
                 node.name = new_name
             elif isinstance(node, ast.ClassDef):
                 node.name = new_name
@@ -220,7 +219,7 @@ class NameBinding(Binding):
                     node.asname = None
                 else:
                     node.asname = new_name
-            elif hasattr(ast, 'arg') and isinstance(node, ast.arg):
+            elif is_ast_node(node, 'arg'):
 
                 if arg_rename_in_place(node):
                     node.arg = new_name
@@ -238,7 +237,7 @@ class NameBinding(Binding):
 
             elif isinstance(node, ast.ExceptHandler):
                 node.name = new_name
-            elif isinstance(node, ast.Global) or (hasattr(ast, 'Nonlocal') and isinstance(node, ast.Nonlocal)):
+            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
                 node.names = [new_name if n == self._name else n for n in node.names]
             elif isinstance(node, ast.arguments):
 

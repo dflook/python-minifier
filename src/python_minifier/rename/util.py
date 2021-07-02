@@ -1,6 +1,8 @@
 import ast
 import sys
 
+from python_minifier.util import is_ast_node
+
 
 def create_is_namespace():
 
@@ -113,7 +115,7 @@ def insert(suite, new_node):
 
         if not inserted:
             if (isinstance(node, ast.ImportFrom) and node.module == '__future__') or (
-                isinstance(node, ast.Expr) and is_str(node.value)
+                isinstance(node, ast.Expr) and is_ast_node(node.value, ast.Str)
             ):
                 pass
             else:
@@ -152,7 +154,7 @@ def find__all__(module):
                 if isinstance(name, ast.Name) and name.id == '__all__':
                     return True
 
-        elif isinstance(node, ast.AugAssign) or (hasattr(ast, 'AnnAssign') and isinstance(node, ast.AnnAssign)):
+        elif is_ast_node(node, (ast.AugAssign, 'AnnAssign')):
             if isinstance(node.target, ast.Name) and node.target.id == '__all__':
                 return True
 
@@ -166,7 +168,7 @@ def find__all__(module):
             continue
 
         for el in node.value.elts:
-            if is_str(el):
+            if is_ast_node(el, ast.Str):
                 names.append(el.s)
 
     return names
@@ -184,18 +186,8 @@ def allow_rename_globals(module, rename_globals=False, preserve_globals=None):
             binding.disallow_rename()
 
 
-def is_str(node):
-    if isinstance(node, ast.Str):
-        return True
-
-    if hasattr(ast, 'Constant') and isinstance(node, ast.Constant):
-        if isinstance(node.value, str):
-            return True
-
-    return False
-
-
 try:
     import builtins
 except ImportError:
+    # noinspection PyCompatibility
     import __builtin__ as builtins

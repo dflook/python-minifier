@@ -2,6 +2,7 @@ import ast
 
 from python_minifier.rename.binding import BuiltinBinding, NameBinding
 from python_minifier.rename.util import get_global_namespace, get_nonlocal_namespace, builtins
+from python_minifier.util import is_ast_node
 
 
 def get_binding(name, namespace):
@@ -45,7 +46,7 @@ def resolve_names(node):
 
     if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
         get_binding(node.id, node.namespace).add_reference(node)
-    elif hasattr(ast, 'Exec') and isinstance(node, ast.Exec):
+    elif is_ast_node(node, 'Exec'):
         get_global_namespace(node).tainted = True
 
     for child in ast.iter_child_nodes(node):

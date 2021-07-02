@@ -1,5 +1,7 @@
 import ast
 
+from python_minifier.util import is_ast_node
+
 
 class CompareError(RuntimeError):
     """
@@ -16,9 +18,7 @@ class CompareError(RuntimeError):
 
     def namespace(self, node):
         if hasattr(node, 'namespace'):
-            if isinstance(node.namespace, (ast.FunctionDef, ast.ClassDef)) or (
-                hasattr(ast, 'AsyncFunctionDef') and isinstance(node.namespace, ast.AsyncFunctionDef)
-            ):
+            if is_ast_node(node.namespace, (ast.FunctionDef, ast.ClassDef, 'AsyncFunctionDef')):
                 return self.namespace(node.namespace) + '.' + node.namespace.name
             elif isinstance(node.namespace, ast.Module):
                 return ''

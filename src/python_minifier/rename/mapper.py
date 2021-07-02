@@ -5,6 +5,7 @@ For each node in an AST set the namespace to use for name binding and resolution
 import ast
 
 from python_minifier.rename.util import is_namespace
+from python_minifier.util import is_ast_node
 
 
 def add_parent_to_arguments(arguments, func):
@@ -111,9 +112,7 @@ def add_parent(node, parent=None, namespace=None):
         node.global_names = set()
         node.nonlocal_names = set()
 
-        if isinstance(node, ast.FunctionDef) or (
-            hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef)
-        ):
+        if is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')):
             add_parent_to_functiondef(node)
         elif isinstance(node, ast.Lambda):
             add_parent_to_arguments(node.args, func=node)
@@ -135,7 +134,7 @@ def add_parent(node, parent=None, namespace=None):
 
     if isinstance(node, ast.Global):
         namespace.global_names.update(node.names)
-    if hasattr(ast, 'Nonlocal') and isinstance(node, ast.Nonlocal):
+    if is_ast_node(node, 'Nonlocal'):
         namespace.nonlocal_names.update(node.names)
 
     for child in ast.iter_child_nodes(node):

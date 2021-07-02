@@ -2,6 +2,7 @@ import ast
 import sys
 
 from .expression_printer import ExpressionPrinter
+from .util import is_ast_node
 
 
 class ModulePrinter(ExpressionPrinter):
@@ -64,9 +65,7 @@ class ModulePrinter(ExpressionPrinter):
     def visit_Expr(self, node):
         assert isinstance(node, ast.Expr)
 
-        if isinstance(node.value, ast.Yield):
-            self._yield_expr(node.value)
-        elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
+        if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -95,9 +94,7 @@ class ModulePrinter(ExpressionPrinter):
             self.code += '='
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if isinstance(node.value, ast.Yield):
-            self._yield_expr(node.value)
-        elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
+        if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -112,9 +109,7 @@ class ModulePrinter(ExpressionPrinter):
         self.code += '='
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if isinstance(node.value, ast.Yield):
-            self._yield_expr(node.value)
-        elif hasattr(ast, 'YieldFrom') and isinstance(node.value, ast.YieldFrom):
+        if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -162,7 +157,7 @@ class ModulePrinter(ExpressionPrinter):
         self.token_break()
         self.code += 'return'
         if isinstance(node.value, ast.Tuple):
-            if sys.version_info < (3, 8) and hasattr(ast, 'Starred') and [n for n in node.value.elts if isinstance(n, ast.Starred)]:
+            if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
                 self.code += '('
                 self._testlist(node.value)
                 self.code += ')'

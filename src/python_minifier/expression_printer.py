@@ -1,6 +1,8 @@
 import ast
 import sys
 
+from python_minifier.util import is_ast_node
+
 
 class ExpressionPrinter(object):
     """
@@ -691,7 +693,7 @@ class ExpressionPrinter(object):
         self._expression(node.body)
 
     def _expression(self, expression):
-        if isinstance(expression, ast.Yield) or (hasattr(ast, 'YieldFrom') and isinstance(expression, ast.YieldFrom)):
+        if is_ast_node(expression, (ast.Yield, 'YieldFrom')):
             self.code += '('
             self._yield_expr(expression)
             self.code += ')'
@@ -699,7 +701,7 @@ class ExpressionPrinter(object):
             self.code += '('
             self.visit_Tuple(expression)
             self.code += ')'
-        elif hasattr(ast, 'NamedExpr') and isinstance(expression, ast.NamedExpr):
+        elif is_ast_node(expression, 'NamedExpr'):
             self.code += '('
             self.visit_NamedExpr(expression)
             self.code += ')'
@@ -707,11 +709,11 @@ class ExpressionPrinter(object):
             self.visit(expression)
 
     def _testlist(self, test):
-        if isinstance(test, ast.Yield) or (hasattr(ast, 'YieldFrom') and isinstance(test, ast.YieldFrom)):
+        if is_ast_node(test, (ast.Yield, 'YieldFrom')):
             self.code += '('
             self._yield_expr(test)
             self.code += ')'
-        elif hasattr(ast, 'NamedExpr') and isinstance(test, ast.NamedExpr):
+        elif is_ast_node(test, 'NamedExpr'):
             self.code += '('
             self.visit_NamedExpr(test)
             self.code += ')'
