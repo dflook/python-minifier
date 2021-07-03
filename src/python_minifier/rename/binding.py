@@ -110,7 +110,7 @@ class Binding(object):
                 mentions += 1
             elif isinstance(node, ast.ExceptHandler):
                 mentions += 1
-            elif isinstance(node, (ast.Global, ast.Nonlocal)):
+            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
                 mentions += len([n for n in node.names if n == self._name])
             elif isinstance(node, ast.alias):
                 mentions += 1
