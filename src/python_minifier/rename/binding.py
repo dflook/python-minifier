@@ -91,7 +91,7 @@ class Binding(object):
         """
         return len(self._references)
 
-    def num_new_mentions(self):
+    def new_mention_count(self):
         """
         The number of times a new name would be mentioned in the source code
         """
@@ -312,7 +312,7 @@ class BuiltinBinding(NameBinding):
             # Classes must inherit from object to become a new-style class in python2
             self.disallow_rename()
 
-    def num_new_mentions(self):
+    def new_mention_count(self):
         # All mentions must be Names, which would be replaced
         # Plus an Assign with the new name
         return len(self.references) + 1
