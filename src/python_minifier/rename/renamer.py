@@ -36,7 +36,7 @@ def sorted_bindings(module):
 
     def comp(tup):
         namespace, binding = tup
-        return len(binding.references)
+        return binding.num_new_mentions()
 
     return sorted(all_bindings(module), key=comp, reverse=True)
 

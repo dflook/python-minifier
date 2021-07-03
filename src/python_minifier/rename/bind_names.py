@@ -45,7 +45,7 @@ class NameBinder(NodeVisitor):
         return binding
 
     def visit_Name(self, node):
-        if isinstance(node.ctx, ast.Store) or isinstance(node.ctx, ast.Del):
+        if isinstance(node.ctx, (ast.Store, ast.Del)):
             self.get_binding(node.id, node.namespace).add_reference(node)
 
         if isinstance(node.ctx, ast.Param):

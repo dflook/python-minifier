@@ -91,6 +91,41 @@ class Binding(object):
         """
         return len(self._references)
 
+    def num_new_mentions(self):
+        """
+        The number of times a new name would be mentioned in the source code
+        """
+
+        arg_rename = False
+        mentions = 0
+
+        for node in self._references:
+            if isinstance(node, ast.Name):
+                if isinstance(node.ctx, (ast.Load, ast.Store, ast.Del)):
+                    mentions += 1
+                else:
+                    # Python 2 Param context
+                    arg_rename = True
+            elif is_ast_node(node, (ast.ClassDef, ast.FunctionDef, 'AsyncFunctionDef')):
+                mentions += 1
+            elif isinstance(node, ast.ExceptHandler):
+                mentions += 1
+            elif isinstance(node, (ast.Global, ast.Nonlocal)):
+                mentions += len([n for n in node.names if n == self._name])
+            elif isinstance(node, ast.alias):
+                mentions += 1
+            elif isinstance(node, ast.arguments):
+                if node.vararg == self._name:
+                    mentions += 1
+                if node.kwarg == self._name:
+                    mentions += 1
+            elif isinstance(node, ast.arg):
+                arg_rename = True
+            else:
+                raise AssertionError('Unknown reference node')
+
+        return mentions + (1 if arg_rename else 0)
+
     def add_reference(self, node, allow_rename=True, reserved=None, rename_cost=0):
         """
         Add a new reference to this binding
@@ -276,6 +311,11 @@ class BuiltinBinding(NameBinding):
         elif name == 'object':
             # Classes must inherit from object to become a new-style class in python2
             self.disallow_rename()
+
+    def num_new_mentions(self):
+        # All mentions must be Names, which would be replaced
+        # Plus an Assign with the new name
+        return len(self.references) + 1
 
     def rename(self, new_name):
         builtin = self._name
