@@ -51,7 +51,7 @@ class HoistedBinding(Binding):
     def __repr__(self):
         return self.__class__.__name__ + '(value=%r)' % self.value
 
-    def num_new_mentions(self):
+    def new_mention_count(self):
         # All mentions must be literals, which would be replaced
         # Plus an Assign with the new name
         return len(self.references) + 1
