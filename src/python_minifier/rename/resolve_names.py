@@ -24,7 +24,7 @@ def get_binding(name, namespace):
             if name in ['exec', 'eval', 'locals', 'globals', 'vars']:
                 namespace.tainted = True
 
-            binding = BuiltinBinding(name, namespace, rename_cost=len(name) + 1)
+            binding = BuiltinBinding(name, namespace)
             namespace.bindings.append(binding)
             return binding
 

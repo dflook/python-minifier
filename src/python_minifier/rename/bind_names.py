@@ -54,9 +54,7 @@ class NameBinder(NodeVisitor):
             if arg_rename_in_place(node):
                 binding.add_reference(node)
             else:
-                binding.add_reference(
-                    node, reserved=node.id, rename_cost=(len(node.id) * 2) + 2
-                )  # Assuming that the new name is only a single character
+                binding.add_reference(node, reserved=node.id)
 
                 if isinstance(node.namespace, ast.Lambda):
                     # Lambda function arguments can't be renamed without breaking keyword arguments
@@ -88,7 +86,7 @@ class NameBinder(NodeVisitor):
             # This binds the root module only for a dotted import
 
             binding = self.get_binding(root_module, node.namespace)
-            binding.add_reference(node, rename_cost=len(node.name) + 4)
+            binding.add_reference(node)
 
             if '.' in node.name:
                 binding.disallow_rename()
@@ -110,9 +108,7 @@ class NameBinder(NodeVisitor):
         if arg_rename_in_place(node):
             binding.add_reference(node)
         else:
-            binding.add_reference(
-                node, reserved=node.arg, rename_cost=(len(node.arg) * 2) + 2
-            )  # Assuming that the new name is only a single character
+            binding.add_reference(node, reserved=node.arg)
 
             if isinstance(node.namespace, ast.Lambda):
                 # Lambda function arguments can't be renamed without breaking keyword arguments
