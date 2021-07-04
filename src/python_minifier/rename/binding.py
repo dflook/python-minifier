@@ -15,11 +15,10 @@ class Binding(object):
 
     """
 
-    def __init__(self, name=None, allow_rename=True, rename_cost=0):
+    def __init__(self, name=None, allow_rename=True):
         self._references = []
 
         self._allow_rename = allow_rename
-        self._rename_cost = rename_cost
 
         self._name = name
         self._reserved = None
@@ -91,6 +90,80 @@ class Binding(object):
         """
         return len(self._references)
 
+    def additional_byte_cost(self):
+        """
+        How many additional bytes would be used, if this was renamed
+        """
+
+        arg_rename = False
+        additional_bytes = 0
+
+        for node in self._references:
+            if isinstance(node, ast.Name):
+                if isinstance(node.ctx, (ast.Load, ast.Store, ast.Del)):
+                    pass
+                else:
+                    # Python 2 Param context
+                    if not arg_rename_in_place(node):
+                        arg_rename = True
+            elif is_ast_node(node, (ast.ClassDef, ast.FunctionDef, 'AsyncFunctionDef')):
+                pass
+            elif isinstance(node, ast.ExceptHandler):
+                pass
+            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
+                pass
+            elif isinstance(node, ast.alias):
+                additional_bytes += 4  # ' as '
+            elif isinstance(node, ast.arguments):
+                if node.vararg == self._name:
+                    pass
+                if node.kwarg == self._name:
+                    pass
+            elif isinstance(node, ast.arg):
+                if not arg_rename_in_place(node):
+                    arg_rename = True
+            else:
+                raise AssertionError('Unknown reference node')
+
+        return additional_bytes + (2 if arg_rename else 0)
+
+    def old_mention_count(self):
+        """
+        The number of times the old name would be mentioned in the source code, if this binding was renamed
+        """
+
+        arg_rename = False
+        mentions = 0
+
+        for node in self._references:
+            if isinstance(node, ast.Name):
+                if isinstance(node.ctx, (ast.Load, ast.Store, ast.Del)):
+                    pass
+                else:
+                    # Python 2 Param context
+                    if not arg_rename_in_place(node):
+                        mentions += 1
+                        arg_rename = True
+
+            elif is_ast_node(node, (ast.ClassDef, ast.FunctionDef, 'AsyncFunctionDef')):
+                pass
+            elif isinstance(node, ast.ExceptHandler):
+                pass
+            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
+                pass
+            elif isinstance(node, ast.alias):
+                pass
+            elif isinstance(node, ast.arguments):
+                pass
+            elif isinstance(node, ast.arg):
+                if not arg_rename_in_place(node):
+                    mentions += 1
+                    arg_rename = True
+            else:
+                raise AssertionError('Unknown reference node')
+
+        return mentions + (1 if arg_rename else 0)
+
     def new_mention_count(self):
         """
         The number of times a new name would be mentioned in the source code
@@ -126,7 +199,7 @@ class Binding(object):
 
         return mentions + (1 if arg_rename else 0)
 
-    def add_reference(self, node, allow_rename=True, reserved=None, rename_cost=0):
+    def add_reference(self, node, allow_rename=True, reserved=None):
         """
         Add a new reference to this binding
 
@@ -145,8 +218,6 @@ class Binding(object):
 
         if reserved is not None:
             self._reserved = reserved
-
-        self._rename_cost += rename_cost
 
     def should_rename(self, new_name):
         """
@@ -202,7 +273,7 @@ class NameBinding(Binding):
         """
 
         current_cost = len(self.references) * len(self._name)
-        rename_cost = (len(self.references) * len(new_name)) + self._rename_cost
+        rename_cost = (self.old_mention_count() * len(self._name)) + ((self.new_mention_count()) * len(new_name)) + self.additional_byte_cost()
 
         return rename_cost <= current_cost
 
@@ -316,6 +387,13 @@ class BuiltinBinding(NameBinding):
         # All mentions must be Names, which would be replaced
         # Plus an Assign with the new name
         return len(self.references) + 1
+
+    def old_mention_count(self):
+        # The old name would be mentioned in the Assign
+        return 1
+
+    def additional_byte_cost(self):
+        return 2  # '=' + '\n'
 
     def rename(self, new_name):
         builtin = self._name

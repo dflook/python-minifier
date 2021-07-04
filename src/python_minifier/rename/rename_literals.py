@@ -56,6 +56,14 @@ class HoistedBinding(Binding):
         # Plus an Assign with the new name
         return len(self.references) + 1
 
+    def old_mention_count(self):
+        # For hoisted bindings, the old 'name' is the literal
+        # It would be mentioned once, in the Assign
+        return 1
+
+    def additional_byte_cost(self):
+        return 2  # '=' + '\n'
+
     def rename(self, new_name):
 
         for node in self.references:
@@ -72,10 +80,9 @@ class HoistedBinding(Binding):
 
     def should_rename(self, new_name):
         current_cost = len(self.references) * len(repr(self.value))
-        rename_cost = (len(self.references) * len(new_name)) + self._rename_cost
+        rename_cost = (self.old_mention_count() * len(self._name)) + ((self.new_mention_count()) * len(new_name)) + self.additional_byte_cost()
 
         return rename_cost <= current_cost
-
 
 class HoistedValue(object):
     """
@@ -187,7 +194,7 @@ class HoistLiterals(NodeVisitor):
         if hoisted_value in self._hoisted:
             return self._hoisted[hoisted_value]
 
-        binding = HoistedBinding(node, rename_cost=len('=' + repr(value)))
+        binding = HoistedBinding(node)
         self._hoisted[hoisted_value] = binding
         return binding
 
