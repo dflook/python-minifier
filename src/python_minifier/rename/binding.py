@@ -119,7 +119,7 @@ class Binding(object):
                     pass
                 if node.kwarg == self._name:
                     pass
-            elif isinstance(node, ast.arg):
+            elif is_ast_node(node, 'arg'):
                 if not arg_rename_in_place(node):
                     arg_rename = True
             else:
@@ -152,10 +152,10 @@ class Binding(object):
             elif is_ast_node(node, (ast.Global, 'Nonlocal')):
                 pass
             elif isinstance(node, ast.alias):
-                pass
+                mentions += 1
             elif isinstance(node, ast.arguments):
                 pass
-            elif isinstance(node, ast.arg):
+            elif is_ast_node(node, 'arg'):
                 if not arg_rename_in_place(node):
                     mentions += 1
                     arg_rename = True
@@ -192,7 +192,7 @@ class Binding(object):
                     mentions += 1
                 if node.kwarg == self._name:
                     mentions += 1
-            elif isinstance(node, ast.arg):
+            elif is_ast_node(node, 'arg'):
                 arg_rename = True
             else:
                 raise AssertionError('Unknown reference node')
