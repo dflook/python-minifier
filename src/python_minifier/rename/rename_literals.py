@@ -80,7 +80,7 @@ class HoistedBinding(Binding):
 
     def should_rename(self, new_name):
         current_cost = len(self.references) * len(repr(self.value))
-        rename_cost = (self.old_mention_count() * len(self._name)) + ((self.new_mention_count()) * len(new_name)) + self.additional_byte_cost()
+        rename_cost = (self.old_mention_count() * len(repr(self.value))) + ((self.new_mention_count()) * len(new_name)) + self.additional_byte_cost()
 
         return rename_cost <= current_cost
 
