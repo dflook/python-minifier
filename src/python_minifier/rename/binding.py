@@ -152,7 +152,9 @@ class Binding(object):
             elif is_ast_node(node, (ast.Global, 'Nonlocal')):
                 pass
             elif isinstance(node, ast.alias):
-                mentions += 1
+                if node.asname is None:
+                    # import foo -> import foo as bar
+                    mentions += 1
             elif isinstance(node, ast.arguments):
                 pass
             elif is_ast_node(node, 'arg'):
@@ -273,7 +275,11 @@ class NameBinding(Binding):
         """
 
         current_cost = len(self.references) * len(self._name)
-        rename_cost = (self.old_mention_count() * len(self._name)) + ((self.new_mention_count()) * len(new_name)) + self.additional_byte_cost()
+
+        old_mentions = self.old_mention_count()
+        new_mentions = self.new_mention_count()
+        additional_bytes = self.additional_byte_cost()
+        rename_cost = (old_mentions * len(self._name)) + (new_mentions * len(new_name)) + additional_bytes
 
         return rename_cost <= current_cost
 
