@@ -113,7 +113,8 @@ class Binding(object):
             elif is_ast_node(node, (ast.Global, 'Nonlocal')):
                 pass
             elif isinstance(node, ast.alias):
-                additional_bytes += 4  # ' as '
+                if node.asname is None:
+                    additional_bytes += 4  # ' as '
             elif isinstance(node, ast.arguments):
                 if node.vararg == self._name:
                     pass
