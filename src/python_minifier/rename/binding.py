@@ -300,6 +300,8 @@ class NameBinding(Binding):
 
         """
 
+        func_namespace_binding = None
+
         for node in self.references:
 
             if isinstance(node, ast.Name):
@@ -313,15 +315,10 @@ class NameBinding(Binding):
                         node.id = new_name
 
                     else:
-                        node.namespace.body = list(
-                            insert(
-                                node.namespace.body,
-                                ast.Assign(
-                                    targets=[ast.Name(id=new_name, ctx=ast.Store())],
-                                    value=ast.Name(id=node.id, ctx=ast.Load()),
-                                ),
-                            )
-                        )
+                        if func_namespace_binding is None:
+                            func_namespace_binding = node.namespace
+                        else:
+                            assert func_namespace_binding is node.namespace
 
             elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')):
                 node.name = new_name
@@ -338,15 +335,10 @@ class NameBinding(Binding):
                     node.arg = new_name
 
                 else:
-                    node.namespace.body = list(
-                        insert(
-                            node.namespace.body,
-                            ast.Assign(
-                                targets=[ast.Name(id=new_name, ctx=ast.Store())],
-                                value=ast.Name(id=node.arg, ctx=ast.Load()),
-                            ),
-                        )
-                    )
+                    if func_namespace_binding is None:
+                        func_namespace_binding = node.namespace
+                    else:
+                        assert func_namespace_binding is node.namespace
 
             elif isinstance(node, ast.ExceptHandler):
                 node.name = new_name
@@ -363,6 +355,17 @@ class NameBinding(Binding):
                 if rename_kwarg:
                     node.kwarg = new_name
                     node.kwarg_renamed = True
+
+        if func_namespace_binding is not None:
+            func_namespace_binding.body = list(
+                insert(
+                    func_namespace_binding.body,
+                    ast.Assign(
+                        targets=[ast.Name(id=new_name, ctx=ast.Store())],
+                        value=ast.Name(id=self._name, ctx=ast.Load()),
+                    ),
+                )
+            )
 
         self._name = new_name
 
