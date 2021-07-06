@@ -310,3 +310,17 @@ def f(*A,**B):pass
     expected_ast = ast.parse(expected)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
+def test_multiple_args():
+    source = '''
+def f(hello, hello):
+    print(hello + hello)      
+    '''
+    expected = '''
+def f(hello, hello):
+    A=hello
+    print(A + A)
+    '''
+    expected_ast = ast.parse(expected)
+    actual_ast = rename_locals(source)
+    assert_code(expected_ast, actual_ast)
