@@ -1,6 +1,7 @@
 import ast
 import sys
 
+from python_minifier.ministring import Str, Bytes
 from python_minifier.util import is_ast_node
 
 
@@ -137,7 +138,7 @@ class ExpressionPrinter(object):
 
     def visit_Str(self, node):
 
-        s = repr(node.s)
+        s = Str(node.s)
 
         if sys.version_info < (3, 0) and self.unicode_literals:
             if s[0] == 'u':
@@ -152,7 +153,7 @@ class ExpressionPrinter(object):
 
     def visit_Bytes(self, node):
 
-        s = repr(node.s)
+        s = Bytes(node.s)
 
         if len(s) > 0 and s[0].isalpha():
             self.token_break()

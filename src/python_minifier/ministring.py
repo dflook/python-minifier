@@ -1,5 +1,24 @@
 BACKSLASH = '\\'
 
+def Str(string):
+
+    candidates = []
+
+    for quote in ['"', "'",  '"""', "'''",]:
+        c = quote + str(MiniString(string, quote)) + quote
+        candidates.append(c)
+
+    for quote in ['"', "'",  '"""', "'''",]:
+        try:
+            c = 'r' + quote + str(MiniRawString(string, quote)) + quote
+            candidates.append(c)
+        except:
+            pass
+
+    if not candidates:
+        return repr(string)
+
+    return min(candidates, key=len)
 
 class MiniString(object):
     """
@@ -32,7 +51,7 @@ class MiniString(object):
 
         try:
             eval(self.quote + s + self.quote)
-        except UnicodeDecodeError:
+        except (UnicodeDecodeError, UnicodeEncodeError):
             if self._safe_mode:
                 raise
 
@@ -107,6 +126,48 @@ class MiniString(object):
 
         return s
 
+class MiniRawString(object):
+    """
+    Create a representation of a string object
+
+    :param str string: The string to minify
+
+    """
+
+    def __init__(self, string, quote="'"):
+        self._s = string
+        self.quote = quote
+
+    def __str__(self):
+        if self._s == '':
+            return ''
+
+        assert eval('r' + self.quote + self._s + self.quote) == self._s
+
+        return self._s
+
+def Bytes(b):
+
+    candidates = []
+
+    for quote in ['"', "'",  '"""', "'''"]:
+        try:
+            c = 'b' + quote + str(MiniBytes(b, quote)) + quote
+            candidates.append(c)
+        except:
+            pass
+
+    for quote in ['"', "'",  '"""', "'''"]:
+        try:
+            c = 'rb' + quote + str(MiniRawBytes(b, quote)) + quote
+            candidates.append(c)
+        except Exception as e:
+            pass
+
+    if not candidates:
+        return repr(b)
+
+    return min(candidates, key=len)
 
 class MiniBytes(object):
     """
@@ -116,17 +177,11 @@ class MiniBytes(object):
 
     """
 
-    def __init__(self, string, quote="'"):
-        self._b = string
+    def __init__(self, bytes_, quote="'"):
+        self._b = bytes_
         self.quote = quote
 
     def __str__(self):
-        """
-        The smallest python literal representation of a string
-
-        :rtype: str
-
-        """
 
         if self._b == b'':
             return ''
@@ -144,15 +199,19 @@ class MiniBytes(object):
         b = ''
 
         for c in self._b:
-            if c == b'\\':
-                b += BACKSLASH
-            elif c == b'\n':
+            if c == b'\x00'[0]:
+                b += BACKSLASH + 'x00'
+            elif c == b'\\'[0]:
+                b += BACKSLASH + BACKSLASH
+            elif c == b'\n'[0]:
                 b += BACKSLASH + 'n'
-            elif c == self.quote:
+            elif c == b'\r'[0]:
+                b += BACKSLASH + 'r'
+            elif c == ord(self.quote[0]):
                 b += BACKSLASH + self.quote
             else:
                 if c >= 128:
-                    b += BACKSLASH + chr(c)
+                    b += BACKSLASH + 'x' + hex(c)[2:]
                 else:
                     b += chr(c)
 
@@ -162,14 +221,54 @@ class MiniBytes(object):
         b = ''
 
         for c in self._b:
-            if c == b'\\':
-                b += BACKSLASH
-            elif c == self.quote:
-                b += BACKSLASH + self.quote
+            if c == b'\x00'[0]:
+                b += BACKSLASH + 'x00'
+            elif c == b'\r'[0]:
+                b += BACKSLASH + 'r'
+            elif c == b'\\'[0]:
+                b += BACKSLASH + BACKSLASH
+            elif c == ord(self.quote[0]):
+                b += BACKSLASH + self.quote[0]
             else:
                 if c >= 128:
-                    b += BACKSLASH + chr(c)
+                    b += BACKSLASH + 'x' + hex(c)[2:]
                 else:
                     b += chr(c)
+
+        return b
+
+class MiniRawBytes(object):
+
+    def __init__(self, b, quote="'"):
+        self._b = b
+        self.quote = quote
+
+    def __str__(self):
+
+        if self._b == b'':
+            return ''
+
+        if len(self.quote) == 1:
+            s = self.to_short()
+        else:
+            s = self.to_long()
+
+        assert eval('rb' + self.quote + s + self.quote) == self._b
+
+        return s
+
+    def to_short(self):
+        b = ''
+
+        for c in self._b:
+          b += chr(c)
+
+        return b
+
+    def to_long(self):
+        b = ''
+
+        for c in self._b:
+          b += chr(c)
 
         return b
