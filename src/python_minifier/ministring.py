@@ -52,10 +52,10 @@ class MiniString(object):
         try:
             eval(self.quote + s + self.quote)
         except (UnicodeDecodeError, UnicodeEncodeError):
-            if self._safe_mode:
+            if self.safe_mode:
                 raise
 
-            self._safe_mode = True
+            self.safe_mode = True
 
         assert eval(self.quote + s + self.quote) == self._s
 
