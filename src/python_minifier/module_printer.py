@@ -571,6 +571,169 @@ class ModulePrinter(ExpressionPrinter):
 
     # endregion
 
+    # region Pattern Matching
+
+    def pattern(self, pattern_node):
+        assert isinstance(pattern_node, (ast.MatchValue, ast.MatchAs, ast.MatchStar, ast.MatchOr, ast.MatchSingleton, ast.MatchClass, ast.MatchSequence, ast.MatchMapping))
+        self.visit(pattern_node)
+
+    def visit_Match(self, node):
+        assert isinstance(node, ast.Match)
+
+        self.newline()
+
+        self.code += 'match'
+
+        self._expression(node.subject)
+
+        self.code += ':'
+
+        self._suite(node.cases)
+
+    def visit_match_case(self, node):
+        assert isinstance(node, ast.match_case)
+        self.code += 'case'
+
+        if isinstance(node.pattern, ast.MatchSequence):
+            self.visit_MatchSequence(node.pattern, open=True)
+        else:
+            self.pattern(node.pattern)
+
+        if node.guard is not None:
+            self.token_break()
+            self.code += 'if'
+            self.visit(node.guard)
+
+        self.code += ':'
+        self._suite(node.body)
+
+    def visit_MatchValue(self, node):
+        assert isinstance(node, ast.MatchValue)
+        self.visit(node.value)
+
+    def visit_MatchSingleton(self, node):
+        assert isinstance(node, ast.MatchSingleton)
+
+        self.token_break()
+        self.code += repr(node.value)
+
+    def visit_MatchStar(self, node):
+        assert isinstance(node, ast.MatchStar)
+
+        self.code += '*'
+
+        if node.name is None:
+            self.code += '_'
+        else:
+            self.code += node.name
+
+    def visit_MatchSequence(self, node, open=False):
+        assert isinstance(node, ast.MatchSequence)
+
+        if len(node.patterns) < 2 or not open:
+            self.code += '['
+
+        first = True
+        for pattern in node.patterns:
+            if first:
+                first = False
+            else:
+                self.code += ','
+
+            self.pattern(pattern)
+
+        if len(node.patterns) < 2 or not open:
+            self.code += ']'
+
+    def visit_MatchMapping(self, node):
+        self.code += '{'
+
+        first = True
+        for k, p in zip(node.keys, node.patterns):
+            if not first:
+                self.code += ','
+            else:
+                first = False
+
+            self._expression(k)
+            self.code += ':'
+
+            self.pattern(p)
+
+        if node.rest is not None:
+            self.code += '**'
+            self.code += node.rest
+
+        self.code += '}'
+
+    def visit_MatchClass(self, node):
+        assert isinstance(node, ast.MatchClass)
+
+        self.visit(node.cls)
+        self.code += '('
+
+        first = True
+        for pattern in node.patterns:
+            if first:
+                first = False
+            else:
+                self.code += ','
+
+            self.pattern(pattern)
+
+        for kwd, pattern in zip(node.kwd_attrs, node.kwd_patterns):
+            if first:
+                first = False
+            else:
+                self.code += ','
+
+            self.code += kwd
+            self.code += '='
+
+            self.pattern(pattern)
+
+        self.code += ')'
+
+    def visit_MatchAs(self, node):
+        assert isinstance(node, ast.MatchAs)
+
+        if node.pattern is not None:
+            if isinstance(node.pattern, ast.MatchAs):
+                self.code += '('
+                self.pattern(node.pattern)
+                self.code += ')'
+            else:
+                self.pattern(node.pattern)
+
+            self.token_break()
+            self.code += 'as'
+
+        if node.name is None:
+            self.token_break()
+            self.code += '_'
+        else:
+            self.token_break()
+            self.code += node.name
+
+    def visit_MatchOr(self, node):
+        assert isinstance(node, ast.MatchOr)
+
+        first = True
+        for pattern in node.patterns:
+            if not first:
+                self.code += '|'
+            else:
+                first = False
+
+            if isinstance(pattern, (ast.MatchAs, ast.MatchOr)):
+                self.code += '('
+                self.pattern(pattern)
+                self.code += ')'
+            else:
+                self.pattern(pattern)
+
+    # endregion
+
     # region async and await
 
     def visit_AsyncFunctionDef(self, node):
@@ -610,6 +773,8 @@ class ModulePrinter(ExpressionPrinter):
             'AsyncFunctionDef',
             'AsyncFor',
             'AsyncWith',
+            'Match',
+            'match_case'
         ]
 
         if [node for node in node_list if node.__class__.__name__ in compound_statements]:
@@ -656,6 +821,8 @@ class ModulePrinter(ExpressionPrinter):
             'TryExcept': self.visit_TryExcept,
             'Print': self.visit_Print,
             'Exec': self.visit_Exec,
+            'Match': self.visit_Match,
+            'match_case': self.visit_match_case
         }
 
         for node in node_list:
