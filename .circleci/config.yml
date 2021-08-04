@@ -37,6 +37,19 @@ jobs:
             pip3 install tox==3.20
             tox -r -e python39
 
+  test_python310:
+    docker:
+      - image: danielflook/python-minifier-build:fedora34-2021-08-04
+    steps:
+      - checkout
+      - set_package_version
+
+      - run:
+          name: tox
+          command: |
+            pip3 install tox==3.24.1
+            tox -r -e python310
+
   test:
     docker:
       - image: danielflook/python-minifier-build:fedora30-2020-05-03
@@ -56,4 +69,5 @@ workflows:
     jobs:
       - test_python33
       - test_python39
+      - test_python310
       - test

@@ -1,0 +1,49 @@
+# This file should be pushed to danielflook/python-minifier-build:fedora34-<date>
+FROM fedora:34
+
+# CircleCI required tools
+RUN dnf install -y \
+      git \
+      openssh \
+      tar \
+      gzip \
+      gpg \
+      ca-certificates \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+# Development tools
+RUN dnf install -y \
+      @development-tools \
+      findutils \
+      zlib-devel \
+      bzip2-devel \
+      ncurses-devel \
+      gdbm-devel \
+      openssl-devel \
+      sqlite-devel \
+      tk-devel \
+      libuuid-devel \
+      readline-devel \
+      libnsl2-devel \
+      xz-devel \
+      libffi-devel \
+      wget \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+# Python 3.10
+RUN git clone https://github.com/python/cpython.git \
+ && cd cpython \
+ && git checkout v3.10.0rc1 \
+ && ./configure \
+ && make \
+ && make install \
+ && cd .. \
+ && rm -rf cpython
+
+# Other packages required for tests
+RUN dnf install -y \
+      bzip2 \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+WORKDIR /tmp/work
+ENTRYPOINT ["/bin/bash"]
