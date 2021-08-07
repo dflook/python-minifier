@@ -123,6 +123,15 @@ class Binding(object):
             elif is_ast_node(node, 'arg'):
                 if not arg_rename_in_place(node):
                     arg_rename = True
+
+            elif is_ast_node(node, 'MatchAs'):
+                if node.name is None:
+                    additional_bytes += 4  # ' as '
+            elif is_ast_node(node, 'MatchStar'):
+                pass
+            elif is_ast_node(node, 'MatchMapping'):
+                pass
+
             else:
                 raise AssertionError('Unknown reference node')
 
@@ -162,6 +171,14 @@ class Binding(object):
                 if not arg_rename_in_place(node):
                     mentions += 1
                     arg_rename = True
+
+            elif is_ast_node(node, 'MatchAs'):
+                pass
+            elif is_ast_node(node, 'MatchStar'):
+                pass
+            elif is_ast_node(node, 'MatchMapping'):
+                pass
+
             else:
                 raise AssertionError('Unknown reference node')
 
@@ -197,6 +214,14 @@ class Binding(object):
                     mentions += 1
             elif is_ast_node(node, 'arg'):
                 arg_rename = True
+
+            elif is_ast_node(node, 'MatchAs'):
+                mentions += 1
+            elif is_ast_node(node, 'MatchStar'):
+                mentions += 1
+            elif is_ast_node(node, 'MatchMapping'):
+                mentions += 1
+
             else:
                 raise AssertionError('Unknown reference node')
 
@@ -355,6 +380,13 @@ class NameBinding(Binding):
                 if rename_kwarg:
                     node.kwarg = new_name
                     node.kwarg_renamed = True
+
+            elif is_ast_node(node, 'MatchAs'):
+                node.name = new_name
+            elif is_ast_node(node, 'MatchStar'):
+                node.name = new_name
+            elif is_ast_node(node, 'MatchMapping'):
+                node.rest = new_name
 
         if func_namespace_binding is not None:
             func_namespace_binding.body = list(
