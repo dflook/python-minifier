@@ -5,10 +5,7 @@ import string
 import unicodedata
 
 from hypothesis import assume
-from hypothesis._strategies import booleans
-from hypothesis.searchstrategy import SearchStrategy
-from hypothesis.strategies import integers, lists, binary, sampled_from, recursive, dictionaries
-from hypothesis.strategies import text, composite, one_of, floats, complex_numbers, characters, none
+from hypothesis.strategies import integers, lists, binary, sampled_from, recursive, dictionaries, booleans, SearchStrategy, text, composite, one_of, floats, complex_numbers, characters, none
 
 comparison_operators = sampled_from([
     ast.Eq(),

@@ -1,10 +1,7 @@
 import ast
 
 from hypothesis import assume
-from hypothesis._strategies import booleans
-from hypothesis.searchstrategy import SearchStrategy
-from hypothesis.strategies import integers, lists, binary, sampled_from, recursive, dictionaries, none
-from hypothesis.strategies import text, composite, one_of
+from hypothesis.strategies import integers, lists, sampled_from, recursive, none, booleans, SearchStrategy, composite, one_of
 
 from hypo_test.expressions import Name, expression, name
 from expressions import arguments

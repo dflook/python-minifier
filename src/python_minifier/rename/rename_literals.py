@@ -221,6 +221,14 @@ class HoistLiterals(NodeVisitor):
     def visit_NameConstant(self, node):
         self.get_binding(node.value, node).add_reference(node)
 
+    def visit_match_case(self, node):
+        # Can't hoist literals in a pattern
+
+        if node.guard is not None:
+            self.visit(node.guard)
+
+        for n in node.body:
+            self.visit(n)
 
 def rename_literals(module):
     HoistLiterals()(module)

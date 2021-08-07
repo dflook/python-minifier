@@ -136,6 +136,23 @@ class NameBinder(NodeVisitor):
         for name in node.names:
             self.get_binding(name, node.namespace).add_reference(node)
 
+    def visit_MatchAs(self, node):
+        if node.name is not None:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        self.generic_visit(node)
+
+    def visit_MatchStar(self, node):
+        if node.name is not None:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        self.generic_visit(node)
+
+    def visit_MatchMapping(self, node):
+        if node.rest is not None:
+            self.get_binding(node.rest, node.namespace).add_reference(node)
+
+        self.generic_visit(node)
 
 def bind_names(module):
     """
