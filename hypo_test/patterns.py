@@ -3,7 +3,7 @@ import keyword
 import string
 
 from hypothesis import assume
-from hypothesis.strategies import lists, sampled_from, recursive, text, composite, one_of, none
+from hypothesis.strategies import lists, sampled_from, recursive, text, composite, one_of, none, booleans, integers
 
 @composite
 def name(draw):
@@ -23,17 +23,31 @@ def MatchSingleton(draw) -> ast.MatchSingleton:
 
 @composite
 def MatchStar(draw) -> ast.MatchStar:
-    return ast.MatchStar(draw(sampled_from([None, 'rest'])))
+    return ast.MatchStar(name=draw(sampled_from([None, 'rest'])))
 
 @composite
 def MatchSequence(draw, pattern) -> ast.MatchSequence:
     l = draw(lists(pattern, min_size=1, max_size=3))
+
+    has_star = draw(booleans())
+
+    if has_star:
+        star_pos = draw(integers(min_value=0, max_value=len(l)))
+        l.insert(star_pos, draw(MatchStar()))
+
     return ast.MatchSequence(patterns=l)
 
 @composite
 def MatchMapping(draw, pattern) -> ast.MatchMapping:
     l = draw(lists(pattern, min_size=1, max_size=3))
-    return ast.MatchMapping(keys=[ast.Num(0) for i in range(len(l))], patterns=l)
+
+    match_mapping = ast.MatchMapping(keys=[ast.Num(0) for i in range(len(l))], patterns=l)
+
+    has_star = draw(booleans())
+    if has_star:
+        match_mapping.rest = 'rest'
+
+    return match_mapping
 
 @composite
 def MatchClass(draw, pattern) -> ast.MatchClass:
