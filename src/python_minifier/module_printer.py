@@ -661,6 +661,9 @@ class ModulePrinter(ExpressionPrinter):
             self.pattern(p)
 
         if node.rest is not None:
+            if not first:
+                self.code += ','
+
             self.code += '**'
             self.code += node.rest
 
