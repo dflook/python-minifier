@@ -51,7 +51,9 @@ Nodes that create a binding:
 - ClassDef nodes bind their name
 - arg nodes bind their arg
 - Name nodes in Store or Del context bind their id
-- DictComp, SetComp, ListComp, and Generator nodes bind their target(?)
+- MatchAs nodes bind their name
+- MatchStar nodes bind their name
+- MatchMapping nodes bind their rest
 
 ### Resolve names
 
@@ -75,7 +77,7 @@ to introduce new names.
 
 ## Name Assignment
 
-Collect all bindings in the module and sort by number of references.
+Collect all bindings in the module and sort by estimated byte savings
 
 For each binding:
  - Determine it's 'reservation scope', which is the set of namespaces that name is referenced in (and all namespaces between them)
