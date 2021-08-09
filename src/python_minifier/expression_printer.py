@@ -224,7 +224,12 @@ class ExpressionPrinter(object):
 
     def visit_Starred(self, node):
         self.code += '*'
-        self._expression(node.value)
+        if self.precedence(node.value) <= 7:
+            self.code += '('
+            self._expression(node.value)
+            self.code += ')'
+        else:
+            self._expression(node.value)
 
     # endregion
 
