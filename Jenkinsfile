@@ -190,6 +190,29 @@ pipeline {
                         }
                     }
                 }
+                stage('python310') {
+                    agent {
+                        docker {
+                            image 'danielflook/python-minifier-build:fedora34-2021-08-04'
+                            args "-u 0:0 --entrypoint '' --init"
+                        }
+                    }
+                    steps {
+                        cleanWs()
+                        checkout scm
+                        sh '''#!/bin/bash -e
+                        VERSION=$(python3 setup.py --version)
+                        sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+                        pip3 install tox==3.24
+                        tox -r -e python310 xtest
+                        '''
+                    }
+                    post {
+                        always {
+                            junit '**/junit-*.xml'
+                        }
+                    }
+                }
                 stage('pypy3') {
                     agent {
                         docker {
