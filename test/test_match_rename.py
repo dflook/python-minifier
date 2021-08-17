@@ -9,7 +9,7 @@ from python_minifier import (
 )
 
 
-def rename(source, *, locals, globals):
+def rename(source, locals, globals):
     # This will raise if the source file can't be parsed
     module = ast.parse(source, 'test_match_rename')
     add_namespace(module)
