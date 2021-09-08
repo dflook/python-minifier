@@ -193,7 +193,7 @@ pipeline {
                 stage('python310') {
                     agent {
                         docker {
-                            image 'danielflook/python-minifier-build:fedora34-2021-08-04'
+                            image 'danielflook/python-minifier-build:fedora34-2021-09-08'
                             args "-u 0:0 --entrypoint '' --init"
                         }
                     }

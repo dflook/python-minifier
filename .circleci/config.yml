@@ -39,7 +39,7 @@ jobs:
 
   test_python310:
     docker:
-      - image: danielflook/python-minifier-build:fedora34-2021-08-04
+      - image: danielflook/python-minifier-build:fedora34-2021-09-08
     steps:
       - checkout
       - set_package_version
