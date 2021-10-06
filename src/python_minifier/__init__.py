@@ -5,6 +5,7 @@ a 'minified' representation of the same source code.
 """
 
 import ast
+import re
 
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.module_printer import ModulePrinter
@@ -91,6 +92,31 @@ def minify(
 
     filename = filename or 'python_minifier.minify source'
 
+    output_code = ""
+    
+    # Defined in https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
+    RE_PEP263 = r'^[ \t\f]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)'
+    coding_pattern = re.compile(RE_PEP263)
+
+    # If shebang or encoding is declared in the source code, such magic comments will be kept in the output
+    for idx, raw_line in enumerate(source.splitlines()[0:2]):
+        if isinstance(raw_line, str):
+            # Python 2
+            line = raw_line
+        else:
+            # Python 3
+            line = raw_line.decode()
+
+        if idx == 0 and line.startswith('#!'):
+            # Shebang comment found
+            # e.g. '#!/usr/bin/env python'
+            output_code += line + '\n'
+        elif coding_pattern.match(line):
+            # Encoding comment found
+            # e.g. '# -*- coding: UTF-8 -*-'
+            output_code += line + '\n'
+
+
     # This will raise if the source file can't be parsed
     module = ast.parse(source, filename)
 
@@ -129,7 +155,8 @@ def minify(
     if convert_posargs_to_args:
         module = remove_posargs(module)
 
-    return unparse(module)
+    output_code += unparse(module)
+    return output_code
 
 
 def unparse(module):
