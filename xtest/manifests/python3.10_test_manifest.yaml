@@ -3485,15 +3485,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.10/test/test_support.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.10/test/test_support.py: []
 /usr/local/lib/python3.10/test/test_symtable.py:
 - options: {}
 - options:
@@ -3729,19 +3721,7 @@
     remove_literal_statements: true
     rename_globals: true
     remove_annotations: false
-/usr/local/lib/python3.10/test/test_typing.py:
-- options:
-    remove_annotations: false
-- options:
-    remove_annotations: false
-    rename_globals: true
-- options:
-    remove_annotations: false
-    remove_literal_statements: true
-- options:
-    remove_annotations: false
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.10/test/test_typing.py: []
 /usr/local/lib/python3.10/test/test_ucn.py:
 - options: {}
 - options:
