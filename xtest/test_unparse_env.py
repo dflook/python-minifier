@@ -12,7 +12,7 @@ def gather_files():
     print('sys.path: ', sys.path)
     for sys_path in sys.path:
         for subdir, dirs, files in os.walk(sys_path):
-            for file in [f for f in [os.path.join(subdir, file) for file in files] if f.endswith('.py')]:
+            for file in filter(lambda f: f.endswith('.py'), [os.path.join(subdir, file) for file in files]):
                 yield file
 
 @pytest.mark.parametrize('path', gather_files())

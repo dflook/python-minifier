@@ -40,7 +40,7 @@ class Manifest(object):
             self._files = yaml.safe_load(f)
 
     def __len__(self):
-        return sum([len(test_cases) for test_cases in list(self._files.values())])
+        return sum([len(test_cases) for test_cases in self._files.values()])
 
     def __iter__(self):
         for path in sorted(self._files.keys()):
