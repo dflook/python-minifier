@@ -59,7 +59,7 @@ class MiniString(object):
         }
 
         for c in self._s:
-            if c in escaped.keys():
+            if c in list(escaped.keys()):
                 s += escaped[c]
             else:
                 if self.safe_mode:
@@ -91,7 +91,7 @@ class MiniString(object):
         }
 
         for c in self._s:
-            if c in escaped.keys():
+            if c in list(escaped.keys()):
                 s += escaped[c]
             else:
                 if self.safe_mode:

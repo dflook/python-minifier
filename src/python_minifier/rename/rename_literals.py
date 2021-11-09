@@ -176,7 +176,7 @@ class HoistLiterals(NodeVisitor):
         return path
 
     def place_bindings(self):
-        for binding in self._hoisted.values():
+        for binding in list(self._hoisted.values()):
 
             namespace_path = []
 

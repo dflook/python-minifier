@@ -61,7 +61,7 @@ class FString(object):
 
                 actual_candidates += ['f' + quote + x + quote for x in candidates]
 
-        actual_candidates = filter(self.is_correct_ast, actual_candidates)
+        actual_candidates = list(filter(self.is_correct_ast, actual_candidates))
         return actual_candidates
 
     def str_for(self, s, quote):
