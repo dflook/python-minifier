@@ -19,6 +19,7 @@ from python_minifier.rename import (
 )
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
+from python_minifier.transforms.remove_hints import strip_string_to_string
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
@@ -92,7 +93,11 @@ def minify(
     filename = filename or 'python_minifier.minify source'
 
     # This will raise if the source file can't be parsed
-    module = ast.parse(source, filename)
+    try:
+        module = ast.parse(source, filename)
+    except SyntaxError:
+        source_without_hints = strip_string_to_string(source)
+        module = ast.parse(source_without_hints, filename)
 
     add_namespace(module)
 
