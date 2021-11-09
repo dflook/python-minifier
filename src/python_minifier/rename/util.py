@@ -190,4 +190,4 @@ try:
     import builtins
 except ImportError:
     # noinspection PyCompatibility
-    import builtins as builtins
+    import __builtin__ as builtins
