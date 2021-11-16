@@ -83,12 +83,21 @@ def main():
         dest='convert_posargs_to_args',
     )
 
+    parser.add_argument(
+        '-i', '--inplace',
+        action='store_true',
+        help='Minify source file in-place, if specified',
+    )
     parser.add_argument('-v', '--version', action='version', version=version)
 
     args = parser.parse_args()
 
     if args.path == '-':
+        assert not args.inplace, 'Cannot in-place edit stdin, please remove the \'-i\' option'
         source = sys.stdin.read()
+    elif args.inplace:
+        f = open(args.path, 'r+')
+        source = f.read()
     else:
         with open(args.path, 'rb') as f:
             source = f.read()
@@ -105,23 +114,29 @@ def main():
             names = [name.strip() for name in arg.split(',') if name]
             preserve_locals.extend(names)
 
-    sys.stdout.write(
-        minify(
-            source,
-            filename=args.path,
-            combine_imports=args.combine_imports,
-            remove_pass=args.remove_pass,
-            remove_annotations=args.remove_annotations,
-            remove_literal_statements=args.remove_literal_statements,
-            hoist_literals=args.hoist_literals,
-            rename_locals=args.rename_locals,
-            preserve_locals=preserve_locals,
-            rename_globals=args.rename_globals,
-            preserve_globals=preserve_globals,
-            remove_object_base=args.remove_object_base,
-            convert_posargs_to_args=args.convert_posargs_to_args,
-        )
+    minified_source = minify(
+        source,
+        filename=args.path,
+        combine_imports=args.combine_imports,
+        remove_pass=args.remove_pass,
+        remove_annotations=args.remove_annotations,
+        remove_literal_statements=args.remove_literal_statements,
+        hoist_literals=args.hoist_literals,
+        rename_locals=args.rename_locals,
+        preserve_locals=preserve_locals,
+        rename_globals=args.rename_globals,
+        preserve_globals=preserve_globals,
+        remove_object_base=args.remove_object_base,
+        convert_posargs_to_args=args.convert_posargs_to_args,
     )
+
+    if args.inplace:
+        f.seek(0)
+        f.truncate()
+        f.write(minified_source)
+        f.close()
+    else:
+        sys.stdout.write(minified_source)
 
 
 if __name__ == '__main__':
