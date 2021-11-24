@@ -1,4 +1,6 @@
 import ast
+import os
+
 
 def is_ast_node(node, types):
     """
@@ -45,4 +47,27 @@ def is_ast_node(node, types):
         else:
             raise RuntimeError('Unknown Constant value %r' % type(node.value))
 
+    return False
+
+
+def ignore_file(path):
+    """Whether to ignore a particular file for copying when minifying a directory.
+
+    :param str path: File path.
+    :rtype: bool
+    """
+    _, ext = os.path.splitext(path)
+    if ext in ('.pyc', '.pyo', '.pyd', '$py.class'):
+        return True
+    return False
+
+
+def ignore_dir(path):
+    """Whether to ignore a particular directory and its contents when minifying a directory.
+
+    :param str path: Directory path.
+    :rtype: bool
+    """
+    if os.path.basename(path) == "__pycache__":
+        return True
     return False
