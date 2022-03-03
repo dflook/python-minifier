@@ -10,8 +10,11 @@ wheels/
 *.egg-info/
 *.egg
 venv/
+venv*/
 docs/build/
 docs/source/transforms/*.min.py
 .cache/
 .pytest_cache/
 .circleci-config.yml
+.coverage
+.mypy_cache/

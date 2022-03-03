@@ -135,13 +135,13 @@ def minify(
     minified = unparse(module)
 
     if preserve_shebang is True:
-        shebang_line = find_shebang(source)
+        shebang_line = _find_shebang(source)
         if shebang_line is not None:
             return shebang_line + '\n' + minified
 
     return minified
 
-def find_shebang(source):
+def _find_shebang(source):
     """
     Find a shebang line in source
     """

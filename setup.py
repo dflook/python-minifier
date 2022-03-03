@@ -1,4 +1,5 @@
 import os.path
+
 from setuptools import setup, find_packages
 
 readme_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'README.md')
@@ -21,6 +22,7 @@ setup(
     use_scm_version=True,
     package_dir={'': 'src'},
     packages=find_packages('src'),
+    package_data={"python_minifier": ["py.typed", "__init__.pyi"]},
     long_description=long_desc,
     long_description_content_type='text/markdown',
 
@@ -48,7 +50,7 @@ setup(
         'Topic :: Software Development'
     ],
 
-    entry_points = {
+    entry_points={
         'console_scripts': ['pyminify=python_minifier.__main__:main']
     },
 
