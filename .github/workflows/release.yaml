@@ -9,7 +9,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     container:
-      image: danielflook/python-minifier-build:fedora30-2020-05-03
+      image: danielflook/python-minifier-build:fedora34-2021-10-05
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,15 +25,13 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
           pip3 install --upgrade setuptools wheel twine
-          python3 setup.py sdist bdist_wheel
+          python3 setup.py sdist bdist_wheel --universal
           twine upload --non-interactive dist/*
 
       - name: Build documentation
         run: |
-          python3.8 -m ensurepip
-          pip3.8 install --upgrade setuptools wheel twine
-          pip3.8 install sphinx==2.0.1 sphinxcontrib-programoutput==0.14 sphinx_rtd_theme==0.4.3
-          pip3.8 install dist/*.tar.gz
+          pip3 install sphinx sphinxcontrib-programoutput sphinx_rtd_theme
+          pip3 install dist/*.tar.gz
           sphinx-build docs/source /tmp/build
 
       - name: Publish documentation
