@@ -182,7 +182,7 @@ jobs:
 
       - name: Test typing
         run: |
-          pip3.10 install mypy
+          pip3.10 install mypy types-setuptools
           mypy typing_test/test_typing.py
 
           if mypy typing_test/test_badtyping.py; then
