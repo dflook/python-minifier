@@ -181,7 +181,7 @@ def parse_args():
         sys.stderr.write('error: multiple path arguments, --in-place required\n')
         exit(1)
     if len(args.path) == 1 and os.path.isdir(args.path[0]) and not args.in_place:
-        sys.stderr.write(f'error: path {args.path[0]!r} is a directory, --in-place required\n')
+        sys.stderr.write('error: path ' + args.path[0] + ' is a directory, --in-place required\n')
         exit(1)
 
     return args
