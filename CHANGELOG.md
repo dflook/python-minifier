@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2022-04-10
+
+### Added
+- A new option to preserve the shebang line from the source file, which is enabled by default
+- More flexible file processing options for the `pyminify` command:
+    - A new `--output` argument for writing the minified output to a file without having to use shell redirection
+    - A new `--in-place` option which overwrites the specified path with the minified output
+    - `path` arguments may be directories, which minifies all *.py files below that directory
+    - Multiple `path` arguments may be specified, which will all be minified
+- Type information is included in the package to enable type checking of the public functions
+
+### Fixed
+- No longer assumes files read from stdin are utf-8.
+
 ## [2.5.0] - 2021-10-06
 
 ### Added
@@ -120,6 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - python-minifier package
 - pyminify command
 
+[2.6.0]: https://github.com/dflook/python-minifier/compare/2.5.0...2.6.0
 [2.5.0]: https://github.com/dflook/python-minifier/compare/2.4.2...2.5.0
 [2.4.2]: https://github.com/dflook/python-minifier/compare/2.4.1...2.4.2
 [2.4.1]: https://github.com/dflook/python-minifier/compare/2.4.0...2.4.1
