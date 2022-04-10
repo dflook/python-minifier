@@ -5,6 +5,7 @@ a 'minified' representation of the same source code.
 """
 
 import ast
+import re
 
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.module_printer import ModulePrinter
@@ -58,6 +59,7 @@ def minify(
     preserve_globals=None,
     remove_object_base=True,
     convert_posargs_to_args=True,
+    preserve_shebang=True
 ):
     """
     Minify a python module
@@ -84,6 +86,7 @@ def minify(
     :type preserve_globals: list[str]
     :param bool remove_object_base: If object as a base class may be removed
     :param bool convert_posargs_to_args: If positional-only arguments will be converted to normal arguments
+    :param bool preserve_shebang: Keep any shebang interpreter directive from in the source in the minified output
 
     :rtype: str
 
@@ -129,8 +132,30 @@ def minify(
     if convert_posargs_to_args:
         module = remove_posargs(module)
 
-    return unparse(module)
+    minified = unparse(module)
 
+    if preserve_shebang is True:
+        shebang_line = find_shebang(source)
+        if shebang_line is not None:
+            return shebang_line + '\n' + minified
+
+    return minified
+
+def find_shebang(source):
+    """
+    Find a shebang line in source
+    """
+
+    if isinstance(source, bytes):
+        shebang = re.match(br'^#!.*', source)
+        if shebang:
+            return shebang.group().decode()
+    else:
+        shebang = re.match(r'^#!.*', source)
+        if shebang:
+            return shebang.group()
+
+    return None
 
 def unparse(module):
     """
