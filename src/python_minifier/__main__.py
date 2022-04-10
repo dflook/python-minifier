@@ -82,7 +82,7 @@ def parse_args():
     output_options.add_argument(
         '--output', '-o',
         action='store',
-        help='Path to write minified output. Can only be used when the source is a single module',
+        help='Path to write minified output. Can only be used when the source is a single module. Outputs to stdout by default',
         dest='output'
     )
     output_options.add_argument(
