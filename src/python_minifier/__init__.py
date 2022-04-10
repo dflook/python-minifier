@@ -86,7 +86,7 @@ def minify(
     :type preserve_globals: list[str]
     :param bool remove_object_base: If object as a base class may be removed
     :param bool convert_posargs_to_args: If positional-only arguments will be converted to normal arguments
-    :param bool preserve_shebang: Keep any shebang interpreter directive from in the source in the minified output
+    :param bool preserve_shebang: Keep any shebang interpreter directive from the source in the minified output
 
     :rtype: str
 
