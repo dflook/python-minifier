@@ -1,5 +1,5 @@
-Transforms
-==========
+Minification Options
+====================
 
 These transforms can be optionally enabled when minifying. Some are enabled by default as they are always or almost
 always safe.
@@ -17,6 +17,7 @@ They can be enabled or disabled through the minify function, or passing options 
    rename_locals
    remove_object_base
    convert_posargs_to_args
+   preserve_shebang
 
 .. toctree::
    :caption: Disabled by default

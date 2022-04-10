@@ -165,6 +165,12 @@ def parse_args():
         help='Disable converting positional only arguments to normal arguments',
         dest='convert_posargs_to_args',
     )
+    minification_options.add_argument(
+        '--no-preserve-shebang',
+        action='store_false',
+        help='Preserve any shebang line from the source',
+        dest='preserve_shebang',
+    )
 
     parser.add_argument('--version', '-v', action='version', version=version)
 
@@ -228,6 +234,7 @@ def do_minify(source, filename, minification_args):
         preserve_globals=preserve_globals,
         remove_object_base=minification_args.remove_object_base,
         convert_posargs_to_args=minification_args.convert_posargs_to_args,
+        preserve_shebang=minification_args.preserve_shebang
     )
 
 
