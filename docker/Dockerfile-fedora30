@@ -1,0 +1,85 @@
+FROM fedora:30 AS base
+
+# CircleCI required tools
+RUN dnf install -y \
+      git \
+      openssh \
+      tar \
+      gzip \
+      gpg \
+      ca-certificates \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+# Other packages required for tests
+RUN dnf install -y \
+      bzip2 \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+RUN pip3 install tox==3.11.1 virtualenv==16.6.0
+
+WORKDIR /tmp/work
+ENTRYPOINT ["/bin/bash"]
+
+##
+FROM base AS python2.7
+
+RUN dnf install -y \
+      python27 \
+      python2-test \
+      python2-pip \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+##
+FROM base AS python3.4
+
+RUN dnf install -y \
+      python34 \
+  && dnf clean all && rm -rf /var/cache/dnf/* \
+  && curl https://bootstrap.pypa.io/pip/3.4/get-pip.py | python3.4
+
+##
+FROM base AS python3.5
+
+RUN dnf install -y \
+      python35 \
+  && dnf clean all && rm -rf /var/cache/dnf/* \
+  && curl https://bootstrap.pypa.io/pip/3.5/get-pip.py | python3.5
+
+##
+FROM base AS python3.6
+
+RUN dnf install -y \
+      python36 \
+  && dnf clean all && rm -rf /var/cache/dnf/* \
+  && curl https://bootstrap.pypa.io/pip/3.6/get-pip.py | python3.6
+
+##
+FROM base AS python3.7
+
+RUN dnf install -y \
+      python37 \
+      python3-test \
+      python3-pip \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+##
+FROM base AS python3.8
+
+RUN dnf install -y \
+      python38 \
+  && dnf clean all && rm -rf /var/cache/dnf/* \
+  && curl https://bootstrap.pypa.io/get-pip.py | python3.8
+
+##
+FROM base AS pypy
+
+RUN dnf install -y \
+      pypy \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+##
+FROM base AS pypy3
+
+RUN dnf install -y \
+      pypy3 \
+  && dnf clean all && rm -rf /var/cache/dnf/*

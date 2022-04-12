@@ -8,8 +8,10 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     container:
-      image: danielflook/python-minifier-build:fedora34-2021-10-05
+      image: danielflook/python-minifier-build:python3.10-2022-04-12
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -50,57 +52,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [2.7, 3.4, 3.5, 3.6, 3.7, 3.8]
-    needs: [release]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10"]
     container:
-      image: danielflook/python-minifier-build:fedora30-2020-05-03
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2022-04-12
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install package
+      - name: Test
         run: |
-          if [[ "${{ matrix.python }}" == "2.7" || "${{ matrix.python }}" == "3.7" ]]; then
-             echo "pip is already installed"
-          elif [[ "${{ matrix.python }}" == "3.8" ]]; then
-             curl https://bootstrap.pypa.io/get-pip.py | python${{ matrix.python }}
-          else
-             curl https://bootstrap.pypa.io/pip/${{ matrix.python }}/get-pip.py | python${{ matrix.python }}       
-          fi
-
           pip${{ matrix.python }} install python-minifier==${{ github.event.release.tag_name }}
-          pyminify --version
-
-  test_package_3_3:
-    runs-on: ubuntu-latest
-    needs: [release]
-    container:
-      image: danielflook/python-minifier-build:fedora28-2020-05-03
-    steps:
-      - name: Install package
-        run: |
-          curl https://bootstrap.pypa.io/pip/3.3/get-pip.py | python3.3
-          pip3.3 install python-minifier==${{ github.event.release.tag_name }}
-          pyminify --version
-
-  test_package_3_9:
-    runs-on: ubuntu-latest
-    needs: [release]
-    container:
-      image: danielflook/python-minifier-build:fedora32-2020-10-11
-    steps:
-      - name: Install package
-        run: |
-          pip3.9 install python-minifier==${{ github.event.release.tag_name }}
-          pyminify --version
-
-  test_package_3_10:
-    runs-on: ubuntu-latest
-    needs: [release]
-    container:
-      image: danielflook/python-minifier-build:fedora34-2021-10-05
-    steps:
-      - name: Install package
-        run: |
-          pip3.10 install python-minifier==${{ github.event.release.tag_name }}
           pyminify --version

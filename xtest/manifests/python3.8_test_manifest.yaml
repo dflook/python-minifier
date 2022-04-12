@@ -1948,17 +1948,21 @@
     rename_globals: true
 /usr/lib64/python3.8/test/test_inspect.py:
 - options:
+    convert_posargs_to_args: false
     hoist_literals: false
     remove_annotations: false
 - options:
+    convert_posargs_to_args: false
     hoist_literals: false
     remove_annotations: false
     rename_globals: true
 - options:
+    convert_posargs_to_args: false
     hoist_literals: false
     remove_annotations: false
     remove_literal_statements: true
 - options:
+    convert_posargs_to_args: false
     hoist_literals: false
     remove_annotations: false
     remove_literal_statements: true
@@ -2718,10 +2722,14 @@
     - y2
     - b
     - c
+    - d
+    - e
     - something
     - f
     - g
+    - x
     convert_posargs_to_args: false
+    remove_annotations: false
 - options:
     preserve_globals:
     - f
@@ -2733,22 +2741,30 @@
     - y2
     - b
     - c
+    - d
+    - e
     - something
     - f
     - g
+    - x
     rename_globals: true
     convert_posargs_to_args: false
+    remove_annotations: false
 - options:
     preserve_locals:
     - a
     - y2
     - b
     - c
+    - d
+    - e
     - something
     - f
     - g
+    - x
     remove_literal_statements: true
     convert_posargs_to_args: false
+    remove_annotations: false
 - options:
     preserve_globals:
     - f
@@ -2760,12 +2776,16 @@
     - y2
     - b
     - c
+    - d
+    - e
     - something
     - f
     - g
+    - x
     remove_literal_statements: true
     rename_globals: true
     convert_posargs_to_args: false
+    remove_annotations: false
 /usr/lib64/python3.8/test/test_posix.py: []
 /usr/lib64/python3.8/test/test_posixpath.py:
 - options: {}
