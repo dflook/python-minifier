@@ -113,15 +113,7 @@
 - options: {rename_globals: true}
 - options: {remove_literal_statements: true}
 - options: {remove_literal_statements: true, rename_globals: true}
-/usr/lib64/pypy3-7.0/lib-python/3/test/test_asyncio/test_selector_events.py:
-- options: {}
-- options: {rename_globals: true}
-- options: {remove_literal_statements: true}
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-    preserve_globals:
-      - socket
+/usr/lib64/pypy3-7.0/lib-python/3/test/test_asyncio/test_selector_events.py: []
 /usr/lib64/pypy3-7.0/lib-python/3/test/test_asyncio/test_sslproto.py:
 - options: {}
 - options: {rename_globals: true}
