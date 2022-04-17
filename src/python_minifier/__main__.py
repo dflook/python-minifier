@@ -179,16 +179,16 @@ def parse_args():
     # Handle some invalid argument combinations
     if '-' in args.path and len(args.path) != 1:
         sys.stderr.write('error: multiple path arguments, reading from stdin not allowed\n')
-        exit(1)
+        sys.exit(1)
     if '-' in args.path and args.in_place:
         sys.stderr.write('error: reading from stdin, --in-place is not valid\n')
-        exit(1)
+        sys.exit(1)
     if len(args.path) > 1 and not args.in_place:
         sys.stderr.write('error: multiple path arguments, --in-place required\n')
-        exit(1)
+        sys.exit(1)
     if len(args.path) == 1 and os.path.isdir(args.path[0]) and not args.in_place:
         sys.stderr.write('error: path ' + args.path[0] + ' is a directory, --in-place required\n')
-        exit(1)
+        sys.exit(1)
 
     return args
 
