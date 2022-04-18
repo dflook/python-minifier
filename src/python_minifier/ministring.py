@@ -4,11 +4,13 @@ def Str(string):
 
     candidates = []
 
-    for quote in ['"', "'",  '"""', "'''",]:
-        c = quote + str(MiniString(string, quote)) + quote
-        candidates.append(c)
+    for quote in ['"', "'",  '"""', "'''"]:
+        try:
+            c = quote + str(MiniString(string, quote)) + quote
+            candidates.append(c)
+        except:
+            pass
 
-    for quote in ['"', "'",  '"""', "'''",]:
         try:
             c = 'r' + quote + str(MiniRawString(string, quote)) + quote
             candidates.append(c)
