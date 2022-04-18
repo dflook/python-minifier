@@ -92,8 +92,8 @@ class Case(object):
 
             shutil.copy(self.test_path, self.test_path + '.bak')
 
-            with open(self.test_path, 'wb') as f:
-                f.write(minify(source, self.test_path, **self.options).encode())
+            with open(self.test_path, 'w') as f:
+                f.write(minify(source, self.test_path, **self.options))
 
             execute(sys.executable, self.test_path)
         except ErrorReturnCode as e:
