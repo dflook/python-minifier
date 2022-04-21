@@ -46,3 +46,38 @@ def is_ast_node(node, types):
             raise RuntimeError('Unknown Constant value %r' % type(node.value))
 
     return False
+
+class NodeVisitor(object):
+    def visit(self, node):
+        """Visit a node."""
+        method = 'visit_' + node.__class__.__name__
+        visitor = getattr(self, method, self.generic_visit)
+        return visitor(node)
+
+    def generic_visit(self, node):
+        """Called if no explicit visitor function exists for a node."""
+        for field, value in ast.iter_fields(node):
+            if isinstance(value, list):
+                for item in value:
+                    if isinstance(item, ast.AST):
+                        self.visit(item)
+            elif isinstance(value, ast.AST):
+                self.visit(value)
+
+    def visit_Constant(self, node):
+        if node.value in [None, True, False]:
+            method = 'visit_NameConstant'
+        elif isinstance(node.value, (int, float, complex)):
+            method = 'visit_Num'
+        elif isinstance(node.value, str):
+            method = 'visit_Str'
+        elif isinstance(node.value, bytes):
+            method = 'visit_Bytes'
+        elif node.value == Ellipsis:
+            method = 'visit_Ellipsis'
+        else:
+            raise RuntimeError('Unknown Constant value %r' % type(node.value))
+
+        visitor = getattr(self, method, self.generic_visit)
+        return visitor(node)
+

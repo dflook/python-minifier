@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import re
 import sys
 import os
 
@@ -168,7 +169,7 @@ def parse_args():
     minification_options.add_argument(
         '--no-preserve-shebang',
         action='store_false',
-        help='Preserve any shebang line from the source',
+        help='Disable preserving any shebang line from the source',
         dest='preserve_shebang',
     )
     minification_options.add_argument(
@@ -182,6 +183,15 @@ def parse_args():
         action='store_true',
         help='Remove conditional statements that test __debug__ is True',
         dest='remove_debug',
+    )
+    minification_options.add_argument(
+        '--minimum-python',
+        type=str,
+        action='store',
+        default='2.7',
+        help='The earliest version of python to preserve backwards compatibility with',
+        dest='minimum_python_version',
+        metavar='VERSION'
     )
 
     parser.add_argument('--version', '-v', action='version', version=version)
@@ -200,6 +210,9 @@ def parse_args():
         sys.exit(1)
     if len(args.path) == 1 and os.path.isdir(args.path[0]) and not args.in_place:
         sys.stderr.write('error: path ' + args.path[0] + ' is a directory, --in-place required\n')
+        sys.exit(1)
+    if args.minimum_python_version and not re.match(r'^\d+\.\d+$', args.minimum_python_version):
+        sys.stderr.write('error: --minimum-python should specify a major and minor version, e.g. --minimum-python 3.8\n')
         sys.exit(1)
 
     return args
@@ -232,6 +245,10 @@ def do_minify(source, filename, minification_args):
             names = [name.strip() for name in arg.split(',') if name]
             preserve_locals.extend(names)
 
+    minimum_python = None
+    if minification_args.minimum_python_version:
+        minimum_python = [int(v) for v in minification_args.minimum_python_version.split('.')]
+
     return minify(
         source,
         filename=filename,
@@ -248,7 +265,8 @@ def do_minify(source, filename, minification_args):
         convert_posargs_to_args=minification_args.convert_posargs_to_args,
         preserve_shebang=minification_args.preserve_shebang,
         remove_asserts=minification_args.remove_asserts,
-        remove_debug=minification_args.remove_debug
+        remove_debug=minification_args.remove_debug,
+        minimum_python_version=minimum_python
     )
 
 

@@ -10,8 +10,8 @@ class ModulePrinter(ExpressionPrinter):
     Builds the smallest possible exact representation of an ast
     """
 
-    def __init__(self, indent_char='\t'):
-        super(ModulePrinter, self).__init__()
+    def __init__(self, python_min_compatibility, indent_char='\t'):
+        super(ModulePrinter, self).__init__(python_min_compatibility)
         self.indent_char = indent_char
 
     def __call__(self, module):
@@ -157,7 +157,7 @@ class ModulePrinter(ExpressionPrinter):
         self.token_break()
         self.code += 'return'
         if isinstance(node.value, ast.Tuple):
-            if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
+            if self.python_min_compatibility < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
                 self.code += '('
                 self._testlist(node.value)
                 self.code += ')'
