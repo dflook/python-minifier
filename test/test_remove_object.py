@@ -7,8 +7,7 @@ from python_minifier.ast_compare import compare_ast
 
 
 def test_remove_object_py3():
-    if sys.version_info < (3, 0):
-        pytest.skip('This test is python3 only')
+    min_version = 3,0
 
     source = '''
 class Test(object):
@@ -20,7 +19,7 @@ class Test:
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveObject()(ast.parse(source))
+    actual_ast = RemoveObject(min_version)(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
 
     source = '''
@@ -33,11 +32,11 @@ class Test(another_base, third_base):
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveObject()(ast.parse(source))
+    actual_ast = RemoveObject(min_version)(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveObject()(ast.parse(source))
+    actual_ast = RemoveObject(min_version)(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
 
     source = '''
@@ -47,13 +46,12 @@ class Test(other_base):
     expected = source
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveObject()(ast.parse(source))
+    actual_ast = RemoveObject(min_version)(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
 
 
 def test_no_remove_object_py2():
-    if sys.version_info >= (3, 0):
-        pytest.skip('This test is python2 only')
+    min_version = 2, 6
 
     source = '''
 class Test(object):
@@ -65,6 +63,6 @@ class Test(object):
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = RemoveObject()(ast.parse(source))
+    actual_ast = RemoveObject(min_version)(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
 

@@ -202,6 +202,8 @@ def unparse(module, minimum_python_version=None):
     """
 
     assert isinstance(module, ast.Module)
+    if minimum_python_version is None:
+        minimum_python_version = 2, 7
 
     printer = ModulePrinter(minimum_python_version)
     printer(module)
