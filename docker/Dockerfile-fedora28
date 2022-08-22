@@ -51,7 +51,7 @@ RUN dnf install -y \
       bzip2 \
   && dnf clean all && rm -rf /var/cache/dnf/*
 
-RUN pip3 install 'tox<3' 'virtualenv<16'
+RUN pip3 install 'tox<3' 'virtualenv<16' 'setuptools_scm<7'
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]
