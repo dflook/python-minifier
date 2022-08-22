@@ -178,11 +178,13 @@ def unparse(module):
     try:
         minified_module = ast.parse(printer.code, 'python_minifier.unparse output')
     except SyntaxError as syntax_error:
+        print(printer.code)
         raise UnstableMinification(syntax_error, '', printer.code)
 
     try:
         compare_ast(module, minified_module)
     except CompareError as compare_error:
+        print(printer.code)
         raise UnstableMinification(compare_error, '', printer.code)
 
     return printer.code

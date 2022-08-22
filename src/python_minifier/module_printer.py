@@ -370,14 +370,14 @@ class ModulePrinter(ExpressionPrinter):
             self.code += 'else:'
             self._suite(node.orelse)
 
-    def visit_Try(self, node):
-        assert isinstance(node, ast.Try)
+    def visit_Try(self, node, star=False):
+        assert is_ast_node(node, (ast.Try, 'TryStar'))
 
         self.newline()
         self.code += 'try:'
         self._suite(node.body)
 
-        [self.visit_ExceptHandler(n) for n in node.handlers]
+        [self.visit_ExceptHandler(n, star) for n in node.handlers]
 
         if node.orelse:
             self.code += 'else:'
@@ -386,6 +386,9 @@ class ModulePrinter(ExpressionPrinter):
         if node.finalbody:
             self.code += 'finally:'
             self._suite(node.finalbody)
+    def visit_TryStar(self, node):
+        assert isinstance(node, ast.TryStar)
+        self.visit_Try(node, star=True)
 
     def visit_TryFinally(self, node):
         assert isinstance(node, ast.TryFinally)
@@ -414,12 +417,16 @@ class ModulePrinter(ExpressionPrinter):
             self.code += 'else:'
             self._suite(node.orelse)
 
-    def visit_ExceptHandler(self, node):
+    def visit_ExceptHandler(self, node, star=False):
         assert isinstance(node, ast.ExceptHandler)
 
         self.code += 'except'
+
+        if star:
+            self.code += '*'
+
         if node.type is not None:
-            self.code += ' '
+            self.token_break()
             self._expression(node.type)
 
         if node.name is not None:
@@ -767,6 +774,7 @@ class ModulePrinter(ExpressionPrinter):
             'For',
             'While',
             'Try',
+            'TryStar',
             'If',
             'With',
             'ClassDef',
@@ -813,6 +821,7 @@ class ModulePrinter(ExpressionPrinter):
             'For': self.visit_For,
             'While': self.visit_While,
             'Try': self.visit_Try,
+            'TryStar': self.visit_TryStar,
             'If': self.visit_If,
             'With': self.visit_With,
             'ClassDef': self.visit_ClassDef,
