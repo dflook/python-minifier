@@ -21,7 +21,7 @@ jobs:
 
       - name: Set version statically
         run: |
-          VERSION=$(python3 setup.py --version)
+          VERSION=0.0.0
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
 
       - name: Run tests
