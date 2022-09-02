@@ -7,15 +7,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test___all__.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.9/test/test___future__.py:
 - options: {}
 - options:
