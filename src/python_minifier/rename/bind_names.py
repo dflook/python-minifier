@@ -20,8 +20,9 @@ class NameBinder(NodeVisitor):
     def get_binding(self, name, namespace):
         if name in namespace.global_names and not isinstance(namespace, ast.Module):
             return self.get_binding(name, get_global_namespace(namespace))
-        elif name in namespace.nonlocal_names and not isinstance(namespace, ast.Module):
-            return self.get_binding(name, get_nonlocal_namespace(namespace))
+
+        # nonlocal names should not create a binding in any context
+        assert name not in namespace.nonlocal_names
 
         if isinstance(namespace, ast.ClassDef):
             binding = self.get_binding(name, get_nonlocal_namespace(namespace))
@@ -45,6 +46,11 @@ class NameBinder(NodeVisitor):
         return binding
 
     def visit_Name(self, node):
+        if node.id in node.namespace.nonlocal_names:
+            # A nonlocal name does not create a binding.
+            # We will resolve the binding later
+            return
+
         if isinstance(node.ctx, (ast.Store, ast.Del)):
             self.get_binding(node.id, node.namespace).add_reference(node)
 
@@ -61,11 +67,13 @@ class NameBinder(NodeVisitor):
                     binding.disallow_rename()
 
     def visit_ClassDef(self, node):
-        self.get_binding(node.name, node.namespace).add_reference(node)
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
         self.generic_visit(node)
 
     def visit_FunctionDef(self, node):
-        self.get_binding(node.name, node.namespace).add_reference(node)
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
         self.generic_visit(node)
 
     def visit_AsyncFunctionDef(self, node):
@@ -81,17 +89,20 @@ class NameBinder(NodeVisitor):
             get_global_namespace(node).tainted = True
 
         if node.asname is not None:
-            self.get_binding(node.asname, node.namespace).add_reference(node)
+            if node.asname not in node.namespace.nonlocal_names:
+                self.get_binding(node.asname, node.namespace).add_reference(node)
         else:
             # This binds the root module only for a dotted import
 
-            binding = self.get_binding(root_module, node.namespace)
-            binding.add_reference(node)
+            if root_module not in node.namespace.nonlocal_names:
+                binding = self.get_binding(root_module, node.namespace)
+                binding.add_reference(node)
 
-            if '.' in node.name:
-                binding.disallow_rename()
+                if '.' in node.name:
+                    binding.disallow_rename()
 
     def visit_arguments(self, node):
+        # varargs, kwarg can't be nonlocal
         if isinstance(node.vararg, str):
             binding = self.get_binding(node.vararg, node.namespace)
             binding.add_reference(node)
@@ -103,6 +114,7 @@ class NameBinder(NodeVisitor):
         self.generic_visit(node)
 
     def visit_arg(self, node):
+        # Args can't be nonlocal
         binding = self.get_binding(node.arg, node.namespace)
 
         if arg_rename_in_place(node):
@@ -118,7 +130,7 @@ class NameBinder(NodeVisitor):
 
     def visit_ExceptHandler(self, node):
         if node.name is not None:
-            if isinstance(node.name, str):
+            if isinstance(node.name, str) and node.name not in node.namespace.nonlocal_names:
                 # python 3
                 self.get_binding(node.name, node.namespace).add_reference(node)
             else:
@@ -132,24 +144,20 @@ class NameBinder(NodeVisitor):
         for name in node.names:
             self.get_binding(name, node.namespace).add_reference(node)
 
-    def visit_Nonlocal(self, node):
-        for name in node.names:
-            self.get_binding(name, node.namespace).add_reference(node)
-
     def visit_MatchAs(self, node):
-        if node.name is not None:
+        if node.name is not None and node.name not in node.namespace.nonlocal_names:
             self.get_binding(node.name, node.namespace).add_reference(node)
 
         self.generic_visit(node)
 
     def visit_MatchStar(self, node):
-        if node.name is not None:
+        if node.name is not None and node.name not in node.namespace.nonlocal_names:
             self.get_binding(node.name, node.namespace).add_reference(node)
 
         self.generic_visit(node)
 
     def visit_MatchMapping(self, node):
-        if node.rest is not None:
+        if node.rest is not None and node.rest not in node.namespace.nonlocal_names:
             self.get_binding(node.rest, node.namespace).add_reference(node)
 
         self.generic_visit(node)
