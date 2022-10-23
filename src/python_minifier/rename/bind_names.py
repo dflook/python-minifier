@@ -80,7 +80,6 @@ class NameBinder(NodeVisitor):
         self.visit_FunctionDef(node)
 
     def visit_alias(self, node):
-
         if node.name == '*':
             get_global_namespace(node).tainted = True
 
@@ -89,11 +88,18 @@ class NameBinder(NodeVisitor):
         if root_module == 'timeit':
             get_global_namespace(node).tainted = True
 
-        bound_name = node.asname if node.asname is not None else root_module
+        if node.asname is not None:
+            if node.asname not in node.namespace.nonlocal_names:
+                self.get_binding(node.asname, node.namespace).add_reference(node)
+        else:
+            # This binds the root module only for a dotted import
 
-        if bound_name not in node.namespace.nonlocal_names:
-            binding = self.get_binding(bound_name, node.namespace)
-            binding.add_reference(node)
+            if root_module not in node.namespace.nonlocal_names:
+                binding = self.get_binding(root_module, node.namespace)
+                binding.add_reference(node)
+
+                if '.' in node.name:
+                    binding.disallow_rename()
 
     def visit_arguments(self, node):
         # varargs, kwarg can't be nonlocal

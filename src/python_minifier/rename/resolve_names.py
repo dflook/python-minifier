@@ -54,15 +54,20 @@ def resolve_names(node):
     elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')) and node.name in node.namespace.nonlocal_names:
         get_binding(node.name, node.namespace).add_reference(node)
     elif isinstance(node, ast.alias):
-        root_module = node.name.split('.')[0]
-        bound_name = node.asname if node.asname is not None else root_module
-        binding = get_binding(bound_name, node.namespace)
 
-        if bound_name in node.namespace.nonlocal_names:
-            binding.add_reference(node)
+        if node.asname is not None:
+            if node.asname in node.namespace.nonlocal_names:
+                get_binding(node.asname, node.namespace).add_reference(node)
+        else:
+            # This binds the root module only for a dotted import
+            root_module = node.name.split('.')[0]
 
-        if '.' in bound_name:
-            binding.disallow_rename()
+            if root_module in node.namespace.nonlocal_names:
+                binding = get_binding(root_module, node.namespace)
+                binding.add_reference(node)
+
+                if '.' in node.name:
+                    binding.disallow_rename()
 
     elif isinstance(node, ast.ExceptHandler) and node.name is not None:
         if isinstance(node.name, str) and node.name in node.namespace.nonlocal_names:
