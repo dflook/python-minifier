@@ -43,8 +43,10 @@ This is usually the closest parent namespace node. The exceptions are:
 
 ### Bind names
 
-Every node that binds a name creates a NameBinding for that name in it's namespace.
-It adds itself to the NameBinding as a reference.
+Every node that binds a name creates a NameBinding for that name in its namespace.
+The node is added to the NameBinding as a reference.
+
+If the name is nonlocal in its namespace it does not create a binding.
 
 Nodes that create a binding:
 - FunctionDef nodes bind their name
@@ -57,7 +59,9 @@ Nodes that create a binding:
 
 ### Resolve names
 
-For the remaining unbound name nodes find their binding by searching their namespace, then parent namespaces.
+For the remaining unbound name nodes and nodes that normally create a binding but are for a nonlocal name, we find their binding.
+
+Bindings for name references are found by searching their namespace, then parent namespaces.
 If a name is global in a searched namespace, skip straight to the module node.
 If a name is nonlocal in a searched namespace, skip to the next parent namespace.
 When traversing parent namespaces, Class namespaces are skipped.
@@ -67,13 +71,12 @@ If no NameBinding is found, check if the name would resolve to a builtin.
 If so, create a BuiltinBinding in the module namespace and add this node as a reference.
 
 Otherwise we failed to find a binding for this name - Create a NameBinding in the module namespace and add this node 
-as a reference, but issue a warning.
+as a reference.
 
 ## Hoist Literals
 
 At this point we do the HoistLiterals transform, which adds new HoistedLiteral bindings to the namespaces where it wants
 to introduce new names.
-
 
 ## Name Assignment
 

@@ -46,6 +46,36 @@ def resolve_names(node):
 
     if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
         get_binding(node.id, node.namespace).add_reference(node)
+    elif isinstance(node, ast.Name) and node.id in node.namespace.nonlocal_names:
+        get_binding(node.id, node.namespace).add_reference(node)
+
+    elif isinstance(node, ast.ClassDef) and node.name in node.namespace.nonlocal_names:
+        get_binding(node.name, node.namespace).add_reference(node)
+    elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')) and node.name in node.namespace.nonlocal_names:
+        get_binding(node.name, node.namespace).add_reference(node)
+    elif isinstance(node, ast.alias):
+        root_module = node.name.split('.')[0]
+        bound_name = node.asname if node.asname is not None else root_module
+        binding = get_binding(bound_name, node.namespace)
+
+        if bound_name in node.namespace.nonlocal_names:
+            binding.add_reference(node)
+
+        if '.' in bound_name:
+            binding.disallow_rename()
+
+    elif isinstance(node, ast.ExceptHandler) and node.name is not None:
+        if isinstance(node.name, str) and node.name in node.namespace.nonlocal_names:
+            get_binding(node.name, node.namespace).add_reference(node)
+
+    elif is_ast_node(node, 'Nonlocal'):
+        for name in node.names:
+            get_binding(name, node.namespace).add_reference(node)
+    elif is_ast_node(node, ('MatchAs', 'MatchStar')) and node.name in node.namespace.nonlocal_names:
+        get_binding(node.name, node.namespace).add_reference(node)
+    elif is_ast_node(node, 'MatchMapping') and node.rest in node.namespace.nonlocal_names:
+        get_binding(node.rest, node.namespace).add_reference(node)
+
     elif is_ast_node(node, 'Exec'):
         get_global_namespace(node).tainted = True
 
