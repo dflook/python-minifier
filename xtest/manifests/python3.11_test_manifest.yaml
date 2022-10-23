@@ -187,14 +187,18 @@
 /usr/local/lib/python3.11/test/test_asyncio/test_events.py: []
 /usr/local/lib/python3.11/test/test_asyncio/test_futures.py: []
 /usr/local/lib/python3.11/test/test_asyncio/test_futures2.py:
-- options: {}
+- options:
+    preserve_locals: future
 - options:
     rename_globals: true
+    preserve_locals: future
 - options:
     remove_literal_statements: true
+    preserve_locals: future
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_locals: future
 /usr/local/lib/python3.11/test/test_asyncio/test_locks.py:
 - options: {}
 - options:
