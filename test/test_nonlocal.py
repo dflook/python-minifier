@@ -1,6 +1,13 @@
+import sys
+
+import pytest
+
 import python_minifier
 
 def test_nonlocal_name():
+    if sys.version_info < (3, 0):
+        pytest.skip('No nonlocal in python < 3.0')
+
     test_code = '''
 def test():
     def outer():
@@ -29,6 +36,9 @@ result = test()
 
 
 def test_nonlocal_def():
+    if sys.version_info < (3, 0):
+        pytest.skip('No nonlocal in python < 3.0')
+
     test_code = '''
 def test():
     def patch():
@@ -56,6 +66,9 @@ result = test()
     assert minified_locals['result'] == 2
 
 def test_nonlocal_import():
+    if sys.version_info < (3, 0):
+        pytest.skip('No nonlocal in python < 3.0')
+
     test_code = '''
 def test():
 
@@ -82,6 +95,9 @@ result = test()
     assert minified_locals['result'] == True
 
 def test_nonlocal_import_alias():
+    if sys.version_info < (3, 0):
+        pytest.skip('No nonlocal in python < 3.0')
+
     test_code = '''
 def test():
 
