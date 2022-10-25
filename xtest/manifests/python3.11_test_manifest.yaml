@@ -1406,15 +1406,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.11/test/test_exception_group.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.11/test/test_exception_group.py: []
 /usr/local/lib/python3.11/test/test_exception_hierarchy.py:
 - options: {}
 - options:
@@ -3196,6 +3188,9 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_globals:
+    - PropertyUnreachableAttributeNoName
+    - PropertyUnreachableAttributeWithName
 /usr/local/lib/python3.11/test/test_pstats.py:
 - options:
     preserve_locals:
