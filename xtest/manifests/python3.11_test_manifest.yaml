@@ -1744,14 +1744,34 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.11/test/test_genericclass.py:
-- options: {}
+- options:
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
 - options:
     rename_globals: true
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
 - options:
     remove_literal_statements: true
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
 /usr/local/lib/python3.11/test/test_genericpath.py:
 - options: {}
 - options:
@@ -2899,14 +2919,18 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.11/test/test_opcache.py:
-- options: {}
+- options:
+    preserve_locals: Class
 - options:
     rename_globals: true
+    preserve_locals: Class
 - options:
     remove_literal_statements: true
+    preserve_locals: Class
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_locals: Class
 /usr/local/lib/python3.11/test/test_opcodes.py:
 - options: {}
 - options:
@@ -3164,6 +3188,9 @@
 - options: {}
 - options:
     rename_globals: true
+    preserve_globals:
+    - PropertyUnreachableAttributeNoName
+    - PropertyUnreachableAttributeWithName
 - options:
     remove_literal_statements: true
 - options:
