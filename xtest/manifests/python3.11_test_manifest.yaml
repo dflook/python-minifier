@@ -873,24 +873,20 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.11/test/test_contextlib.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.11/test/test_contextlib.py: []
 /usr/local/lib/python3.11/test/test_contextlib_async.py:
-- options: {}
+- options:
+    preserve_locals: baz
 - options:
     rename_globals: true
+    preserve_locals: baz
 - options:
     remove_literal_statements: true
+    preserve_locals: baz
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_locals: baz
 /usr/local/lib/python3.11/test/test_copy.py:
 - options: {}
 - options:
