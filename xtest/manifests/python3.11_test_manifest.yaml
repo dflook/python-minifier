@@ -793,11 +793,15 @@
 - options: {}
 - options:
     rename_globals: true
+    preserve_globals:
+    - _TEST_CODECS
 - options:
     remove_literal_statements: true
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_globals:
+    - _TEST_CODECS
 /usr/local/lib/python3.11/test/test_codeop.py:
 - options: {}
 - options:
@@ -874,19 +878,7 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.11/test/test_contextlib.py: []
-/usr/local/lib/python3.11/test/test_contextlib_async.py:
-- options:
-    preserve_locals: baz
-- options:
-    rename_globals: true
-    preserve_locals: baz
-- options:
-    remove_literal_statements: true
-    preserve_locals: baz
-- options:
-    remove_literal_statements: true
-    rename_globals: true
-    preserve_locals: baz
+/usr/local/lib/python3.11/test/test_contextlib_async.py: []
 /usr/local/lib/python3.11/test/test_copy.py:
 - options: {}
 - options:
@@ -2973,13 +2965,15 @@
 - options: {}
 - options:
     rename_globals: true
-    preserve_globals: setUpModule
+    preserve_globals:
+    - setUpModule
 - options:
     remove_literal_statements: true
 - options:
     remove_literal_statements: true
     rename_globals: true
-    preserve_globals: setUpModule
+    preserve_globals:
+    - setUpModule
 /usr/local/lib/python3.11/test/test_osx_env.py:
 - options: {}
 - options:
@@ -3823,15 +3817,7 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.11/test/test_sys_settrace.py: []
-/usr/local/lib/python3.11/test/test_sysconfig.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.11/test/test_sysconfig.py: []
 /usr/local/lib/python3.11/test/test_syslog.py:
 - options: {}
 - options:
@@ -3919,13 +3905,15 @@
 - options: {}
 - options:
     rename_globals: true
-    preserve_globals: setUpModule
+    preserve_globals:
+    - setUpModule
 - options:
     remove_literal_statements: true
 - options:
     remove_literal_statements: true
     rename_globals: true
-    preserve_globals: setUpModule
+    preserve_globals:
+    - setUpModule
 /usr/local/lib/python3.11/test/test_time.py:
 - options: {}
 - options:
@@ -4258,15 +4246,6 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.11/test/test_venv.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
 /usr/local/lib/python3.11/test/test_wait3.py:
 - options: {}
 - options:
@@ -4478,11 +4457,25 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.11/test/test_zoneinfo/test_zoneinfo.py:
-- options: {}
 - options:
+    preserve_locals:
+    - ZISubclass
+- options:
+    preserve_locals:
+    - ZISubclass
     rename_globals: true
+    preserve_globals:
+    - setUpModule
+    - tearDownModule
 - options:
+    preserve_locals:
+    - ZISubclass
     remove_literal_statements: true
 - options:
+    preserve_locals:
+    - ZISubclass
     remove_literal_statements: true
     rename_globals: true
+    preserve_globals:
+    - setUpModule
+    - tearDownModule
