@@ -68,7 +68,11 @@ class RemoveAnnotations(SuiteTransformer):
             for node in node.parent.decorator_list:
                 if isinstance(node, ast.Name) and node.id == 'dataclass':
                     return True
+                elif isinstance(node, ast.Attribute) and node.attr == 'dataclass':
+                    return True
                 elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'dataclass':
+                    return True
+                elif isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == 'dataclass':
                     return True
 
             return False
