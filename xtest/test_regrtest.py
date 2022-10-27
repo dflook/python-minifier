@@ -87,13 +87,13 @@ class Case(object):
             python(path)
 
         try:
-            with open(self.test_path, 'rb') as f:
-                source = f.read()
+            #with open(self.test_path, 'rb') as f:
+            #    source = f.read()
 
-            shutil.copy(self.test_path, self.test_path + '.bak')
+            #shutil.copy(self.test_path, self.test_path + '.bak')
 
-            with open(self.test_path, 'wb') as f:
-                f.write(minify(source, self.test_path, **self.options).encode())
+            #with open(self.test_path, 'wb') as f:
+            #    f.write(minify(source, self.test_path, **self.options).encode())
 
             execute(sys.executable, self.test_path)
         except ErrorReturnCode as e:
@@ -101,7 +101,8 @@ class Case(object):
             print(e.stderr)
             raise
         finally:
-            shutil.copy(self.test_path + '.bak', self.test_path)
+            pass
+            #shutil.copy(self.test_path + '.bak', self.test_path)
 
 
 def get_active_manifest():
