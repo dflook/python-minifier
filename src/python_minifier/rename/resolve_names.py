@@ -46,6 +46,41 @@ def resolve_names(node):
 
     if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
         get_binding(node.id, node.namespace).add_reference(node)
+    elif isinstance(node, ast.Name) and node.id in node.namespace.nonlocal_names:
+        get_binding(node.id, node.namespace).add_reference(node)
+
+    elif isinstance(node, ast.ClassDef) and node.name in node.namespace.nonlocal_names:
+        get_binding(node.name, node.namespace).add_reference(node)
+    elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')) and node.name in node.namespace.nonlocal_names:
+        get_binding(node.name, node.namespace).add_reference(node)
+    elif isinstance(node, ast.alias):
+
+        if node.asname is not None:
+            if node.asname in node.namespace.nonlocal_names:
+                get_binding(node.asname, node.namespace).add_reference(node)
+        else:
+            # This binds the root module only for a dotted import
+            root_module = node.name.split('.')[0]
+
+            if root_module in node.namespace.nonlocal_names:
+                binding = get_binding(root_module, node.namespace)
+                binding.add_reference(node)
+
+                if '.' in node.name:
+                    binding.disallow_rename()
+
+    elif isinstance(node, ast.ExceptHandler) and node.name is not None:
+        if isinstance(node.name, str) and node.name in node.namespace.nonlocal_names:
+            get_binding(node.name, node.namespace).add_reference(node)
+
+    elif is_ast_node(node, 'Nonlocal'):
+        for name in node.names:
+            get_binding(name, node.namespace).add_reference(node)
+    elif is_ast_node(node, ('MatchAs', 'MatchStar')) and node.name in node.namespace.nonlocal_names:
+        get_binding(node.name, node.namespace).add_reference(node)
+    elif is_ast_node(node, 'MatchMapping') and node.rest in node.namespace.nonlocal_names:
+        get_binding(node.rest, node.namespace).add_reference(node)
+
     elif is_ast_node(node, 'Exec'):
         get_global_namespace(node).tainted = True
 

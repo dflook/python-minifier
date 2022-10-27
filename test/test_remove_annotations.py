@@ -78,6 +78,21 @@ def test_no_remove_dataclass():
 class MyClass:
     myfield: int
     mysecondfile: str
+
+@dataclasses.dataclass
+class MyClass:
+    myfield: int
+    mysecondfile: str
+
+@dataclass(frozen=True)
+class MyClass:
+    myfield: int
+    mysecondfile: str
+
+@dataclasses.dataclass(frozen=True)
+class MyClass:
+    myfield: int
+    mysecondfile: str
 '''
     expected = source
 
