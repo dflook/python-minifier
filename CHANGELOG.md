@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Python 3.11 support, including exception groups syntax
 
-## Changed
+### Changed
 - Improved detection of dataclasses when using the remove annotations transform, 
   which suppresses removal of annotations for those classes
 
