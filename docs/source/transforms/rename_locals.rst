@@ -13,14 +13,15 @@ When enabled all non-global names may be renamed if it is space efficient and sa
   - Local imports
   - Comprehension target names
   - Function arguments that are not typically referenced by the caller (`self`, `cls`, `args`, `kwargs`)
-  - Function arguments may be bound with a new name in the function body, without changing the function signature
+  - Positional only function arguments
+  - Possible keyword function arguments may be bound with a new name in the function body, without changing the function signature
   - Exception handler target names
 
 This will not change:
 
   - Global names
   - Names in class scope
-  - Lambda function arguments (except args and kwargs)
+  - Lambda function arguments (except args/kwargs and positional only args)
 
 New names are assigned according to the smallest minified result. To conserve the pool of available shortest names
 they are reused in sibling namespaces and shadowed in child namespaces.
