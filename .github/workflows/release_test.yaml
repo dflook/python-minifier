@@ -24,6 +24,9 @@ jobs:
         run: |
           pip3 install --upgrade setuptools wheel twine
           python3 setup.py sdist bdist_wheel --universal
+          
+          mv dist/*.tar.gz dist/python_minifier.tar.gz
+          mv dist/*.whl dist/python_minifier.whl
 
       - uses: actions/upload-artifact@v3
         with:
@@ -109,7 +112,7 @@ jobs:
       - name: Install package
         run: |
           pip --version
-          pip install dist/*${{ matrix.package_type }}
+          pip install dist/python_minifier${{ matrix.package_type }}
           pyminify --version
 
       - name: Checkout
