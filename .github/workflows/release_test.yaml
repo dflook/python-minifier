@@ -107,8 +107,9 @@ jobs:
           path: dist/
 
       - name: Install package
+        shell: cmd
         run: |
-          Get-ChildItem dist          
+          dir dist
           pip install dist\*${{ matrix.package_type }}
           pyminify --version
 
