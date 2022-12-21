@@ -88,6 +88,41 @@ jobs:
           pyminify setup.py --output /tmp/out.min.py2
           pyminify setup.py src test --in-place
 
+  test_windows_package:
+    name: Test Package (windows)
+    runs-on: windows-latest
+    needs: [package]
+    strategy:
+      matrix:
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        package_type: [.tar.gz, .whl]
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Install package
+        run: |
+          pip --version
+          pip install dist/*${{ matrix.package_type }}
+          pyminify --version
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test pyminify
+        run: |
+          set -x
+          cat setup.py | pyminify -
+          pyminify setup.py > /tmp/out.min.py
+          pyminify setup.py --output /tmp/out.min.py2
+          pyminify setup.py src test --in-place
+
   test_typing:
     runs-on: ubuntu-latest
     needs: [package]
