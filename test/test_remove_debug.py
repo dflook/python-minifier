@@ -3,8 +3,9 @@ import ast
 import pytest
 
 from python_minifier import add_namespace, bind_names, resolve_names
-from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.ast_compare import compare_ast
+from python_minifier.transforms.remove_debug import RemoveDebug
+
 
 def remove_debug(source):
     module = ast.parse(source, 'remove_debug')
@@ -14,6 +15,7 @@ def remove_debug(source):
     resolve_names(module)
     return RemoveDebug()(module)
 
+
 def test_remove_debug_empty_module():
     source = 'if __debug__: pass'
     expected = ''
@@ -21,6 +23,7 @@ def test_remove_debug_empty_module():
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_debug_module():
     source = '''import collections
@@ -34,6 +37,7 @@ a=1'''
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_remove_if_empty():
     source = '''if True:
     if __debug__: pass'''
@@ -42,6 +46,7 @@ def test_remove_if_empty():
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_suite():
     source = '''if True: 
@@ -56,6 +61,7 @@ def test_remove_suite():
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_from_class():
     source = '''class A:
@@ -77,6 +83,7 @@ def test_remove_from_class():
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_remove_from_class_empty():
     source = '''class A:
     if __debug__: pass
@@ -86,6 +93,7 @@ def test_remove_from_class_empty():
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_from_class_func_empty():
     source = '''class A:
@@ -107,11 +115,11 @@ def test_remove_from_class_func_empty():
     '__debug__ == True'
 ])
 def test_remove_truthy_debug(condition):
-    source = f'''
+    source = '''
 value = 10
 
 # Truthy
-if {condition}:
+if ''' + condition + ''':
   value += 1
 
 print(value)    
@@ -138,11 +146,11 @@ print(value)
     'not __debug__ == True'
 ])
 def test_no_remove_falsy_debug(condition):
-    source = f'''
+    source = '''
 value = 10
 
 # Truthy
-if {condition}:
+if ''' + condition + ''':
   value += 1
 
 print(value)    
