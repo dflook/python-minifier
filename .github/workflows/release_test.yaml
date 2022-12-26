@@ -11,7 +11,7 @@ jobs:
       image: danielflook/python-minifier-build:python3.11-2022-10-25
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -49,7 +49,7 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build documentation
         run: |
@@ -78,7 +78,7 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Test pyminify
         run: |
@@ -107,7 +107,7 @@ jobs:
           pip3.11 install dist/*${{ matrix.package_type }}
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Test typing
         run: |
