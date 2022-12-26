@@ -171,6 +171,18 @@ def parse_args():
         help='Preserve any shebang line from the source',
         dest='preserve_shebang',
     )
+    minification_options.add_argument(
+        '--remove-asserts',
+        action='store_true',
+        help='Remove assert statements',
+        dest='remove_asserts',
+    )
+    minification_options.add_argument(
+        '--remove-debug',
+        action='store_true',
+        help='Remove conditional statements that test __debug__ is True',
+        dest='remove_debug',
+    )
 
     parser.add_argument('--version', '-v', action='version', version=version)
 
@@ -201,7 +213,7 @@ def source_modules(args):
         if os.path.isdir(path_arg):
             for root, dirs, files in os.walk(path_arg, onerror=error, followlinks=True):
                 for file in files:
-                    if file.endswith('.py'):
+                    if file.endswith('.py') or file.endswith('.pyw'):
                         yield os.path.join(root, file)
         else:
             yield path_arg
@@ -234,7 +246,9 @@ def do_minify(source, filename, minification_args):
         preserve_globals=preserve_globals,
         remove_object_base=minification_args.remove_object_base,
         convert_posargs_to_args=minification_args.convert_posargs_to_args,
-        preserve_shebang=minification_args.preserve_shebang
+        preserve_shebang=minification_args.preserve_shebang,
+        remove_asserts=minification_args.remove_asserts,
+        remove_debug=minification_args.remove_debug
     )
 
 
