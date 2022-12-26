@@ -1,4 +1,5 @@
 import ast
+import sys
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
 from python_minifier.util import is_ast_node
@@ -14,20 +15,27 @@ class RemoveDebug(SuiteTransformer):
     def __call__(self, node):
         return self.visit(node)
 
+    def constant_value(self, node):
+        if sys.version_info < (3, 4):
+            return node.id == 'True'
+        elif is_ast_node(node, 'NameConstant'):
+            return node.value
+        return None
+
     def can_remove(self, node):
         if not isinstance(node, ast.If):
             return False
 
-        if is_ast_node(node.test, ast.Name) and node.test.id == '__debug__':
+        if isinstance(node.test, ast.Name) and node.test.id == '__debug__':
             return True
 
-        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Is) and is_ast_node(node.test.comparators[0], ast.NameConstant) and node.test.comparators[0].value is True:
+        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Is) and self.constant_value(node.test.comparators[0]) is True:
             return True
 
-        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.IsNot) and is_ast_node(node.test.comparators[0], ast.NameConstant) and node.test.comparators[0].value is False:
+        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.IsNot) and self.constant_value(node.test.comparators[0]) is False:
             return True
 
-        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Eq) and is_ast_node(node.test.comparators[0], ast.NameConstant) and node.test.comparators[0].value is True:
+        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Eq) and self.constant_value(node.test.comparators[0]) is True:
             return True
 
         return False
