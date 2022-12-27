@@ -20,6 +20,8 @@ from python_minifier.rename import (
 )
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
+from python_minifier.transforms.remove_asserts import RemoveAsserts
+from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
@@ -59,7 +61,9 @@ def minify(
     preserve_globals=None,
     remove_object_base=True,
     convert_posargs_to_args=True,
-    preserve_shebang=True
+    preserve_shebang=True,
+    remove_asserts=False,
+    remove_debug=False
 ):
     """
     Minify a python module
@@ -87,6 +91,8 @@ def minify(
     :param bool remove_object_base: If object as a base class may be removed
     :param bool convert_posargs_to_args: If positional-only arguments will be converted to normal arguments
     :param bool preserve_shebang: Keep any shebang interpreter directive from the source in the minified output
+    :param bool remove_asserts: If assert statements should be removed
+    :param bool remove_debug: If conditional statements that test '__debug__ is True' should be removed
 
     :rtype: str
 
@@ -113,6 +119,12 @@ def minify(
 
     if remove_object_base:
         module = RemoveObject()(module)
+
+    if remove_asserts:
+        module = RemoveAsserts()(module)
+
+    if remove_debug:
+        module = RemoveDebug()(module)
 
     bind_names(module)
     resolve_names(module)

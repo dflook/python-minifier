@@ -25,7 +25,9 @@ def test_typing() -> None:
            preserve_globals=None,
            remove_object_base=True,
            convert_posargs_to_args=True,
-           preserve_shebang=True
+           preserve_shebang=True,
+           remove_asserts=True,
+           remove_debug=True
     )
     awslambda('pass')
     awslambda('pass',

@@ -15,7 +15,7 @@ jobs:
       image: danielflook/python-minifier-build:${{ matrix.python }}-2022-10-25
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -26,4 +26,13 @@ jobs:
 
       - name: Run tests
         run: |
+          
+          if [[ "${{ matrix.python }}" == "python3.4" ]]; then
+            (cd /usr/lib64/python3.4/test && python3.4 make_ssl_certs.py)
+          elif [[ "${{ matrix.python }}" == "python3.5" ]]; then
+            (cd /usr/lib64/python3.5/test && python3.5 make_ssl_certs.py)
+          elif [[ "${{ matrix.python }}" == "pypy3" ]]; then
+            (cd /usr/lib64/pypy3-7.0/lib-python/3/test && pypy3 make_ssl_certs.py)
+          fi
+          
           tox -r -e $(echo "${{ matrix.python }}" | tr -d .) xtest
