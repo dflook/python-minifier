@@ -25,3 +25,5 @@ They can be enabled or disabled through the minify function, or passing options 
 
    remove_literal_statements
    rename_globals
+   remove_asserts
+   remove_debug
