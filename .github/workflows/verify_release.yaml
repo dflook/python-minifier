@@ -1,0 +1,23 @@
+name: Verify Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The release version to test'
+        required: true
+        type: string
+
+jobs:
+  test_package:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+    container:
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2022-10-25
+    steps:
+      - name: Test
+        run: |
+          pip${{ matrix.python }} install python-minifier==${{ inputs.version }}
+          pyminify --version

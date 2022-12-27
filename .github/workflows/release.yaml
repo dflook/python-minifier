@@ -47,17 +47,3 @@ jobs:
             Update docs
 
             [skip ci]
-
-  test_package:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
-    needs: release
-    container:
-      image: danielflook/python-minifier-build:python${{ matrix.python }}-2022-10-25
-    steps:
-      - name: Test
-        run: |
-          pip${{ matrix.python }} install python-minifier==${{ github.event.release.tag_name }}
-          pyminify --version
