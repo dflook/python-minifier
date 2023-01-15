@@ -25,6 +25,7 @@ from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
+from python_minifier.transforms.use_equals_specifier import UseEqualsSpecifier
 from python_minifier.transforms.remove_posargs import remove_posargs
 
 
@@ -63,7 +64,8 @@ def minify(
     convert_posargs_to_args=True,
     preserve_shebang=True,
     remove_asserts=False,
-    remove_debug=False
+    remove_debug=False,
+    use_equals_specifier=True
 ):
     """
     Minify a python module
@@ -93,6 +95,7 @@ def minify(
     :param bool preserve_shebang: Keep any shebang interpreter directive from the source in the minified output
     :param bool remove_asserts: If assert statements should be removed
     :param bool remove_debug: If conditional statements that test '__debug__ is True' should be removed
+    :param bool use_equals_specifier: If the f string = specifier should be used 
 
     :rtype: str
 
@@ -125,6 +128,9 @@ def minify(
 
     if remove_debug:
         module = RemoveDebug()(module)
+
+    if use_equals_specifier:
+        module = UseEqualsSpecifier()(module)
 
     bind_names(module)
     resolve_names(module)
