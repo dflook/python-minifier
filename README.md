@@ -1,6 +1,6 @@
 # Python Minifier
 
-Transforms Python source code into it's most compact representation.
+Transforms Python source code into its most compact representation.
 
 [Try it out!](https://python-minifier.com)
 
