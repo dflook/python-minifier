@@ -18,6 +18,7 @@ from python_minifier.rename import (
     allow_rename_locals,
     add_namespace,
 )
+from python_minifier.rename.util import is_namespace
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_asserts import RemoveAsserts

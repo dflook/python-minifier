@@ -89,6 +89,26 @@ def add_parent_to_classdef(classdef):
     for node in classdef.decorator_list:
         add_parent(node, parent=classdef, namespace=classdef.namespace)
 
+def add_parent_to_comprehension(node, namespace):
+    assert is_ast_node(node, (ast.GeneratorExp, 'SetComp', 'DictComp', 'ListComp'))
+
+    if hasattr(node, 'elt'):
+        add_parent(node.elt, parent=node, namespace=node)
+    elif hasattr(node, 'key'):
+        add_parent(node.key, parent=node, namespace=node)
+        add_parent(node.value, parent=node, namespace=node)
+
+    iter_namespace = namespace
+    for generator in node.generators:
+        generator.parent = node
+        generator.namespace = node
+
+        add_parent(generator.target, parent=generator, namespace=node)
+        add_parent(generator.iter, parent=generator, namespace=iter_namespace)
+        iter_namespace = node
+        for if_ in generator.ifs:
+            add_parent(if_, parent=generator, namespace=node)
+
 
 def add_parent(node, parent=None, namespace=None):
     """
@@ -114,6 +134,8 @@ def add_parent(node, parent=None, namespace=None):
 
         if is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')):
             add_parent_to_functiondef(node)
+        elif is_ast_node(node, (ast.GeneratorExp, 'SetComp', 'DictComp', 'ListComp')):
+            add_parent_to_comprehension(node, namespace=namespace)
         elif isinstance(node, ast.Lambda):
             add_parent_to_arguments(node.args, func=node)
             add_parent(node.body, parent=node, namespace=node)
@@ -123,13 +145,6 @@ def add_parent(node, parent=None, namespace=None):
             for child in ast.iter_child_nodes(node):
                 add_parent(child, parent=node, namespace=node)
 
-        return
-
-    if isinstance(node, ast.comprehension):
-        add_parent(node.target, parent=node, namespace=namespace)
-        add_parent(node.iter, parent=node, namespace=namespace)
-        for if_ in node.ifs:
-            add_parent(if_, parent=node, namespace=namespace)
         return
 
     if isinstance(node, ast.Global):
