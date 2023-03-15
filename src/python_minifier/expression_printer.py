@@ -16,7 +16,7 @@ class ExpressionPrinter(object):
         self.unicode_literals = False
 
         self.precedences = {
-            'Lambda': 2,  # Lamdda
+            'Lambda': 2,  # Lambda
             'IfExp': 3,  # IfExp
             'comprehension': 3.5,
             'Or': 4,  # BoolOp
