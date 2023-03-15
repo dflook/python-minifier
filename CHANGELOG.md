@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.1] - 2023-03-15
+
+### Fixed
+- A bug shortening names in the iterable of a comprehension when the original name was also used as a target in the comprehension
+  e.g. `def f(x): return [x for x in x]` would be incorrectly minified to `def f(x):return[A for A in A]`, instead of `def f(x):return[A for A in x]`.
+
 ## [2.8.0] - 2022-12-27
 
 ### Added
@@ -157,6 +163,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - python-minifier package
 - pyminify command
 
+[2.8.1]: https://github.com/dflook/python-minifier/compare/2.8.0...2.8.1
 [2.8.0]: https://github.com/dflook/python-minifier/compare/2.7.0...2.8.0
 [2.7.0]: https://github.com/dflook/python-minifier/compare/2.6.0...2.7.0
 [2.6.0]: https://github.com/dflook/python-minifier/compare/2.5.0...2.6.0
