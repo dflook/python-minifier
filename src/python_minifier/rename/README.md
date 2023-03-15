@@ -40,6 +40,7 @@ This is usually the closest parent namespace node. The exceptions are:
 - Function annotations are in the same namespace as their function.
 - Class decorator are in the same namespace as their class.
 - Class bases, keywords, starargs and kwargs are in the same namespace as their class.
+- The first iteration expression of a comprehension is in the same namespace as it's parent ListComp/SetComp/DictComp or GeneratorExp.
 
 ### Bind names
 
