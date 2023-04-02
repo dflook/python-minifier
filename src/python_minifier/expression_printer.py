@@ -16,6 +16,7 @@ class ExpressionPrinter(object):
         self.unicode_literals = False
 
         self.precedences = {
+            'NamedExpr': 1,  # Assignment expression
             'Lambda': 2,  # Lambda
             'IfExp': 3,  # IfExp
             'comprehension': 3.5,
@@ -706,10 +707,6 @@ class ExpressionPrinter(object):
             self.code += '('
             self.visit_Tuple(expression)
             self.code += ')'
-        elif is_ast_node(expression, 'NamedExpr'):
-            self.code += '('
-            self.visit_NamedExpr(expression)
-            self.code += ')'
         else:
             self.visit(expression)
 
@@ -717,10 +714,6 @@ class ExpressionPrinter(object):
         if is_ast_node(test, (ast.Yield, 'YieldFrom')):
             self.code += '('
             self._yield_expr(test)
-            self.code += ')'
-        elif is_ast_node(test, 'NamedExpr'):
-            self.code += '('
-            self.visit_NamedExpr(test)
             self.code += ')'
         else:
             self.visit(test)
