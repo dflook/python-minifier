@@ -185,7 +185,7 @@ def parse_args():
         dest='remove_debug',
     )
     minification_options.add_argument(
-        '--minimum-python',
+        '--minimum-python-version',
         type=str,
         action='store',
         default='2.7',
@@ -212,7 +212,7 @@ def parse_args():
         sys.stderr.write('error: path ' + args.path[0] + ' is a directory, --in-place required\n')
         sys.exit(1)
     if args.minimum_python_version and not re.match(r'^\d+\.\d+$', args.minimum_python_version):
-        sys.stderr.write('error: --minimum-python should specify a major and minor version, e.g. --minimum-python 3.8\n')
+        sys.stderr.write('error: --minimum-python-version should specify a major and minor version, e.g. --minimum-python 3.8\n')
         sys.exit(1)
 
     return args

@@ -120,6 +120,9 @@ class PythonSourceCompatability(NodeVisitor):
             self.set_version(3, 6)
         self.generic_visit(node)
 
+    def visit_TryStar(self, node):
+        self.set_version(3, 11)
+        self.generic_visit(node)
 
 def python_source_compat(module):
     return PythonSourceCompatability()(module)

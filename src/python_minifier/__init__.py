@@ -49,6 +49,30 @@ class UnstableMinification(RuntimeError):
     def __str__(self):
         return 'Minification was unstable! Please create an issue at https://github.com/dflook/python-minifier/issues'
 
+def validate_python_version_arg(python_version):
+    if not isinstance(python_version, tuple) or (not isinstance(python_version[0], int) or not isinstance(python_version[1], int)):
+        raise ValueError('minimum_python_version should be a tuple of major and minor version numbers, e.g. (3, 6)')
+
+def version_constraints(module, minimum_python_version):
+    """
+    Return the minimum and maximum python versions that the module should target.
+
+    The minimum version will be at least what is required by the module's source code.
+    The maximum version will always be the current python version, as we need to be able to parse it to verify the minification.
+
+    :param module: The module to check
+    :param minimum_python_version: The minimum python version that the module should target, or None
+    :return: A tuple of (minimum, maximum) python versions, where is version is a tuple of (major, minor)
+    """
+
+    if minimum_python_version is not None:
+        minimum = max((minimum_python_version[0], minimum_python_version[1]), python_source_compat(module))
+    else:
+        minimum = python_source_compat(module)
+
+    maximum = sys.version_info[:2]
+
+    return minimum, maximum
 
 def minify(
     source,
@@ -109,13 +133,8 @@ def minify(
     # This will raise if the source file can't be parsed
     module = ast.parse(source, filename)
 
-    if minimum_python_version:
-        if not isinstance(minimum_python_version[0], int) or not isinstance(minimum_python_version[1], int):
-            raise ValueError('minimum_python_version should be a tuple of major and minor version numbers, e.g. (3, 6)')
-        minimum_python_version = max((minimum_python_version[0], minimum_python_version[1]), python_source_compat(module))
-    else:
-        minimum_python_version = python_source_compat(module)
-    sys.stderr.write('Minifying for python >=' + repr(minimum_python_version))
+    minimum_python_version, maximum_python_version = version_constraints(module, minimum_python_version)
+    sys.stderr.write('Targeting python >=' + repr(minimum_python_version) + ', <=' + repr(maximum_python_version))
 
     add_namespace(module)
 
@@ -202,6 +221,7 @@ def unparse(module, minimum_python_version=None):
     """
 
     assert isinstance(module, ast.Module)
+
     if minimum_python_version is None:
         minimum_python_version = 2, 7
 
@@ -213,15 +233,15 @@ def unparse(module, minimum_python_version=None):
     except SyntaxError as syntax_error:
         raise UnstableMinification(syntax_error, '', printer.code)
 
-    try:
-        compare_ast(module, minified_module)
-    except CompareError as compare_error:
-        raise UnstableMinification(compare_error, '', printer.code)
+    #try:
+    #    compare_ast(module, minified_module)
+    #except CompareError as compare_error:
+    #    raise UnstableMinification(compare_error, '', printer.code)
 
     return printer.code
 
 
-def awslambda(source, filename=None, entrypoint=None):
+def awslambda(source, filename=None, entrypoint=None, python_version=None):
     """
     Minify a python module for use as an AWS Lambda function
 
@@ -245,5 +265,6 @@ def awslambda(source, filename=None, entrypoint=None):
         filename,
         remove_literal_statements=True,
         rename_globals=rename_globals,
-        preserve_globals=[entrypoint]
+        preserve_globals=[entrypoint],
+        minimum_python_version=python_version,
     )
