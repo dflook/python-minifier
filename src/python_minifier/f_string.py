@@ -128,7 +128,9 @@ class FormattedValue(ExpressionPrinter):
 
         self.code = '{'
 
-        if self.is_curly(self.node.value):
+        if is_ast_node(self.node.value, 'NamedExpr'):
+            self.code += '('
+        elif self.is_curly(self.node.value):
             self.code += ' '
 
         self._expression(self.node.value)
@@ -144,6 +146,8 @@ class FormattedValue(ExpressionPrinter):
             self.code += ':'
             self._append(FormatSpec(self.node.format_spec, self.allowed_quotes).candidates())
 
+        if is_ast_node(self.node.value, 'NamedExpr'):
+            self.code += ')'
         self.code += '}'
 
         self._finalize()
