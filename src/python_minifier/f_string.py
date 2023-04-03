@@ -135,6 +135,9 @@ class FormattedValue(ExpressionPrinter):
 
         self._expression(self.node.value)
 
+        if is_ast_node(self.node.value, 'NamedExpr'):
+            self.code += ')'
+
         if self.node.conversion == 115:
             self.code += '!s'
         elif self.node.conversion == 114:
@@ -146,8 +149,6 @@ class FormattedValue(ExpressionPrinter):
             self.code += ':'
             self._append(FormatSpec(self.node.format_spec, self.allowed_quotes).candidates())
 
-        if is_ast_node(self.node.value, 'NamedExpr'):
-            self.code += ')'
         self.code += '}'
 
         self._finalize()
