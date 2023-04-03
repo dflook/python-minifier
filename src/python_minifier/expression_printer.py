@@ -33,7 +33,7 @@ class ExpressionPrinter(object):
             'Pow': 15,
             'Await': 16,
             'Subscript': 17, 'Call': 17, 'Attribute': 17,
-            'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18,
+            'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18, 'ListComp': 18, 'SetComp': 18, 'DictComp': 18, 'GeneratorExp': 18,  # Container
         }
 
     def __call__(self, module):
@@ -548,10 +548,16 @@ class ExpressionPrinter(object):
         self.code += '}'
 
     def visit_GeneratorExp(self, node):
-        self.code += '('
-        self._expression(node.elt)
-        [self.visit_comprehension(x) for x in node.generators]
-        self.code += ')'
+
+        if isinstance(node.parent, ast.Call) and len(node.parent.args) == 1 and node.parent.args[0] is node:
+            # no parentheses needed
+            self._expression(node.elt)
+            [self.visit_comprehension(x) for x in node.generators]
+        else:
+            self.code += '('
+            self._expression(node.elt)
+            [self.visit_comprehension(x) for x in node.generators]
+            self.code += ')'
 
     def visit_DictComp(self, node):
         self.code += '{'
