@@ -402,7 +402,10 @@ class ExpressionPrinter(object):
             else:
                 self.code += ','
 
-            self._expression(arg)
+            if len(node.args) == 1 and isinstance(arg, ast.GeneratorExp):
+                self.visit_GeneratorExp(arg, omit_parens=True)
+            else:
+                self._expression(arg)
 
         if node.keywords:
             for kwarg in node.keywords:
@@ -547,16 +550,15 @@ class ExpressionPrinter(object):
         [self.visit_comprehension(x) for x in node.generators]
         self.code += '}'
 
-    def visit_GeneratorExp(self, node):
+    def visit_GeneratorExp(self, node, omit_parens=False):
 
-        if isinstance(node.parent, ast.Call) and len(node.parent.args) == 1 and node.parent.args[0] is node:
-            # no parentheses needed
-            self._expression(node.elt)
-            [self.visit_comprehension(x) for x in node.generators]
-        else:
+        if not omit_parens:
             self.code += '('
-            self._expression(node.elt)
-            [self.visit_comprehension(x) for x in node.generators]
+
+        self._expression(node.elt)
+        [self.visit_comprehension(x) for x in node.generators]
+
+        if not omit_parens:
             self.code += ')'
 
     def visit_DictComp(self, node):
