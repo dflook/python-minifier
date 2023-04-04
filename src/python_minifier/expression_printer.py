@@ -395,6 +395,8 @@ class ExpressionPrinter(object):
 
         self.code += '('
 
+        single_call = len(node.args) == 1 and not node.keywords and not hasattr(node, 'starargs') and not hasattr(node, 'kwargs')
+
         first = True
         for arg in node.args:
             if first:
@@ -402,7 +404,7 @@ class ExpressionPrinter(object):
             else:
                 self.code += ','
 
-            if len(node.args) == 1 and isinstance(arg, ast.GeneratorExp):
+            if single_call and isinstance(arg, ast.GeneratorExp):
                 self.visit_GeneratorExp(arg, omit_parens=True)
             else:
                 self._expression(arg)
