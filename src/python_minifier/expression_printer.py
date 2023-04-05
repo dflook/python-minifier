@@ -33,7 +33,7 @@ class ExpressionPrinter(object):
             'Pow': 15,
             'Await': 16,
             'Subscript': 17, 'Call': 17, 'Attribute': 17,
-            'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18,
+            'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18, 'ListComp': 18, 'SetComp': 18, 'DictComp': 18, 'GeneratorExp': 18,  # Container
         }
 
     def __call__(self, module):
@@ -395,6 +395,8 @@ class ExpressionPrinter(object):
 
         self.code += '('
 
+        single_call = len(node.args) == 1 and not node.keywords and not hasattr(node, 'starargs') and not hasattr(node, 'kwargs')
+
         first = True
         for arg in node.args:
             if first:
@@ -402,7 +404,10 @@ class ExpressionPrinter(object):
             else:
                 self.code += ','
 
-            self._expression(arg)
+            if single_call and isinstance(arg, ast.GeneratorExp):
+                self.visit_GeneratorExp(arg, omit_parens=True)
+            else:
+                self._expression(arg)
 
         if node.keywords:
             for kwarg in node.keywords:
@@ -547,11 +552,16 @@ class ExpressionPrinter(object):
         [self.visit_comprehension(x) for x in node.generators]
         self.code += '}'
 
-    def visit_GeneratorExp(self, node):
-        self.code += '('
+    def visit_GeneratorExp(self, node, omit_parens=False):
+
+        if not omit_parens:
+            self.code += '('
+
         self._expression(node.elt)
         [self.visit_comprehension(x) for x in node.generators]
-        self.code += ')'
+
+        if not omit_parens:
+            self.code += ')'
 
     def visit_DictComp(self, node):
         self.code += '{'
