@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from dataclasses import dataclass
 from typing import Iterable
 
@@ -95,6 +96,8 @@ def main():
     parser.add_argument('minifier_ref', type=str, help='The python-minifier ref we are testing')
     parser.add_argument('minifier_sha', type=str, help='The python-minifier sha we are testing')
     args = parser.parse_args()
+
+    sys.stderr.write(f'Generating report for {args.minifier_ref} ({args.minifier_sha})')
 
     for segment in report(args.results_dir, args.minifier_ref, args.minifier_sha):
         print(segment)
