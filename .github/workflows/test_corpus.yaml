@@ -23,6 +23,9 @@ jobs:
         - /corpus:/corpus
         - /corpus-results:/corpus-results
     steps:
+      - name: Checkout tests
+        uses: actions/checkout@v3
+
       - name: Checkout ref
         uses: actions/checkout@v3
         with:
@@ -36,9 +39,6 @@ jobs:
           ${{matrix.python}} python-minifier/setup.py install
           (cd python-minifier && git log --pretty=format:'%H' -n 1) > ../sha.txt
           rm -rf python-minifier
-
-      - name: Checkout tests
-        uses: actions/checkout@v3
 
       - name: Run tests
         run: |
@@ -54,6 +54,9 @@ jobs:
         - /corpus-results:/corpus-results
     if: ${{ always() }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Checkout ref
         uses: actions/checkout@v3
         with:
@@ -64,9 +67,6 @@ jobs:
         run: |
           (cd python-minifier && git log --pretty=format:'%H' -n 1) > ../sha.txt
           rm -rf python-minifier
-
-      - name: Checkout
-        uses: actions/checkout@v3
 
       - name: Run tests
         run: |
