@@ -121,8 +121,8 @@ def get_active_manifest():
 manifest = get_active_manifest()
 
 
-@pytest.mark.parametrize('test_case', list(manifest))
-def test_file(test_case):
+@pytest.mark.parametrize('test_case', list(manifest), ids=lambda test_case: repr(test_case))
+def test_regrtest(test_case):
     test_case.run_test()
 
 

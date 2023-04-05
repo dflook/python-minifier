@@ -16,7 +16,7 @@ def gather_files():
                 yield file
 
 @pytest.mark.parametrize('path', gather_files())
-def test_file(path):
+def test_unparse(path):
 
     try:
         with open(path, 'rb') as f:
