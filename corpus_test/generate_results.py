@@ -73,7 +73,7 @@ def corpus_test(corpus_path, results_path, sha):
     results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
 
     with ResultWriter(results_file_path) as result_writer:
-        for entry in ['9d2da374f33b283315af0b2491ff37ec44a8c7a3c2a8626f9a125b77c0e09ebc']:
+        for entry in corpus_entries:
             result = minify_test(corpus_path, entry)
             result_writer.write(result)
 
