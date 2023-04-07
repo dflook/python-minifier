@@ -2,80 +2,133 @@ import argparse
 import os
 import sys
 from dataclasses import dataclass, field
-from typing import Iterable
+from typing import Iterable, Callable
 
 from result import Result, ResultReader
 
-
 @dataclass
-class ResultsSummary:
+class ResultSet:
     python_version: str
-    total: int = 0
-    valid: int = 0
-    success: int = 0
-    no_change: int = 0
-    syntax_error: int = 0
-    mean_time: float = 0
-    mean_size_change: float = 0
+    sha: str
 
-    size_increase: set = field(default_factory=set)
-    recursion_error: set = field(default_factory=set)
-    unstable_minification: set = field(default_factory=set)
-    exception: set = field(default_factory=set)
+    entries: dict[str, Result] = field(default_factory=dict)
 
-def result_summary(results_dir: str, python_version: str, sha: str) -> ResultsSummary:
-    summary = ResultsSummary(python_version)
+    valid_count = 0
+    larger_than_original_count = 0
+    recursion_error_count = 0
+    unstable_minification_count = 0
+    exception_count = 0
 
-    total_time = 0
-    total_size_change = 0
+    total_percent_of_original: float = 0
+    total_time: float = 0
+
+    def add(self, result: Result):
+        """Add a result to the result set"""
+        self.entries[result.corpus_entry] = result
+
+        if result.outcome in ['Minified', 'Success', 'SizeIncrease', 'NoChange']:
+            self.valid_count += 1
+            self.total_time += result.time
+
+            if result.original_size > 0:
+                percent_of_original = (result.minified_size / result.original_size) * 100
+                self.total_percent_of_original += percent_of_original
+
+            if result.original_size < result.minified_size:
+                self.larger_than_original_count += 1
+
+        if result.outcome == 'RecursionError':
+            self.recursion_error_count += 1
+        elif result.outcome == 'UnstableMinification':
+            self.unstable_minification_count += 1
+        elif result.outcome.startswith('Exception'):
+            self.exception_count += 1
+
+    @property
+    def mean_time(self) -> float:
+        """Return the mean time to minify a file"""
+        return self.total_time / self.valid_count
+
+    @property
+    def mean_percent_of_original(self) -> float:
+        """Return the mean minified size as a percent of the original size"""
+        return self.total_percent_of_original / self.valid_count
+
+    def larger_than_original(self) -> Iterable[Result]:
+        """Return those entries that have a larger minified size than the original size"""
+        for result in self.entries.values():
+            if result.original_size < result.minified_size:
+                yield result
+
+    def recursion_error(self) -> Iterable[Result]:
+        """Return those entries that have a recursion error"""
+        for result in self.entries.values():
+            if result.outcome == 'RecursionError':
+                yield result
+
+    def exception(self) -> Iterable[Result]:
+        """Return those entries that have an exception"""
+        for result in self.entries.values():
+            if result.outcome.startswith('Exception'):
+                yield result
+
+    def unstable_minification(self) -> Iterable[Result]:
+        """Return those entries that have an unstable minification"""
+        for result in self.entries.values():
+            if result.outcome == 'UnstableMinification':
+                yield result
+
+    def compare_size_increase(self, base: 'ResultSet') -> Iterable[Result]:
+        """
+        Return those entries that have a size increase in this result set compared to the base result set
+        """
+
+        for result in self.entries.values():
+            if result.corpus_entry not in base.entries:
+                continue
+
+            base_result = base.entries[result.corpus_entry]
+            if result.minified_size > base_result.minified_size:
+                yield result
+
+    def compare_size_decrease(self, base: 'ResultSet') -> Iterable[Result]:
+        """
+        Return those entries that have a size decrease in this result set compared to the base result set
+        """
+
+        for result in self.entries.values():
+            if result.corpus_entry not in base.entries:
+                continue
+
+            base_result = base.entries[result.corpus_entry]
+            if result.minified_size < base_result.minified_size:
+                yield result
+
+def result_summary(results_dir: str, python_version: str, sha: str) -> ResultSet:
+    summary = ResultSet(python_version, sha)
 
     results_file_path = os.path.join(results_dir, 'results_' + python_version + '_' + sha + '.csv')
     with ResultReader(results_file_path) as result_reader:
 
         result: Result
         for result in result_reader:
-            summary.total += 1
-
-            if result.result == 'Success':
-                summary.success += 1
-            elif result.result == 'NoChange':
-                summary.no_change += 1
-            elif result.result == 'SizeIncrease':
-                summary.size_increase.add(result.corpus_entry)
-            elif result.result == 'RecursionError':
-                summary.recursion_error.add(result.corpus_entry)
-            elif result.result == 'SyntaxError':
-                summary.syntax_error += 1
-            elif result.result == 'UnstableMinification':
-                summary.unstable_minification.add(result.corpus_entry)
-            elif result.result.startswith('Exception'):
-                summary.exception.add(result.corpus_entry)
-
-            if result.result in ['Success', 'SizeIncrease', 'NoChange']:
-                summary.valid += 1
-                total_time += result.time
-
-            if result.result in ['Success', 'SizeIncrease']:
-                size_percent_change = (result.minified_size / result.original_size) * 100
-
-                total_size_change += size_percent_change
-
-    if summary.valid:
-        summary.mean_time = total_time / summary.valid
-        summary.mean_size_change = total_size_change / summary.valid
+            summary.add(result)
 
     return summary
 
-def format_difference(compare: set, base: set) -> str:
-    s = len(compare)
+def format_difference(compare: Iterable[Result], base: Iterable[Result]) -> str:
+    compare_set = set(result.corpus_entry for result in compare)
+    base_set = set(result.corpus_entry for result in base)
+
+    s = str(len(compare_set))
 
     detail = []
 
-    if len(compare - base) > 0:
-        detail.append(f'+{len(compare - base)}')
+    if len(compare_set - base_set) > 0:
+        detail.append(f'+{len(compare_set - base_set)}')
 
-    if len(base - compare) > 0:
-        detail.append(f'-{len(base - compare)}')
+    if len(base_set - compare_set) > 0:
+        detail.append(f'-{len(base_set - compare_set)}')
 
     if detail:
         return f'{s} ({", ".join(detail)})'
@@ -96,8 +149,8 @@ This report is generated by the `corpus_test/generate_report.py` script.
 
 ## Summary
 
-| Python Version | Valid Corpus Entries | Average Time | Minified Size | Size Increased | Recursion Error | Unstable Minification | Exception |
-|----------------|---------------------:|-------------:|--------------:|---------------:|----------------:|----------------------:|----------:|'''
+| Python Version | Valid Corpus Entries | Average Time | Minified Size | Larger than original | Recursion Error | Unstable Minification | Exception |
+|----------------|---------------------:|-------------:|--------------:|---------------------:|----------------:|----------------------:|----------:|'''
 
     for python_version in ['2.7', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11']:
         try:
@@ -109,20 +162,36 @@ This report is generated by the `corpus_test/generate_report.py` script.
         try:
             base_summary = result_summary(results_dir, python_version, base_sha)
         except FileNotFoundError:
-            base_summary = ResultsSummary(python_version)
+            base_summary = ResultSet(python_version, base_ref)
 
         mean_time_change = summary.mean_time - base_summary.mean_time
-        mean_size_change = summary.mean_size_change - base_summary.mean_size_change
+
+        def format_size_change_detail() -> str:
+            mean_percent_of_original_change = summary.mean_percent_of_original - base_summary.mean_percent_of_original
+
+            s = f'{summary.mean_percent_of_original:.3f}% ({mean_percent_of_original_change:+.3f}%'
+
+            got_bigger_count = len(list(summary.compare_size_increase(base_summary)))
+            got_smaller_count = len(list(summary.compare_size_decrease(base_summary)))
+
+            if got_bigger_count > 0:
+                s += f', {got_bigger_count}:chart_with_upwards_trend:'
+            if got_smaller_count > 0:
+                s += f', {got_smaller_count}:chart_with_downwards_trend:'
+
+            s += ')'
+
+            return s
 
         yield (
             f'| {python_version} ' +
-            f'| {summary.valid} ' +
+            f'| {summary.valid_count} ' +
             f'| {summary.mean_time:.3f} ({mean_time_change:+.3f}) ' +
-            f'| {summary.mean_size_change:.3f}% ({mean_size_change:+.3f}) ' +
-            f'| {format_difference(summary.size_increase, base_summary.size_increase)} ' +
-            f'| {format_difference(summary.recursion_error, base_summary.recursion_error)} ' +
-            f'| {format_difference(summary.unstable_minification, base_summary.unstable_minification)} ' +
-            f'| {format_difference(summary.exception, base_summary.exception)} '
+            f'| {format_size_change_detail()} ' +
+            f'| {format_difference(summary.larger_than_original(), base_summary.larger_than_original())} ' +
+            f'| {format_difference(summary.recursion_error(), base_summary.recursion_error())} ' +
+            f'| {format_difference(summary.unstable_minification(), base_summary.unstable_minification())} ' +
+            f'| {format_difference(summary.exception(), base_summary.exception())} '
         )
 
 def main():

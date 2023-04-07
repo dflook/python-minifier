@@ -133,6 +133,9 @@ class ExpressionPrinter(object):
                 if len(h) < len(v):
                     v = h
 
+            if v.startswith('0.'):
+                v = v[1:]
+
             self.code += v
 
     def visit_Str(self, node):

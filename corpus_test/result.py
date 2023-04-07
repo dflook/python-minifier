@@ -1,18 +1,18 @@
 class Result(object):
 
-    def __init__(self, corpus_entry, original_size, minified_size, time, result):
+    def __init__(self, corpus_entry, original_size, minified_size, time, outcome):
         """
         :param str corpus_entry: The name of the file in the corpus
         :param int original_size: The size of the original file
         :param int minified_size: The size of the minified file
         :param float time: The time taken to minify the file
-        :param str result: The result of the minification
+        :param str outcome: The result of the minification
         """
         self.corpus_entry = corpus_entry
         self.original_size = original_size
         self.minified_size = minified_size
         self.time = time
-        self.result = result
+        self.outcome = outcome
 
 
 class ResultWriter:
@@ -38,7 +38,7 @@ class ResultWriter:
             result.corpus_entry + ',' +
             str(result.original_size) + ',' +
             str(result.minified_size) + ',' +
-            str(result.time) + ',' + result.result + '\n'
+            str(result.time) + ',' + result.outcome + '\n'
         )
 
 

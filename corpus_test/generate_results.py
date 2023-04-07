@@ -34,29 +34,24 @@ def minify_test(corpus_path, corpus_entry):
 
         result.minified_size = len(minified)
 
-        if result.original_size > result.minified_size:
-            result.result = 'Success'
-        elif result.original_size == result.minified_size:
-            result.result = 'NoChange'
-        else:
-            result.result = 'SizeIncrease'
+        result.outcome = 'Minified'
 
     except RE:
         # Source is too deep
-        result.result = 'RecursionError'
+        result.outcome = 'RecursionError'
 
     except SyntaxError:
         # Source not valid for this version of Python
-        result.result = 'SyntaxError'
+        result.outcome = 'SyntaxError'
 
     except python_minifier.UnstableMinification:
         # Minification does not equal original source
         end_time = time.time()
         result.time = end_time - start_time
-        result.result = 'UnstableMinification'
+        result.outcome = 'UnstableMinification'
 
     except Exception as exception:
-        result.result = 'Exception: ' + str(exception)
+        result.outcome = 'Exception: ' + str(exception)
 
     return result
 
