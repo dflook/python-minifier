@@ -8,11 +8,22 @@ on:
         required: true
         default: 'main'
         type: string
+      base-ref:
+        type: string
+        description: 'Git ref to compare against'
+        required: true
+        default: '2.8.1'
+      regenerate-results:
+        type: boolean
+        description: 'Regenerate results'
+        required: true
+        default: true
 
 jobs:
   generate_results:
     name: Minify Corpus
     runs-on: self-hosted
+    if: ${{ inputs.regenerate_results }}
     strategy:
       fail-fast: false
       matrix:
@@ -23,24 +34,24 @@ jobs:
         - /corpus:/corpus
         - /corpus-results:/corpus-results
     steps:
-      - run: rm -rf "$GITHUB_WORKSPACE/*"
-      - run: ls -la
+      - name: Clear workspace
+        run: rm -rf "$GITHUB_WORKSPACE/*"
+
       - name: Checkout tests
         uses: actions/checkout@v3
         with:
           path: workflow
-      - run: ls -la
+
       - name: Checkout ref
         uses: actions/checkout@v3
         with:
           ref: ${{ inputs.ref }}
           path: python-minifier
-      - run: ls -la
+
       - name: Install ref
         run: |
           set -ex
           (cd python-minifier && git log --pretty=format:'%H' -n 1) > sha.txt
-          chown -R --reference "$GITHUB_WORKSPACE" sha.txt
           cat sha.txt
           VERSION=0.0.0
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" python-minifier/setup.py
@@ -60,7 +71,9 @@ jobs:
         - /corpus-results:/corpus-results
     if: ${{ always() }}
     steps:
-      - run: rm -rf "$GITHUB_WORKSPACE/*"
+      - name: Clear workspace
+        run: rm -rf "$GITHUB_WORKSPACE/*"
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -74,10 +87,20 @@ jobs:
 
       - name: Get SHA
         run: |
-          (cd python-minifier && git log --pretty=format:'%H' -n 1) > sha.txt
-          chown -R --reference "$GITHUB_WORKSPACE" sha.txt          
+          (cd python-minifier && git log --pretty=format:'%H' -n 1) > sha.txt       
           cat sha.txt
+
+      - name: Checkout base ref
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.base-ref }}
+          path: python-minifier-base
+
+      - name: Get base SHA
+        run: |
+          (cd python-minifier-base && git log --pretty=format:'%H' -n 1) > base-sha.txt
+          cat base-sha.txt
 
       - name: Generate Report
         run: |
-          python3.11 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) >> $GITHUB_STEP_SUMMARY
+          python3.11 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base_ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
