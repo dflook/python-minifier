@@ -103,4 +103,4 @@ jobs:
 
       - name: Generate Report
         run: |
-          python3.11 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base_ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
+          python3.11 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
