@@ -23,7 +23,7 @@ jobs:
   generate_results:
     name: Minify Corpus
     runs-on: self-hosted
-    if: ${{ inputs.regenerate_results }}
+    if: ${{ inputs.regenerate-results }}
     strategy:
       fail-fast: false
       matrix:
