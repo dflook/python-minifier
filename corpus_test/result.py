@@ -40,6 +40,7 @@ class ResultWriter:
             str(result.minified_size) + ',' +
             str(result.time) + ',' + result.outcome + '\n'
         )
+        self.results.flush()
 
 
 class ResultReader:

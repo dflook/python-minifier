@@ -69,6 +69,7 @@ def corpus_test(corpus_path, results_path, sha):
 
     with ResultWriter(results_file_path) as result_writer:
         for entry in corpus_entries:
+            print(entry)
             result = minify_test(corpus_path, entry)
             result_writer.write(result)
 
