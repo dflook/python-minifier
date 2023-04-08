@@ -8,6 +8,7 @@ Mostly because FStrings feel like a hack.
 
 import ast
 import copy
+import re
 
 from python_minifier import UnstableMinification
 from python_minifier.ast_compare import CompareError
@@ -41,10 +42,21 @@ class FString(object):
 
         for quote in self.allowed_quotes:
             candidates = ['']
+            debug_specifier_candidates = []
             nested_allowed = copy.copy(self.allowed_quotes)
             nested_allowed.remove(quote)
             for v in self.node.values:
                 if is_ast_node(v, ast.Str):
+
+                    # Could this be used as a debug specifier?
+                    debug_specifier = re.match(r'.*=\s*$', v.s)
+                    if debug_specifier:
+                        # Maybe!
+                        try:
+                            debug_specifier_candidates = [x + '{' + v.s + '}' for x in candidates]
+                        except Exception as e:
+                            continue
+
                     try:
                         candidates = [x + self.str_for(v.s, quote) for x in candidates]
                     except Exception as e:
@@ -53,7 +65,8 @@ class FString(object):
                     try:
                         candidates = [
                             x + y for x in candidates for y in FormattedValue(v, nested_allowed).get_candidates()
-                        ]
+                        ] + debug_specifier_candidates
+                        debug_specifier_candidates = []
                     except Exception as e:
                         continue
                 else:
@@ -104,7 +117,7 @@ class OuterFString(FString):
         return min(candidates, key=len)
 
     def str_for(self, s, quote):
-        mini_s =  str(MiniString(s, quote)).replace('{', '{{').replace('}', '}}')
+        mini_s = str(MiniString(s, quote)).replace('{', '{{').replace('}', '}}')
 
         if mini_s == '':
             return '\\\n'
