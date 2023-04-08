@@ -1,4 +1,5 @@
 import ast
+import re
 import sys
 
 from python_minifier.util import is_ast_node
@@ -98,7 +99,7 @@ class ExpressionPrinter(object):
     # region Literals
 
     def visit_Constant(self, node):
-        if node.value in [None, True, False]:
+        if node.value is None or node.value is True or node.value is False:
             return self.visit_NameConstant(node)
         elif isinstance(node.value, (int, float, complex)):
             return self.visit_Num(node)
@@ -133,8 +134,19 @@ class ExpressionPrinter(object):
                 if len(h) < len(v):
                     v = h
 
-            if v.startswith('0.'):
-                v = v[1:]
+            # Python doesn't print very compact float literals,
+            # so we'll try to make them a bit more compact
+            if isinstance(node.n, float):
+                v = v.replace('e+', 'e')
+
+                add_e = re.match(r'^(\d+?)(0+).0$', v)
+                if add_e:
+                    v = add_e.group(1) + 'e' + str(len(add_e.group(2)))
+
+                if v.startswith('0.'):
+                    v = v[1:]
+                elif v.endswith('.0'):
+                    v = v[:-1]
 
             self.code += v
 
