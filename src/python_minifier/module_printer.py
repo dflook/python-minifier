@@ -274,11 +274,13 @@ class ModulePrinter(ExpressionPrinter):
                 self.code += ' '
             self.code += node.module + ' '
 
-        self.code += 'import '
+        self.code += 'import'
         first = True
         for n in node.names:
             if first:
                 first = False
+                if n.name != '*':
+                    self.code += ' '
             else:
                 self.code += ','
 
