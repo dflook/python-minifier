@@ -49,13 +49,14 @@ class FString(object):
                 if is_ast_node(v, ast.Str):
 
                     # Could this be used as a debug specifier?
-                    debug_specifier = re.match(r'.*=\s*$', v.s)
-                    if debug_specifier:
-                        # Maybe!
-                        try:
-                            debug_specifier_candidates = [x + '{' + v.s + '}' for x in candidates]
-                        except Exception as e:
-                            continue
+                    if len(candidates) < 10:
+                        debug_specifier = re.match(r'.*=\s*$', v.s)
+                        if debug_specifier:
+                            # Maybe!
+                            try:
+                                debug_specifier_candidates = [x + '{' + v.s + '}' for x in candidates]
+                            except Exception as e:
+                                continue
 
                     try:
                         candidates = [x + self.str_for(v.s, quote) for x in candidates]
