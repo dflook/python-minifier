@@ -227,7 +227,10 @@ class ModulePrinter(ExpressionPrinter):
 
             if node.exc:
                 self.code += ' '
-                self._expression(node.exc)
+                if isinstance(node.exc, ast.Call) and not node.exc.args:
+                    self._lhs(node.exc.func, node.exc)
+                else:
+                    self._expression(node.exc)
 
             if node.cause:
                 self.code += ' from '
