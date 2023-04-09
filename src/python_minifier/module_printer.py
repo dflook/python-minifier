@@ -348,7 +348,7 @@ class ModulePrinter(ExpressionPrinter):
 
         self.code += 'for '
         self._exprlist([node.target])
-        self.code += ' in '
+        self.code += ' in'
         self._expression(node.iter)
         self.code += ':'
 
