@@ -18,16 +18,31 @@ on:
         description: 'Regenerate results'
         required: true
         default: true
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git ref to test'
+        required: true
+        type: string
+      base-ref:
+        type: string
+        description: 'Git ref to compare against'
+        required: true
+      regenerate-results:
+        type: boolean
+        description: 'Regenerate results'
+        required: false
+        default: false
 
 jobs:
   generate_results:
     name: Minify Corpus
     runs-on: self-hosted
-    if: ${{ inputs.regenerate-results }}
     strategy:
       fail-fast: false
       matrix:
         python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11"]
+        ref: [${{ inputs.ref }}, ${{ inputs.base-ref }}]
     container:
       image: danielflook/python-minifier-build:${{ matrix.python }}-2022-10-25
       volumes:
@@ -45,7 +60,7 @@ jobs:
       - name: Checkout ref
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.ref }}
+          ref: ${{ matrix.ref }}
           path: python-minifier
 
       - name: Install ref
@@ -59,7 +74,7 @@ jobs:
 
       - name: Run tests
         run: |
-          ${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt)
+          ${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
 
   generate_report:
     name: Generate Report
