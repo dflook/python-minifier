@@ -37,6 +37,25 @@ class FString(object):
         except Exception as e:
             return False
 
+    def complete_debug_specifier(self, partial_specifier_candidates, value_node):
+        assert isinstance(value_node, ast.FormattedValue)
+
+        conversion = ''
+        if value_node.conversion == 115:
+            conversion = '!s'
+        elif value_node.conversion == 114 and value_node.format_spec is not None:
+            # This is the default for debug specifiers, unless there's a format_spec
+            conversion = '!r'
+        elif value_node.conversion == 97:
+            conversion = '!a'
+
+        conversion_candidates = [x + conversion for x in partial_specifier_candidates]
+
+        if value_node.format_spec is not None:
+            conversion_candidates = [c + ':' + fs for c in conversion_candidates for fs in FormatSpec(value_node.format_spec, self.allowed_quotes).candidates()]
+
+        return [x + '}' for x in conversion_candidates]
+
     def candidates(self):
         actual_candidates = []
 
@@ -54,7 +73,7 @@ class FString(object):
                         if debug_specifier:
                             # Maybe!
                             try:
-                                debug_specifier_candidates = [x + '{' + v.s + '}' for x in candidates]
+                                debug_specifier_candidates = [x + '{' + v.s for x in candidates]
                             except Exception as e:
                                 continue
 
@@ -64,9 +83,10 @@ class FString(object):
                         continue
                 elif isinstance(v, ast.FormattedValue):
                     try:
+                        completed = self.complete_debug_specifier(debug_specifier_candidates, v)
                         candidates = [
                             x + y for x in candidates for y in FormattedValue(v, nested_allowed).get_candidates()
-                        ] + debug_specifier_candidates
+                        ] + completed
                         debug_specifier_candidates = []
                     except Exception as e:
                         continue
