@@ -37,10 +37,9 @@ jobs:
           
           tox -r -e $(echo "${{ matrix.python }}" | tr -d .) xtest
 
-  jobs:
-    test-corpus:
-      needs: test
-      uses: ./.github/workflows/test_corpus.yaml
-      with:
-        ref: ${{ github.ref }}
-        base-ref: ${{ github.base_ref }}
+  test-corpus:
+    needs: test
+    uses: ./.github/workflows/test_corpus.yaml
+    with:
+      ref: ${{ github.ref }}
+      base-ref: ${{ github.base_ref }}
