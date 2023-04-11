@@ -99,9 +99,7 @@ class TerminalPrinter(object):
         else:
             self.previous_token = TokenTypes.Keyword
 
-    def stringliteral(self, value):  # type: (str) -> None
-        assert isinstance(value, str)
-
+    def stringliteral(self, value):  # type: (AnyStr) -> None
         s = repr(value)
 
         if sys.version_info < (3, 0) and self.unicode_literals:
@@ -119,8 +117,6 @@ class TerminalPrinter(object):
         self.previous_token = TokenTypes.NonNumberLiteral
 
     def bytesliteral(self, value):  # type: (bytes) -> None
-        assert isinstance(value, bytes)
-
         s = repr(value)
 
         if len(s) > 0 and s[0].isalpha() and self.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
