@@ -1,6 +1,7 @@
 """Tools for assembling python code from tokens."""
 
 import re
+import sys
 
 
 class TokenTypes(object):
@@ -103,7 +104,7 @@ class TerminalPrinter(object):
 
         s = repr(value)
 
-        if self.unicode_literals:
+        if sys.version_info < (3, 0) and self.unicode_literals:
             if s[0] == 'u':
                 # Remove the u prefix since literals are unicode by default
                 s = s[1:]
