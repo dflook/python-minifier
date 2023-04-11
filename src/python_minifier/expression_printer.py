@@ -1,8 +1,9 @@
 import ast
-import re
 import sys
 
 from python_minifier.util import is_ast_node
+
+from python_minifier.terminal_printer import TerminalPrinter, Delimiter
 
 
 class ExpressionPrinter(object):
@@ -12,14 +13,10 @@ class ExpressionPrinter(object):
 
     def __init__(self):
 
-        self.code = ''
-        self.indent = 0
-        self.unicode_literals = False
-
         self.precedences = {
+            'NamedExpr': 1,  # NamedExpr
             'Lambda': 2,  # Lambda
             'IfExp': 3,  # IfExp
-            'comprehension': 3.5,
             'Or': 4,  # BoolOp
             'And': 5,
             'Not': 6,
@@ -37,6 +34,8 @@ class ExpressionPrinter(object):
             'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18, 'ListComp': 18, 'SetComp': 18, 'DictComp': 18, 'GeneratorExp': 18,  # Container
         }
 
+        self.printer = TerminalPrinter()
+
     def __call__(self, module):
         """
         Generate the source code for an AST
@@ -48,7 +47,7 @@ class ExpressionPrinter(object):
         """
 
         self.visit(module)
-        return self.code
+        return str(self.printer)
 
     def precedence(self, node):
         """
@@ -113,136 +112,91 @@ class ExpressionPrinter(object):
         raise RuntimeError('Unknown Constant value %r' % type(node.value))
 
     def visit_Num(self, node):
-        self.token_break()
-
-        v = repr(node.n)
-
-        if v == 'inf':
-            self.code += '1e999'
-        elif v == '-inf':
-            self.code += '-1e999'
-        elif v in ['infj', 'inf*j']:
-            self.code += '1e999j'
-        elif v in ['-infj', '-inf*j']:
-            self.code += '-1e999j'
-
+        if isinstance(node.n, int):
+            self.printer.integer(node.n)
+        elif isinstance(node.n, float):
+            self.printer.floatnumber(node.n)
         else:
-            if isinstance(node.n, int):
-                # Due to the 0x notation, it's unlikely a base-16 literal will be more compact than base-10
-                # But for those rare cases....
-                h = hex(node.n)
-                if len(h) < len(v):
-                    v = h
-
-            # Python doesn't print very compact float literals,
-            # so we'll try to make them a bit more compact
-            if isinstance(node.n, float):
-                v = v.replace('e+', 'e')
-
-                add_e = re.match(r'^(\d+?)(0+).0$', v)
-                if add_e:
-                    v = add_e.group(1) + 'e' + str(len(add_e.group(2)))
-
-                if v.startswith('0.'):
-                    v = v[1:]
-                elif v.endswith('.0'):
-                    v = v[:-1]
-
-            self.code += v
+            self.printer.imagnumber(node.n)
 
     def visit_Str(self, node):
-
-        s = repr(node.s)
-
-        if sys.version_info < (3, 0) and self.unicode_literals:
-            if s[0] == 'u':
-                s = s[1:]
-            else:
-                s = 'b' + s
-
-        if len(s) > 0 and s[0].isalpha():
-            self.token_break()
-
-        self.code += s
+        self.printer.stringliteral(node.s)
 
     def visit_Bytes(self, node):
-
-        s = repr(node.s)
-
-        if len(s) > 0 and s[0].isalpha():
-            self.token_break()
-
-        self.code += s
+        self.printer.bytesliteral(node.s)
 
     def visit_List(self, node):
-        self.code += '['
+        self.printer.delimiter('[')
         self._exprlist(node.elts)
-        self.code += ']'
+        self.printer.delimiter(']')
 
     def visit_Tuple(self, node):
 
         if len(node.elts) == 0:
-            self.code += '()'
+            self.printer.delimiter('(')
+            self.printer.delimiter(')')
             return
 
         self._exprlist(node.elts)
 
         if len(node.elts) == 1:
-            self.code += ','
+            self.printer.delimiter(',')
 
     def visit_Set(self, node):
-        self.code += '{'
+        self.printer.delimiter('{')
         self._exprlist(node.elts)
-        self.code += '}'
+        self.printer.delimiter('}')
 
     def visit_Dict(self, node):
-        self.code += '{'
+        assert isinstance(node, ast.Dict)
 
-        first = True
-        for k, v in zip(node.keys, node.values):
-            if not first:
-                self.code += ','
-            else:
-                first = False
+        def key_datum(key, datum):
 
-            if k is None:
-                self.code += '**'
+            if key is None:
+                self.printer.operator('**')
 
-                if 0 < self.precedence(v) <=7:
-                    self.code += '('
-                    self._expression(v)
-                    self.code += ')'
+                if 0 < self.precedence(datum) <=7:
+                    self.printer.delimiter('(')
+                    self._expression(datum)
+                    self.printer.delimiter(')')
                 else:
-                    self._expression(v)
+                    self._expression(datum)
             else:
-                self._expression(k)
-                self.code += ':'
+                self._expression(key)
+                self.printer.delimiter(':')
 
-                self._expression(v)
+                self._expression(datum)
 
-        self.code += '}'
+        self.printer.delimiter('{')
+
+        delimiter = Delimiter(self.printer)
+        for key, datum in zip(node.keys, node.values):
+            delimiter.new_item()
+            key_datum(key, datum)
+
+        self.printer.delimiter('}')
 
     def visit_Ellipsis(self, node):
-        self.code += '...'
+        self.printer.delimiter('.')
+        self.printer.delimiter('.')
+        self.printer.delimiter('.')
 
     def visit_NameConstant(self, node):
-        self.token_break()
-        self.code += repr(node.value)
+        self.printer.keyword(repr(node.value))
 
     # endregion
 
     # region Variables
 
     def visit_Name(self, node):
-        self.token_break()
-        self.code += node.id
+        self.printer.identifier(node.id)
 
     def visit_Starred(self, node):
-        self.code += '*'
+        self.printer.operator('*')
         if self.precedence(node.value) <= 7:
-            self.code += '('
+            self.printer.delimiter('(')
             self._expression(node.value)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self._expression(node.value)
 
@@ -258,25 +212,24 @@ class ExpressionPrinter(object):
             # Without this special case it would be printed as -1
             # This is fine, but python 2 will then parse it at Num(-1) so the AST wouldn't round-trip.
 
-            self.code += '('
+            self.printer.delimiter('(')
             self.visit_Num(node.operand)
-            self.code += ')'
+            self.printer.delimiter(')')
             return
 
         self._rhs(node.operand, node)
 
     def visit_UAdd(self, node):
-        self.code += '+'
+        self.printer.operator('+')
 
     def visit_USub(self, node):
-        self.code += '-'
+        self.printer.operator('-')
 
     def visit_Not(self, node):
-        self.token_break()
-        self.code += 'not'
+        self.printer.operator('not')
 
     def visit_Invert(self, node):
-        self.code += '~'
+        self.printer.operator('~')
 
     def visit_BinOp(self, node):
         self._lhs(node.left, node.op)
@@ -284,43 +237,43 @@ class ExpressionPrinter(object):
         self._rhs(node.right, node.op)
 
     def visit_Add(self, node):
-        self.code += '+'
+        self.printer.operator('+')
 
     def visit_Sub(self, node):
-        self.code += '-'
+        self.printer.operator('-')
 
     def visit_Mult(self, node):
-        self.code += '*'
+        self.printer.operator('*')
 
     def visit_Div(self, node):
-        self.code += '/'
+        self.printer.operator('/')
 
     def visit_FloorDiv(self, node):
-        self.code += '//'
+        self.printer.operator('//')
 
     def visit_Mod(self, node):
-        self.code += '%'
+        self.printer.operator('%')
 
     def visit_Pow(self, node):
-        self.code += '**'
+        self.printer.operator('**')
 
     def visit_LShift(self, node):
-        self.code += '<<'
+        self.printer.operator('<<')
 
     def visit_RShift(self, node):
-        self.code += '>>'
+        self.printer.operator('>>')
 
     def visit_BitOr(self, node):
-        self.code += '|'
+        self.printer.operator('|')
 
     def visit_BitXor(self, node):
-        self.code += '^'
+        self.printer.operator('^')
 
     def visit_BitAnd(self, node):
-        self.code += '&'
+        self.printer.operator('&')
 
     def visit_MatMult(self, node):
-        self.code += '@'
+        self.printer.operator('@')
 
     def visit_BoolOp(self, node):
         first = True
@@ -340,19 +293,17 @@ class ExpressionPrinter(object):
                 or op_precedence == value_precedence
                 and self._is_left_associative(node.op)
             ):
-                self.code += '('
+                self.printer.delimiter('(')
                 self._expression(v)
-                self.code += ')'
+                self.printer.delimiter(')')
             else:
                 self._expression(v)
 
     def visit_And(self, node):
-        self.token_break()
-        self.code += 'and'
+        self.printer.keyword('and')
 
     def visit_Or(self, node):
-        self.token_break()
-        self.code += 'or'
+        self.printer.keyword('or')
 
     def visit_Compare(self, node):
 
@@ -360,9 +311,9 @@ class ExpressionPrinter(object):
         op_precedence = self.precedence(node.ops[0])
 
         if left_precedence != 0 and ((op_precedence > left_precedence) or (op_precedence == left_precedence)):
-            self.code += '('
+            self.printer.delimiter('(')
             self._expression(node.left)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self._expression(node.left)
 
@@ -371,53 +322,49 @@ class ExpressionPrinter(object):
             self._rhs(comparator, op)
 
     def visit_Eq(self, node):
-        self.code += '=='
+        self.printer.operator('==')
 
     def visit_NotEq(self, node):
-        self.code += '!='
+        self.printer.operator('!=')
 
     def visit_Lt(self, node):
-        self.code += '<'
+        self.printer.operator('<')
 
     def visit_LtE(self, node):
-        self.code += '<='
+        self.printer.operator('<=')
 
     def visit_Gt(self, node):
-        self.code += '>'
+        self.printer.operator('>')
 
     def visit_GtE(self, node):
-        self.code += '>='
+        self.printer.operator('>=')
 
     def visit_Is(self, node):
-        self.token_break()
-        self.code += 'is'
+        self.printer.keyword('is')
 
     def visit_IsNot(self, node):
-        self.token_break()
-        self.code += 'is not'
+        self.printer.keyword('is')
+        self.printer.keyword('not')
 
     def visit_In(self, node):
-        self.token_break()
-        self.code += 'in'
+        self.printer.keyword('in')
 
     def visit_NotIn(self, node):
-        self.token_break()
-        self.code += 'not in'
+        self.printer.keyword('not')
+        self.printer.keyword('in')
 
     def visit_Call(self, node):
 
         self._lhs(node.func, node)
 
-        self.code += '('
+        self.printer.delimiter('(')
 
         single_call = len(node.args) == 1 and not node.keywords and not hasattr(node, 'starargs') and not hasattr(node, 'kwargs')
 
-        first = True
+        delimiter = Delimiter(self.printer)
+
         for arg in node.args:
-            if first:
-                first = False
-            else:
-                self.code += ','
+            delimiter.new_item()
 
             if single_call and isinstance(arg, ast.GeneratorExp):
                 self.visit_GeneratorExp(arg, omit_parens=True)
@@ -426,68 +373,59 @@ class ExpressionPrinter(object):
 
         if node.keywords:
             for kwarg in node.keywords:
-                if first:
-                    first = False
-                else:
-                    self.code += ','
+                delimiter.new_item()
 
                 assert isinstance(kwarg, ast.keyword)
                 self.visit_keyword(kwarg)
 
         if hasattr(node, 'starargs') and node.starargs is not None:
-            if first:
-                first = False
-            else:
-                self.code += ','
+            delimiter.new_item()
 
-            self.code += '*'
+            self.printer.operator('*')
             self._expression(node.starargs)
 
         if hasattr(node, 'kwargs') and node.kwargs is not None:
-            if not first:
-                self.code += ','
+            delimiter.new_item()
 
-            self.code += '**'
+            self.printer.operator('**')
             self.visit(node.kwargs)
 
-        self.code += ')'
+        self.printer.delimiter(')')
 
     def visit_keyword(self, node):
         if node.arg is None:
-            self.code += '**'
+            self.printer.operator('**')
             self._expression(node.value)
         else:
-            self.code += node.arg + '='
+            self.printer.identifier(node.arg)
+            self.printer.delimiter('=')
             self._expression(node.value)
 
     def visit_IfExp(self, node):
 
         self._rhs(node.body, node)
 
-        self.token_break()
-        self.code += 'if'
+        self.printer.keyword('if')
 
         self._rhs(node.test, node)
 
-        self.token_break()
-        self.code += 'else'
+        self.printer.keyword('else')
 
         self._expression(node.orelse)
 
     def visit_Attribute(self, node):
-        self.token_break()
-
         value_precedence = self.precedence(node.value)
         attr_precedence = self.precedence(node)
 
         if (value_precedence != 0 and (attr_precedence > value_precedence)) or isinstance(node.value, ast.Num):
-            self.code += '('
+            self.printer.delimiter('(')
             self._expression(node.value)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self._expression(node.value)
 
-        self.code += '.' + node.attr
+        self.printer.delimiter('.')
+        self.printer.identifier(node.attr)
 
     # endregion
 
@@ -499,13 +437,13 @@ class ExpressionPrinter(object):
         slice_precedence = 17  # self.precedence(node)
 
         if value_precedence != 0 and (slice_precedence > value_precedence):
-            self.code += '('
+            self.printer.delimiter('(')
             self._expression(node.value)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self._expression(node.value)
 
-        self.code += '['
+        self.printer.delimiter('[')
 
         if isinstance(node.slice, ast.Index):
             self.visit_Index(node.slice)
@@ -522,7 +460,7 @@ class ExpressionPrinter(object):
         else:
             raise AssertionError('Unknown slice type %r' % node.slice)
 
-        self.code += ']'
+        self.printer.delimiter(']')
 
     def visit_Index(self, node):
         self._expression(node.value)
@@ -530,81 +468,74 @@ class ExpressionPrinter(object):
     def visit_Slice(self, node):
         if node.lower:
             self._expression(node.lower)
-        self.code += ':'
+        self.printer.delimiter(':')
+
         if node.upper:
             self._expression(node.upper)
         if node.step:
-            self.code += ':'
+            self.printer.delimiter(':')
             self._expression(node.step)
 
     def visit_ExtSlice(self, node):
-        first = True
 
+        delimiter = Delimiter(self.printer)
         for s in node.dims:
-            if not first:
-                self.code += ','
-            else:
-                first = False
-
+            delimiter.new_item()
             self._expression(s)
 
         if len(node.dims) == 1:
-            self.code += ','
+            self.printer.delimiter(',')
 
     # endregion
 
     # region Comprehensions
 
     def visit_ListComp(self, node):
-        self.code += '['
+        self.printer.delimiter('[')
         self._expression(node.elt)
         [self.visit_comprehension(x) for x in node.generators]
-        self.code += ']'
+        self.printer.delimiter(']')
 
     def visit_SetComp(self, node):
-        self.code += '{'
+        self.printer.delimiter('{')
         self._expression(node.elt)
         [self.visit_comprehension(x) for x in node.generators]
-        self.code += '}'
+        self.printer.delimiter('}')
 
     def visit_GeneratorExp(self, node, omit_parens=False):
 
         if not omit_parens:
-            self.code += '('
+            self.printer.delimiter('(')
 
         self._expression(node.elt)
         [self.visit_comprehension(x) for x in node.generators]
 
         if not omit_parens:
-            self.code += ')'
+            self.printer.delimiter(')')
 
     def visit_DictComp(self, node):
-        self.code += '{'
+        self.printer.delimiter('{')
         self._expression(node.key)
-        self.code += ':'
+        self.printer.delimiter(':')
         self._expression(node.value)
         [self.visit_comprehension(x) for x in node.generators]
-        self.code += '}'
+        self.printer.delimiter('}')
 
     def visit_comprehension(self, node):
         assert isinstance(node, ast.comprehension)
 
-        self.token_break()
-
         if hasattr(node, 'is_async') and node.is_async:
-            self.code += 'async '
+            self.printer.keyword('async')
 
-        self.code += 'for'
+        self.printer.keyword('for')
         self._exprlist([node.target])
-        self.token_break()
-        self.code += 'in'
+        self.printer.keyword('in')
 
         self._rhs(node.iter, node)
 
         if node.ifs:
             for i in node.ifs:
-                self.token_break()
-                self.code += 'if'
+                self.printer.keyword('if')
                 self._rhs(i, node)
 
     # endregion
@@ -613,91 +544,74 @@ class ExpressionPrinter(object):
 
     def visit_Lambda(self, node):
 
-        self.token_break()
-        self.code += 'lambda'
+        self.printer.keyword('lambda')
 
         self.visit_arguments(node.args)
 
-        self.code += ':'
+        self.printer.delimiter(':')
 
         self._expression(node.body)
 
     def visit_arguments(self, node):
-        first = True
-
         args = getattr(node, 'posonlyargs', []) + node.args
+
+        delimiter = Delimiter(self.printer)
 
         count_no_defaults = len(args) - len(node.defaults)
         for i, arg in enumerate(args):
-            if not first:
-                self.code += ','
-            else:
-                self.token_break()
-                first = False
+            delimiter.new_item()
 
             self._expression(arg)
 
             if i >= count_no_defaults:
-                self.code += '='
+                self.printer.delimiter('=')
                 self._expression(node.defaults[i - count_no_defaults])
 
             if hasattr(node, 'posonlyargs') and node.posonlyargs and i + 1 == len(node.posonlyargs):
-                self.code += ',/'
+                self.printer.delimiter(',')
+                self.printer.operator('/')
 
         if node.vararg:
-            if not first:
-                self.code += ','
-            else:
-                self.token_break()
-                first = False
+            delimiter.new_item()
 
-            self.code += '*'
+            self.printer.operator('*')
 
             if hasattr(node, 'varargannotation'):
-                self.code += node.vararg
+                self.printer.identifier(node.vararg)
                 if node.varargannotation is not None:
-                    self.code += ':'
+                    self.printer.delimiter(':')
                     self._expression(node.varargannotation)
             elif isinstance(node.vararg, str):
-                self.code += node.vararg
+                self.printer.identifier(node.vararg)
             else:
                 self.visit(node.vararg)
 
         if hasattr(node, 'kwonlyargs') and node.kwonlyargs:
 
             if not node.vararg:
-                if not first:
-                    self.code += ','
-                else:
-                    self.token_break()
-                    first = False
-
-                self.code += '*'
+                delimiter.new_item()
+                self.printer.operator('*')
 
             for i, arg in enumerate(node.kwonlyargs):
-                self.code += ','
+                self.printer.delimiter(',')
                 self.visit_arg(arg)
 
                 if node.kw_defaults[i] is not None:
-                    self.code += '='
+                    self.printer.delimiter('=')
                     self._expression(node.kw_defaults[i])
 
         if node.kwarg:
-            if not first:
-                self.code += ','
-            else:
-                self.token_break()
-                first = False
+            delimiter.new_item()
 
-            self.code += '**'
+            self.printer.operator('**')
 
             if hasattr(node, 'kwargannotation'):
-                self.code += node.kwarg
+                self.printer.identifier(node.kwarg)
                 if node.kwargannotation is not None:
-                    self.code += ':'
+                    self.printer.delimiter(':')
                     self._expression(node.kwargannotation)
             elif isinstance(node.kwarg, str):
-                self.code += node.kwarg
+                self.printer.identifier(node.kwarg)
             else:
                 self.visit(node.kwarg)
 
@@ -706,16 +620,16 @@ class ExpressionPrinter(object):
             # Python 2 uses Name nodes
             return self.visit_Name(node)
 
-        self.code += node.arg
+        self.printer.identifier(node.arg)
 
         if node.annotation:
-            self.code += ':'
+            self.printer.delimiter(':')
             self._expression(node.annotation)
 
     def visit_Repr(self, node):
-        self.code += '`'
+        self.printer.delimiter('`')
         self._expression(node.value)
-        self.code += '`'
+        self.printer.delimiter('`')
 
     # endregion
 
@@ -724,49 +638,43 @@ class ExpressionPrinter(object):
 
     def _expression(self, expression):
         if is_ast_node(expression, (ast.Yield, 'YieldFrom')):
-            self.code += '('
+            self.printer.delimiter('(')
             self._yield_expr(expression)
-            self.code += ')'
+            self.printer.delimiter(')')
         elif isinstance(expression, ast.Tuple) and len(expression.elts) > 0:
-            self.code += '('
+            self.printer.delimiter('(')
             self.visit_Tuple(expression)
-            self.code += ')'
+            self.printer.delimiter(')')
         elif is_ast_node(expression, 'NamedExpr'):
-            self.code += '('
+            self.printer.delimiter('(')
             self.visit_NamedExpr(expression)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self.visit(expression)
 
     def _testlist(self, test):
         if is_ast_node(test, (ast.Yield, 'YieldFrom')):
-            self.code += '('
+            self.printer.delimiter('(')
             self._yield_expr(test)
-            self.code += ')'
+            self.printer.delimiter(')')
         elif is_ast_node(test, 'NamedExpr'):
-            self.code += '('
+            self.printer.delimiter('(')
             self.visit_NamedExpr(test)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self.visit(test)
 
     def _exprlist(self, exprlist):
-        first = True
-
+        delimiter = Delimiter(self.printer)
         for expr in exprlist:
-            if first:
-                first = False
-            else:
-                self.code += ','
+            delimiter.new_item()
             self._expression(expr)
 
     def _yield_expr(self, yield_node):
-        self.token_break()
-
         if isinstance(yield_node, ast.Yield):
-            self.code += 'yield'
+            self.printer.keyword('yield')
         elif isinstance(yield_node, ast.YieldFrom):
-            self.code += 'yield from'
+            self.printer.keyword('yield from')
 
         if yield_node.value is not None:
             self._expression(yield_node.value)
@@ -787,9 +695,9 @@ class ExpressionPrinter(object):
             (op_precedence > left_precedence)
             or (op_precedence == left_precedence and self._is_right_associative(op_node))
         ):
-            self.code += '('
+            self.printer.delimiter('(')
             self._expression(left_node)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self._expression(left_node)
 
@@ -801,34 +709,25 @@ class ExpressionPrinter(object):
             (op_precedence > right_precedence)
             or (op_precedence == right_precedence and self._is_left_associative(op_node))
         ):
-            self.code += '('
+            self.printer.delimiter('(')
             self._expression(right_node)
-            self.code += ')'
+            self.printer.delimiter(')')
         else:
             self._expression(right_node)
-
-    def token_break(self):
-        if len(self.code) == 0:
-            return
-
-        if self.code[-1] not in '[]{}() :"\'=\n\t<>|^&+-*@/%;,':
-            self.code += ' '
 
     def visit_JoinedStr(self, node):
         assert isinstance(node, ast.JoinedStr)
 
         import python_minifier.f_string
 
-        self.token_break()
-        self.code += str(python_minifier.f_string.OuterFString(node))
+        self.printer.fstring(str(python_minifier.f_string.OuterFString(node)))
 
     def visit_NamedExpr(self, node):
         self._expression(node.target)
-        self.code += ':='
+        self.printer.operator(':=')
         self._expression(node.value)
 
     def visit_Await(self, node):
         assert isinstance(node, ast.Await)
-        self.token_break()
-        self.code += 'await'
+        self.printer.keyword('await')
         self._rhs(node.value, node)

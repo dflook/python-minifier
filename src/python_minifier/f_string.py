@@ -15,6 +15,7 @@ from python_minifier.ast_compare import CompareError
 from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
+from python_minifier.terminal_printer import TerminalPrinter
 from python_minifier.util import is_ast_node
 
 
@@ -23,13 +24,13 @@ class FString(object):
     An F-string in the expression part of another f-string
     """
 
-    def __init__(self, node, allowed_quotes):
+    def __init__(self, node, allowed_quotes):  # type: (ast.JoinedStr, str) -> None
         assert isinstance(node, ast.JoinedStr)
 
         self.node = node
         self.allowed_quotes = allowed_quotes
 
-    def is_correct_ast(self, code):
+    def is_correct_ast(self, code):  # type: (str) -> bool
         try:
             c = ast.parse(code, 'FString candidate', mode='eval')
             compare_ast(self.node, c.body)
@@ -37,7 +38,7 @@ class FString(object):
         except Exception as e:
             return False
 
-    def complete_debug_specifier(self, partial_specifier_candidates, value_node):
+    def complete_debug_specifier(self, partial_specifier_candidates, value_node):  # type: (list[str], ast.FormattedValue) -> list[str]
         assert isinstance(value_node, ast.FormattedValue)
 
         conversion = ''
@@ -56,7 +57,7 @@ class FString(object):
 
         return [x + '}' for x in conversion_candidates]
 
-    def candidates(self):
+    def candidates(self):  # type: () -> list[str]
         actual_candidates = []
 
         for quote in self.allowed_quotes:
@@ -98,7 +99,7 @@ class FString(object):
         actual_candidates = filter(self.is_correct_ast, actual_candidates)
         return actual_candidates
 
-    def str_for(self, s, quote):
+    def str_for(self, s, quote):  # type: (str, str) -> str
         return s.replace('{', '{{').replace('}', '}}')
 
 
@@ -160,25 +161,25 @@ class FormattedValue(ExpressionPrinter):
 
     def get_candidates(self):
 
-        self.code = '{'
+        self.printer.delimiter('{')
 
         if self.is_curly(self.node.value):
-            self.code += ' '
+            self.printer.delimiter(' ')
 
         self._expression(self.node.value)
 
         if self.node.conversion == 115:
-            self.code += '!s'
+            self.printer.append('!s')
         elif self.node.conversion == 114:
-            self.code += '!r'
+            self.printer.append('!r')
         elif self.node.conversion == 97:
-            self.code += '!a'
+            self.printer.append('!a')
 
         if self.node.format_spec is not None:
-            self.code += ':'
+            self.printer.delimiter(':')
             self._append(FormatSpec(self.node.format_spec, self.allowed_quotes).candidates())
 
-        self.code += '}'
+        self.printer.delimiter('}')
 
         self._finalize()
         return self.candidates
@@ -205,19 +206,19 @@ class FormattedValue(ExpressionPrinter):
         return False
 
     def visit_Str(self, node):
-        self.code += str(Str(node.s, self.allowed_quotes))
+        self.printer.append(str(Str(node.s, self.allowed_quotes)))
 
     def visit_Bytes(self, node):
-        self.code += str(Bytes(node.s, self.allowed_quotes))
+        self.printer.append(str(Bytes(node.s, self.allowed_quotes)))
 
     def visit_JoinedStr(self, node):
         assert isinstance(node, ast.JoinedStr)
-        self.token_break()
+        self.printer.delimiter(' ')
         self._append(FString(node, allowed_quotes=self.allowed_quotes).candidates())
 
     def _finalize(self):
-        self.candidates = [x + self.code for x in self.candidates]
-        self.code = ''
+        self.candidates = [x + str(self.printer) for x in self.candidates]
+        self.printer = TerminalPrinter()
 
     def _append(self, candidates):
         self._finalize()
