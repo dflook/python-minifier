@@ -17,7 +17,7 @@ class TokenTypes(object):
     EndStatement = 9
 
 class Delimiter(object):
-    def __init__(self, terminal_printer, delimiter=',', group_chars=None):  # type: (TerminalPrinter, str, tuple[str, str]) -> None
+    def __init__(self, terminal_printer, delimiter=',', group_chars=None):  # type: (TerminalPrinter, str, Optional[tuple[str, str]]) -> None
         self._terminal_printer = terminal_printer
         self._delimiter = delimiter
 
@@ -86,7 +86,7 @@ class TerminalPrinter(object):
             'for', 'from', 'global', 'if', 'import',
             'in', 'is', 'lambda', 'nonlocal', 'not',
             'or', 'pass', 'raise', 'return',
-            'try', 'while', 'with', 'yield', '_', 'case', 'match'
+            'try', 'while', 'with', 'yield', '_', 'case', 'match', 'print', 'exec'
         ]
 
         if self.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword, TokenTypes.NumberLiteral]:
