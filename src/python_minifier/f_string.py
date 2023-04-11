@@ -24,13 +24,13 @@ class FString(object):
     An F-string in the expression part of another f-string
     """
 
-    def __init__(self, node, allowed_quotes):  # type: (ast.JoinedStr, str) -> None
+    def __init__(self, node, allowed_quotes):
         assert isinstance(node, ast.JoinedStr)
 
         self.node = node
         self.allowed_quotes = allowed_quotes
 
-    def is_correct_ast(self, code):  # type: (str) -> bool
+    def is_correct_ast(self, code):
         try:
             c = ast.parse(code, 'FString candidate', mode='eval')
             compare_ast(self.node, c.body)
@@ -38,7 +38,7 @@ class FString(object):
         except Exception as e:
             return False
 
-    def complete_debug_specifier(self, partial_specifier_candidates, value_node):  # type: (list[str], ast.FormattedValue) -> list[str]
+    def complete_debug_specifier(self, partial_specifier_candidates, value_node):
         assert isinstance(value_node, ast.FormattedValue)
 
         conversion = ''
@@ -57,7 +57,7 @@ class FString(object):
 
         return [x + '}' for x in conversion_candidates]
 
-    def candidates(self):  # type: () -> list[str]
+    def candidates(self):
         actual_candidates = []
 
         for quote in self.allowed_quotes:
@@ -99,7 +99,7 @@ class FString(object):
         actual_candidates = filter(self.is_correct_ast, actual_candidates)
         return actual_candidates
 
-    def str_for(self, s, quote):  # type: (str, str) -> str
+    def str_for(self, s, quote):
         return s.replace('{', '{{').replace('}', '}}')
 
 
