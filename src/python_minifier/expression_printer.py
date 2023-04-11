@@ -226,7 +226,7 @@ class ExpressionPrinter(object):
         self.printer.operator('-')
 
     def visit_Not(self, node):
-        self.printer.operator('not')
+        self.printer.keyword('not')
 
     def visit_Invert(self, node):
         self.printer.operator('~')
