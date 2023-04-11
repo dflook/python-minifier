@@ -14,9 +14,9 @@ class ExpressionPrinter(object):
     def __init__(self):
 
         self.precedences = {
-            'NamedExpr': 1,  # NamedExpr
             'Lambda': 2,  # Lambda
             'IfExp': 3,  # IfExp
+            'comprehension': 3.5,
             'Or': 4,  # BoolOp
             'And': 5,
             'Not': 6,
@@ -112,12 +112,13 @@ class ExpressionPrinter(object):
         raise RuntimeError('Unknown Constant value %r' % type(node.value))
 
     def visit_Num(self, node):
-        if isinstance(node.n, int):
-            self.printer.integer(node.n)
-        elif isinstance(node.n, float):
+        if isinstance(node.n, float):
             self.printer.floatnumber(node.n)
-        else:
+        elif isinstance(node.n, complex):
             self.printer.imagnumber(node.n)
+        else:
+            # int or possibly long in python2
+            self.printer.integer(node.n)
 
     def visit_Str(self, node):
         self.printer.stringliteral(node.s)
