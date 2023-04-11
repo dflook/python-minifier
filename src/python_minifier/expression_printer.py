@@ -674,7 +674,8 @@ class ExpressionPrinter(object):
         if isinstance(yield_node, ast.Yield):
             self.printer.keyword('yield')
         elif isinstance(yield_node, ast.YieldFrom):
-            self.printer.keyword('yield from')
+            self.printer.keyword('yield')
+            self.printer.keyword('from')
 
         if yield_node.value is not None:
             self._expression(yield_node.value)
