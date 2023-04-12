@@ -218,7 +218,7 @@ class FormattedValue(ExpressionPrinter):
 
     def _finalize(self):
         self.candidates = [x + str(self.printer) for x in self.candidates]
-        self.printer = TerminalPrinter()
+        self.printer._code = ''
 
     def _append(self, candidates):
         self._finalize()
