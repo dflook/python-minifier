@@ -213,7 +213,6 @@ class FormattedValue(ExpressionPrinter):
 
     def visit_JoinedStr(self, node):
         assert isinstance(node, ast.JoinedStr)
-        self.printer.delimiter(' ')
         self._append(FString(node, allowed_quotes=self.allowed_quotes).candidates())
 
     def _finalize(self):
