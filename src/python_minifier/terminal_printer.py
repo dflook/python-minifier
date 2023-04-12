@@ -295,6 +295,7 @@ class TerminalPrinter(object):
 
         self.previous_token = TokenTypes.EndStatement
 
-    def append(self, code):
+    def append(self, code, token_type):
         """ Append arbitrary string to the output."""
         self._code += code
+        self.previous_token = token_type

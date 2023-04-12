@@ -169,11 +169,11 @@ class FormattedValue(ExpressionPrinter):
         self._expression(self.node.value)
 
         if self.node.conversion == 115:
-            self.printer.append('!s')
+            self.printer.append('!s', TokenTypes.Delimiter)
         elif self.node.conversion == 114:
-            self.printer.append('!r')
+            self.printer.append('!r', TokenTypes.Delimiter)
         elif self.node.conversion == 97:
-            self.printer.append('!a')
+            self.printer.append('!a', TokenTypes.Delimiter)
 
         if self.node.format_spec is not None:
             self.printer.delimiter(':')
@@ -206,10 +206,10 @@ class FormattedValue(ExpressionPrinter):
         return False
 
     def visit_Str(self, node):
-        self.printer.append(str(Str(node.s, self.allowed_quotes)))
+        self.printer.append(str(Str(node.s, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
 
     def visit_Bytes(self, node):
-        self.printer.append(str(Bytes(node.s, self.allowed_quotes)))
+        self.printer.append(str(Bytes(node.s, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
 
     def visit_JoinedStr(self, node):
         assert isinstance(node, ast.JoinedStr)
