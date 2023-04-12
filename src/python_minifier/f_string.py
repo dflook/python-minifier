@@ -15,7 +15,7 @@ from python_minifier.ast_compare import CompareError
 from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
-from python_minifier.terminal_printer import TerminalPrinter
+from python_minifier.terminal_printer import TokenTypes
 from python_minifier.util import is_ast_node
 
 
@@ -213,6 +213,8 @@ class FormattedValue(ExpressionPrinter):
 
     def visit_JoinedStr(self, node):
         assert isinstance(node, ast.JoinedStr)
+        if self.printer.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
+            self.printer.delimiter(' ')
         self._append(FString(node, allowed_quotes=self.allowed_quotes).candidates())
 
     def _finalize(self):
