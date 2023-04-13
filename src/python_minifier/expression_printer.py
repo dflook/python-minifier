@@ -218,7 +218,17 @@ class ExpressionPrinter(object):
             self.printer.delimiter(')')
             return
 
-        self._rhs(node.operand, node)
+        right_precedence = self.precedence(node.operand)
+        op_precedence = self.precedence(node)
+
+        if right_precedence != 0 and (
+            (op_precedence > right_precedence)
+        ):
+            self.printer.delimiter('(')
+            self._expression(node.operand)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.operand)
 
     def visit_UAdd(self, node):
         self.printer.operator('+')
