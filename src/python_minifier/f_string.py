@@ -15,7 +15,7 @@ from python_minifier.ast_compare import CompareError
 from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
-from python_minifier.terminal_printer import TokenTypes
+from python_minifier.token_printer import TokenTypes
 from python_minifier.util import is_ast_node
 
 

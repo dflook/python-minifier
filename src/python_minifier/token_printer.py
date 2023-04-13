@@ -16,14 +16,14 @@ class TokenTypes(object):
     EndStatement = 9
 
 class Delimiter(object):
-    def __init__(self, terminal_printer, delimiter=',', group_chars=None):
+    def __init__(self, terminal_printer, delimiter=',', add_parens=False):
         """
         Delimited group printer
 
         A group of items that should be delimited by a delimiter character.
         Each call to new_item() will insert the delimiter character if necessary.
 
-        When used as a context manager, the group will be enclosed by the start and end characters.
+        When used as a context manager, the group will be enclosed by the start and end characters if the group has any items.
 
         >>> d = Delimiter(terminal_printer)
         ... d.new_item()
@@ -36,7 +36,7 @@ class Delimiter(object):
         ... print(terminal_printer.code)
         a,b
 
-        >>> with Delimiter(terminal_printer, group_chars=('(', ')')) as d:
+        >>> with Delimiter(terminal_printer, add_parens=True) as d:
         ...     d.new_item()
         ...     terminal_printer.identifier('a')
         ... print(terminal_printer.code)
@@ -44,16 +44,14 @@ class Delimiter(object):
 
         :param terminal_printer: The terminal printer to use.
         :param delimiter: The delimiter to use.
-        :param group_chars: The characters to use to open and close the delimited group.
+        :param add_parens: If the group should be enclosed by parentheses. Only used when used as a context manager.
         """
 
         self._terminal_printer = terminal_printer
         self._delimiter = delimiter
+        self._add_parens = add_parens
 
-        if group_chars:
-            self._start_char, self._end_char = group_chars
-
-        self.first = True
+        self._first = True
 
         self._context_manager = False
 
@@ -64,24 +62,22 @@ class Delimiter(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Close the delimited group."""
-        if not self.first and self._end_char:
-            self._terminal_printer.delimiter(self._end_char)
+        if not self._first and self._add_parens:
+            self._terminal_printer.delimiter(')')
 
     def new_item(self):
         """Add a new item to the delimited group."""
-        if self.first:
-            self.first = False
-            if self._context_manager and self._start_char:
-                self._terminal_printer.delimiter(self._start_char)
+        if self._first:
+            self._first = False
+            if self._context_manager and self._add_parens:
+                self._terminal_printer.delimiter('(')
         else:
             self._terminal_printer.delimiter(self._delimiter)
 
-class TerminalPrinter(object):
+class TokenPrinter(object):
     """
     Concatenates terminal symbols of the python grammar
     """
-
-    #__slots__ = ['__code', 'indent', 'unicode_literals', 'previous_token', '_prefer_single_line', '_allow_invalid_num_warnings']
 
     def __init__(self, prefer_single_line=False, allow_invalid_num_warnings=False):
         """

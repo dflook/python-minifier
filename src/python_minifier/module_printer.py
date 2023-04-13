@@ -2,7 +2,7 @@ import ast
 import sys
 
 from .expression_printer import ExpressionPrinter
-from .terminal_printer import Delimiter
+from .token_printer import Delimiter
 from .util import is_ast_node
 
 
@@ -523,7 +523,7 @@ class ModulePrinter(ExpressionPrinter):
         self.printer.keyword('class')
         self.printer.identifier(node.name)
 
-        with Delimiter(self.printer, group_chars=('(', ')')) as delimiter:
+        with Delimiter(self.printer, add_parens=True) as delimiter:
 
             for b in node.bases:
                 delimiter.new_item()

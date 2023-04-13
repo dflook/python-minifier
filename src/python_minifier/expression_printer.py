@@ -3,7 +3,7 @@ import sys
 
 from python_minifier.util import is_ast_node
 
-from python_minifier.terminal_printer import TerminalPrinter, Delimiter
+from python_minifier.token_printer import TokenPrinter, Delimiter
 
 
 class ExpressionPrinter(object):
@@ -34,7 +34,7 @@ class ExpressionPrinter(object):
             'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18, 'ListComp': 18, 'SetComp': 18, 'DictComp': 18, 'GeneratorExp': 18,  # Container
         }
 
-        self.printer = TerminalPrinter()
+        self.printer = TokenPrinter()
 
     def __call__(self, module):
         """
