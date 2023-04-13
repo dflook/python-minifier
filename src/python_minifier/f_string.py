@@ -15,6 +15,7 @@ from python_minifier.ast_compare import CompareError
 from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
+from python_minifier.terminal_printer import TokenTypes
 from python_minifier.util import is_ast_node
 
 
@@ -160,25 +161,25 @@ class FormattedValue(ExpressionPrinter):
 
     def get_candidates(self):
 
-        self.code = '{'
+        self.printer.delimiter('{')
 
         if self.is_curly(self.node.value):
-            self.code += ' '
+            self.printer.delimiter(' ')
 
         self._expression(self.node.value)
 
         if self.node.conversion == 115:
-            self.code += '!s'
+            self.printer.append('!s', TokenTypes.Delimiter)
         elif self.node.conversion == 114:
-            self.code += '!r'
+            self.printer.append('!r', TokenTypes.Delimiter)
         elif self.node.conversion == 97:
-            self.code += '!a'
+            self.printer.append('!a', TokenTypes.Delimiter)
 
         if self.node.format_spec is not None:
-            self.code += ':'
+            self.printer.delimiter(':')
             self._append(FormatSpec(self.node.format_spec, self.allowed_quotes).candidates())
 
-        self.code += '}'
+        self.printer.delimiter('}')
 
         self._finalize()
         return self.candidates
@@ -205,19 +206,20 @@ class FormattedValue(ExpressionPrinter):
         return False
 
     def visit_Str(self, node):
-        self.code += str(Str(node.s, self.allowed_quotes))
+        self.printer.append(str(Str(node.s, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
 
     def visit_Bytes(self, node):
-        self.code += str(Bytes(node.s, self.allowed_quotes))
+        self.printer.append(str(Bytes(node.s, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
 
     def visit_JoinedStr(self, node):
         assert isinstance(node, ast.JoinedStr)
-        self.token_break()
+        if self.printer.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
+            self.printer.delimiter(' ')
         self._append(FString(node, allowed_quotes=self.allowed_quotes).candidates())
 
     def _finalize(self):
-        self.candidates = [x + self.code for x in self.candidates]
-        self.code = ''
+        self.candidates = [x + str(self.printer) for x in self.candidates]
+        self.printer._code = ''
 
     def _append(self, candidates):
         self._finalize()
