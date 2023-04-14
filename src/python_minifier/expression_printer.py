@@ -194,7 +194,7 @@ class ExpressionPrinter(object):
 
     def visit_Starred(self, node):
         self.printer.operator('*')
-        if self.precedence(node.value) <= 7:
+        if 0 < self.precedence(node.value) <= 7:
             self.printer.delimiter('(')
             self._expression(node.value)
             self.printer.delimiter(')')
