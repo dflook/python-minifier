@@ -717,6 +717,9 @@ class ExpressionPrinter(object):
         right_precedence = self.precedence(right_node)
         op_precedence = self.precedence(op_node)
 
+        if isinstance(op_node, ast.Pow) and right_precedence == 14:
+            op_precedence = right_precedence
+
         if right_precedence != 0 and (
             (op_precedence > right_precedence)
             or (op_precedence == right_precedence and self._is_left_associative(op_node))
