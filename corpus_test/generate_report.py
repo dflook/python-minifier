@@ -6,7 +6,7 @@ from typing import Iterable
 
 from result import Result, ResultReader
 
-ENHANCED_REPORT = True
+ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', False)
 
 
 @dataclass
