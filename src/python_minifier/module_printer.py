@@ -57,6 +57,8 @@ class ModulePrinter(ExpressionPrinter):
 
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expr(node.value)
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
             self._testlist(node.value)
 
@@ -84,6 +86,8 @@ class ModulePrinter(ExpressionPrinter):
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expr(node.value)
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
             self._testlist(node.value)
 
@@ -99,6 +103,11 @@ class ModulePrinter(ExpressionPrinter):
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expr(node.value)
+
+        # NamedExpr nodes that are the sole node on the right hand side of an assignment MUST have parens
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self._unparenthesized_namedexpr_not_allowed(node.value)
+
         else:
             self._testlist(node.value)
 
@@ -116,7 +125,10 @@ class ModulePrinter(ExpressionPrinter):
 
         if node.annotation:
             self.printer.delimiter(':')
-            self._expression(node.annotation)
+            if is_ast_node(node.annotation, 'NamedExpr'):
+                self._unparenthesized_namedexpr_not_allowed(node.annotation)
+            else:
+                self._expression(node.annotation)
 
         if node.value:
             self.printer.delimiter('=')
@@ -500,7 +512,10 @@ class ModulePrinter(ExpressionPrinter):
 
         if hasattr(node, 'returns') and node.returns is not None:
             self.printer.delimiter('->')
-            self._expression(node.returns)
+            if is_ast_node(node.returns, 'NamedExpr'):
+                self._unparenthesized_namedexpr_not_allowed(node.returns)
+            else:
+                self._expression(node.returns)
             self.printer.delimiter(':')
         else:
             self.printer.delimiter(':')

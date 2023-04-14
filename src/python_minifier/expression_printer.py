@@ -14,6 +14,7 @@ class ExpressionPrinter(object):
     def __init__(self):
 
         self.precedences = {
+            'NamedExpr': 1,  # NamedExpr
             'Lambda': 2,  # Lambda
             'IfExp': 3,  # IfExp
             'comprehension': 3.5,
@@ -407,6 +408,10 @@ class ExpressionPrinter(object):
         if node.arg is None:
             self.printer.operator('**')
             self._expression(node.value)
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self.printer.identifier(node.arg)
+            self.printer.delimiter('=')
+            self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
             self.printer.identifier(node.arg)
             self.printer.delimiter('=')
@@ -561,7 +566,10 @@ class ExpressionPrinter(object):
 
         self.printer.delimiter(':')
 
-        self._expression(node.body)
+        if is_ast_node(node.body, 'NamedExpr'):
+            self._unparenthesized_namedexpr_not_allowed(node.body)
+        else:
+            self._expression(node.body)
 
     def visit_arguments(self, node):
         args = getattr(node, 'posonlyargs', []) + node.args
@@ -576,7 +584,11 @@ class ExpressionPrinter(object):
 
             if i >= count_no_defaults:
                 self.printer.delimiter('=')
-                self._expression(node.defaults[i - count_no_defaults])
+                default = node.defaults[i - count_no_defaults]
+                if is_ast_node(default, 'NamedExpr'):
+                    self._unparenthesized_namedexpr_not_allowed(default)
+                else:
+                    self._expression(node.defaults[i - count_no_defaults])
 
             if hasattr(node, 'posonlyargs') and node.posonlyargs and i + 1 == len(node.posonlyargs):
                 self.printer.delimiter(',')
@@ -635,7 +647,10 @@ class ExpressionPrinter(object):
 
         if node.annotation:
             self.printer.delimiter(':')
-            self._expression(node.annotation)
+            if is_ast_node(node.annotation, 'NamedExpr'):
+                self._unparenthesized_namedexpr_not_allowed(node.annotation)
+            else:
+                self._expression(node.annotation)
 
     def visit_Repr(self, node):
         self.printer.delimiter('`')
@@ -656,10 +671,6 @@ class ExpressionPrinter(object):
             self.printer.delimiter('(')
             self.visit_Tuple(expression)
             self.printer.delimiter(')')
-        elif is_ast_node(expression, 'NamedExpr'):
-            self.printer.delimiter('(')
-            self.visit_NamedExpr(expression)
-            self.printer.delimiter(')')
         else:
             self.visit(expression)
 
@@ -667,10 +678,6 @@ class ExpressionPrinter(object):
         if is_ast_node(test, (ast.Yield, 'YieldFrom')):
             self.printer.delimiter('(')
             self._yield_expr(test)
-            self.printer.delimiter(')')
-        elif is_ast_node(test, 'NamedExpr'):
-            self.printer.delimiter('(')
-            self.visit_NamedExpr(test)
             self.printer.delimiter(')')
         else:
             self.visit(test)
@@ -746,3 +753,8 @@ class ExpressionPrinter(object):
         assert isinstance(node, ast.Await)
         self.printer.keyword('await')
         self._rhs(node.value, node)
+
+    def _unparenthesized_namedexpr_not_allowed(self, node):
+        self.printer.delimiter('(')
+        self.visit_NamedExpr(node)
+        self.printer.delimiter(')')

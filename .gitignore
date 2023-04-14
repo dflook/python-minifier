@@ -18,3 +18,4 @@ docs/source/transforms/*.min.py
 .circleci-config.yml
 .coverage
 .mypy_cache/
+NOTES.md
