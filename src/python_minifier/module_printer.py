@@ -370,7 +370,11 @@ class ModulePrinter(ExpressionPrinter):
         self.printer.keyword('for')
         self._target_list(node.target)
         self.printer.keyword('in')
-        self._expression_list(node.iter)
+
+        if sys.version_info >= (3, 9):
+            self._starred_list(node.iter)
+        else:
+            self._expression_list(node.iter)
         self.printer.delimiter(':')
 
         self._suite(node.body)

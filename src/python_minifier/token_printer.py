@@ -67,6 +67,9 @@ class Delimiter(object):
 
     def new_item(self):
         """Add a new item to the delimited group."""
+        if self._add_parens and not self._context_manager:
+            raise ValueError('Cannot use add_parens without using as a context manager')
+
         if self._first:
             self._first = False
             if self._context_manager and self._add_parens:

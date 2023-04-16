@@ -713,6 +713,47 @@ class ExpressionPrinter(object):
         If it is a list of expressions the exprlist is a Tuple node, which does not need to be enclosed by parentheses.
         An empty tuple needs to be printed as '()'
         A tuple with a single element needs to have a trailing comma
+
+        If the list contains a starred expression, it needs to be parenthesized.
+        """
+
+        if isinstance(exprlist, ast.Tuple):
+
+            contains_starred = False
+            if [n for n in exprlist.elts if is_ast_node(n, 'Starred')]:
+                contains_starred = True
+
+            with Delimiter(self.printer, add_parens=contains_starred) as delimiter:
+                for expr in exprlist.elts:
+                    delimiter.new_item()
+                    self._expression(expr)
+
+            if len(exprlist.elts) == 0:
+                self.printer.delimiter('(')
+                self.printer.delimiter(')')
+                return
+
+            if len(exprlist.elts) == 1:
+                self.printer.delimiter(',')
+
+        elif isinstance(exprlist, list):
+            delimiter = Delimiter(self.printer)
+            for e in exprlist:
+                delimiter.new_item()
+                self._expression(e)
+        else:
+            if is_ast_node(exprlist, 'Starred'):
+                self.printer.delimiter('(')
+                self._expression(exprlist)
+                self.printer.delimiter(')')
+            else:
+                self._expression(exprlist)
+
+    def _starred_list(self, exprlist):
+        """
+        A 'starred_list' in the grammar
+
+        This is very similar to an expression_list, but it may contain a starred expression without being parenthesized.
         """
 
         if isinstance(exprlist, ast.Tuple):
@@ -736,12 +777,6 @@ class ExpressionPrinter(object):
                 self._expression(e)
         else:
             self._expression(exprlist)
-
-    def _starred_list(self, starred_list):
-        """
-        A 'starred_list' in the grammar
-        """
-        return self._expression_list(starred_list)
 
     def _target_list(self, target_list):
         """
