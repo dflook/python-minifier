@@ -56,7 +56,7 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Expr)
 
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-            self._yield_expr(node.value)
+            self._yield_expression(node.value)
         elif is_ast_node(node.value, 'NamedExpr'):
             self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
@@ -107,7 +107,7 @@ class ModulePrinter(ExpressionPrinter):
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-            self._yield_expr(node.value)
+            self._yield_expression(node.value)
         elif is_ast_node(node.value, 'NamedExpr'):
             self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
@@ -124,7 +124,7 @@ class ModulePrinter(ExpressionPrinter):
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-            self._yield_expr(node.value)
+            self._yield_expression(node.value)
 
         # NamedExpr nodes that are the sole node on the right hand side of an assignment MUST have parens
         elif is_ast_node(node.value, 'NamedExpr'):
@@ -211,13 +211,13 @@ class ModulePrinter(ExpressionPrinter):
     def visit_Yield(self, node):
         assert isinstance(node, ast.Yield)
 
-        self._yield_expr(node)
+        self._yield_expression(node)
         self.printer.end_statement()
 
     def visit_YieldFrom(self, node):
         assert isinstance(node, ast.YieldFrom)
 
-        self._yield_expr(node)
+        self._yield_expression(node)
         self.printer.end_statement()
 
     def visit_Raise(self, node):
