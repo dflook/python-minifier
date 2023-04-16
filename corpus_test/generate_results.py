@@ -24,7 +24,7 @@ def minify_corpus_entry(corpus_path, corpus_entry):
     :rtype: Result
     """
 
-    with gzip.open(os.path.join(corpus_path, f'{corpus_entry}.py.gz'), 'rb') as f:
+    with gzip.open(os.path.join(corpus_path, corpus_entry + '.py.gz'), 'rb') as f:
         source = f.read()
 
     result = Result(corpus_entry, len(source), 0, 0, '')
@@ -73,7 +73,8 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     :param str sha: The python-minifier sha we are testing
     :param bool regenerate_results: Regenerate results even if they are present
     """
-    corpus_entries = (entry.removesuffix('.py.gz') for entry in os.listdir(corpus_path))
+
+    corpus_entries = (entry[:-len('.py.gz')] for entry in os.listdir(corpus_path))
 
     python_version = '.'.join([str(s) for s in sys.version_info[:2]])
     results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
