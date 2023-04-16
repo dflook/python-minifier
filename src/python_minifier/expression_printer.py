@@ -698,12 +698,6 @@ class ExpressionPrinter(object):
         else:
             self.visit(test)
 
-    def _exprlist(self, exprlist):
-        delimiter = Delimiter(self.printer)
-        for expr in exprlist:
-            delimiter.new_item()
-            self._expression(expr)
-
     # region Grammar elements
     def _expression_list(self, exprlist):
         """

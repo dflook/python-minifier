@@ -176,10 +176,11 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Return)
 
         self.printer.keyword('return')
-        if sys.version_info < (3, 8):
-            self._expression_list(node.value)
-        else:
-            self._starred_list(node.value)
+        if node.value is not None:
+            if sys.version_info < (3, 8):
+                self._expression_list(node.value)
+            else:
+                self._starred_list(node.value)
 
         self.printer.end_statement()
 
