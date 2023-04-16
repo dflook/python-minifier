@@ -534,7 +534,13 @@ class ExpressionPrinter(object):
 
     def visit_DictComp(self, node):
         self.printer.delimiter('{')
-        self._expression(node.key)
+
+        if 0 < self.precedence(node.key) < 3:
+            self.printer.delimiter('(')
+            self._expression(node.key)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.key)
         self.printer.delimiter(':')
         self._expression(node.value)
         [self.visit_comprehension(x) for x in node.generators]
@@ -821,7 +827,10 @@ class ExpressionPrinter(object):
     def visit_NamedExpr(self, node):
         self._expression(node.target)
         self.printer.operator(':=')
-        self._expression(node.value)
+        if isinstance(node.value, ast.NamedExpr):
+            self._unparenthesized_namedexpr_not_allowed(node.value)
+        else:
+            self._expression(node.value)
 
     def visit_Await(self, node):
         assert isinstance(node, ast.Await)
