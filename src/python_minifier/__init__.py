@@ -23,6 +23,7 @@ from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_asserts import RemoveAsserts
 from python_minifier.transforms.remove_debug import RemoveDebug
+from python_minifier.transforms.implicit_return_none import implicit_return_none
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
@@ -64,7 +65,8 @@ def minify(
     convert_posargs_to_args=True,
     preserve_shebang=True,
     remove_asserts=False,
-    remove_debug=False
+    remove_debug=False,
+    remove_explicit_return_none=True,
 ):
     """
     Minify a python module
@@ -94,6 +96,7 @@ def minify(
     :param bool preserve_shebang: Keep any shebang interpreter directive from the source in the minified output
     :param bool remove_asserts: If assert statements should be removed
     :param bool remove_debug: If conditional statements that test '__debug__ is True' should be removed
+    :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
 
     :rtype: str
 
@@ -126,6 +129,9 @@ def minify(
 
     if remove_debug:
         module = RemoveDebug()(module)
+
+    if remove_explicit_return_none:
+        module = implicit_return_none(module)
 
     bind_names(module)
     resolve_names(module)

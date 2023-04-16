@@ -183,7 +183,12 @@ def parse_args():
         help='Remove conditional statements that test __debug__ is True',
         dest='remove_debug',
     )
-
+    minification_options.add_argument(
+        '--no-remove-explicit-return-none',
+        action='store_false',
+        help='Replace explicit return None with a bare return',
+        dest='remove_explicit_return_none',
+    )
     parser.add_argument('--version', '-v', action='version', version=version)
 
     args = parser.parse_args()
@@ -248,7 +253,8 @@ def do_minify(source, filename, minification_args):
         convert_posargs_to_args=minification_args.convert_posargs_to_args,
         preserve_shebang=minification_args.preserve_shebang,
         remove_asserts=minification_args.remove_asserts,
-        remove_debug=minification_args.remove_debug
+        remove_debug=minification_args.remove_debug,
+        remove_explicit_return_none=minification_args.remove_explicit_return_none,
     )
 
 
