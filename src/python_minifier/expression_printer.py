@@ -129,7 +129,7 @@ class ExpressionPrinter(object):
 
     def visit_List(self, node):
         self.printer.delimiter('[')
-        self._exprlist(node.elts)
+        self._starred_list(node.elts)
         self.printer.delimiter(']')
 
     def visit_Tuple(self, node):
@@ -139,14 +139,17 @@ class ExpressionPrinter(object):
             self.printer.delimiter(')')
             return
 
-        self._exprlist(node.elts)
+        delimiter = Delimiter(self.printer)
+        for expr in node.elts:
+            delimiter.new_item()
+            self._expression(expr)
 
         if len(node.elts) == 1:
             self.printer.delimiter(',')
 
     def visit_Set(self, node):
         self.printer.delimiter('{')
-        self._exprlist(node.elts)
+        self._starred_list(node.elts)
         self.printer.delimiter('}')
 
     def visit_Dict(self, node):
@@ -157,7 +160,7 @@ class ExpressionPrinter(object):
             if key is None:
                 self.printer.operator('**')
 
-                if 0 < self.precedence(datum) <=7:
+                if 0 < self.precedence(datum) <= 7:
                     self.printer.delimiter('(')
                     self._expression(datum)
                     self.printer.delimiter(')')
@@ -479,7 +482,7 @@ class ExpressionPrinter(object):
         self.printer.delimiter(']')
 
     def visit_Index(self, node):
-        self._expression(node.value)
+        self._expression_list(node.value)
 
     def visit_Slice(self, node):
         if node.lower:
@@ -544,7 +547,7 @@ class ExpressionPrinter(object):
             self.printer.keyword('async')
 
         self.printer.keyword('for')
-        self._exprlist([node.target])
+        self._target_list(node.target)
         self.printer.keyword('in')
 
         self._rhs(node.iter, node)
@@ -663,9 +666,16 @@ class ExpressionPrinter(object):
         self._expression(node.body)
 
     def _expression(self, expression):
+        """
+        An `expression` in the python grammer.
+
+        Tuples must be parenthesized.
+        Yield/YieldFrom must be parenthesized.
+        """
+
         if is_ast_node(expression, (ast.Yield, 'YieldFrom')):
             self.printer.delimiter('(')
-            self._yield_expr(expression)
+            self._yield_expression(expression)
             self.printer.delimiter(')')
         elif isinstance(expression, ast.Tuple) and len(expression.elts) > 0:
             self.printer.delimiter('(')
@@ -677,7 +687,7 @@ class ExpressionPrinter(object):
     def _testlist(self, test):
         if is_ast_node(test, (ast.Yield, 'YieldFrom')):
             self.printer.delimiter('(')
-            self._yield_expr(test)
+            self._yield_expression(test)
             self.printer.delimiter(')')
         else:
             self.visit(test)
@@ -688,7 +698,64 @@ class ExpressionPrinter(object):
             delimiter.new_item()
             self._expression(expr)
 
-    def _yield_expr(self, yield_node):
+    # region Grammar elements
+    def _expression_list(self, exprlist):
+        """
+        An 'expression_list' in the grammar
+
+        This may be a single expression or a list of expressions.
+        If it is a list of expressions the exprlist is a Tuple node, which does not need to be enclosed by parentheses.
+        An empty tuple needs to be printed as '()'
+        A tuple with a single element needs to have a trailing comma
+        """
+
+        if isinstance(exprlist, ast.Tuple):
+            delimiter = Delimiter(self.printer)
+            for expr in exprlist.elts:
+                delimiter.new_item()
+                self._expression(expr)
+
+            if len(exprlist.elts) == 0:
+                self.printer.delimiter('(')
+                self.printer.delimiter(')')
+                return
+
+            if len(exprlist.elts) == 1:
+                self.printer.delimiter(',')
+
+        elif isinstance(exprlist, list):
+            delimiter = Delimiter(self.printer)
+            for e in exprlist:
+                delimiter.new_item()
+                self._expression(e)
+        else:
+            self._expression(exprlist)
+
+    def _starred_list(self, starred_list):
+        """
+        A 'starred_list' in the grammar
+        """
+        return self._expression_list(starred_list)
+
+    def _target_list(self, target_list):
+        """
+        A 'target_list' in the grammar
+        """
+        return self._expression_list(target_list)
+
+    def _starred_expression(self, starred_expression):
+        """
+        A 'starred_expression' in the grammar
+        """
+        return self._expression(starred_expression)
+
+    def _assignment_expression(self, assignment_expression):
+        """
+        An 'assignment_expression' in the grammar
+        """
+        return self._expression(assignment_expression)
+
+    def _yield_expression(self, yield_node):
         if isinstance(yield_node, ast.Yield):
             self.printer.keyword('yield')
         elif isinstance(yield_node, ast.YieldFrom):
@@ -696,7 +763,14 @@ class ExpressionPrinter(object):
             self.printer.keyword('from')
 
         if yield_node.value is not None:
-            self._expression(yield_node.value)
+            self._expression_list(yield_node.value)
+
+    # endregion
+
+    def _unparenthesized_namedexpr_not_allowed(self, node):
+        self.printer.delimiter('(')
+        self.visit_NamedExpr(node)
+        self.printer.delimiter(')')
 
     @staticmethod
     def _is_right_associative(operator):
@@ -753,8 +827,3 @@ class ExpressionPrinter(object):
         assert isinstance(node, ast.Await)
         self.printer.keyword('await')
         self._rhs(node.value, node)
-
-    def _unparenthesized_namedexpr_not_allowed(self, node):
-        self.printer.delimiter('(')
-        self.visit_NamedExpr(node)
-        self.printer.delimiter(')')

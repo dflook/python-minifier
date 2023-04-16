@@ -60,11 +60,18 @@ class ModulePrinter(ExpressionPrinter):
         elif is_ast_node(node.value, 'NamedExpr'):
             self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
-            self._testlist(node.value)
+            self._starred_expression(node.value)
 
         self.printer.end_statement()
 
     def visit_Assert(self, node):
+        """
+        Assert statement
+
+        assert_stmt ::= "assert" expression ["," expression]
+
+        https://docs.python.org/3.11/reference/simple_stmts.html#the-assert-statement
+        """
         assert isinstance(node, ast.Assert)
 
         self.printer.keyword('assert')
@@ -77,10 +84,25 @@ class ModulePrinter(ExpressionPrinter):
         self.printer.end_statement()
 
     def visit_Assign(self, node):
+        """
+        Assignment statement
+
+        assignment_stmt ::=  (target_list "=")+ (starred_expression | yield_expression)
+        target_list     ::=  target ("," target)* [","]
+        target          ::=  identifier
+                             | "(" [target_list] ")"
+                             | "[" [target_list] "]"
+                             | attributeref
+                             | subscription
+                             | slicing
+                             | "*" target
+
+        https://docs.python.org/3.11/reference/simple_stmts.html#assignment-statements
+        """
         assert isinstance(node, ast.Assign)
 
         for target_node in node.targets:
-            self._testlist(target_node)
+            self._target_list(target_node)
             self.printer.delimiter('=')
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
@@ -89,7 +111,7 @@ class ModulePrinter(ExpressionPrinter):
         elif is_ast_node(node.value, 'NamedExpr'):
             self._unparenthesized_namedexpr_not_allowed(node.value)
         else:
-            self._testlist(node.value)
+            self._starred_expression(node.value)
 
         self.printer.end_statement()
 
@@ -109,7 +131,7 @@ class ModulePrinter(ExpressionPrinter):
             self._unparenthesized_namedexpr_not_allowed(node.value)
 
         else:
-            self._testlist(node.value)
+            self._expression_list(node.value)
 
         self.printer.end_statement()
 
@@ -133,7 +155,7 @@ class ModulePrinter(ExpressionPrinter):
         if node.value:
             self.printer.delimiter('=')
 
-            self._expression(node.value)
+            self._starred_expression(node.value)
 
         self.printer.end_statement()
 
@@ -147,7 +169,7 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Delete)
 
         self.printer.keyword('del')
-        self._exprlist(node.targets)
+        self._target_list(node.targets)
         self.printer.end_statement()
 
     def visit_Return(self, node):
@@ -157,12 +179,12 @@ class ModulePrinter(ExpressionPrinter):
         if isinstance(node.value, ast.Tuple):
             if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
                 self.printer.delimiter('(')
-                self._testlist(node.value)
+                self._expression_list(node.value)
                 self.printer.delimiter(')')
             else:
                 self._testlist(node.value)
         elif node.value is not None:
-            self._testlist(node.value)
+            self._expression_list(node.value)
         self.printer.end_statement()
 
     def visit_Print(self, node):
@@ -321,7 +343,7 @@ class ModulePrinter(ExpressionPrinter):
         else:
             self.printer.keyword('if')
 
-        self._expression(node.test)
+        self._assignment_expression(node.test)
         self.printer.delimiter(':')
 
         self._suite(node.body)
@@ -346,9 +368,9 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.keyword('async')
 
         self.printer.keyword('for')
-        self._exprlist([node.target])
+        self._target_list(node.target)
         self.printer.keyword('in')
-        self._expression(node.iter)
+        self._expression_list(node.iter)
         self.printer.delimiter(':')
 
         self._suite(node.body)
@@ -364,7 +386,7 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.newline()
         self.printer.keyword('while')
-        self._expression(node.test)
+        self._assignment_expression(node.test)
         self.printer.delimiter(':')
         self._suite(node.body)
 
@@ -498,7 +520,7 @@ class ModulePrinter(ExpressionPrinter):
 
         for d in node.decorator_list:
             self.printer.operator('@')
-            self._expression(d)
+            self._assignment_expression(d)
             self.printer.newline()
 
         if is_async:
@@ -532,7 +554,7 @@ class ModulePrinter(ExpressionPrinter):
 
         for d in node.decorator_list:
             self.printer.operator('@')
-            self._expression(d)
+            self._assignment_expression(d)
             self.printer.newline()
 
         self.printer.keyword('class')
