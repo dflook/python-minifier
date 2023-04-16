@@ -176,15 +176,11 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Return)
 
         self.printer.keyword('return')
-        if isinstance(node.value, ast.Tuple):
-            if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
-                self.printer.delimiter('(')
-                self._expression_list(node.value)
-                self.printer.delimiter(')')
-            else:
-                self._testlist(node.value)
-        elif node.value is not None:
+        if sys.version_info < (3, 8):
             self._expression_list(node.value)
+        else:
+            self._starred_list(node.value)
+
         self.printer.end_statement()
 
     def visit_Print(self, node):
