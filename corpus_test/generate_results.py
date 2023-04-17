@@ -5,6 +5,10 @@ import os
 import sys
 import time
 
+
+import logging
+
+
 import python_minifier
 from result import Result, ResultWriter
 
@@ -79,19 +83,24 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     :param str sha: The python-minifier sha we are testing
     :param bool regenerate_results: Regenerate results even if they are present
     """
+    python_version = '.'.join([str(s) for s in sys.version_info[:2]])
+
+    log_path = 'results_' + python_version + '_' + sha + '.log'
+    print('Logging in GitHub Actions is absolute garbage. Logs are going to ' + log_path)
+
+    logging.basicConfig(filename=os.path.join(results_path, log_path), level=logging.DEBUG)
 
     corpus_entries = [entry[:-len('.py.gz')] for entry in os.listdir(corpus_path)]
 
-    python_version = '.'.join([str(s) for s in sys.version_info[:2]])
     results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
 
     if os.path.isfile(results_file_path):
-        print('Results file already exists: %s', results_file_path)
+        logging.info('Results file already exists: %s', results_file_path)
         if regenerate_results:
             os.remove(results_file_path)
 
     total_entries = len(corpus_entries)
-    print('Testing python-minifier on %d entries' % total_entries)
+    logging.info('Testing python-minifier on %d entries' % total_entries)
     tested_entries = 0
 
     start_time = time.time()
@@ -106,15 +115,15 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
             result_writer.write(result)
             tested_entries += 1
 
-            print(entry)
+            logging.debug(entry)
             sys.stdout.flush()
 
             if time.time() > next_checkpoint:
                 percent = tested_entries / len(result_writer) * 100
                 time_per_entry = (time.time() - start_time) / tested_entries
                 entries_remaining = len(corpus_entries) - len(result_writer)
-                time_remaining = datetime.time(0, 0, entries_remaining * time_per_entry).strftime("%M:%S")
-                print('Tested %d/%d entries (%d)%% %s' % (len(result_writer), total_entries, percent, time_remaining))
+                time_remaining = datetime.time(0, 0, int(entries_remaining * time_per_entry)).strftime("%M:%S")
+                logging.info('Tested %d/%d entries (%d)%% %s' % (len(result_writer), total_entries, percent, time_remaining))
                 sys.stdout.flush()
                 next_checkpoint = time.time() + 60
 
