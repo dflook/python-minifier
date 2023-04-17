@@ -17,7 +17,7 @@ on:
         type: boolean
         description: 'Regenerate results'
         required: true
-        default: true
+        default: false
   workflow_call:
     inputs:
       ref:

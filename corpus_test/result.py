@@ -21,14 +21,33 @@ class ResultWriter:
         :param str results_path: The path to the results file
         """
         self._results_path = results_path
+        self._size = 0
+        self._existing_result_set = set()
+
+        with open(self._results_path, 'r') as f:
+            for line in f:
+                if line != 'corpus_entry,original_size,minified_size,time,result\n':
+                    self._existing_result_set.add(line.split(',')[0])
+
+        self._size += len(self._existing_result_set)
 
     def __enter__(self):
-        self.results = open(self._results_path, 'w')
+        self.results = open(self._results_path, 'a')
         self.results.write('corpus_entry,original_size,minified_size,time,result\n')
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.results.close()
+
+    def __contains__(self, item):
+        """
+        :param str item: The name of the entry in the corpus
+        :return bool: True if the entry already exists in the results file
+        """
+        return item in self._existing_result_set
+
+    def __len__(self):
+        return self._size
 
     def write(self, result):
         """
@@ -41,6 +60,7 @@ class ResultWriter:
             str(result.time) + ',' + result.outcome + '\n'
         )
         self.results.flush()
+        self._size += 1
 
 
 class ResultReader:

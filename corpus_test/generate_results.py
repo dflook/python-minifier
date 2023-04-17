@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import gzip
 import os
 import sys
@@ -24,8 +25,13 @@ def minify_corpus_entry(corpus_path, corpus_entry):
     :rtype: Result
     """
 
-    with gzip.open(os.path.join(corpus_path, corpus_entry + '.py.gz'), 'rb') as f:
-        source = f.read()
+    if os.path.isfile(os.path.join(corpus_path, corpus_entry + '.py.gz')):
+        with gzip.open(os.path.join(corpus_path, corpus_entry + '.py.gz'), 'rb') as f:
+            source = f.read()
+    else:
+        with open(os.path.join(corpus_path, corpus_entry), 'rb') as f:
+            source = f.read()
+
 
     result = Result(corpus_entry, len(source), 0, 0, '')
 
@@ -74,21 +80,39 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     :param bool regenerate_results: Regenerate results even if they are present
     """
 
-    corpus_entries = (entry[:-len('.py.gz')] for entry in os.listdir(corpus_path))
+    corpus_entries = [entry[:-len('.py.gz')] for entry in os.listdir(corpus_path)]
 
     python_version = '.'.join([str(s) for s in sys.version_info[:2]])
     results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
 
-    if os.path.isfile(results_file_path) and not regenerate_results:
+    if os.path.isfile(results_file_path):
         print('Results file already exists: %s', results_file_path)
-        return
+        if regenerate_results:
+            os.remove(results_file_path)
+
+    total_entries = len(corpus_entries)
+    print('Testing python-minifier on %d entries' % total_entries)
+    tested_entries = 0
+
+    start_time = time.time()
+    next_checkpoint = time.time() + 60
 
     with ResultWriter(results_file_path) as result_writer:
         for entry in corpus_entries:
-            print(entry)
+            if entry in result_writer:
+                continue
+
             result = minify_corpus_entry(corpus_path, entry)
             result_writer.write(result)
+            tested_entries += 1
 
+            if time.time() > next_checkpoint:
+                percent = tested_entries / result_writer.size() * 100
+                time_per_entry = (time.time() - start_time) / tested_entries
+                entries_remaining = len(corpus_entries) - result_writer.size()
+                time_remaining = datetime.time(0, 0, entries_remaining * time_per_entry).strftime("%M:%S")
+                print('Tested %d/%d entries (%d)%% %s' % (result_writer.size(), total_entries, percent, time_remaining))
+                next_checkpoint = time.time() + 60
 
 def bool_parse(value):
     return value == 'true'
