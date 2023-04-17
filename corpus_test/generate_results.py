@@ -107,22 +107,25 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     next_checkpoint = time.time() + 60
 
     with ResultWriter(results_file_path) as result_writer:
+        logging.info('%d results already present' % len(result_writer))
+
         for entry in corpus_entries:
             if entry in result_writer:
                 continue
+
+            logging.debug(entry)
 
             result = minify_corpus_entry(corpus_path, entry)
             result_writer.write(result)
             tested_entries += 1
 
-            logging.debug(entry)
             sys.stdout.flush()
 
             if time.time() > next_checkpoint:
                 percent = tested_entries / len(result_writer) * 100
                 time_per_entry = (time.time() - start_time) / tested_entries
                 entries_remaining = len(corpus_entries) - len(result_writer)
-                time_remaining = datetime.time(0, 0, int(entries_remaining * time_per_entry)).strftime("%M:%S")
+                time_remaining = int(entries_remaining * time_per_entry)
                 logging.info('Tested %d/%d entries (%d)%% %s' % (len(result_writer), total_entries, percent, time_remaining))
                 sys.stdout.flush()
                 next_checkpoint = time.time() + 60
