@@ -122,13 +122,15 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
             sys.stdout.flush()
 
             if time.time() > next_checkpoint:
-                percent = tested_entries / len(result_writer) * 100
+                percent = len(result_writer) / total_entries * 100
                 time_per_entry = (time.time() - start_time) / tested_entries
                 entries_remaining = len(corpus_entries) - len(result_writer)
                 time_remaining = int(entries_remaining * time_per_entry)
-                logging.info('Tested %d/%d entries (%d)%% %s' % (len(result_writer), total_entries, percent, time_remaining))
+                logging.info('Tested %d/%d entries (%d%%) %s seconds remaining' % (len(result_writer), total_entries, percent, time_remaining))
                 sys.stdout.flush()
                 next_checkpoint = time.time() + 60
+
+    logging.info('Finished')
 
 def bool_parse(value):
     return value == 'true'
