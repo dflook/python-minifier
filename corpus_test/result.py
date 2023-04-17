@@ -1,3 +1,6 @@
+import os
+
+
 class Result(object):
 
     def __init__(self, corpus_entry, original_size, minified_size, time, outcome):
@@ -23,6 +26,9 @@ class ResultWriter:
         self._results_path = results_path
         self._size = 0
         self._existing_result_set = set()
+
+        if not os.path.isfile(self._results_path):
+            return
 
         with open(self._results_path, 'r') as f:
             for line in f:
