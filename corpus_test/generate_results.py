@@ -110,11 +110,11 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
             sys.stdout.flush()
 
             if time.time() > next_checkpoint:
-                percent = tested_entries / result_writer.size() * 100
+                percent = tested_entries / len(result_writer) * 100
                 time_per_entry = (time.time() - start_time) / tested_entries
-                entries_remaining = len(corpus_entries) - result_writer.size()
+                entries_remaining = len(corpus_entries) - len(result_writer)
                 time_remaining = datetime.time(0, 0, entries_remaining * time_per_entry).strftime("%M:%S")
-                print('Tested %d/%d entries (%d)%% %s' % (result_writer.size(), total_entries, percent, time_remaining))
+                print('Tested %d/%d entries (%d)%% %s' % (len(result_writer), total_entries, percent, time_remaining))
                 sys.stdout.flush()
                 next_checkpoint = time.time() + 60
 
