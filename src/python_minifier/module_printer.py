@@ -157,7 +157,14 @@ class ModulePrinter(ExpressionPrinter):
         if node.value:
             self.printer.delimiter('=')
 
-            self._starred_expression(node.value)
+            if isinstance(node.value, ast.Tuple):
+                self.visit_Tuple(node.value)
+            elif is_ast_node(node.value, 'NamedExpr'):
+                self._unparenthesized_namedexpr_not_allowed(node.value)
+            elif is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
+                self._yield_expression(node.value)
+            else:
+                self._starred_expression(node.value)
 
         self.printer.end_statement()
 
