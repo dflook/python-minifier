@@ -59,8 +59,10 @@ class ModulePrinter(ExpressionPrinter):
             self._yield_expression(node.value)
         elif is_ast_node(node.value, 'NamedExpr'):
             self._unparenthesized_namedexpr_not_allowed(node.value)
+        elif isinstance(node.value, ast.Tuple):
+            self.visit_Tuple(node.value)
         else:
-            self._starred_expression(node.value)
+            self._expression(node.value)
 
         self.printer.end_statement()
 
@@ -75,7 +77,11 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Assert)
 
         self.printer.keyword('assert')
-        self._expression(node.test)
+
+        if isinstance(node.test, ast.NamedExpr):
+            self._unparenthesized_namedexpr_not_allowed(node.test)
+        else:
+            self._expression(node.test)
 
         if node.msg:
             self.printer.delimiter(',')
@@ -84,21 +90,6 @@ class ModulePrinter(ExpressionPrinter):
         self.printer.end_statement()
 
     def visit_Assign(self, node):
-        """
-        Assignment statement
-
-        assignment_stmt ::=  (target_list "=")+ (starred_expression | yield_expression)
-        target_list     ::=  target ("," target)* [","]
-        target          ::=  identifier
-                             | "(" [target_list] ")"
-                             | "[" [target_list] "]"
-                             | attributeref
-                             | subscription
-                             | slicing
-                             | "*" target
-
-        https://docs.python.org/3.11/reference/simple_stmts.html#assignment-statements
-        """
         assert isinstance(node, ast.Assign)
 
         for target_node in node.targets:
@@ -133,7 +124,7 @@ class ModulePrinter(ExpressionPrinter):
             self._unparenthesized_namedexpr_not_allowed(node.value)
 
         else:
-            self._expression_list(node.value)
+            self._starred_list(node.value)
 
         self.printer.end_statement()
 
@@ -186,10 +177,13 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.keyword('return')
         if node.value is not None:
-            if sys.version_info < (3, 8):
-                self._expression_list(node.value)
+            if isinstance(node.value, ast.NamedExpr):
+                self._unparenthesized_namedexpr_not_allowed(node.value)
             else:
-                self._starred_list(node.value)
+                if sys.version_info < (3, 8):
+                    self._expression_list(node.value)
+                else:
+                    self._starred_list(node.value)
 
         self.printer.end_statement()
 
@@ -247,11 +241,17 @@ class ModulePrinter(ExpressionPrinter):
             # Python3
 
             if node.exc:
-                self._expression(node.exc)
+                if is_ast_node(node.exc, 'NamedExpr'):
+                    self._unparenthesized_namedexpr_not_allowed(node.exc)
+                else:
+                    self._expression(node.exc)
 
             if node.cause:
                 self.printer.keyword('from')
-                self._expression(node.cause)
+                if is_ast_node(node.cause, 'NamedExpr'):
+                    self._unparenthesized_namedexpr_not_allowed(node.cause)
+                else:
+                    self._expression(node.cause)
 
         self.printer.end_statement()
 
@@ -374,10 +374,12 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.keyword('async')
 
         self.printer.keyword('for')
-        self._target_list(node.target)
+        self._starred_list(node.target)
         self.printer.keyword('in')
 
-        if sys.version_info >= (3, 9):
+        if is_ast_node(node.iter, 'NamedExpr'):
+            self._unparenthesized_namedexpr_not_allowed(node.iter)
+        elif sys.version_info >= (3, 9):
             self._starred_list(node.iter)
         else:
             self._expression_list(node.iter)
@@ -469,7 +471,10 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.operator('*')
 
         if node.type is not None:
-            self._expression(node.type)
+            if is_ast_node(node.type, 'NamedExpr'):
+                self._unparenthesized_namedexpr_not_allowed(node.type)
+            else:
+                self._expression(node.type)
 
         if node.name is not None:
             self.printer.keyword('as')

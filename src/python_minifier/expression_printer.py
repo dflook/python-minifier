@@ -576,7 +576,9 @@ class ExpressionPrinter(object):
         self.printer.delimiter(':')
 
         if is_ast_node(node.body, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(node.body)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.body)
+            self.printer.delimiter(')')
         else:
             self._expression(node.body)
 
@@ -687,6 +689,8 @@ class ExpressionPrinter(object):
             self.printer.delimiter('(')
             self.visit_Tuple(expression)
             self.printer.delimiter(')')
+        elif is_ast_node(expression, 'NamedExpr'):
+            self._unparenthesized_namedexpr_not_allowed(expression)
         else:
             self.visit(expression)
 
@@ -788,7 +792,10 @@ class ExpressionPrinter(object):
         """
         An 'assignment_expression' in the grammar
         """
-        return self._expression(assignment_expression)
+        if is_ast_node(assignment_expression, 'NamedExpr'):
+            self.visit_NamedExpr(assignment_expression)
+        else:
+            self._expression(assignment_expression)
 
     def _yield_expression(self, yield_node):
         if isinstance(yield_node, ast.Yield):
@@ -797,8 +804,13 @@ class ExpressionPrinter(object):
             self.printer.keyword('yield')
             self.printer.keyword('from')
 
-        if yield_node.value is not None:
-            self._expression_list(yield_node.value)
+        if yield_node.value is None:
+            return
+
+        if is_ast_node(yield_node, ast.Yield):
+            self._starred_list(yield_node.value)
+        elif is_ast_node(yield_node, 'YieldFrom'):
+            self._expression(yield_node.value)
 
     # endregion
 
