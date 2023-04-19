@@ -138,7 +138,10 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.delimiter(')')
 
         else:
-            self._starred_list(node.value)  # documented as expression_list
+            if sys.version_info >= (3,9):
+                self._starred_list(node.value)  # still documented as expression_list
+            else:
+                self._expression_list(node.value)
 
         self.printer.end_statement()
 
@@ -165,15 +168,28 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.delimiter('=')
 
             if isinstance(node.value, ast.Tuple):
-                self.visit_Tuple(node.value)
+                if sys.version_info < (3, 8) and len(node.value.elts) != 0:
+                    self.printer.delimiter('(')
+                    self.visit_Tuple(node.value)
+                    self.printer.delimiter(')')
+                else:
+                    self.visit_Tuple(node.value)
             elif is_ast_node(node.value, 'NamedExpr'):
                 self.printer.delimiter('(')
                 self.visit_NamedExpr(node.value)
                 self.printer.delimiter(')')
             elif is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-                self._yield_expression(node.value)
+                if sys.version_info >= (3, 8):
+                    self._yield_expression(node.value)
+                else:
+                    self.printer.delimiter('(')
+                    self._yield_expression(node.value)
+                    self.printer.delimiter(')')
             else:
-                self._starred_expression(node.value)
+                if sys.version_info >= (3, 8):
+                    self._starred_expression(node.value)
+                else:
+                    self._expression_list(node.value)
 
         self.printer.end_statement()
 

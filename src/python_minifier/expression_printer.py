@@ -825,7 +825,10 @@ class ExpressionPrinter(object):
             self.visit_NamedExpr(yield_node.value)
             self.printer.delimiter(')')
         elif is_ast_node(yield_node, ast.Yield):
-            self._starred_list(yield_node.value)
+            if sys.version_info < (3, 8):
+                self._expression_list(yield_node.value)
+            else:
+                self._starred_list(yield_node.value)
         elif is_ast_node(yield_node, 'YieldFrom'):
             self._expression(yield_node.value)
 
