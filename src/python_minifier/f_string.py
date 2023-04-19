@@ -167,7 +167,10 @@ class FormattedValue(ExpressionPrinter):
             self.printer.delimiter(' ')
 
         if is_ast_node(self.node.value, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(self.node.value)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(self.node.value)
+            self.printer.delimiter(')')
+
         else:
             self._expression(self.node.value)
 

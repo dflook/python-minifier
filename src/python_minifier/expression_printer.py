@@ -424,7 +424,12 @@ class ExpressionPrinter(object):
 
     def visit_IfExp(self, node):
 
-        self._lhs(node.body, node)
+        if isinstance(node.body, ast.IfExp):
+            self.printer.delimiter('(')
+            self._lhs(node.body, node)
+            self.printer.delimiter(')')
+        else:
+            self._lhs(node.body, node)
 
         self.printer.keyword('if')
 

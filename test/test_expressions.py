@@ -20,14 +20,20 @@ from skip_invalid import skip_invalid
     '(yield 1)if(yield 1)else(yield 1)',
     ('(yield from 1)if(yield from 1)else(yield from 1)', sys.version_info >= (3, 3)),
     'b.do if b.do else b.do',
-    "''.join()if''.join()else''.join()"
+    "''.join()if''.join()else''.join()",
+    (('(a if b else a) if (a if b else a) else (a if b else a)', '(a if b else a)if(a if b else a)else a if b else a'), True)
 ], ids=lambda s: s[0] if isinstance(s, tuple) else s)
 @skip_invalid
 def test_if_exp(statement):
+    if isinstance(statement, tuple):
+        statement, expected = statement
+    else:
+        expected = statement
+
     expected_ast = ast.parse(statement)
     minified = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(minified))
-    assert minified == statement
+    assert minified == expected
 
 @pytest.mark.parametrize('statement', [
     '1+1',
@@ -43,7 +49,8 @@ def test_if_exp(statement):
     'yield 1+(yield 1)',
     ('yield from 1+(yield from 1)', sys.version_info >= (3, 3)),
     'b.do+b.do',
-    "''.join()+''.join()"
+    "''.join()+''.join()",
+    'a if b else c+a if b else c'
 ], ids=lambda s: s[0] if isinstance(s, tuple) else s)
 @skip_invalid
 def test_binop(statement):
@@ -65,7 +72,8 @@ def test_binop(statement):
     '(yield 1)()',
     ('(yield from 1)()', sys.version_info >= (3, 3)),
     'b.do()',
-    "''.join()()"
+    "''.join()()",
+    '(a if b else a)()'
 ], ids=lambda s: s[0] if isinstance(s, tuple) else s)
 @skip_invalid
 def test_call(statement):
