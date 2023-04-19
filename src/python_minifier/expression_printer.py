@@ -414,7 +414,9 @@ class ExpressionPrinter(object):
         elif is_ast_node(node.value, 'NamedExpr'):
             self.printer.identifier(node.arg)
             self.printer.delimiter('=')
-            self._unparenthesized_namedexpr_not_allowed(node.value)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
         else:
             self.printer.identifier(node.arg)
             self.printer.delimiter('=')
@@ -422,7 +424,7 @@ class ExpressionPrinter(object):
 
     def visit_IfExp(self, node):
 
-        self._rhs(node.body, node)
+        self._lhs(node.body, node)
 
         self.printer.keyword('if')
 
@@ -430,7 +432,12 @@ class ExpressionPrinter(object):
 
         self.printer.keyword('else')
 
-        self._expression(node.orelse)
+        if is_ast_node(node.orelse, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.orelse)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.orelse)
 
     def visit_Attribute(self, node):
         value_precedence = self.precedence(node.value)
@@ -597,7 +604,9 @@ class ExpressionPrinter(object):
                 self.printer.delimiter('=')
                 default = node.defaults[i - count_no_defaults]
                 if is_ast_node(default, 'NamedExpr'):
-                    self._unparenthesized_namedexpr_not_allowed(default)
+                    self.printer.delimiter('(')
+                    self.visit_NamedExpr(default)
+                    self.printer.delimiter(')')
                 else:
                     self._expression(node.defaults[i - count_no_defaults])
 
@@ -659,7 +668,9 @@ class ExpressionPrinter(object):
         if node.annotation:
             self.printer.delimiter(':')
             if is_ast_node(node.annotation, 'NamedExpr'):
-                self._unparenthesized_namedexpr_not_allowed(node.annotation)
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.annotation)
+                self.printer.delimiter(')')
             else:
                 self._expression(node.annotation)
 
@@ -689,8 +700,10 @@ class ExpressionPrinter(object):
             self.printer.delimiter('(')
             self.visit_Tuple(expression)
             self.printer.delimiter(')')
-        elif is_ast_node(expression, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(expression)
+        #elif is_ast_node(expression, 'NamedExpr'):
+            #self.printer.delimiter('(')
+        #    self.visit_NamedExpr(expression)
+            #self.printer.delimiter(')')
         else:
             self.visit(expression)
 
@@ -780,7 +793,7 @@ class ExpressionPrinter(object):
         """
         A 'target_list' in the grammar
         """
-        return self._expression_list(target_list)
+        return self._starred_list(target_list)
 
     def _starred_expression(self, starred_expression):
         """
@@ -807,17 +820,16 @@ class ExpressionPrinter(object):
         if yield_node.value is None:
             return
 
-        if is_ast_node(yield_node, ast.Yield):
+        if is_ast_node(yield_node.value, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(yield_node.value)
+            self.printer.delimiter(')')
+        elif is_ast_node(yield_node, ast.Yield):
             self._starred_list(yield_node.value)
         elif is_ast_node(yield_node, 'YieldFrom'):
             self._expression(yield_node.value)
 
     # endregion
-
-    def _unparenthesized_namedexpr_not_allowed(self, node):
-        self.printer.delimiter('(')
-        self.visit_NamedExpr(node)
-        self.printer.delimiter(')')
 
     @staticmethod
     def _is_right_associative(operator):
@@ -869,7 +881,9 @@ class ExpressionPrinter(object):
         self._expression(node.target)
         self.printer.operator(':=')
         if isinstance(node.value, ast.NamedExpr):
-            self._unparenthesized_namedexpr_not_allowed(node.value)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
         else:
             self._expression(node.value)
 

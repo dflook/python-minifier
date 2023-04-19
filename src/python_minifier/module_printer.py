@@ -58,11 +58,13 @@ class ModulePrinter(ExpressionPrinter):
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expression(node.value)
         elif is_ast_node(node.value, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(node.value)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
         elif isinstance(node.value, ast.Tuple):
             self.visit_Tuple(node.value)
         else:
-            self._expression(node.value)
+            self._starred_expression(node.value)
 
         self.printer.end_statement()
 
@@ -78,14 +80,22 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.keyword('assert')
 
-        if isinstance(node.test, ast.NamedExpr):
-            self._unparenthesized_namedexpr_not_allowed(node.test)
+        if is_ast_node(node.test, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.test)
+            self.printer.delimiter(')')
         else:
             self._expression(node.test)
 
         if node.msg:
             self.printer.delimiter(',')
-            self._expression(node.msg)
+
+            if is_ast_node(node.msg, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.msg)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.msg)
 
         self.printer.end_statement()
 
@@ -100,7 +110,9 @@ class ModulePrinter(ExpressionPrinter):
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
             self._yield_expression(node.value)
         elif is_ast_node(node.value, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(node.value)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
         elif isinstance(node.value, ast.Tuple):
             self.visit_Tuple(node.value)
         else:
@@ -111,7 +123,7 @@ class ModulePrinter(ExpressionPrinter):
     def visit_AugAssign(self, node):
         assert isinstance(node, ast.AugAssign)
 
-        self._testlist(node.target)
+        self._target_list(node.target)
         self.visit(node.op)
         self.printer.delimiter('=')
 
@@ -121,10 +133,12 @@ class ModulePrinter(ExpressionPrinter):
 
         # NamedExpr nodes that are the sole node on the right hand side of an assignment MUST have parens
         elif is_ast_node(node.value, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(node.value)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
 
         else:
-            self._starred_list(node.value)
+            self._starred_list(node.value)  # documented as expression_list
 
         self.printer.end_statement()
 
@@ -141,7 +155,9 @@ class ModulePrinter(ExpressionPrinter):
         if node.annotation:
             self.printer.delimiter(':')
             if is_ast_node(node.annotation, 'NamedExpr'):
-                self._unparenthesized_namedexpr_not_allowed(node.annotation)
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.annotation)
+                self.printer.delimiter(')')
             else:
                 self._expression(node.annotation)
 
@@ -151,7 +167,9 @@ class ModulePrinter(ExpressionPrinter):
             if isinstance(node.value, ast.Tuple):
                 self.visit_Tuple(node.value)
             elif is_ast_node(node.value, 'NamedExpr'):
-                self._unparenthesized_namedexpr_not_allowed(node.value)
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.value)
+                self.printer.delimiter(')')
             elif is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
                 self._yield_expression(node.value)
             else:
@@ -176,9 +194,12 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Return)
 
         self.printer.keyword('return')
+
         if node.value is not None:
-            if isinstance(node.value, ast.NamedExpr):
-                self._unparenthesized_namedexpr_not_allowed(node.value)
+            if is_ast_node(node.value, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.value)
+                self.printer.delimiter(')')
             else:
                 if sys.version_info < (3, 8):
                     self._expression_list(node.value)
@@ -242,14 +263,18 @@ class ModulePrinter(ExpressionPrinter):
 
             if node.exc:
                 if is_ast_node(node.exc, 'NamedExpr'):
-                    self._unparenthesized_namedexpr_not_allowed(node.exc)
+                    self.printer.delimiter('(')
+                    self.visit_NamedExpr(node.exc)
+                    self.printer.delimiter(')')
                 else:
                     self._expression(node.exc)
 
             if node.cause:
                 self.printer.keyword('from')
                 if is_ast_node(node.cause, 'NamedExpr'):
-                    self._unparenthesized_namedexpr_not_allowed(node.cause)
+                    self.printer.delimiter('(')
+                    self.visit_NamedExpr(node.cause)
+                    self.printer.delimiter(')')
                 else:
                     self._expression(node.cause)
 
@@ -374,11 +399,13 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.keyword('async')
 
         self.printer.keyword('for')
-        self._starred_list(node.target)
+        self._target_list(node.target)
         self.printer.keyword('in')
 
         if is_ast_node(node.iter, 'NamedExpr'):
-            self._unparenthesized_namedexpr_not_allowed(node.iter)
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.iter)
+            self.printer.delimiter(')')
         elif sys.version_info >= (3, 9):
             self._starred_list(node.iter)
         else:
@@ -472,7 +499,9 @@ class ModulePrinter(ExpressionPrinter):
 
         if node.type is not None:
             if is_ast_node(node.type, 'NamedExpr'):
-                self._unparenthesized_namedexpr_not_allowed(node.type)
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.type)
+                self.printer.delimiter(')')
             else:
                 self._expression(node.type)
 
@@ -550,7 +579,9 @@ class ModulePrinter(ExpressionPrinter):
         if hasattr(node, 'returns') and node.returns is not None:
             self.printer.delimiter('->')
             if is_ast_node(node.returns, 'NamedExpr'):
-                self._unparenthesized_namedexpr_not_allowed(node.returns)
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.returns)
+                self.printer.delimiter(')')
             else:
                 self._expression(node.returns)
             self.printer.delimiter(':')

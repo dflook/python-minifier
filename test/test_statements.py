@@ -154,6 +154,7 @@ def test_expression(statement):
 @pytest.mark.parametrize('statement', [
     'assert 1',
     'assert 1,msg',
+    'assert 1,(a:=1)',
     'assert(1,2)',
     'assert(1,2),msg',
     'assert()',
@@ -163,6 +164,7 @@ def test_expression(statement):
     'assert(lambda:1,a),msg',
     'assert 1,lambda a:1',
     'assert(b:=1)',
+    'assert(b:=1),(c:=1)',
     'assert 1 if True else 1',
     'assert(b,1 if True else 1),msg',
     'assert 1 if True else 1,msg',
