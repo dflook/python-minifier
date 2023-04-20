@@ -139,7 +139,7 @@ class ExpressionPrinter(object):
             self.printer.delimiter(')')
             return
 
-        if [n for n in node.elts if is_ast_node(n, ast.NamedExpr)]:
+        if [n for n in node.elts if is_ast_node(n, 'NamedExpr')]:
             self.printer.delimiter('(')
             delimiter = Delimiter(self.printer)
             for expr in node.elts:
