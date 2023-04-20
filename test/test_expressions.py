@@ -173,3 +173,20 @@ def test_await(statement):
     minified = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(minified))
     assert minified == statement
+
+@pytest.mark.parametrize('statement', [
+    '1,2',
+    ('(a:=1,b:=32)', sys.version_info >= (3, 8)),
+    ('(1,b:=32)', sys.version_info >= (3, 8)),
+    'lambda:1,lambda:2',
+    '1 if True else 1,2 if True else 2',
+    '(a for a in a),(b for b in b)',
+    'a or b,a and b',
+    'a+b,a-b',
+], ids=lambda s: s[0] if isinstance(s, tuple) else s)
+@skip_invalid
+def test_tuple(statement):
+    expected_ast = ast.parse(statement)
+    minified = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(minified))
+    assert minified == statement

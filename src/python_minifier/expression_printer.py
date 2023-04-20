@@ -139,10 +139,18 @@ class ExpressionPrinter(object):
             self.printer.delimiter(')')
             return
 
-        delimiter = Delimiter(self.printer)
-        for expr in node.elts:
-            delimiter.new_item()
-            self._expression(expr)
+        if [n for n in node.elts if is_ast_node(n, ast.NamedExpr)]:
+            self.printer.delimiter('(')
+            delimiter = Delimiter(self.printer)
+            for expr in node.elts:
+                delimiter.new_item()
+                self._expression(expr)
+            self.printer.delimiter(')')
+        else:
+            delimiter = Delimiter(self.printer)
+            for expr in node.elts:
+                delimiter.new_item()
+                self._expression(expr)
 
         if len(node.elts) == 1:
             self.printer.delimiter(',')
