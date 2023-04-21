@@ -495,3 +495,39 @@ def test_except(statement):
     minified = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(minified))
     assert minified == statement
+
+@pytest.mark.parametrize('statement', [
+    'with 1:pass',
+    'with 1,2:pass',
+    'with():pass',
+    'with lambda:1:pass',
+    'with 1,lambda a:1:pass',
+    ('with(b:=1):pass', sys.version_info >= (3, 8)),
+    'with 1 if True else 1:pass',
+    'with b,1 if True else 1:pass',
+    'with(yield):pass',
+    'with(yield 1):pass',
+    ('with(yield from 1):pass', sys.version_info >= (3, 3)),
+    'with b.do:pass',
+    "with''.join():pass",
+    'with 1 as a:pass',
+    'with 1,2 as a:pass',
+    'with()as a:pass',
+    'with lambda:1 as a:pass',
+    'with 1,lambda a:1 as a,b:pass',
+    ('with(b:=1)as a:pass', sys.version_info >= (3, 8)),
+    'with 1 if True else 1 as a:pass',
+    'with b,1 if True else 1 as a:pass',
+    'with(yield)as a:pass',
+    'with(yield 1)as a:pass',
+    ('with(yield from 1)as a:pass', sys.version_info >= (3, 3)),
+    'with b.do as a:pass',
+    "with''.join()as a:pass",
+], ids=lambda s: s[0] if isinstance(s, tuple) else s)
+@skip_invalid
+def test_with(statement):
+    expected_ast = ast.parse(statement)
+    minified = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(minified))
+    assert minified == statement
+

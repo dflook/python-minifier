@@ -556,16 +556,33 @@ class ModulePrinter(ExpressionPrinter):
                     self.printer.delimiter(')')
                 else:
                     self.visit_withitem(item)
-        else:
-            self.visit_withitem(node)
 
-        self.printer.delimiter(':')
-        self._suite(node.body)
+            self.printer.delimiter(':')
+            self._suite(node.body)
+
+        else:
+
+            def python2_nested_with(node):
+                self.visit_withitem(node)
+                if len(node.body) == 1 and isinstance(node.body[0], ast.With):
+                    self.printer.delimiter(',')
+                    python2_nested_with(node.body[0])
+                else:
+                    self.printer.delimiter(':')
+                    self._suite(node.body)
+
+            python2_nested_with(node)
+
 
     def visit_withitem(self, node):
         assert (hasattr(ast, 'withitem') and isinstance(node, ast.withitem)) or isinstance(node, ast.With)
 
-        self._expression(node.context_expr)
+        if is_ast_node(node.context_expr, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.context_expr)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.context_expr)
 
         if node.optional_vars is not None:
             self.printer.keyword('as')
