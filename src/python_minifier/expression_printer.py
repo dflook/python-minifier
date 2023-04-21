@@ -506,14 +506,30 @@ class ExpressionPrinter(object):
 
     def visit_Slice(self, node):
         if node.lower:
-            self._expression(node.lower)
+            if is_ast_node(node.lower, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.lower)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.lower)
         self.printer.delimiter(':')
 
         if node.upper:
-            self._expression(node.upper)
+            if is_ast_node(node.upper, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.upper)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.upper)
+
         if node.step:
             self.printer.delimiter(':')
-            self._expression(node.step)
+            if is_ast_node(node.step, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.step)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.step)
 
     def visit_ExtSlice(self, node):
 

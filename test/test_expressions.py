@@ -190,3 +190,33 @@ def test_tuple(statement):
     minified = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(minified))
     assert minified == statement
+
+@pytest.mark.parametrize('statement', [
+    'a[1]',
+    ('a[a:=1]', sys.version_info >= (3, 8)),
+    'a[lambda a:1]',
+    'a[1 if True else 1]',
+    'a[b.do]',
+    "a[''.join()]",
+    'a[1,2]',
+    'a[1:1]',
+    'a[(a:=1):(b:=1)]',
+    'a[lambda:1:lambda:2]',
+    'a[1 if True else 1:2 if True else 2]',
+    'a[b.do:b.do]',
+    "a[''.join():''.join()]",
+    'a[1,2:1,2]',
+    'a[1:1:1]',
+    'a[(a:=1):(b:=1):(c:=1)]',
+    'a[lambda:1:lambda:2:lambda:3]',
+    'a[1 if True else 1:2 if True else 2:3 if True else 3]',
+    'a[b.do:b.do:b.do]',
+    "a[''.join():''.join():''.join()]",
+    'a[1,2:1,2:1,2]',
+], ids=lambda s: s[0] if isinstance(s, tuple) else s)
+@skip_invalid
+def test_slice(statement):
+    expected_ast = ast.parse(statement)
+    minified = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(minified))
+    assert minified == statement
