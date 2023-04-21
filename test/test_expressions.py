@@ -220,3 +220,57 @@ def test_slice(statement):
     minified = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(minified))
     assert minified == statement
+
+@pytest.mark.parametrize('statement', [
+    '{1:1}',
+    '{(1,1):(1,1)}',
+    '{(1,):(1,)}',
+    '{():()}',
+    ('{(a:=1):(a:=1)}', sys.version_info >= (3, 8)),
+    '{lambda:1:lambda:1}',
+    '{1 if True else 1:1 if True else 1}',
+    '{b.do:b.do}',
+    "{''.join():''.join()}",
+], ids=lambda s: s[0] if isinstance(s, tuple) else s)
+@skip_invalid
+def test_dict(statement):
+    expected_ast = ast.parse(statement)
+    minified = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(minified))
+    assert minified == statement
+
+@pytest.mark.parametrize('statement', [
+    '{1}',
+    '{1,1}',
+    '{(1,)}',
+    '{()}',
+    ('{a:=1}', sys.version_info >= (3, 8)),
+    '{lambda:1}',
+    '{1 if True else 1}',
+    '{b.do}',
+    "{''.join()}",
+], ids=lambda s: s[0] if isinstance(s, tuple) else s)
+@skip_invalid
+def test_set(statement):
+    expected_ast = ast.parse(statement)
+    minified = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(minified))
+    assert minified == statement
+
+@pytest.mark.parametrize('statement', [
+    '[1,1]',
+    '[(1,1),(1,1)]',
+    '[(1,),(1,)]',
+    '[(),()]',
+    ('[a:=1,b:=1]', sys.version_info >= (3, 8)),
+    '[lambda:1,lambda:1]',
+    '[1 if True else 1,1 if True else 1]',
+    '[b.do,b.do]',
+    "[''.join(),''.join()]",
+], ids=lambda s: s[0] if isinstance(s, tuple) else s)
+@skip_invalid
+def test_list(statement):
+    expected_ast = ast.parse(statement)
+    minified = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(minified))
+    assert minified == statement

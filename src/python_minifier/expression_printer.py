@@ -173,12 +173,27 @@ class ExpressionPrinter(object):
                     self._expression(datum)
                     self.printer.delimiter(')')
                 else:
-                    self._expression(datum)
+                    if is_ast_node(datum, 'NamedExpr'):
+                        self.printer.delimiter('(')
+                        self._expression(datum)
+                        self.printer.delimiter(')')
+                    else:
+                        self._expression(datum)
             else:
-                self._expression(key)
+                if is_ast_node(key, 'NamedExpr'):
+                    self.printer.delimiter('(')
+                    self._expression(key)
+                    self.printer.delimiter(')')
+                else:
+                    self._expression(key)
                 self.printer.delimiter(':')
 
-                self._expression(datum)
+                if is_ast_node(datum, 'NamedExpr'):
+                    self.printer.delimiter('(')
+                    self._expression(datum)
+                    self.printer.delimiter(')')
+                else:
+                    self._expression(datum)
 
         self.printer.delimiter('{')
 
