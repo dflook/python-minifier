@@ -92,8 +92,10 @@ class ResultReader:
         """
         :return Result: The next result in the file
         """
-        while (line := self.results.readline()) == 'corpus_entry,original_size,minified_size,time,result\n':
-            pass
+
+        line = self.results.readline()
+        while line == 'corpus_entry,original_size,minified_size,time,result\n':
+            line = self.results.readline()
 
         if line == '':
             raise StopIteration

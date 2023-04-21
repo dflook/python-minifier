@@ -172,7 +172,11 @@ def report_larger_than_original(results_dir: str, python_versions: str, minifier
 |--------------|--------------:|--------------:|'''
 
     for python_version in python_versions:
-        summary = result_summary(results_dir, python_version, minifier_sha)
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
         larger_than_original = sorted(summary.larger_than_original(), key=lambda result: result.original_size)
 
         for entry in larger_than_original:
@@ -186,7 +190,11 @@ def report_unstable(results_dir: str, python_versions: str, minifier_sha: str) -
 |--------------|----------------|--------------:|'''
 
     for python_version in python_versions:
-        summary = result_summary(results_dir, python_version, minifier_sha)
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
         unstable = sorted(summary.unstable_minification(), key=lambda result: result.original_size)
 
         for entry in unstable:
@@ -199,14 +207,22 @@ def report_exceptions(results_dir: str, python_versions: str, minifier_sha: str)
 | Corpus Entry | Python Version | Exception |
 |--------------|----------------|-----------|'''
 
+    exceptions_found = False
 
     for python_version in python_versions:
-        summary = result_summary(results_dir, python_version, minifier_sha)
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
         exceptions = sorted(summary.exception(), key=lambda result: result.original_size)
 
         for entry in exceptions:
+            exceptions_found = True
             yield f'| {entry.corpus_entry} | {python_version} | {entry.outcome} |'
 
+    if not exceptions_found:
+        yield ' None | | |'
 
 def report_larger_than_base(results_dir: str, python_versions: str, minifier_sha: str, base_sha: str) -> str:
     yield '''
@@ -218,7 +234,11 @@ def report_larger_than_base(results_dir: str, python_versions: str, minifier_sha
     there_are_some_larger_than_base = False
 
     for python_version in python_versions:
-        summary = result_summary(results_dir, python_version, minifier_sha)
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
         base_summary = result_summary(results_dir, python_version, base_sha)
         larger_than_original = sorted(summary.compare_size_increase(base_summary), key=lambda result: result.original_size)[:10]
 
