@@ -25,6 +25,7 @@ from python_minifier.transforms.remove_annotations_options import RemoveAnnotati
 from python_minifier.transforms.remove_asserts import RemoveAsserts
 from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
+from python_minifier.transforms.remove_exception_brackets import remove_no_arg_exception_call
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
@@ -68,6 +69,7 @@ def minify(
     remove_asserts=False,
     remove_debug=False,
     remove_explicit_return_none=True,
+    remove_exception_brackets=True,
 ):
     """
     Minify a python module
@@ -99,6 +101,7 @@ def minify(
     :param bool remove_asserts: If assert statements should be removed
     :param bool remove_debug: If conditional statements that test '__debug__ is True' should be removed
     :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
+    :param bool remove_exception_brackets: If brackets should be removed when raising exceptions with no arguments
 
     :rtype: str
 
@@ -149,6 +152,9 @@ def minify(
 
     bind_names(module)
     resolve_names(module)
+
+    if remove_exception_brackets:
+        remove_no_arg_exception_call(module)
 
     if module.tainted:
         rename_globals = False
