@@ -535,7 +535,12 @@ class ExpressionPrinter(object):
         self.printer.delimiter(']')
 
     def visit_Index(self, node):
-        self._expression_list(node.value)
+        if isinstance(node.value, ast.Tuple):
+            self.printer.delimiter('(')
+            self.visit_Tuple(node.value)
+            self.printer.delimiter(')')
+        else:
+            self._expression_list(node.value)
 
     def visit_Slice(self, node):
         if node.lower:
@@ -568,13 +573,15 @@ class ExpressionPrinter(object):
 
         delimiter = Delimiter(self.printer)
         for s in node.dims:
-            assert isinstance(s, (ast.Index, ast.Slice))
+            assert isinstance(s, (ast.Index, ast.Slice, ast.Ellipsis))
 
             delimiter.new_item()
             if isinstance(s, ast.Index):
                 self.visit_Index(s)
-            else:
+            elif isinstance(s, ast.Slice):
                 self.visit_Slice(s)
+            elif isinstance(s, ast.Ellipsis):
+                self.visit_Ellipsis(s)
 
         if len(node.dims) == 1:
             self.printer.delimiter(',')

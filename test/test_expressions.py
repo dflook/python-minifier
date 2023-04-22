@@ -214,11 +214,11 @@ def test_tuple(statement):
     "a[''.join():''.join():''.join()]",
     'a[1,2:1,2:1,2]',
     "a[('a','a'),:]",
-    'a[(*c,)]',
-    'a[(*c,1)]',
-    'a[(*a,*b)]',
-    'a[(*a,*b):(*a,*b)]',
-    'a[(*a,*b):(*a,*b):(*a,*b)]',
+    ('a[(*c,)]', sys.version_info >= (3, 0)),
+    ('a[(*c,1)]', sys.version_info >= (3, 0)),
+    ('a[(*a,*b)]', sys.version_info >= (3, 0)),
+    ('a[(*a,*b):(*a,*b)]', sys.version_info >= (3, 0)),
+    ('a[(*a,*b):(*a,*b):(*a,*b)]', sys.version_info >= (3, 0)),
     'x[name]',
     'x[1:2]',
     'x[1:2,3]',
@@ -228,6 +228,7 @@ def test_tuple(statement):
     'x[a,...,b]',
     'x[a,b]',
     'x[a:b,]',
+    'testme[:42,...,:24:None,24,100]'
 ], ids=lambda s: s[0] if isinstance(s, tuple) else s)
 @skip_invalid
 def test_slice(statement):
