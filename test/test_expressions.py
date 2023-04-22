@@ -213,6 +213,21 @@ def test_tuple(statement):
     'a[b.do:b.do:b.do]',
     "a[''.join():''.join():''.join()]",
     'a[1,2:1,2:1,2]',
+    "a[('a','a'),:]",
+    'a[(*c,)]',
+    'a[(*c,1)]',
+    'a[(*a,*b)]',
+    'a[(*a,*b):(*a,*b)]',
+    'a[(*a,*b):(*a,*b):(*a,*b)]',
+    'x[name]',
+    'x[1:2]',
+    'x[1:2,3]',
+    'x[()]',
+    'x[1:2,2:2]',
+    'x[a,...,b:c]',
+    'x[a,...,b]',
+    'x[a,b]',
+    'x[a:b,]',
 ], ids=lambda s: s[0] if isinstance(s, tuple) else s)
 @skip_invalid
 def test_slice(statement):

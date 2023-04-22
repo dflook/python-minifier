@@ -6,7 +6,7 @@ from typing import Iterable
 
 from result import Result, ResultReader
 
-ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', False)
+ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', True)
 
 
 @dataclass
@@ -64,6 +64,9 @@ class ResultSet:
     def larger_than_original(self) -> Iterable[Result]:
         """Return those entries that have a larger minified size than the original size"""
         for result in self.entries.values():
+            if result.outcome != 'Minified':
+                continue
+
             if result.original_size < result.minified_size:
                 yield result
 
@@ -91,10 +94,18 @@ class ResultSet:
         """
 
         for result in self.entries.values():
+            if result.outcome != 'Minified':
+                # This result was not minified, so we can't compare
+                continue
+
             if result.corpus_entry not in base.entries:
                 continue
 
             base_result = base.entries[result.corpus_entry]
+            if base_result.outcome != 'Minified':
+                # The base result was not minified, so we can't compare
+                continue
+
             if result.minified_size > base_result.minified_size:
                 yield result
 
@@ -104,10 +115,17 @@ class ResultSet:
         """
 
         for result in self.entries.values():
+            if result.outcome != 'Minified':
+                continue
+
             if result.corpus_entry not in base.entries:
                 continue
 
             base_result = base.entries[result.corpus_entry]
+            if base_result.outcome != 'Minified':
+                # The base result was not minified, so we can't compare
+                continue
+
             if result.minified_size < base_result.minified_size:
                 yield result
 

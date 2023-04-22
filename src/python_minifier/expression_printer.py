@@ -508,7 +508,25 @@ class ExpressionPrinter(object):
         elif isinstance(node.slice, ast.Ellipsis):
             self.visit_Ellipsis(node)
         elif sys.version_info >= (3, 9) and isinstance(node.slice, ast.Tuple):
-            self.visit_Tuple(node.slice)
+            contains_starred = False
+            if [n for n in node.slice.elts if is_ast_node(n, 'Starred')]:
+                contains_starred = True
+                self.printer.delimiter('(')
+
+            with Delimiter(self.printer) as delimiter:
+                for expr in node.slice.elts:
+                    delimiter.new_item()
+                    self._expression(expr)
+
+            if len(node.slice.elts) == 0:
+                self.printer.delimiter('(')
+                self.printer.delimiter(')')
+            elif len(node.slice.elts) == 1:
+                self.printer.delimiter(',')
+
+            if contains_starred:
+                self.printer.delimiter(')')
+
         elif sys.version_info >= (3, 9):
             self._expression(node.slice)
         else:
@@ -550,8 +568,13 @@ class ExpressionPrinter(object):
 
         delimiter = Delimiter(self.printer)
         for s in node.dims:
+            assert isinstance(s, (ast.Index, ast.Slice))
+
             delimiter.new_item()
-            self._expression(s)
+            if isinstance(s, ast.Index):
+                self.visit_Index(s)
+            else:
+                self.visit_Slice(s)
 
         if len(node.dims) == 1:
             self.printer.delimiter(',')
