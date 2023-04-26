@@ -1,6 +1,8 @@
 name: Release
 
-on: [push]
+on:
+  release:
+    types: [released]
 
 concurrency:
   group: release
@@ -18,7 +20,7 @@ jobs:
 
       - name: Set version statically
         run: |
-          VERSION=2.8.1
+          VERSION=${{ github.event.release.tag_name }}
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
 
       - name: Build package
@@ -48,7 +50,7 @@ jobs:
     permissions:
       id-token: write
     environment:
-      name: test-pypi
+      name: pypi
       url: https://pypi.org/project/python-minifier/
     steps:
       - uses: actions/download-artifact@v3
@@ -59,7 +61,6 @@ jobs:
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: https://test.pypi.org/legacy/
           print-hash: true
           verbose: true
 
