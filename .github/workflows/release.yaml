@@ -1,15 +1,15 @@
 name: Release
 
-on:
-  release:
-    types: [released]
+on: [push]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
 
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     container:
       image: danielflook/python-minifier-build:python3.11-2022-10-25
     steps:
@@ -18,17 +18,19 @@ jobs:
 
       - name: Set version statically
         run: |
-          VERSION=${{ github.event.release.tag_name }}
+          VERSION=2.8.1
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
 
-      - name: Upload
-        env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+      - name: Build package
         run: |
-          pip3 install --upgrade setuptools wheel twine
+          pip3 install --upgrade setuptools wheel
           python3 setup.py sdist bdist_wheel --universal
-          twine upload --non-interactive dist/*
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
 
       - name: Build documentation
         run: |
@@ -36,14 +38,41 @@ jobs:
           pip3 install dist/*.tar.gz
           sphinx-build docs/source /tmp/build
 
-      - name: Publish documentation
-        uses: peaceiris/actions-gh-pages@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /tmp/build
-          enable_jekyll: false
-          force_orphan: true
-          full_commit_message: |
-            Update docs
+          path: /tmp/build
 
-            [skip ci]
+  publish-to-pypi:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    environment:
+      name: test-pypi
+      url: https://pypi.org/project/python-minifier/
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          print-hash: true
+          verbose: true
+
+  publish-docs:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
