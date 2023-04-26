@@ -38,7 +38,7 @@ jobs:
           pip3 install dist/*.tar.gz
           sphinx-build docs/source /tmp/build
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v1
         with:
           path: /tmp/build
 
