@@ -1,4 +1,8 @@
 import ast
+import sys
+
+import pytest
+
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
 from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
@@ -9,6 +13,7 @@ def remove_return_none(source):
 
     return RemoveExplicitReturnNone()(module)
 
+
 def test_trailing_remove_return_none():
     source = 'def a():a=4;return None'
     expected = 'def a():a=4'
@@ -18,6 +23,7 @@ def test_trailing_remove_return_none():
     compare_ast(expected_ast, actual_ast)
 
     assert unparse(actual_ast) == expected
+
 
 def test_trailing_implicit_return_none():
     source = 'def a():a=4;return'
@@ -38,6 +44,7 @@ def test_trailing_remove_return_none_empty_suite():
 
     assert unparse(actual_ast) == expected
 
+
 def test_trailing_implicit_return_none_empty_suite():
     source = 'def a():return'
     expected = 'def a():0'
@@ -46,6 +53,7 @@ def test_trailing_implicit_return_none_empty_suite():
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
 
+
 def test_trailing_return_value_unchanged():
     source = 'def a():return 0'
     expected = source
@@ -53,6 +61,7 @@ def test_trailing_return_value_unchanged():
     actual_ast = remove_return_none(source)
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
+
 
 def test_remove_return_none():
     source = '''
@@ -68,6 +77,7 @@ def a():
 
     assert unparse(actual_ast) == expected
 
+
 def test_implicit_return_none():
     source = '''
 def a():
@@ -79,6 +89,7 @@ def a():
     actual_ast = remove_return_none(source)
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
+
 
 def test_return_value_unchanged():
     source = '''
@@ -92,7 +103,11 @@ def a():
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
 
+
 def test_async_trailing_remove_return_none():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = 'async def a():a=4;return None'
     expected = 'async def a():a=4'
 
@@ -102,7 +117,11 @@ def test_async_trailing_remove_return_none():
 
     assert unparse(actual_ast) == expected
 
+
 def test_async_trailing_implicit_return_none():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = 'async def a():a=4;return'
     expected = 'async def a():a=4'
     expected_ast = ast.parse(expected)
@@ -112,6 +131,9 @@ def test_async_trailing_implicit_return_none():
 
 
 def test_async_trailing_remove_return_none_empty_suite():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = 'async def a():return None'
     expected = 'async def a():0'
 
@@ -121,7 +143,11 @@ def test_async_trailing_remove_return_none_empty_suite():
 
     assert unparse(actual_ast) == expected
 
+
 def test_async_trailing_implicit_return_none_empty_suite():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = 'async def a():return'
     expected = 'async def a():0'
     expected_ast = ast.parse(expected)
@@ -129,7 +155,11 @@ def test_async_trailing_implicit_return_none_empty_suite():
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
 
+
 def test_async_trailing_return_value_unchanged():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = 'async def a():return 0'
     expected = source
     expected_ast = ast.parse(expected)
@@ -137,7 +167,11 @@ def test_async_trailing_return_value_unchanged():
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
 
+
 def test_async_remove_return_none():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = '''
 async def a():
     if a: return None
@@ -151,7 +185,11 @@ async def a():
 
     assert unparse(actual_ast) == expected
 
+
 def test_async_implicit_return_none():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = '''
 async def a():
     if a: return
@@ -163,7 +201,11 @@ async def a():
     compare_ast(expected_ast, actual_ast)
     assert unparse(actual_ast) == expected
 
+
 def test_async_return_value_unchanged():
+    if sys.version_info < (3, 5):
+        pytest.skip('Async not allowed in python < 3.5')
+
     source = '''
 async def a():
     if a: return 1
