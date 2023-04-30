@@ -1,5 +1,7 @@
 def important(a):
-    if not a:
+    if a > 3:
+        return a
+    if a < 2:
         return None
     a.adjust(1)
-    return a
+    return None

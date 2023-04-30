@@ -23,7 +23,7 @@ from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_asserts import RemoveAsserts
 from python_minifier.transforms.remove_debug import RemoveDebug
-from python_minifier.transforms.implicit_return_none import implicit_return_none
+from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
@@ -131,7 +131,7 @@ def minify(
         module = RemoveDebug()(module)
 
     if remove_explicit_return_none:
-        module = implicit_return_none(module)
+        module = RemoveExplicitReturnNone()(module)
 
     bind_names(module)
     resolve_names(module)
