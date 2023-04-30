@@ -1,7 +1,13 @@
 import argparse
+import datetime
+import gzip
 import os
 import sys
 import time
+
+
+import logging
+
 
 import python_minifier
 from result import Result, ResultWriter
@@ -23,8 +29,13 @@ def minify_corpus_entry(corpus_path, corpus_entry):
     :rtype: Result
     """
 
-    with open(os.path.join(corpus_path, corpus_entry), 'rb') as f:
-        source = f.read()
+    if os.path.isfile(os.path.join(corpus_path, corpus_entry + '.py.gz')):
+        with gzip.open(os.path.join(corpus_path, corpus_entry + '.py.gz'), 'rb') as f:
+            source = f.read()
+    else:
+        with open(os.path.join(corpus_path, corpus_entry), 'rb') as f:
+            source = f.read()
+
 
     result = Result(corpus_entry, len(source), 0, 0, '')
 
@@ -72,21 +83,54 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     :param str sha: The python-minifier sha we are testing
     :param bool regenerate_results: Regenerate results even if they are present
     """
-    corpus_entries = os.listdir(corpus_path)
-
     python_version = '.'.join([str(s) for s in sys.version_info[:2]])
+
+    log_path = 'results_' + python_version + '_' + sha + '.log'
+    print('Logging in GitHub Actions is absolute garbage. Logs are going to ' + log_path)
+
+    logging.basicConfig(filename=os.path.join(results_path, log_path), level=logging.DEBUG)
+
+    corpus_entries = [entry[:-len('.py.gz')] for entry in os.listdir(corpus_path)]
+
     results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
 
-    if os.path.isfile(results_file_path) and not regenerate_results:
-        print('Results file already exists: %s', results_file_path)
-        return
+    if os.path.isfile(results_file_path):
+        logging.info('Results file already exists: %s', results_file_path)
+        if regenerate_results:
+            os.remove(results_file_path)
+
+    total_entries = len(corpus_entries)
+    logging.info('Testing python-minifier on %d entries' % total_entries)
+    tested_entries = 0
+
+    start_time = time.time()
+    next_checkpoint = time.time() + 60
 
     with ResultWriter(results_file_path) as result_writer:
+        logging.info('%d results already present' % len(result_writer))
+
         for entry in corpus_entries:
-            print(entry)
+            if entry in result_writer:
+                continue
+
+            logging.debug(entry)
+
             result = minify_corpus_entry(corpus_path, entry)
             result_writer.write(result)
+            tested_entries += 1
 
+            sys.stdout.flush()
+
+            if time.time() > next_checkpoint:
+                percent = len(result_writer) / total_entries * 100
+                time_per_entry = (time.time() - start_time) / tested_entries
+                entries_remaining = len(corpus_entries) - len(result_writer)
+                time_remaining = int(entries_remaining * time_per_entry)
+                logging.info('Tested %d/%d entries (%d%%) %s seconds remaining' % (len(result_writer), total_entries, percent, time_remaining))
+                sys.stdout.flush()
+                next_checkpoint = time.time() + 60
+
+    logging.info('Finished')
 
 def bool_parse(value):
     return value == 'true'
