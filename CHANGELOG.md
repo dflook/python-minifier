@@ -4,6 +4,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - 2023-05-01
+
+### Added
+- A new transform to remove `return` statements that are not required, which is enabled by default.
+  e.g.
+
+ ```python
+def important(a):
+    if a > 3:
+        return a
+    if a < 2:
+        return None
+    a.adjust(1)
+    return None
+```
+
+  Will be minified to:
+
+```python
+def important(a):
+    if a > 3:
+        return a
+    if a < 2:
+        return
+    a.adjust(1)
+```
+
+- The f-string debug specifier will now be used where possible, e.g. `f'my_var={my_var!r}'` will be minified to `f'{my_var=}'`.
+  The debug specifier should now be preserved where it is used in the input source.
+
+- Many small improvements to minification to be more precise about where whitespace or parentheses required
+  - Thanks [luk3yx](https://github.com/luk3yx) for improving whitespace in relative import statements.
+  - A generator as the sole argument to a function call is no longer wrapped in parentheses
+  - float literals can use a more compact scientific notation
+  - Many more subtle improvements
+
 ## [2.8.1] - 2023-03-15
 
 ### Fixed
@@ -163,6 +199,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - python-minifier package
 - pyminify command
 
+[2.9.0]: https://github.com/dflook/python-minifier/compare/2.8.1...2.9.0
 [2.8.1]: https://github.com/dflook/python-minifier/compare/2.8.0...2.8.1
 [2.8.0]: https://github.com/dflook/python-minifier/compare/2.7.0...2.8.0
 [2.7.0]: https://github.com/dflook/python-minifier/compare/2.6.0...2.7.0
