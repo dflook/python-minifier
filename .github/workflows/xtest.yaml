@@ -26,7 +26,7 @@ jobs:
 
       - name: Run tests
         run: |
-          
+
           if [[ "${{ matrix.python }}" == "python3.4" ]]; then
             (cd /usr/lib64/python3.4/test && python3.4 make_ssl_certs.py)
           elif [[ "${{ matrix.python }}" == "python3.5" ]]; then

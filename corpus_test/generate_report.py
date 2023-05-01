@@ -6,7 +6,7 @@ from typing import Iterable
 
 from result import Result, ResultReader
 
-ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', False)
+ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', True)
 
 
 @dataclass
@@ -64,6 +64,9 @@ class ResultSet:
     def larger_than_original(self) -> Iterable[Result]:
         """Return those entries that have a larger minified size than the original size"""
         for result in self.entries.values():
+            if result.outcome != 'Minified':
+                continue
+
             if result.original_size < result.minified_size:
                 yield result
 
@@ -91,10 +94,18 @@ class ResultSet:
         """
 
         for result in self.entries.values():
+            if result.outcome != 'Minified':
+                # This result was not minified, so we can't compare
+                continue
+
             if result.corpus_entry not in base.entries:
                 continue
 
             base_result = base.entries[result.corpus_entry]
+            if base_result.outcome != 'Minified':
+                # The base result was not minified, so we can't compare
+                continue
+
             if result.minified_size > base_result.minified_size:
                 yield result
 
@@ -104,10 +115,17 @@ class ResultSet:
         """
 
         for result in self.entries.values():
+            if result.outcome != 'Minified':
+                continue
+
             if result.corpus_entry not in base.entries:
                 continue
 
             base_result = base.entries[result.corpus_entry]
+            if base_result.outcome != 'Minified':
+                # The base result was not minified, so we can't compare
+                continue
+
             if result.minified_size < base_result.minified_size:
                 yield result
 
@@ -164,6 +182,103 @@ def format_difference(compare: Iterable[Result], base: Iterable[Result]) -> str:
     else:
         return s
 
+def report_larger_than_original(results_dir: str, python_versions: str, minifier_sha: str) -> str:
+    yield '''
+## Larger than original
+
+| Corpus Entry | Original Size | Minified Size |
+|--------------|--------------:|--------------:|'''
+
+    for python_version in python_versions:
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
+        larger_than_original = sorted(summary.larger_than_original(), key=lambda result: result.original_size)
+
+        for entry in larger_than_original:
+            yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} ({entry.minified_size - entry.original_size:+}) |'
+
+def report_unstable(results_dir: str, python_versions: str, minifier_sha: str) -> str:
+    yield '''
+## Unstable
+
+| Corpus Entry | Python Version | Original Size |
+|--------------|----------------|--------------:|'''
+
+    for python_version in python_versions:
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
+        unstable = sorted(summary.unstable_minification(), key=lambda result: result.original_size)
+
+        for entry in unstable:
+            yield f'| {entry.corpus_entry} | {python_version} | {entry.original_size} |'
+
+def report_exceptions(results_dir: str, python_versions: str, minifier_sha: str) -> str:
+    yield '''
+## Exceptions
+
+| Corpus Entry | Python Version | Exception |
+|--------------|----------------|-----------|'''
+
+    exceptions_found = False
+
+    for python_version in python_versions:
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
+        exceptions = sorted(summary.exception(), key=lambda result: result.original_size)
+
+        for entry in exceptions:
+            exceptions_found = True
+            yield f'| {entry.corpus_entry} | {python_version} | {entry.outcome} |'
+
+    if not exceptions_found:
+        yield ' None | | |'
+
+def report_larger_than_base(results_dir: str, python_versions: str, minifier_sha: str, base_sha: str) -> str:
+    yield '''
+## Top 10 Larger than base
+
+| Corpus Entry | Original Size | Minified Size |
+|--------------|--------------:|--------------:|'''
+
+    there_are_some_larger_than_base = False
+
+    for python_version in python_versions:
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
+
+        base_summary = result_summary(results_dir, python_version, base_sha)
+        larger_than_original = sorted(summary.compare_size_increase(base_summary), key=lambda result: result.original_size)[:10]
+
+        for entry in larger_than_original:
+            there_are_some_larger_than_base = True
+            yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} ({entry.minified_size - base_summary.entries[entry.corpus_entry].minified_size:+}) |'
+
+    if not there_are_some_larger_than_base:
+        yield '| N/A | N/A | N/A |'
+
+def report_slowest(results_dir: str, python_versions: str, minifier_sha: str) -> str:
+    yield '''
+## Top 10 Slowest
+
+| Corpus Entry | Original Size | Minified Size | Time |
+|--------------|--------------:|--------------:|-----:|'''
+
+    for python_version in python_versions:
+        summary = result_summary(results_dir, python_version, minifier_sha)
+
+        for entry in sorted(summary.entries.values(), key=lambda entry: entry.time, reverse=True)[:10]:
+            yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} | {entry.time:.3f} |'
 
 def report(results_dir: str, minifier_ref: str, minifier_sha: str, base_ref: str, base_sha: str) -> Iterable[str]:
     """
@@ -236,50 +351,11 @@ This report is generated by the `corpus_test/generate_report.py` script.
         )
 
     if ENHANCED_REPORT:
-        yield '''
-## Larger than original
-
-| Corpus Entry | Original Size | Minified Size |
-|--------------|--------------:|--------------:|'''
-
-        for python_version in ['3.11']:
-            summary = result_summary(results_dir, python_version, minifier_sha)
-            larger_than_original = sorted(summary.larger_than_original(), key=lambda result: result.original_size)
-
-            for entry in larger_than_original:
-                yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} ({entry.minified_size - entry.original_size:+}) |'
-
-        yield '''
-## Top 10 Larger than base
-
-| Corpus Entry | Original Size | Minified Size |
-|--------------|--------------:|--------------:|'''
-
-        there_are_some_larger_than_base = False
-
-        for python_version in ['3.11']:
-            summary = result_summary(results_dir, python_version, minifier_sha)
-            base_summary = result_summary(results_dir, python_version, base_sha)
-            larger_than_original = sorted(summary.compare_size_increase(base_summary), key=lambda result: result.original_size)[:10]
-
-            for entry in larger_than_original:
-                there_are_some_larger_than_base = True
-                yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} ({entry.minified_size - base_summary.entries[entry.corpus_entry].minified_size:+}) |'
-
-        if not there_are_some_larger_than_base:
-            yield '| N/A | N/A | N/A |'
-
-        yield '''
-## Top 10 Slowest
-
-| Corpus Entry | Original Size | Minified Size | Time |
-|--------------|--------------:|--------------:|-----:|'''
-
-        for python_version in ['3.11']:
-            summary = result_summary(results_dir, python_version, minifier_sha)
-
-            for entry in sorted(summary.entries.values(), key=lambda entry: entry.time, reverse=True)[:10]:
-                yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} | {entry.time:.3f} |'
+        yield from report_larger_than_original(results_dir, ['3.11'], minifier_sha)
+        yield from report_larger_than_base(results_dir, ['3.11'], minifier_sha, base_sha)
+        yield from report_slowest(results_dir, ['3.11'], minifier_sha)
+        yield from report_unstable(results_dir, ['2.7', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11'], minifier_sha)
+        yield from report_exceptions(results_dir, ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11'], minifier_sha)
 
 
 def main():
