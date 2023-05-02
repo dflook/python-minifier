@@ -23,7 +23,7 @@ setup(
     use_scm_version=True,
     package_dir={'': 'src'},
     packages=find_packages('src'),
-    package_data={"python_minifier": ["py.typed", "__init__.pyi"]},
+    package_data={"python_minifier": ["py.typed", "*.pyi", "rename/*.pyi", "transforms/*.pyi"]},
     long_description=long_desc,
     long_description_content_type='text/markdown',
 

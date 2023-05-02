@@ -1,6 +1,7 @@
 import ast
-from typing import List, Text, AnyStr, Optional, Any
+from typing import List, Text, AnyStr, Optional, Any, Union
 
+from .transforms.remove_annotations_options import RemoveAnnotationsOptions as RemoveAnnotationsOptions
 
 class UnstableMinification(RuntimeError):
     def __init__(self, exception: Any, source: Any, minified: Any): ...
@@ -8,7 +9,7 @@ class UnstableMinification(RuntimeError):
 def minify(
     source: AnyStr,
     filename: Optional[str] = ...,
-    remove_annotations: bool = ...,
+    remove_annotations: Union[bool, RemoveAnnotationsOptions] = ...,
     remove_pass: bool = ...,
     remove_literal_statements: bool = ...,
     combine_imports: bool = ...,

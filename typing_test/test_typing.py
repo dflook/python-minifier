@@ -4,7 +4,7 @@ This should pass typechecking
 
 import ast
 
-from python_minifier import minify, unparse, awslambda
+from python_minifier import minify, unparse, awslambda, RemoveAnnotationsOptions
 
 def test_typing() -> None:
     """ This should have good types """
@@ -34,3 +34,11 @@ def test_typing() -> None:
               filename='filename',
               entrypoint='myentrypoint'
     )
+
+    annotation_options = RemoveAnnotationsOptions(
+        remove_variable_annotations=True,
+        remove_return_annotations=True,
+        remove_argument_annotations=True,
+        remove_class_attribute_annotations=False
+    )
+    minify('pass', remove_annotations=annotation_options)

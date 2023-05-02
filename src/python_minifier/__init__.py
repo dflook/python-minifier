@@ -21,6 +21,7 @@ from python_minifier.rename import (
 
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
+from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.remove_asserts import RemoveAsserts
 from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
@@ -52,7 +53,7 @@ class UnstableMinification(RuntimeError):
 def minify(
     source,
     filename=None,
-    remove_annotations=True,
+    remove_annotations=RemoveAnnotationsOptions(),
     remove_pass=True,
     remove_literal_statements=False,
     combine_imports=True,
@@ -80,7 +81,8 @@ def minify(
     :param str source: The python module source code
     :param str filename: The original source filename if known
 
-    :param bool remove_annotations: If type annotations should be removed where possible
+    :param remove_annotations: Configures the removal of type annotations. True removes all annotations, False removes none. RemoveAnnotationsOptions can be used to configure the removal of specific annotations.
+    :type remove_annotations: bool or RemoveAnnotationsOptions
     :param bool remove_pass: If Pass statements should be removed where possible
     :param bool remove_literal_statements: If statements consisting of a single literal should be removed, including docstrings
     :param bool combine_imports: Combine adjacent import statements where possible
@@ -115,8 +117,20 @@ def minify(
     if combine_imports:
         module = CombineImports()(module)
 
-    if remove_annotations:
-        module = RemoveAnnotations()(module)
+    if isinstance(remove_annotations, bool):
+        remove_annotations_options = RemoveAnnotationsOptions(
+            remove_variable_annotations=remove_annotations,
+            remove_return_annotations=remove_annotations,
+            remove_argument_annotations=remove_annotations,
+            remove_class_attribute_annotations=remove_annotations,
+        )
+    elif isinstance(remove_annotations, RemoveAnnotationsOptions):
+        remove_annotations_options = remove_annotations
+    else:
+        raise TypeError('remove_annotations must be a bool or RemoveAnnotationsOptions')
+
+    if remove_annotations_options:
+        module = RemoveAnnotations(remove_annotations_options)(module)
 
     if remove_pass:
         module = RemovePass()(module)
