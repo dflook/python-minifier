@@ -10,7 +10,7 @@ If these are detected, annotations are kept for that class:
 
     - dataclasses.dataclass
     - typing.NamedTuple
-    - typing.NamedDict
+    - typing.TypedDict
 
 If you know the module requires the annotations to be kept, disable this transform.
 
