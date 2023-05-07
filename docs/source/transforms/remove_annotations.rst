@@ -41,7 +41,7 @@ These arguments can be used with the pyminify command:
 
 When using the :func:`python_minifier.minify` function you can use the  ``remove_annotations`` argument to control this transform.
 You can pass a boolean ``True`` to remove all annotations or a boolean ``False`` to keep all annotations.
-You can also pass a :class:`python_minifier.transforms.remove_annotations.RemoveAnnotations` instance to specify which annotations to remove.
+You can also pass a :class:`python_minifier.RemoveAnnotationsOptions` instance to specify which annotations to remove.
 
 Example
 -------
