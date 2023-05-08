@@ -120,3 +120,5 @@ def remove_no_arg_exception_call(module):
         if isinstance(binding, BuiltinBinding) and binding.name in builtin_exceptions:
             # We can remove any calls to builtin exceptions
             _remove_empty_call(binding)
+
+    return module
