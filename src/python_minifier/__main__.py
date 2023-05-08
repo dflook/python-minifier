@@ -7,6 +7,7 @@ import argparse
 from pkg_resources import get_distribution, DistributionNotFound
 
 from python_minifier import minify
+from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 
 try:
     version = get_distribution('python_minifier').version
@@ -114,12 +115,6 @@ def parse_args():
         dest='remove_literal_statements',
     )
     minification_options.add_argument(
-        '--no-remove-annotations',
-        action='store_false',
-        help='Disable removing function and variable annotations',
-        dest='remove_annotations',
-    )
-    minification_options.add_argument(
         '--no-hoist-literals',
         action='store_false',
         help='Disable replacing string and bytes literals with variables',
@@ -189,6 +184,39 @@ def parse_args():
         help='Replace explicit return None with a bare return',
         dest='remove_explicit_return_none',
     )
+
+    annotation_options = parser.add_argument_group('remove annotations options', 'Options that affect how annotations are removed')
+    annotation_options.add_argument(
+        '--no-remove-annotations',
+        action='store_false',
+        help='Disable removing all annotations',
+        dest='remove_annotations',
+    )
+    annotation_options.add_argument(
+        '--no-remove-variable-annotations',
+        action='store_false',
+        help='Disable removing variable annotations',
+        dest='remove_variable_annotations',
+    )
+    annotation_options.add_argument(
+        '--no-remove-return-annotations',
+        action='store_false',
+        help='Disable removing function return annotations',
+        dest='remove_return_annotations',
+    )
+    annotation_options.add_argument(
+        '--no-remove-argument-annotations',
+        action='store_false',
+        help='Disable removing function argument annotations',
+        dest='remove_argument_annotations',
+    )
+    annotation_options.add_argument(
+        '--remove-class-attribute-annotations',
+        action='store_true',
+        help='Enable removing class attribute annotations',
+        dest='remove_class_attribute_annotations',
+    )
+
     parser.add_argument('--version', '-v', action='version', version=version)
 
     args = parser.parse_args()
@@ -205,6 +233,10 @@ def parse_args():
         sys.exit(1)
     if len(args.path) == 1 and os.path.isdir(args.path[0]) and not args.in_place:
         sys.stderr.write('error: path ' + args.path[0] + ' is a directory, --in-place required\n')
+        sys.exit(1)
+
+    if args.remove_class_attribute_annotations and not args.remove_annotations:
+        sys.stderr.write('error: --remove-class-attribute-annotations would do nothing when used with --no-remove-annotations\n')
         sys.exit(1)
 
     return args
@@ -237,12 +269,27 @@ def do_minify(source, filename, minification_args):
             names = [name.strip() for name in arg.split(',') if name]
             preserve_locals.extend(names)
 
+    if minification_args.remove_annotations is False:
+        remove_annotations = RemoveAnnotationsOptions(
+            remove_variable_annotations=False,
+            remove_return_annotations=False,
+            remove_argument_annotations=False,
+            remove_class_attribute_annotations=False,
+        )
+    else:
+        remove_annotations = RemoveAnnotationsOptions(
+            remove_variable_annotations=minification_args.remove_variable_annotations,
+            remove_return_annotations=minification_args.remove_return_annotations,
+            remove_argument_annotations=minification_args.remove_argument_annotations,
+            remove_class_attribute_annotations=minification_args.remove_class_attribute_annotations,
+        )
+
     return minify(
         source,
         filename=filename,
         combine_imports=minification_args.combine_imports,
         remove_pass=minification_args.remove_pass,
-        remove_annotations=minification_args.remove_annotations,
+        remove_annotations=remove_annotations,
         remove_literal_statements=minification_args.remove_literal_statements,
         hoist_literals=minification_args.hoist_literals,
         rename_locals=minification_args.rename_locals,

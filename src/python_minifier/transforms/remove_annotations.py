@@ -1,6 +1,7 @@
 import ast
 import sys
 
+from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.suite_transformer import SuiteTransformer
 
 
@@ -8,6 +9,11 @@ class RemoveAnnotations(SuiteTransformer):
     """
     Remove type annotations from source
     """
+
+    def __init__(self, options):
+        assert isinstance(options, RemoveAnnotationsOptions)
+        self._options = options
+        super(RemoveAnnotations, self).__init__()
 
     def __call__(self, node):
         if sys.version_info < (3, 0):
@@ -19,7 +25,7 @@ class RemoveAnnotations(SuiteTransformer):
         node.body = self.suite(node.body, parent=node)
         node.decorator_list = [self.visit(d) for d in node.decorator_list]
 
-        if hasattr(node, 'returns'):
+        if hasattr(node, 'returns') and self._options.remove_return_annotations:
             node.returns = None
 
         return node
@@ -37,13 +43,15 @@ class RemoveAnnotations(SuiteTransformer):
             node.kwonlyargs = [self.visit_arg(a) for a in node.kwonlyargs]
 
         if hasattr(node, 'varargannotation'):
-            node.varargannotation = None
+            if self._options.remove_argument_annotations:
+                node.varargannotation = None
         else:
             if node.vararg:
                 node.vararg = self.visit_arg(node.vararg)
 
         if hasattr(node, 'kwargannotation'):
-            node.kwargannotation = None
+            if self._options.remove_argument_annotations:
+                node.kwargannotation = None
         else:
             if node.kwarg:
                 node.kwarg = self.visit_arg(node.kwarg)
@@ -51,7 +59,8 @@ class RemoveAnnotations(SuiteTransformer):
         return node
 
     def visit_arg(self, node):
-        node.annotation = None
+        if self._options.remove_argument_annotations:
+            node.annotation = None
         return node
 
     def visit_AnnAssign(self, node):
@@ -96,6 +105,14 @@ class RemoveAnnotations(SuiteTransformer):
                     return True
 
             return False
+
+        # is this a class attribute or a variable?
+        if isinstance(node.parent, ast.ClassDef):
+            if not self._options.remove_class_attribute_annotations:
+                return node
+        else:
+            if not self._options.remove_variable_annotations:
+                return node
 
         if is_dataclass_field(node) or is_typing_sensitive(node):
             return node

@@ -112,9 +112,9 @@ jobs:
       - name: Test typing
         run: |
           pip3.11 install mypy types-setuptools
-          mypy typing_test/test_typing.py
+          mypy --strict typing_test/test_typing.py
 
-          if mypy typing_test/test_badtyping.py; then
+          if mypy --strict typing_test/test_badtyping.py; then
             echo "Bad types weren't detected"
             exit 1
           fi
