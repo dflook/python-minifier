@@ -9,6 +9,7 @@ We can't generally know if a name refers to an exception, so we only do this for
 """
 
 import ast
+import sys
 
 from python_minifier.rename.binding import BuiltinBinding
 
@@ -115,6 +116,9 @@ def _remove_empty_call(binding):
 
 def remove_no_arg_exception_call(module):
     assert isinstance(module, ast.Module)
+
+    if sys.version_info < (3, 0):
+        return module
 
     for binding in module.bindings:
         if isinstance(binding, BuiltinBinding) and binding.name in builtin_exceptions:
