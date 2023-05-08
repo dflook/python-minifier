@@ -19,6 +19,9 @@ def remove_brackets(source):
 
 def test_exception_brackets():
     """This is a buitin so remove the brackets"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
     source = 'def a(): raise Exception()'
     expected = 'def a(): raise Exception'
 
@@ -28,6 +31,9 @@ def test_exception_brackets():
 
 def test_zero_division_error_brackets():
     """This is a buitin so remove the brackets"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
     source = 'def a(): raise ZeroDivisionError()'
     expected = 'def a(): raise ZeroDivisionError'
 
@@ -37,6 +43,9 @@ def test_zero_division_error_brackets():
 
 def test_builtin_with_arg():
     """This has an arg so dont' remove the brackets"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
     source = 'def a(): raise Exception(1)'
     expected = 'def a(): raise Exception(1)'
 
@@ -46,6 +55,9 @@ def test_builtin_with_arg():
 
 def test_one_division_error_brackets():
     """This is not a builtin so don't remove the brackets even though it's not defined in the module"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
     source = 'def a(): raise OneDivisionError()'
     expected = source
 
@@ -55,6 +67,9 @@ def test_one_division_error_brackets():
 
 def test_redefined():
     """This is usually a builtin, but don't remove brackets if it's been redefined"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
     source = '''
 def a():
     raise ZeroDivisionError()
@@ -77,6 +92,7 @@ def test_raise_from():
     """This is a builtin so remove the brackets"""
     if sys.version_info < (3, 0):
         pytest.skip('raise from not supported in this version of python')
+
     source = 'def a(): raise Exception() from Exception()'
     expected = 'def a(): raise Exception from Exception'
 
