@@ -184,6 +184,12 @@ def parse_args():
         help='Replace explicit return None with a bare return',
         dest='remove_explicit_return_none',
     )
+    minification_options.add_argument(
+        '--no-remove-builtin-exception-brackets',
+        action='store_false',
+        help='Disable removing brackets when raising builtin exceptions with no arguments',
+        dest='remove_exception_brackets',
+    )
 
     annotation_options = parser.add_argument_group('remove annotations options', 'Options that affect how annotations are removed')
     annotation_options.add_argument(
@@ -302,6 +308,7 @@ def do_minify(source, filename, minification_args):
         remove_asserts=minification_args.remove_asserts,
         remove_debug=minification_args.remove_debug,
         remove_explicit_return_none=minification_args.remove_explicit_return_none,
+        remove_builtin_exception_brackets=minification_args.remove_exception_brackets
     )
 
 
