@@ -153,7 +153,7 @@ def minify(
     bind_names(module)
     resolve_names(module)
 
-    if remove_builtin_exception_brackets:
+    if remove_builtin_exception_brackets and not module.tainted:
         remove_no_arg_exception_call(module)
 
     if module.tainted:

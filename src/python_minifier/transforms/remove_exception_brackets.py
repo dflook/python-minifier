@@ -13,34 +13,26 @@ import sys
 
 from python_minifier.rename.binding import BuiltinBinding
 
-# This list may vary between python versions
+# These are always exceptions, in every version of python
 builtin_exceptions = [
-    'BaseException',
-    'BaseExceptionGroup',
-    'GeneratorExit',
-    'KeyboardInterrupt',
-    'SystemExit',
-    'Exception',
-    'ArithmeticError',
-    'FloatingPointError',
-    'OverflowError',
-    'ZeroDivisionError',
-    'AssertionError',
-    'AttributeError',
-    'BufferError',
-    'EOFError',
-    'ExceptionGroup',
-    'BaseExceptionGroup',
-    'ImportError',
-    'ModuleNotFoundError',
-    'LookupError',
-    'IndexError',
-    'KeyError',
-    'MemoryError',
-    'NameError',
-    'UnboundLocalError',
-    'OSError',
-    'BlockingIOError',
+    'SyntaxError', 'Exception', 'ValueError', 'BaseException', 'MemoryError', 'RuntimeError', 'DeprecationWarning', 'UnicodeEncodeError', 'KeyError', 'LookupError', 'TypeError', 'BufferError',
+    'ImportError', 'OSError', 'StopIteration', 'ArithmeticError', 'UserWarning', 'PendingDeprecationWarning', 'RuntimeWarning', 'IndentationError', 'UnicodeTranslateError', 'UnboundLocalError',
+    'AttributeError', 'EOFError', 'UnicodeWarning', 'BytesWarning', 'NameError', 'IndexError', 'TabError', 'SystemError', 'OverflowError', 'FutureWarning', 'SystemExit', 'Warning',
+    'FloatingPointError', 'ReferenceError', 'UnicodeError', 'AssertionError', 'SyntaxWarning', 'UnicodeDecodeError', 'GeneratorExit', 'ImportWarning', 'KeyboardInterrupt', 'ZeroDivisionError',
+    'NotImplementedError'
+]
+
+# These are exceptions only in python 2.7
+builtin_exceptions_2_7 = [
+    'IOError',
+    'StandardError',
+    'EnvironmentError',
+    'VMSError',
+    'WindowsError'
+]
+
+# These are exceptions in 3.3+
+builtin_exceptions_3_3 = [
     'ChildProcessError',
     'ConnectionError',
     'BrokenPipeError',
@@ -55,34 +47,30 @@ builtin_exceptions = [
     'PermissionError',
     'ProcessLookupError',
     'TimeoutError',
-    'ReferenceError',
-    'RuntimeError',
-    'NotImplementedError',
-    'RecursionError',
-    'StopAsyncIteration',
-    'StopIteration',
-    'SyntaxError',
-    'IndentationError',
-    'TabError',
-    'SystemError',
-    'TypeError',
-    'ValueError',
-    'UnicodeError',
-    'UnicodeDecodeError',
-    'UnicodeEncodeError',
-    'UnicodeTranslateError',
-    'Warning',
-    'BytesWarning',
-    'DeprecationWarning',
-    'EncodingWarning',
-    'FutureWarning',
-    'ImportWarning',
-    'PendingDeprecationWarning',
     'ResourceWarning',
-    'RuntimeWarning',
-    'SyntaxWarning',
-    'UnicodeWarning',
-    'UserWarning'
+]
+
+# These are exceptions in 3.5+
+builtin_exceptions_3_5 = [
+    'StopAsyncIteration',
+    'RecursionError',
+]
+
+# These are exceptions in 3.6+
+builtin_exceptions_3_6 = [
+    'ModuleNotFoundError'
+]
+
+# These are exceptions in 3.10+
+builtin_exceptions_3_10 = [
+    'EncodingWarning'
+]
+
+# These are exceptions in 3.11+
+builtin_exceptions_3_11 = [
+    'BaseExceptionGroup',
+    'ExceptionGroup',
+    'BaseExceptionGroup',
 ]
 
 def _remove_empty_call(binding):
@@ -113,6 +101,7 @@ def _remove_empty_call(binding):
         elif raise_node.cause is call_node:
             raise_node.cause = name_node
         name_node.parent = raise_node
+
 
 def remove_no_arg_exception_call(module):
     assert isinstance(module, ast.Module)
