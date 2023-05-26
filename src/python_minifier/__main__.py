@@ -8,6 +8,7 @@ from pkg_resources import get_distribution, DistributionNotFound
 
 from python_minifier import minify
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
+from python_minifier.transforms.remove_literal_statements_options import RemoveLiteralStatementsOptions
 
 try:
     version = get_distribution('python_minifier').version
@@ -107,12 +108,6 @@ def parse_args():
         default=True,
         help='Disable removing Pass statements',
         dest='remove_pass',
-    )
-    minification_options.add_argument(
-        '--remove-literal-statements',
-        action='store_true',
-        help='Enable removing statements that are just a literal (including docstrings)',
-        dest='remove_literal_statements',
     )
     minification_options.add_argument(
         '--no-hoist-literals',
@@ -223,6 +218,38 @@ def parse_args():
         dest='remove_class_attribute_annotations',
     )
 
+    literal_statement_options = parser.add_argument_group('remove literal statements options', 'Options that affect how literal statements are removed')
+    literal_statement_options.add_argument(
+        '--remove-literal-statements',
+        action='store_true',
+        help='Enable removing all statements that are just a literal (including docstrings)',
+        dest='remove_literal_statements',
+    )
+    literal_statement_options.add_argument(
+        '--remove-module-docstring',
+        action='store_false',
+        help='Enable removing non-module docstrings',
+        dest='remove_docstrings',
+    )
+    literal_statement_options.add_argument(
+        '--remove-function-docstrings',
+        action='store_false',
+        help='Enable removing non-module docstrings',
+        dest='remove_docstrings',
+    )
+    literal_statement_options.add_argument(
+        '--remove-class-docstrings',
+        action='store_false',
+        help='Enable removing non-module docstrings',
+        dest='remove_docstrings',
+    )
+    literal_statement_options.add_argument(
+        '--no-remove-literal-expression-statements',
+        action='store_false',
+        help='Disable removing literal expression statements',
+        dest='remove_literal_expression_statements',
+    )
+
     parser.add_argument('--version', '-v', action='version', version=version)
 
     args = parser.parse_args()
@@ -275,6 +302,21 @@ def do_minify(source, filename, minification_args):
             names = [name.strip() for name in arg.split(',') if name]
             preserve_locals.extend(names)
 
+    if minification_args.remove_literal_statements is False:
+        remove_literal_statements = RemoveLiteralStatementsOptions(
+            remove_module_docstring=True,
+            remove_function_docstrings=True,
+            remove_class_docstrings=True,
+            remove_literal_expression_statements=minification_args.remove_literal_expression_statements,
+        )
+    else:
+        remove_literal_statements = RemoveLiteralStatementsOptions(
+            remove_module_docstring=minification_args.remove_module_docstring,
+            remove_function_docstrings=minification_args.remove_function_docstrings,
+            remove_class_docstrings=minification_args.remove_class_docstrings,
+            remove_literal_expression_statements=minification_args.remove_literal_expression_statements,
+        )
+
     if minification_args.remove_annotations is False:
         remove_annotations = RemoveAnnotationsOptions(
             remove_variable_annotations=False,
@@ -296,7 +338,7 @@ def do_minify(source, filename, minification_args):
         combine_imports=minification_args.combine_imports,
         remove_pass=minification_args.remove_pass,
         remove_annotations=remove_annotations,
-        remove_literal_statements=minification_args.remove_literal_statements,
+        remove_literal_statements=remove_literal_statements,
         hoist_literals=minification_args.hoist_literals,
         rename_locals=minification_args.rename_locals,
         preserve_locals=preserve_locals,

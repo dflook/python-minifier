@@ -27,6 +27,7 @@ from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
 from python_minifier.transforms.remove_exception_brackets import remove_no_arg_exception_call
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
+from python_minifier.transforms.remove_literal_statements_options import RemoveLiteralStatementsOptions
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
 from python_minifier.transforms.remove_posargs import remove_posargs
@@ -50,13 +51,15 @@ class UnstableMinification(RuntimeError):
     def __str__(self):
         return 'Minification was unstable! Please create an issue at https://github.com/dflook/python-minifier/issues'
 
+default_remove_annotations_options = RemoveAnnotationsOptions()
+default_remove_literal_statements_options = RemoveLiteralStatementsOptions()
 
 def minify(
     source,
     filename=None,
-    remove_annotations=RemoveAnnotationsOptions(),
+    remove_annotations=default_remove_annotations_options,
     remove_pass=True,
-    remove_literal_statements=False,
+    remove_literal_statements=default_remove_literal_statements_options,
     combine_imports=True,
     hoist_literals=True,
     rename_locals=True,
@@ -87,6 +90,7 @@ def minify(
     :type remove_annotations: bool or RemoveAnnotationsOptions
     :param bool remove_pass: If Pass statements should be removed where possible
     :param bool remove_literal_statements: If statements consisting of a single literal should be removed, including docstrings
+    :type remove_literal_statements: bool or RemoveLiteralStatementsOptions
     :param bool combine_imports: Combine adjacent import statements where possible
     :param bool hoist_literals: If str and byte literals may be hoisted to the module level where possible.
     :param bool rename_locals: If local names may be shortened
@@ -114,8 +118,20 @@ def minify(
 
     add_namespace(module)
 
-    if remove_literal_statements:
-        module = RemoveLiteralStatements()(module)
+    if isinstance(remove_literal_statements, bool):
+        remove_literal_statements_options = RemoveLiteralStatementsOptions(
+            remove_module_docstring=remove_literal_statements,
+            remove_function_docstrings=remove_literal_statements,
+            remove_class_docstrings=remove_literal_statements,
+            remove_literal_expression_statements=remove_literal_statements
+        )
+    elif isinstance(remove_annotations, RemoveLiteralStatementsOptions):
+        remove_literal_statements_options = remove_literal_statements
+    else:
+        raise TypeError('remove_literal_statements must be a bool or RemoveLiteralStatements')
+
+    if remove_literal_statements_options:
+        module = RemoveLiteralStatements(remove_literal_statements_options)(module)
 
     if combine_imports:
         module = CombineImports()(module)

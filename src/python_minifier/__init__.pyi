@@ -2,6 +2,7 @@ import ast
 from typing import List, Text, AnyStr, Optional, Any, Union
 
 from .transforms.remove_annotations_options import RemoveAnnotationsOptions as RemoveAnnotationsOptions
+from .transforms.remove_literal_statements_options import RemoveLiteralStatementsOptions as RemoveLiteralStatementsOptions
 
 class UnstableMinification(RuntimeError):
     def __init__(self, exception: Any, source: Any, minified: Any): ...
@@ -11,7 +12,7 @@ def minify(
     filename: Optional[str] = ...,
     remove_annotations: Union[bool, RemoveAnnotationsOptions] = ...,
     remove_pass: bool = ...,
-    remove_literal_statements: bool = ...,
+    remove_literal_statements: Union[bool, RemoveLiteralStatementsOptions] = ...,
     combine_imports: bool = ...,
     hoist_literals: bool = ...,
     rename_locals: bool = ...,
@@ -27,7 +28,9 @@ def minify(
     remove_builtin_exception_brackets: bool = ...
 ) -> Text: ...
 
+
 def unparse(module: ast.Module) -> Text: ...
+
 
 def awslambda(
     source: AnyStr,
