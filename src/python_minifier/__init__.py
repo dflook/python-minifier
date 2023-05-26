@@ -125,7 +125,7 @@ def minify(
             remove_class_docstrings=remove_literal_statements,
             remove_literal_expression_statements=remove_literal_statements
         )
-    elif isinstance(remove_annotations, RemoveLiteralStatementsOptions):
+    elif isinstance(remove_literal_statements, RemoveLiteralStatementsOptions):
         remove_literal_statements_options = remove_literal_statements
     else:
         raise TypeError('remove_literal_statements must be a bool or RemoveLiteralStatements')
