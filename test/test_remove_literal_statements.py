@@ -1,4 +1,5 @@
 import ast
+import sys
 
 import pytest
 
@@ -17,6 +18,16 @@ Test cases:
     - function and class docstrings are suppressed by __doc__ attribute references; Test references in module scope, function scope and class scope
 """
 
+if sys.version_info < (3, 3):
+    CONSTANTS = ''
+elif sys.version_info < (3, 4):
+    CONSTANTS = ['...']
+else:
+    CONSTANTS = ['...', 'True', 'False', 'None']
+
+def insert_constants(indent=0):
+    indent_str = (' ' * indent)
+    return ('\n' + indent_str).join(constant for constant in CONSTANTS)
 
 source = '''
 """Module docstring"""
@@ -24,10 +35,7 @@ source = '''
 "Module literal"
 b"Module literal"
 213
-True
-False
-None
-...
+''' + insert_constants() + '''
 0.123
 1.23e-4
 
@@ -36,10 +44,7 @@ def test():
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4
 
@@ -48,10 +53,7 @@ class Test:
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4    
     
@@ -60,10 +62,7 @@ class Test:
         "Module literal"
         b"Module literal"
         213
-        True
-        False
-        None
-        ...
+        ''' + insert_constants(8) + '''
         0.123
         1.23e-4
 '''
@@ -155,10 +154,7 @@ def test_remove_module_docstring():
 "Module literal"
 b"Module literal"
 213
-True
-False
-None
-...
+''' + insert_constants() + '''
 0.123
 1.23e-4
 
@@ -167,10 +163,7 @@ def test():
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4
 
@@ -179,10 +172,7 @@ class Test:
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4    
 
@@ -191,10 +181,7 @@ class Test:
         "Module literal"
         b"Module literal"
         213
-        True
-        False
-        None
-        ...
+        ''' + insert_constants(8) + '''
         0.123
         1.23e-4
 '''
@@ -241,10 +228,7 @@ def test_remove_function_docstring():
 "Module literal"
 b"Module literal"
 213
-True
-False
-None
-...
+''' + insert_constants() + '''
 0.123
 1.23e-4
 
@@ -252,10 +236,7 @@ def test():
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4
 
@@ -264,10 +245,7 @@ class Test:
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4    
     
@@ -275,10 +253,7 @@ class Test:
         "Module literal"
         b"Module literal"
         213
-        True
-        False
-        None
-        ...
+        ''' + insert_constants(8) + '''
         0.123
         1.23e-4
 '''
@@ -326,10 +301,7 @@ def test_remove_class_docstring():
 "Module literal"
 b"Module literal"
 213
-True
-False
-None
-...
+''' + insert_constants() + '''
 0.123
 1.23e-4
 
@@ -338,10 +310,7 @@ def test():
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4
 
@@ -349,10 +318,7 @@ class Test:
     "Module literal"
     b"Module literal"
     213
-    True
-    False
-    None
-    ...
+    ''' + insert_constants(4) + '''
     0.123
     1.23e-4    
     
@@ -361,10 +327,7 @@ class Test:
         "Module literal"
         b"Module literal"
         213
-        True
-        False
-        None
-        ...
+        ''' + insert_constants(8) + '''
         0.123
         1.23e-4
 '''
