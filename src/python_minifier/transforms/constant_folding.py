@@ -19,9 +19,9 @@ class FoldConstants(SuiteTransformer):
         node.right = self.visit(node.right)
 
         # Check this is a constant expression that could be folded
-        if not is_ast_node(node.left, (ast.Num, ast.Str, ast.Bytes, ast.NameConstant)):
+        if not is_ast_node(node.left, (ast.Num, ast.Str, 'Bytes', 'NameConstant')):
             return node
-        if not is_ast_node(node.right, (ast.Num, ast.Str, ast.Bytes, ast.NameConstant)):
+        if not is_ast_node(node.right, (ast.Num, ast.Str, 'Bytes', 'NameConstant')):
             return node
 
         expression_printer = ExpressionPrinter()
