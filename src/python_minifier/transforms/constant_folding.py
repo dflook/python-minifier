@@ -1,0 +1,55 @@
+import ast
+
+from python_minifier.expression_printer import ExpressionPrinter
+from python_minifier.transforms.suite_transformer import SuiteTransformer
+from python_minifier.util import is_ast_node
+
+
+class FoldConstants(SuiteTransformer):
+    """
+    Fold Constants if it would reduce the size of the source
+    """
+
+    def __init__(self):
+        super(FoldConstants, self).__init__()
+
+    def visit_BinOp(self, node):
+
+        node.left = self.visit(node.left)
+        node.right = self.visit(node.right)
+
+        # Check this is a constant expression that could be folded
+        if not is_ast_node(node.left, (ast.Num, ast.Str, ast.Bytes, ast.NameConstant)):
+            return node
+        if not is_ast_node(node.right, (ast.Num, ast.Str, ast.Bytes, ast.NameConstant)):
+            return node
+
+        expression_printer = ExpressionPrinter()
+
+        try:
+            original_expression = expression_printer(node)
+            value = eval(original_expression)
+        except Exception as e:
+            return node
+
+        if isinstance(value, str):
+            new_node = ast.Str(s=value)
+        elif isinstance(value, bytes):
+            new_node = ast.Bytes(s=value)
+        elif isinstance(value, bool):
+            new_node = ast.NameConstant(value=value)
+        elif isinstance(value, (int, float, complex)):
+            new_node = ast.Num(n=value)
+        else:
+            return node
+
+        expression_printer = ExpressionPrinter()
+        folded_expression = expression_printer(new_node)
+
+        if len(folded_expression) > len(original_expression):
+            # Result is longer than original expression
+            return node
+
+        assert eval(folded_expression) == value
+
+        return self.add_child(new_node, node.parent, node.namespace)

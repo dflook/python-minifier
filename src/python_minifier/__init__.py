@@ -20,6 +20,7 @@ from python_minifier.rename import (
 )
 
 from python_minifier.transforms.combine_imports import CombineImports
+from python_minifier.transforms.constant_folding import FoldConstants
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.remove_asserts import RemoveAsserts
@@ -69,7 +70,8 @@ def minify(
     remove_asserts=False,
     remove_debug=False,
     remove_explicit_return_none=True,
-    remove_builtin_exception_brackets=True
+    remove_builtin_exception_brackets=True,
+    constant_folding=True
 ):
     """
     Minify a python module
@@ -102,6 +104,7 @@ def minify(
     :param bool remove_debug: If conditional statements that test '__debug__ is True' should be removed
     :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
     :param bool remove_builtin_exception_brackets: If brackets should be removed when raising exceptions with no arguments
+    :param bool constant_folding: If constant expressions should be evaluated
 
     :rtype: str
 
@@ -149,6 +152,9 @@ def minify(
 
     if remove_explicit_return_none:
         module = RemoveExplicitReturnNone()(module)
+
+    if constant_folding:
+        module = FoldConstants()(module)
 
     bind_names(module)
     resolve_names(module)
