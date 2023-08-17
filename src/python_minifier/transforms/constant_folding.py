@@ -39,7 +39,11 @@ class FoldConstants(SuiteTransformer):
         elif isinstance(value, bool):
             new_node = ast.NameConstant(value=value)
         elif isinstance(value, (int, float, complex)):
-            new_node = ast.Num(n=value)
+            if value < 0:
+                # Represent negative numbers as a USub UnaryOp, so that the ast roundtrip is correct
+                new_node = ast.UnaryOp(op=ast.USub(), operand=ast.Num(n=-value))
+            else:
+                new_node = ast.Num(n=value)
         else:
             return node
 
