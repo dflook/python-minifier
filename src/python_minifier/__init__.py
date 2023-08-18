@@ -155,9 +155,9 @@ def minify(
         module = RemoveExplicitReturnNone()(module)
 
     if constant_folding:
-        print(print_ast(module))
+        #print(print_ast(module))
         module = FoldConstants()(module)
-        print(print_ast(module))
+        #print(print_ast(module))
 
     bind_names(module)
     resolve_names(module)
