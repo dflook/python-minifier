@@ -56,4 +56,11 @@ class FoldConstants(SuiteTransformer):
 
         assert eval(folded_expression) == value
 
+        # Some complex number values are parsed as a BinOp
+        # Make sure we represent our AST the same way so it roundtrips correctly
+        parsed_folded_expression = ast.parse(folded_expression, 'folded expression', 'eval')
+        assert isinstance(parsed_folded_expression, ast.Expression)
+        if isinstance(parsed_folded_expression.body, ast.BinOp):
+            new_node = parsed_folded_expression.body
+
         return self.add_child(new_node, node.parent, node.namespace)
