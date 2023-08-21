@@ -33,7 +33,7 @@ class FoldConstants(SuiteTransformer):
         except Exception as e:
             return node
 
-        if math.isnan(value):
+        if isinstance(value, float) and math.isnan(value):
             # There is no nan literal.
             new_node = ast.Call(func=ast.Name('float', ctx=ast.Load()), args=[ast.Str('nan')], keywords=[])
         elif isinstance(value, str):
