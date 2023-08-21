@@ -1,4 +1,5 @@
 import ast
+import math
 
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.transforms.suite_transformer import SuiteTransformer
@@ -32,7 +33,10 @@ class FoldConstants(SuiteTransformer):
         except Exception as e:
             return node
 
-        if isinstance(value, str):
+        if math.isnan(value):
+            # There is no nan literal.
+            new_node = ast.Call(func=ast.Name('float', ctx=ast.Load()), args=[ast.Str('nan')], keywords=[])
+        elif isinstance(value, str):
             new_node = ast.Str(s=value)
         elif isinstance(value, bytes):
             new_node = ast.Bytes(s=value)

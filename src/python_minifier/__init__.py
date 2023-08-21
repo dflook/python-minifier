@@ -223,7 +223,7 @@ def unparse(module):
     printer = ModulePrinter()
     printer(module)
 
-    print(printer.code)
+    #print(printer.code)
 
     try:
         minified_module = ast.parse(printer.code, 'python_minifier.unparse output')
