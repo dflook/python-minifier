@@ -25,6 +25,11 @@ class FoldConstants(SuiteTransformer):
         if not is_ast_node(node.right, (ast.Num, ast.Str, 'Bytes', 'NameConstant')):
             return node
 
+        if isinstance(node.op, ast.Div):
+            # Folding div is subtle, since it can have different results in Python 2 and Python 3
+            # Do this once target version options have been implemented
+            return node
+
         expression_printer = ExpressionPrinter()
 
         try:
@@ -62,7 +67,9 @@ class FoldConstants(SuiteTransformer):
             # Result is longer than original expression
             return node
 
-        assert eval(folded_expression) == value
+        globals = {'__builtins__': {}}  # Completely empty globals
+        locals = {}
+        assert eval(folded_expression, globals, locals) == value
 
         # Some complex number values are parsed as a BinOp
         # Make sure we represent our AST the same way so it roundtrips correctly
