@@ -20,14 +20,20 @@ class FoldConstants(SuiteTransformer):
         node.right = self.visit(node.right)
 
         # Check this is a constant expression that could be folded
-        if not is_ast_node(node.left, (ast.Num, ast.Str, 'Bytes', 'NameConstant')):
+        # We don't try to fold strings or bytes, since they have probably been arranged this way to make the source shorter and we are unlikely to beat that
+        if not is_ast_node(node.left, (ast.Num, 'NameConstant')):
             return node
-        if not is_ast_node(node.right, (ast.Num, ast.Str, 'Bytes', 'NameConstant')):
+        if not is_ast_node(node.right, (ast.Num, 'NameConstant')):
             return node
 
         if isinstance(node.op, ast.Div):
             # Folding div is subtle, since it can have different results in Python 2 and Python 3
             # Do this once target version options have been implemented
+            return node
+
+        if isinstance(node.op, ast.Pow):
+            # This can be folded, but it is unlikely to reduce the size of the source
+            # It can also be slow to evaluate
             return node
 
         expression_printer = ExpressionPrinter()
@@ -41,10 +47,6 @@ class FoldConstants(SuiteTransformer):
         if isinstance(value, float) and math.isnan(value):
             # There is no nan literal.
             new_node = ast.Call(func=ast.Name(id='float', ctx=ast.Load()), args=[ast.Str(s='nan')], keywords=[])
-        elif isinstance(value, str):
-            new_node = ast.Str(s=value)
-        elif isinstance(value, bytes):
-            new_node = ast.Bytes(s=value)
         elif isinstance(value, bool):
             new_node = ast.NameConstant(value=value)
         elif isinstance(value, (int, float, complex)):
