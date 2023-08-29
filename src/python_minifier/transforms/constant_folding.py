@@ -40,7 +40,9 @@ class FoldConstants(SuiteTransformer):
 
         try:
             original_expression = expression_printer(node)
-            value = eval(original_expression)
+            globals = {}
+            locals = {}
+            value = eval(original_expression, globals, locals)
         except Exception as e:
             return node
 
@@ -65,19 +67,28 @@ class FoldConstants(SuiteTransformer):
         expression_printer = ExpressionPrinter()
         folded_expression = expression_printer(new_node)
 
-        if len(folded_expression) > len(original_expression):
-            # Result is longer than original expression
+        if len(folded_expression) >= len(original_expression):
+            # Result is not shorter than original expression
             return node
 
-        globals = {'__builtins__': {}}  # Completely empty globals
-        locals = {}
-        assert eval(folded_expression, globals, locals) == value
+        try:
+            globals = {'__builtins__': {'float': float}}
+            locals = {}
+            folded_value = eval(folded_expression, globals, locals)
+        except NameError as ne:
+            if ne.name in ['inf', 'infj', 'nan']:
+                # When the value is something like inf+0j the expression printer will print it that way, which is not valid Python.
+                # In python code it should be '1e999+0j', which parses as a BinOp that the expression printer can handle.
+                # It's not worth fixing the expression printer to handle this case, since it is unlikely to occur in real code.
+                return node
+            raise
 
-        # Some complex number values are parsed as a BinOp
-        # Make sure we represent our AST the same way so it roundtrips correctly
-        parsed_folded_expression = ast.parse(folded_expression, 'folded expression', 'eval')
-        assert isinstance(parsed_folded_expression, ast.Expression)
-        if isinstance(parsed_folded_expression.body, ast.BinOp):
-            new_node = parsed_folded_expression.body
+        if isinstance(value, float) and math.isnan(value):
+            assert math.isnan(folded_value)
+        else:
+            assert folded_value == value and type(folded_value) == type(value)
+
+        #print(f'{original_expression=}')
+        #print(f'{folded_expression=}')
 
         return self.add_child(new_node, node.parent, node.namespace)

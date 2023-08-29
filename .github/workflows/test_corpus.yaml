@@ -74,6 +74,13 @@ jobs:
 
       - name: Run tests
         run: |
+          if [[ "${matrix.python}" == "python3.3" || "${matrix.python}" == "python3.4" || "${matrix.python}" == "python3.5" ]]; then
+            # These versions randomise the hash seed, but don't preserve dict order
+            # This affects how names are assigned. Disable the hash randomisation for
+            # deterministic results.
+            export PYTHONHASHSEED=0
+          fi
+          
           ${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
 
   generate_report:
