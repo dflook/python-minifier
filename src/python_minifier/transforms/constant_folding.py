@@ -81,14 +81,23 @@ class FoldConstants(SuiteTransformer):
                 # In python code it should be '1e999+0j', which parses as a BinOp that the expression printer can handle.
                 # It's not worth fixing the expression printer to handle this case, since it is unlikely to occur in real code.
                 return node
-            raise
 
-        if isinstance(value, float) and math.isnan(value):
-            assert math.isnan(folded_value)
-        else:
-            assert folded_value == value and type(folded_value) == type(value)
+            # Some other NameError...
+            return node
+        except Exception:
+            return node
 
-        #print(f'{original_expression=}')
-        #print(f'{folded_expression=}')
+        # Check the folded value is the same as the original value
+        if not equal_value_and_type(folded_value, value):
+            return node
 
         return self.add_child(new_node, node.parent, node.namespace)
+
+def equal_value_and_type(a, b):
+    if type(a) != type(b):
+        return False
+
+    if isinstance(a, float) and math.isnan(a) and not math.isnan(b):
+        return False
+
+    return a == b

@@ -105,7 +105,7 @@ def minify(
     :param bool remove_debug: If conditional statements that test '__debug__ is True' should be removed
     :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
     :param bool remove_builtin_exception_brackets: If brackets should be removed when raising exceptions with no arguments
-    :param bool constant_folding: If constant expressions should be evaluated
+    :param bool constant_folding: If literal expressions should be evaluated
 
     :rtype: str
 
@@ -155,9 +155,7 @@ def minify(
         module = RemoveExplicitReturnNone()(module)
 
     if constant_folding:
-        #print(print_ast(module))
         module = FoldConstants()(module)
-        #print(print_ast(module))
 
     bind_names(module)
     resolve_names(module)
@@ -222,8 +220,6 @@ def unparse(module):
 
     printer = ModulePrinter()
     printer(module)
-
-    #print(printer.code)
 
     try:
         minified_module = ast.parse(printer.code, 'python_minifier.unparse output')
