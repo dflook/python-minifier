@@ -269,4 +269,4 @@ def suite() -> SearchStrategy:
 @composite
 def Module(draw) -> ast.Module:
     b = draw(lists(suite(), min_size=1, max_size=10))
-    return ast.Module(body=b)
+    return ast.Module(body=b, type_ignores=[])
