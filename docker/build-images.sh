@@ -26,6 +26,9 @@ docker build --tag danielflook/python-minifier-build:python3.10-$DATE -f Dockerf
 docker pull fedora:36
 docker build --tag danielflook/python-minifier-build:python3.11-$DATE -f Dockerfile-fedora36 --target python3.11 .
 
+docker pull fedora:38
+docker build --tag danielflook/python-minifier-build:fuzz-$DATE -f Dockerfile-fuzz --target fuzz .
+
 docker push danielflook/python-minifier-build:python3.3-$DATE
 docker push danielflook/python-minifier-build:python2.7-$DATE
 docker push danielflook/python-minifier-build:python3.4-$DATE
@@ -38,3 +41,4 @@ docker push danielflook/python-minifier-build:python3.10-$DATE
 docker push danielflook/python-minifier-build:python3.11-$DATE
 docker push danielflook/python-minifier-build:pypy-$DATE
 docker push danielflook/python-minifier-build:pypy3-$DATE
+docker push danielflook/python-minifier-build:fuzz-$DATE
