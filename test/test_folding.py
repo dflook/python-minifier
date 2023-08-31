@@ -1,4 +1,6 @@
 import ast
+import sys
+
 import pytest
 
 from python_minifier import add_namespace
@@ -12,6 +14,14 @@ def fold_constants(source):
     FoldConstants()(module)
     return module
 
+def run_test(source, expected):
+    try:
+        expected_ast = ast.parse(expected)
+    except SyntaxError:
+        pytest.skip('Syntax not supported in this version of python')
+
+    actual_ast = fold_constants(source)
+    compare_ast(expected_ast, actual_ast)
 
 @pytest.mark.parametrize('source,expected', [
     ('True | True', 'True'),
@@ -65,11 +75,11 @@ def test_bool(source, expected):
 
     This is mainly testing we fold the constants correctly
     """
-    expected_ast = ast.parse(expected)
-    actual_ast = fold_constants(
-        source
-    )
-    compare_ast(expected_ast, actual_ast)
+
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
 
 @pytest.mark.parametrize('source,expected', [
     ('10 + 10', '20'),
@@ -93,11 +103,8 @@ def test_int(source, expected):
     """
     Test BinOp with integer operands we can fold
     """
-    expected_ast = ast.parse(expected)
-    actual_ast = fold_constants(
-        source
-    )
-    compare_ast(expected_ast, actual_ast)
+
+    run_test(source, expected)
 
 @pytest.mark.parametrize('source,expected', [
     ('10/10', '10/10'),
@@ -111,26 +118,18 @@ def test_int_not_eval(source, expected):
     """
     Test BinOp with operations we don't want to fold
     """
-    expected_ast = ast.parse(expected)
-    actual_ast = fold_constants(
-        source
-    )
-    compare_ast(expected_ast, actual_ast)
+
+    run_test(source, expected)
 
 @pytest.mark.parametrize('source,expected', [
     ('"Hello" + "World"', '"Hello" + "World"'),
     ('"Hello" * 5', '"Hello" * 5'),
     ('b"Hello" + b"World"', 'b"Hello" + b"World"'),
     ('b"Hello" * 5', 'b"Hello" * 5'),
-
 ])
 def test_not_eval(source, expected):
     """
     Test BinOps we don't want to fold
     """
-    expected_ast = ast.parse(expected)
-    actual_ast = fold_constants(
-        source
-    )
-    compare_ast(expected_ast, actual_ast)
 
+    run_test(source, expected)
