@@ -4,7 +4,7 @@ This should pass typechecking
 
 import ast
 
-from python_minifier import minify, unparse, awslambda, RemoveAnnotationsOptions
+from python_minifier import minify, unparse, awslambda, RemoveAnnotationsOptions, RemoveLiteralStatementsOptions
 
 def test_typing() -> None:
     """ This should have good types """
@@ -42,3 +42,11 @@ def test_typing() -> None:
         remove_class_attribute_annotations=False
     )
     minify('pass', remove_annotations=annotation_options)
+
+
+    annotation_options = RemoveLiteralStatementsOptions(
+        remove_docstrings=True,
+        remove_module_docstrings=True,
+        remove_expression_statements=True
+    )
+    minify('pass', annotation_options=annotation_options)

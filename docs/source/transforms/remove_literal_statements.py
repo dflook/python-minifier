@@ -5,5 +5,13 @@ b'Bytes literal'
 0
 1000
 
-def test():
-    'Function docstring'
+...
+True
+False
+None
+
+class MyClass:
+    'my class docstring'
+
+    def test(self):
+        'Function docstring'
