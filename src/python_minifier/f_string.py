@@ -166,7 +166,13 @@ class FormattedValue(ExpressionPrinter):
         if self.is_curly(self.node.value):
             self.printer.delimiter(' ')
 
-        self._expression(self.node.value)
+        if is_ast_node(self.node.value, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(self.node.value)
+            self.printer.delimiter(')')
+
+        else:
+            self._expression(self.node.value)
 
         if self.node.conversion == 115:
             self.printer.append('!s', TokenTypes.Delimiter)

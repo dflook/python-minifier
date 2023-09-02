@@ -56,21 +56,46 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Expr)
 
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-            self._yield_expr(node.value)
+            self._yield_expression(node.value)
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
+        elif isinstance(node.value, ast.Tuple):
+            self.visit_Tuple(node.value)
         else:
-            self._testlist(node.value)
+            self._starred_expression(node.value)
 
         self.printer.end_statement()
 
     def visit_Assert(self, node):
+        """
+        Assert statement
+
+        assert_stmt ::= "assert" expression ["," expression]
+
+        https://docs.python.org/3.11/reference/simple_stmts.html#the-assert-statement
+        """
         assert isinstance(node, ast.Assert)
 
         self.printer.keyword('assert')
-        self._expression(node.test)
+
+        if is_ast_node(node.test, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.test)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.test)
 
         if node.msg:
             self.printer.delimiter(',')
-            self._expression(node.msg)
+
+            if is_ast_node(node.msg, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.msg)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.msg)
 
         self.printer.end_statement()
 
@@ -78,29 +103,45 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Assign)
 
         for target_node in node.targets:
-            self._testlist(target_node)
+            self._target_list(target_node)
             self.printer.delimiter('=')
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-            self._yield_expr(node.value)
+            self._yield_expression(node.value)
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
+        elif isinstance(node.value, ast.Tuple):
+            self.visit_Tuple(node.value)
         else:
-            self._testlist(node.value)
+            self._starred_expression(node.value)
 
         self.printer.end_statement()
 
     def visit_AugAssign(self, node):
         assert isinstance(node, ast.AugAssign)
 
-        self._testlist(node.target)
+        self._target_list(node.target)
         self.visit(node.op)
         self.printer.delimiter('=')
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
         if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
-            self._yield_expr(node.value)
+            self._yield_expression(node.value)
+
+        # NamedExpr nodes that are the sole node on the right hand side of an assignment MUST have parens
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
+
         else:
-            self._testlist(node.value)
+            if sys.version_info >= (3,9):
+                self._starred_list(node.value)  # still documented as expression_list
+            else:
+                self._expression_list(node.value)
 
         self.printer.end_statement()
 
@@ -116,12 +157,39 @@ class ModulePrinter(ExpressionPrinter):
 
         if node.annotation:
             self.printer.delimiter(':')
-            self._expression(node.annotation)
+            if is_ast_node(node.annotation, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.annotation)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.annotation)
 
         if node.value:
             self.printer.delimiter('=')
 
-            self._expression(node.value)
+            if isinstance(node.value, ast.Tuple):
+                if sys.version_info < (3, 8) and len(node.value.elts) != 0:
+                    self.printer.delimiter('(')
+                    self.visit_Tuple(node.value)
+                    self.printer.delimiter(')')
+                else:
+                    self.visit_Tuple(node.value)
+            elif is_ast_node(node.value, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.value)
+                self.printer.delimiter(')')
+            elif is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
+                if sys.version_info >= (3, 8):
+                    self._yield_expression(node.value)
+                else:
+                    self.printer.delimiter('(')
+                    self._yield_expression(node.value)
+                    self.printer.delimiter(')')
+            else:
+                if sys.version_info >= (3, 8):
+                    self._starred_expression(node.value)
+                else:
+                    self._expression_list(node.value)
 
         self.printer.end_statement()
 
@@ -135,22 +203,25 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.Delete)
 
         self.printer.keyword('del')
-        self._exprlist(node.targets)
+        self._target_list(node.targets)
         self.printer.end_statement()
 
     def visit_Return(self, node):
         assert isinstance(node, ast.Return)
 
         self.printer.keyword('return')
-        if isinstance(node.value, ast.Tuple):
-            if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
+
+        if node.value is not None:
+            if is_ast_node(node.value, 'NamedExpr'):
                 self.printer.delimiter('(')
-                self._testlist(node.value)
+                self.visit_NamedExpr(node.value)
                 self.printer.delimiter(')')
             else:
-                self._testlist(node.value)
-        elif node.value is not None:
-            self._testlist(node.value)
+                if sys.version_info < (3, 8):
+                    self._expression_list(node.value)
+                else:
+                    self._starred_list(node.value)
+
         self.printer.end_statement()
 
     def visit_Print(self, node):
@@ -177,13 +248,13 @@ class ModulePrinter(ExpressionPrinter):
     def visit_Yield(self, node):
         assert isinstance(node, ast.Yield)
 
-        self._yield_expr(node)
+        self._yield_expression(node)
         self.printer.end_statement()
 
     def visit_YieldFrom(self, node):
         assert isinstance(node, ast.YieldFrom)
 
-        self._yield_expr(node)
+        self._yield_expression(node)
         self.printer.end_statement()
 
     def visit_Raise(self, node):
@@ -207,11 +278,21 @@ class ModulePrinter(ExpressionPrinter):
             # Python3
 
             if node.exc:
-                self._expression(node.exc)
+                if is_ast_node(node.exc, 'NamedExpr'):
+                    self.printer.delimiter('(')
+                    self.visit_NamedExpr(node.exc)
+                    self.printer.delimiter(')')
+                else:
+                    self._expression(node.exc)
 
             if node.cause:
                 self.printer.keyword('from')
-                self._expression(node.cause)
+                if is_ast_node(node.cause, 'NamedExpr'):
+                    self.printer.delimiter('(')
+                    self.visit_NamedExpr(node.cause)
+                    self.printer.delimiter(')')
+                else:
+                    self._expression(node.cause)
 
         self.printer.end_statement()
 
@@ -309,7 +390,7 @@ class ModulePrinter(ExpressionPrinter):
         else:
             self.printer.keyword('if')
 
-        self._expression(node.test)
+        self._assignment_expression(node.test)
         self.printer.delimiter(':')
 
         self._suite(node.body)
@@ -334,9 +415,17 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.keyword('async')
 
         self.printer.keyword('for')
-        self._exprlist([node.target])
+        self._target_list(node.target)
         self.printer.keyword('in')
-        self._expression(node.iter)
+
+        if is_ast_node(node.iter, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.iter)
+            self.printer.delimiter(')')
+        elif sys.version_info >= (3, 9):
+            self._starred_list(node.iter)
+        else:
+            self._expression_list(node.iter)
         self.printer.delimiter(':')
 
         self._suite(node.body)
@@ -352,7 +441,7 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.newline()
         self.printer.keyword('while')
-        self._expression(node.test)
+        self._assignment_expression(node.test)
         self.printer.delimiter(':')
         self._suite(node.body)
 
@@ -425,7 +514,12 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.operator('*')
 
         if node.type is not None:
-            self._expression(node.type)
+            if is_ast_node(node.type, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.type)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.type)
 
         if node.name is not None:
             self.printer.keyword('as')
@@ -462,16 +556,33 @@ class ModulePrinter(ExpressionPrinter):
                     self.printer.delimiter(')')
                 else:
                     self.visit_withitem(item)
-        else:
-            self.visit_withitem(node)
 
-        self.printer.delimiter(':')
-        self._suite(node.body)
+            self.printer.delimiter(':')
+            self._suite(node.body)
+
+        else:
+
+            def python2_nested_with(node):
+                self.visit_withitem(node)
+                if len(node.body) == 1 and isinstance(node.body[0], ast.With):
+                    self.printer.delimiter(',')
+                    python2_nested_with(node.body[0])
+                else:
+                    self.printer.delimiter(':')
+                    self._suite(node.body)
+
+            python2_nested_with(node)
+
 
     def visit_withitem(self, node):
         assert (hasattr(ast, 'withitem') and isinstance(node, ast.withitem)) or isinstance(node, ast.With)
 
-        self._expression(node.context_expr)
+        if is_ast_node(node.context_expr, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.context_expr)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.context_expr)
 
         if node.optional_vars is not None:
             self.printer.keyword('as')
@@ -486,7 +597,7 @@ class ModulePrinter(ExpressionPrinter):
 
         for d in node.decorator_list:
             self.printer.operator('@')
-            self._expression(d)
+            self._assignment_expression(d)
             self.printer.newline()
 
         if is_async:
@@ -500,7 +611,12 @@ class ModulePrinter(ExpressionPrinter):
 
         if hasattr(node, 'returns') and node.returns is not None:
             self.printer.delimiter('->')
-            self._expression(node.returns)
+            if is_ast_node(node.returns, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.returns)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.returns)
             self.printer.delimiter(':')
         else:
             self.printer.delimiter(':')
@@ -517,7 +633,7 @@ class ModulePrinter(ExpressionPrinter):
 
         for d in node.decorator_list:
             self.printer.operator('@')
-            self._expression(d)
+            self._assignment_expression(d)
             self.printer.newline()
 
         self.printer.keyword('class')

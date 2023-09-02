@@ -14,6 +14,7 @@ class ExpressionPrinter(object):
     def __init__(self):
 
         self.precedences = {
+            'NamedExpr': 1,  # NamedExpr
             'Lambda': 2,  # Lambda
             'IfExp': 3,  # IfExp
             'comprehension': 3.5,
@@ -128,7 +129,7 @@ class ExpressionPrinter(object):
 
     def visit_List(self, node):
         self.printer.delimiter('[')
-        self._exprlist(node.elts)
+        self._starred_list(node.elts)
         self.printer.delimiter(']')
 
     def visit_Tuple(self, node):
@@ -138,14 +139,25 @@ class ExpressionPrinter(object):
             self.printer.delimiter(')')
             return
 
-        self._exprlist(node.elts)
+        if [n for n in node.elts if is_ast_node(n, 'NamedExpr')]:
+            self.printer.delimiter('(')
+            delimiter = Delimiter(self.printer)
+            for expr in node.elts:
+                delimiter.new_item()
+                self._expression(expr)
+            self.printer.delimiter(')')
+        else:
+            delimiter = Delimiter(self.printer)
+            for expr in node.elts:
+                delimiter.new_item()
+                self._expression(expr)
 
         if len(node.elts) == 1:
             self.printer.delimiter(',')
 
     def visit_Set(self, node):
         self.printer.delimiter('{')
-        self._exprlist(node.elts)
+        self._starred_list(node.elts)
         self.printer.delimiter('}')
 
     def visit_Dict(self, node):
@@ -156,17 +168,32 @@ class ExpressionPrinter(object):
             if key is None:
                 self.printer.operator('**')
 
-                if 0 < self.precedence(datum) <=7:
+                if 0 < self.precedence(datum) <= 7:
+                    self.printer.delimiter('(')
+                    self._expression(datum)
+                    self.printer.delimiter(')')
+                else:
+                    if is_ast_node(datum, 'NamedExpr'):
+                        self.printer.delimiter('(')
+                        self._expression(datum)
+                        self.printer.delimiter(')')
+                    else:
+                        self._expression(datum)
+            else:
+                if is_ast_node(key, 'NamedExpr'):
+                    self.printer.delimiter('(')
+                    self._expression(key)
+                    self.printer.delimiter(')')
+                else:
+                    self._expression(key)
+                self.printer.delimiter(':')
+
+                if is_ast_node(datum, 'NamedExpr'):
                     self.printer.delimiter('(')
                     self._expression(datum)
                     self.printer.delimiter(')')
                 else:
                     self._expression(datum)
-            else:
-                self._expression(key)
-                self.printer.delimiter(':')
-
-                self._expression(datum)
 
         self.printer.delimiter('{')
 
@@ -407,6 +434,12 @@ class ExpressionPrinter(object):
         if node.arg is None:
             self.printer.operator('**')
             self._expression(node.value)
+        elif is_ast_node(node.value, 'NamedExpr'):
+            self.printer.identifier(node.arg)
+            self.printer.delimiter('=')
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
         else:
             self.printer.identifier(node.arg)
             self.printer.delimiter('=')
@@ -414,7 +447,12 @@ class ExpressionPrinter(object):
 
     def visit_IfExp(self, node):
 
-        self._rhs(node.body, node)
+        if isinstance(node.body, ast.IfExp):
+            self.printer.delimiter('(')
+            self._lhs(node.body, node)
+            self.printer.delimiter(')')
+        else:
+            self._lhs(node.body, node)
 
         self.printer.keyword('if')
 
@@ -422,7 +460,12 @@ class ExpressionPrinter(object):
 
         self.printer.keyword('else')
 
-        self._expression(node.orelse)
+        if is_ast_node(node.orelse, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.orelse)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.orelse)
 
     def visit_Attribute(self, node):
         value_precedence = self.precedence(node.value)
@@ -465,7 +508,25 @@ class ExpressionPrinter(object):
         elif isinstance(node.slice, ast.Ellipsis):
             self.visit_Ellipsis(node)
         elif sys.version_info >= (3, 9) and isinstance(node.slice, ast.Tuple):
-            self.visit_Tuple(node.slice)
+            contains_starred = False
+            if [n for n in node.slice.elts if is_ast_node(n, 'Starred')]:
+                contains_starred = True
+                self.printer.delimiter('(')
+
+            with Delimiter(self.printer) as delimiter:
+                for expr in node.slice.elts:
+                    delimiter.new_item()
+                    self._expression(expr)
+
+            if len(node.slice.elts) == 0:
+                self.printer.delimiter('(')
+                self.printer.delimiter(')')
+            elif len(node.slice.elts) == 1:
+                self.printer.delimiter(',')
+
+            if contains_starred:
+                self.printer.delimiter(')')
+
         elif sys.version_info >= (3, 9):
             self._expression(node.slice)
         else:
@@ -474,25 +535,53 @@ class ExpressionPrinter(object):
         self.printer.delimiter(']')
 
     def visit_Index(self, node):
-        self._expression(node.value)
+        if isinstance(node.value, ast.Tuple):
+            self.printer.delimiter('(')
+            self.visit_Tuple(node.value)
+            self.printer.delimiter(')')
+        else:
+            self._expression_list(node.value)
 
     def visit_Slice(self, node):
         if node.lower:
-            self._expression(node.lower)
+            if is_ast_node(node.lower, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.lower)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.lower)
         self.printer.delimiter(':')
 
         if node.upper:
-            self._expression(node.upper)
+            if is_ast_node(node.upper, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.upper)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.upper)
+
         if node.step:
             self.printer.delimiter(':')
-            self._expression(node.step)
+            if is_ast_node(node.step, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.step)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.step)
 
     def visit_ExtSlice(self, node):
 
         delimiter = Delimiter(self.printer)
         for s in node.dims:
+            assert isinstance(s, (ast.Index, ast.Slice, ast.Ellipsis))
+
             delimiter.new_item()
-            self._expression(s)
+            if isinstance(s, ast.Index):
+                self.visit_Index(s)
+            elif isinstance(s, ast.Slice):
+                self.visit_Slice(s)
+            elif isinstance(s, ast.Ellipsis):
+                self.visit_Ellipsis(s)
 
         if len(node.dims) == 1:
             self.printer.delimiter(',')
@@ -526,7 +615,13 @@ class ExpressionPrinter(object):
 
     def visit_DictComp(self, node):
         self.printer.delimiter('{')
-        self._expression(node.key)
+
+        if 0 < self.precedence(node.key) < 3:
+            self.printer.delimiter('(')
+            self._expression(node.key)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.key)
         self.printer.delimiter(':')
         self._expression(node.value)
         [self.visit_comprehension(x) for x in node.generators]
@@ -539,7 +634,7 @@ class ExpressionPrinter(object):
             self.printer.keyword('async')
 
         self.printer.keyword('for')
-        self._exprlist([node.target])
+        self._target_list(node.target)
         self.printer.keyword('in')
 
         self._rhs(node.iter, node)
@@ -561,7 +656,12 @@ class ExpressionPrinter(object):
 
         self.printer.delimiter(':')
 
-        self._expression(node.body)
+        if is_ast_node(node.body, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.body)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.body)
 
     def visit_arguments(self, node):
         args = getattr(node, 'posonlyargs', []) + node.args
@@ -576,7 +676,13 @@ class ExpressionPrinter(object):
 
             if i >= count_no_defaults:
                 self.printer.delimiter('=')
-                self._expression(node.defaults[i - count_no_defaults])
+                default = node.defaults[i - count_no_defaults]
+                if is_ast_node(default, 'NamedExpr'):
+                    self.printer.delimiter('(')
+                    self.visit_NamedExpr(default)
+                    self.printer.delimiter(')')
+                else:
+                    self._expression(node.defaults[i - count_no_defaults])
 
             if hasattr(node, 'posonlyargs') and node.posonlyargs and i + 1 == len(node.posonlyargs):
                 self.printer.delimiter(',')
@@ -635,7 +741,12 @@ class ExpressionPrinter(object):
 
         if node.annotation:
             self.printer.delimiter(':')
-            self._expression(node.annotation)
+            if is_ast_node(node.annotation, 'NamedExpr'):
+                self.printer.delimiter('(')
+                self.visit_NamedExpr(node.annotation)
+                self.printer.delimiter(')')
+            else:
+                self._expression(node.annotation)
 
     def visit_Repr(self, node):
         self.printer.delimiter('`')
@@ -648,48 +759,154 @@ class ExpressionPrinter(object):
         self._expression(node.body)
 
     def _expression(self, expression):
+        """
+        An `expression` in the python grammer.
+
+        Tuples must be parenthesized.
+        Yield/YieldFrom must be parenthesized.
+        """
+
         if is_ast_node(expression, (ast.Yield, 'YieldFrom')):
             self.printer.delimiter('(')
-            self._yield_expr(expression)
+            self._yield_expression(expression)
             self.printer.delimiter(')')
         elif isinstance(expression, ast.Tuple) and len(expression.elts) > 0:
             self.printer.delimiter('(')
             self.visit_Tuple(expression)
             self.printer.delimiter(')')
-        elif is_ast_node(expression, 'NamedExpr'):
-            self.printer.delimiter('(')
-            self.visit_NamedExpr(expression)
-            self.printer.delimiter(')')
+        #elif is_ast_node(expression, 'NamedExpr'):
+            #self.printer.delimiter('(')
+        #    self.visit_NamedExpr(expression)
+            #self.printer.delimiter(')')
         else:
             self.visit(expression)
 
     def _testlist(self, test):
         if is_ast_node(test, (ast.Yield, 'YieldFrom')):
             self.printer.delimiter('(')
-            self._yield_expr(test)
-            self.printer.delimiter(')')
-        elif is_ast_node(test, 'NamedExpr'):
-            self.printer.delimiter('(')
-            self.visit_NamedExpr(test)
+            self._yield_expression(test)
             self.printer.delimiter(')')
         else:
             self.visit(test)
 
-    def _exprlist(self, exprlist):
-        delimiter = Delimiter(self.printer)
-        for expr in exprlist:
-            delimiter.new_item()
-            self._expression(expr)
+    # region Grammar elements
+    def _expression_list(self, exprlist):
+        """
+        An 'expression_list' in the grammar
 
-    def _yield_expr(self, yield_node):
+        This may be a single expression or a list of expressions.
+        If it is a list of expressions the exprlist is a Tuple node, which does not need to be enclosed by parentheses.
+        An empty tuple needs to be printed as '()'
+        A tuple with a single element needs to have a trailing comma
+
+        If the list contains a starred expression, it needs to be parenthesized.
+        """
+
+        if isinstance(exprlist, ast.Tuple):
+
+            contains_starred = False
+            if [n for n in exprlist.elts if is_ast_node(n, 'Starred')]:
+                contains_starred = True
+
+            with Delimiter(self.printer, add_parens=contains_starred) as delimiter:
+                for expr in exprlist.elts:
+                    delimiter.new_item()
+                    self._expression(expr)
+
+            if len(exprlist.elts) == 0:
+                self.printer.delimiter('(')
+                self.printer.delimiter(')')
+                return
+
+            if len(exprlist.elts) == 1:
+                self.printer.delimiter(',')
+
+        elif isinstance(exprlist, list):
+            delimiter = Delimiter(self.printer)
+            for e in exprlist:
+                delimiter.new_item()
+                self._expression(e)
+        else:
+            if is_ast_node(exprlist, 'Starred'):
+                self.printer.delimiter('(')
+                self._expression(exprlist)
+                self.printer.delimiter(')')
+            else:
+                self._expression(exprlist)
+
+    def _starred_list(self, exprlist):
+        """
+        A 'starred_list' in the grammar
+
+        This is very similar to an expression_list, but it may contain a starred expression without being parenthesized.
+        """
+
+        if isinstance(exprlist, ast.Tuple):
+            delimiter = Delimiter(self.printer)
+            for expr in exprlist.elts:
+                delimiter.new_item()
+                self._expression(expr)
+
+            if len(exprlist.elts) == 0:
+                self.printer.delimiter('(')
+                self.printer.delimiter(')')
+                return
+
+            if len(exprlist.elts) == 1:
+                self.printer.delimiter(',')
+
+        elif isinstance(exprlist, list):
+            delimiter = Delimiter(self.printer)
+            for e in exprlist:
+                delimiter.new_item()
+                self._expression(e)
+        else:
+            self._expression(exprlist)
+
+    def _target_list(self, target_list):
+        """
+        A 'target_list' in the grammar
+        """
+        return self._starred_list(target_list)
+
+    def _starred_expression(self, starred_expression):
+        """
+        A 'starred_expression' in the grammar
+        """
+        return self._expression(starred_expression)
+
+    def _assignment_expression(self, assignment_expression):
+        """
+        An 'assignment_expression' in the grammar
+        """
+        if is_ast_node(assignment_expression, 'NamedExpr'):
+            self.visit_NamedExpr(assignment_expression)
+        else:
+            self._expression(assignment_expression)
+
+    def _yield_expression(self, yield_node):
         if isinstance(yield_node, ast.Yield):
             self.printer.keyword('yield')
         elif isinstance(yield_node, ast.YieldFrom):
             self.printer.keyword('yield')
             self.printer.keyword('from')
 
-        if yield_node.value is not None:
+        if yield_node.value is None:
+            return
+
+        if is_ast_node(yield_node.value, 'NamedExpr'):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(yield_node.value)
+            self.printer.delimiter(')')
+        elif is_ast_node(yield_node, ast.Yield):
+            if sys.version_info < (3, 8):
+                self._expression_list(yield_node.value)
+            else:
+                self._starred_list(yield_node.value)
+        elif is_ast_node(yield_node, 'YieldFrom'):
             self._expression(yield_node.value)
+
+    # endregion
 
     @staticmethod
     def _is_right_associative(operator):
@@ -740,7 +957,12 @@ class ExpressionPrinter(object):
     def visit_NamedExpr(self, node):
         self._expression(node.target)
         self.printer.operator(':=')
-        self._expression(node.value)
+        if isinstance(node.value, ast.NamedExpr):
+            self.printer.delimiter('(')
+            self.visit_NamedExpr(node.value)
+            self.printer.delimiter(')')
+        else:
+            self._expression(node.value)
 
     def visit_Await(self, node):
         assert isinstance(node, ast.Await)
