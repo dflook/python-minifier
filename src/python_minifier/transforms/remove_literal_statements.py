@@ -29,9 +29,12 @@ class RemoveLiteralStatements(SuiteTransformer):
     This includes docstrings
     """
 
+    def __init__(self):
+        super().__init__()
+        self.doc_in_module = False
+
     def __call__(self, node):
-        if _doc_in_module(node):
-            return node
+        self.doc_in_module = _doc_in_module(node)
         return self.visit(node)
 
     def visit_Module(self, node):
@@ -50,7 +53,15 @@ class RemoveLiteralStatements(SuiteTransformer):
         return is_ast_node(node.value, (ast.Num, ast.Str, 'NameConstant', 'Bytes'))
 
     def suite(self, node_list, parent):
-        without_literals = [self.visit(n) for n in node_list if not self.is_literal_statement(n)]
+        without_literals = []
+
+        for node in node_list:
+            if self.is_literal_statement(node):
+                if self.doc_in_module and is_ast_node(node.value, ast.Str):
+                    node.value.value = 'doc-string stripped by python-minifier'
+                    without_literals.append(node)
+            else:
+                without_literals.append(self.visit(node))
 
         if len(without_literals) == 0:
             if isinstance(parent, ast.Module):
