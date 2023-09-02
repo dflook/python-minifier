@@ -190,6 +190,12 @@ def parse_args():
         help='Disable removing brackets when raising builtin exceptions with no arguments',
         dest='remove_exception_brackets',
     )
+    minification_options.add_argument(
+        '--no-constant-folding',
+        action='store_false',
+        help='Disable evaluating literal expressions',
+        dest='constant_folding',
+    )
 
     annotation_options = parser.add_argument_group('remove annotations options', 'Options that affect how annotations are removed')
     annotation_options.add_argument(
@@ -308,7 +314,8 @@ def do_minify(source, filename, minification_args):
         remove_asserts=minification_args.remove_asserts,
         remove_debug=minification_args.remove_debug,
         remove_explicit_return_none=minification_args.remove_explicit_return_none,
-        remove_builtin_exception_brackets=minification_args.remove_exception_brackets
+        remove_builtin_exception_brackets=minification_args.remove_exception_brackets,
+        constant_folding=minification_args.constant_folding
     )
 
 

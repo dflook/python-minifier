@@ -19,6 +19,7 @@ They can be enabled or disabled through the minify function, or passing options 
    convert_posargs_to_args
    preserve_shebang
    remove_explicit_return_none
+   constant_folding
 
 .. toctree::
    :caption: Disabled by default

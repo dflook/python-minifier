@@ -1,0 +1,16 @@
+FROM fedora:38 AS fuzz
+
+RUN dnf install -y \
+      python3 \
+      python3-pip \
+  && dnf clean all && rm -rf /var/cache/dnf/*
+
+RUN pip install hypothesis[cli] hypofuzz
+
+COPY fuzz.sh /fuzz.sh
+
+WORKDIR /tmp/work
+ENTRYPOINT ["/fuzz.sh"]
+
+EXPOSE 9999/tcp
+VOLUME /tmp/work

@@ -240,12 +240,14 @@ def arguments(draw, for_lambda=False) -> ast.arguments:
     allow_annotation = False if for_lambda else True
 
     args = draw(lists(arg(allow_annotation), max_size=2))
+    posonlyargs = draw(lists(arg(allow_annotation), max_size=2))
     kwonlyargs = draw(lists(arg(allow_annotation), max_size=2))
     vararg = draw(none() | arg(allow_annotation))
     kwarg = draw(none() | arg(allow_annotation))
     defaults=[]
     kw_defaults=draw(lists(none() | expression(), max_size=len(kwonlyargs), min_size=len(kwonlyargs)))
     return ast.arguments(
+        posonlyargs=posonlyargs,
         args=args,
         vararg=vararg,
         kwonlyargs=kwonlyargs,
