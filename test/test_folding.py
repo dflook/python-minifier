@@ -98,6 +98,7 @@ def test_bool(source, expected):
     ('0xf0|0x0f', '0xff'),
     ('10%2', '0'),
     ('10%3', '1'),
+    ('10-100', '-90')
 ])
 def test_int(source, expected):
     """

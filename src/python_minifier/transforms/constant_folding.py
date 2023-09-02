@@ -1,10 +1,11 @@
 import ast
 import math
+import sys
 
+from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.transforms.suite_transformer import SuiteTransformer
 from python_minifier.util import is_ast_node
-
 
 class FoldConstants(SuiteTransformer):
     """
@@ -36,61 +37,60 @@ class FoldConstants(SuiteTransformer):
             # It can also be slow to evaluate
             return node
 
-        expression_printer = ExpressionPrinter()
-
+        # Evaluate the expression
         try:
-            original_expression = expression_printer(node)
-            globals = {}
-            locals = {}
-            value = eval(original_expression, globals, locals)
-        except Exception as e:
+            original_expression = unparse_expression(node)
+            original_value = safe_eval(original_expression)
+        except Exception:
             return node
 
-        if isinstance(value, float) and math.isnan(value):
+        # Choose the best representation of the value
+        if isinstance(original_value, float) and math.isnan(original_value):
             # There is no nan literal.
-            new_node = ast.Call(func=ast.Name(id='float', ctx=ast.Load()), args=[ast.Str(s='nan')], keywords=[])
-        elif isinstance(value, bool):
-            new_node = ast.NameConstant(value=value)
-        elif isinstance(value, (int, float, complex)):
+            # we could use float('nan'), but that complicates folding as it's not a Constant
+            return node
+        elif isinstance(original_value, bool):
+            new_node = ast.NameConstant(value=original_value)
+        elif isinstance(original_value, (int, float, complex)):
             try:
-                if repr(value).startswith('-'):
+                if repr(original_value).startswith('-') and not sys.version_info < (3, 0):
                     # Represent negative numbers as a USub UnaryOp, so that the ast roundtrip is correct
-                    new_node = ast.UnaryOp(op=ast.USub(), operand=ast.Num(n=-value))
+                    new_node = ast.UnaryOp(op=ast.USub(), operand=ast.Num(n=-original_value))
                 else:
-                    new_node = ast.Num(n=value)
+                    new_node = ast.Num(n=original_value)
             except Exception:
                 # repr(value) failed, most likely due to some limit
                 return node
         else:
             return node
 
-        expression_printer = ExpressionPrinter()
-        folded_expression = expression_printer(new_node)
+        # Evaluate the new value representation
+        try:
+            folded_expression = unparse_expression(new_node)
+            folded_value = safe_eval(folded_expression)
+        except Exception as e:
+            # This can happen if the value is too large to be represented as a literal
+            # or if the value is unparsed as nan, inf or -inf - which are not valid python literals
+            return node
 
         if len(folded_expression) >= len(original_expression):
             # Result is not shorter than original expression
             return node
 
+        # Check the folded expression parses back to the same AST
         try:
-            globals = {'__builtins__': {'float': float}}
-            locals = {}
-            folded_value = eval(folded_expression, globals, locals)
-        except NameError as ne:
-            if ne.name in ['inf', 'infj', 'nan']:
-                # When the value is something like inf+0j the expression printer will print it that way, which is not valid Python.
-                # In python code it should be '1e999+0j', which parses as a BinOp that the expression printer can handle.
-                # It's not worth fixing the expression printer to handle this case, since it is unlikely to occur in real code.
-                return node
-
-            # Some other NameError...
-            return node
+            folded_ast = ast.parse(folded_expression, 'folded expression', mode='eval')
+            compare_ast(new_node, folded_ast.body)
         except Exception:
+            # This can happen if the printed value doesn't parse back to the same AST
+            # e.g. complex numbers can be parsed as BinOp
             return node
 
         # Check the folded value is the same as the original value
-        if not equal_value_and_type(folded_value, value):
+        if not equal_value_and_type(folded_value, original_value):
             return node
 
+        # New representation is shorter and has the same value, so use it
         return self.add_child(new_node, node.parent, node.namespace)
 
 def equal_value_and_type(a, b):
@@ -101,3 +101,14 @@ def equal_value_and_type(a, b):
         return False
 
     return a == b
+
+def safe_eval(expression):
+    globals = {}
+    locals = {}
+
+    # This will return the value, or could raise an exception
+    return eval(expression, globals, locals)
+
+def unparse_expression(node):
+    expression_printer = ExpressionPrinter()
+    return expression_printer(node)
