@@ -104,14 +104,14 @@ jobs:
 
       - name: Install package
         run: |
-          pip3.11 install dist/*${{ matrix.package_type }}
+          pip3.12 install dist/*${{ matrix.package_type }}
 
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Test typing
         run: |
-          pip3.11 install mypy types-setuptools
+          pip3.12 install mypy types-setuptools
           mypy --strict typing_test/test_typing.py
 
           if mypy --strict typing_test/test_badtyping.py; then

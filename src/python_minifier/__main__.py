@@ -1,18 +1,24 @@
 from __future__ import print_function
 
-import sys
-import os
-
 import argparse
-from pkg_resources import get_distribution, DistributionNotFound
+import os
+import sys
 
 from python_minifier import minify
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 
-try:
-    version = get_distribution('python_minifier').version
-except DistributionNotFound:
-    version = '0.0.0'
+if sys.version_info >= (3, 8):
+    from importlib import metadata
+    try:
+        version = metadata.version('python-minifier')
+    except metadata.PackageNotFoundError:
+        version = '0.0.0'
+else:
+    from pkg_resources import get_distribution, DistributionNotFound
+    try:
+        version = get_distribution('python_minifier').version
+    except DistributionNotFound:
+        version = '0.0.0'
 
 
 def main():
@@ -68,6 +74,7 @@ examples:
                     f.write(minified)
             else:
                 sys.stdout.write(minified)
+
 
 def parse_args():
     parser = argparse.ArgumentParser(prog='pyminify', description='Minify Python source code', formatter_class=argparse.RawDescriptionHelpFormatter, epilog=main.__doc__)
@@ -253,6 +260,7 @@ def parse_args():
 
     return args
 
+
 def source_modules(args):
 
     def error(os_error):
@@ -266,6 +274,7 @@ def source_modules(args):
                         yield os.path.join(root, file)
         else:
             yield path_arg
+
 
 def do_minify(source, filename, minification_args):
 
