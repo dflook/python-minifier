@@ -25,8 +25,8 @@ jobs:
 
       - name: Build package
         run: |
-          pip3 install --upgrade setuptools wheel
-          python3 setup.py sdist bdist_wheel --universal
+          pip3 install --upgrade build
+          python3 -m build
 
       - uses: actions/upload-artifact@v3
         with:

@@ -35,7 +35,7 @@ jobs:
             (cd /usr/lib64/pypy3-7.0/lib-python/3/test && pypy3 make_ssl_certs.py)
           fi
           
-          tox -r -e $(echo "${{ matrix.python }}" | tr -d .) xtest
+          tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- xtest
 
   test-corpus:
     needs: test
