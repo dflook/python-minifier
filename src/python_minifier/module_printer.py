@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 import sys
 
 from .expression_printer import ExpressionPrinter
@@ -440,7 +440,7 @@ class ModulePrinter(ExpressionPrinter):
         self._suite(node.body)
 
     def visit_With(self, node, is_async=False):
-        assert isinstance(node, ast.With) or (hasattr(ast, 'AsyncWith') and isinstance(node, ast.AsyncWith))
+        assert is_ast_node(node, (ast.With, 'AsyncWith'))
 
         self.printer.newline()
 
@@ -469,7 +469,7 @@ class ModulePrinter(ExpressionPrinter):
         self._suite(node.body)
 
     def visit_withitem(self, node):
-        assert (hasattr(ast, 'withitem') and isinstance(node, ast.withitem)) or isinstance(node, ast.With)
+        assert is_ast_node(node, ('withitem', ast.With))
 
         self._expression(node.context_expr)
 
@@ -478,9 +478,7 @@ class ModulePrinter(ExpressionPrinter):
             self._expression(node.optional_vars)
 
     def visit_FunctionDef(self, node, is_async=False):
-        assert isinstance(node, ast.FunctionDef) or (
-            hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef)
-        )
+        assert is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef'))
 
         self.printer.newline()
 

@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 def is_ast_node(node, types):
     """
@@ -32,16 +32,16 @@ def is_ast_node(node, types):
         return True
 
     if hasattr(ast, 'Constant') and isinstance(node, ast.Constant):
-        if node.value in [None, True, False]:
-            return ast.NameConstant in types
+        if type(node.value) in [type(None), type(True), type(False)]:
+            return ast.NameConstant in actual_types
         elif isinstance(node.value, (int, float, complex)):
-            return ast.Num in types
+            return ast.Num in actual_types
         elif isinstance(node.value, str):
-            return ast.Str in types
+            return ast.Str in actual_types
         elif isinstance(node.value, bytes):
-            return ast.Bytes in types
+            return ast.Bytes in actual_types
         elif node.value == Ellipsis:
-            return ast.Ellipsis in types
+            return ast.Ellipsis in actual_types
         else:
             raise RuntimeError('Unknown Constant value %r' % type(node.value))
 

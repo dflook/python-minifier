@@ -10,7 +10,7 @@ fields or field names may be omitted for clarity. It should still be precise and
 
 """
 
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.util import is_ast_node
 
@@ -67,10 +67,10 @@ def is_literal(node, field):
     if hasattr(ast, 'Constant') and isinstance(node, ast.Constant) and field == 'value':
         return True
 
-    if isinstance(node, ast.Num) and field == 'n':
+    if is_ast_node(node, ast.Num) and field == 'n':
         return True
 
-    if isinstance(node, ast.Str) and field == 's':
+    if is_ast_node(node, ast.Str) and field == 's':
         return True
 
     if is_ast_node(node, 'Bytes') and field == 's':

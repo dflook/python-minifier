@@ -6,7 +6,7 @@ Mostly because FStrings feel like a hack.
 
 """
 
-import ast
+import python_minifier.ast_compat as ast
 import copy
 import re
 

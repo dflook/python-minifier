@@ -2,7 +2,7 @@
 For each node in an AST set the namespace to use for name binding and resolution
 """
 
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.util import is_namespace
 from python_minifier.util import is_ast_node

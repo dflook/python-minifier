@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 import sys
 
 from python_minifier.util import is_ast_node
