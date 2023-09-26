@@ -61,6 +61,10 @@ def add_parent_to_functiondef(functiondef):
     for node in functiondef.decorator_list:
         add_parent(node, parent=functiondef, namespace=functiondef.namespace)
 
+    if hasattr(functiondef, 'type_params') and functiondef.type_params is not None:
+        for node in functiondef.type_params:
+            add_parent(node, parent=functiondef, namespace=functiondef.namespace)
+
     if hasattr(functiondef, 'returns') and functiondef.returns is not None:
         add_parent(functiondef.returns, parent=functiondef, namespace=functiondef.namespace)
 
@@ -88,6 +92,10 @@ def add_parent_to_classdef(classdef):
 
     for node in classdef.decorator_list:
         add_parent(node, parent=classdef, namespace=classdef.namespace)
+
+    if hasattr(classdef, 'type_params') and classdef.type_params is not None:
+        for node in classdef.type_params:
+            add_parent(node, parent=classdef, namespace=classdef.namespace)
 
 def add_parent_to_comprehension(node, namespace):
     assert is_ast_node(node, (ast.GeneratorExp, 'SetComp', 'DictComp', 'ListComp'))
