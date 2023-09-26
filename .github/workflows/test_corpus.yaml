@@ -41,10 +41,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     container:
-      image: danielflook/python-minifier-build:${{ matrix.python }}-2023-09-25
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2023-09-25
       volumes:
         - /corpus:/corpus
         - /corpus-results:/corpus-results
@@ -70,18 +70,18 @@ jobs:
           cat sha.txt
           VERSION=0.0.0
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" python-minifier/setup.py
-          (cd python-minifier && ${{matrix.python}} setup.py install)
+          (cd python-minifier && pip${{ matrix.python }} install .)
 
       - name: Run tests
         run: |
-          if [[ "${{ matrix.python }}" == "python3.3" || "${{ matrix.python }}" == "python3.4" || "${{ matrix.python }}" == "python3.5" ]]; then
+          if [[ "${{ matrix.python }}" == "3.3" || "${{ matrix.python }}" == "3.4" || "${{ matrix.python }}" == "3.5" ]]; then
             # These versions randomise the hash seed, but don't preserve dict order
             # This affects how names are assigned. Disable the hash randomisation for
             # deterministic results.
             export PYTHONHASHSEED=0
           fi
           
-          ${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
+          python${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
 
   generate_report:
     name: Generate Report
@@ -125,4 +125,4 @@ jobs:
 
       - name: Generate Report
         run: |
-          python3.11 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
+          python3.12 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
