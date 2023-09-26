@@ -12,25 +12,29 @@ from ast import *
 
 if 'TypeAlias' in globals():
 
-    Constant.n = property(lambda self: self.value, lambda self, value: setattr(self, 'value', value))
-    Constant.s = property(lambda self: self.value, lambda self, value: setattr(self, 'value', value))
+    # Add n and s properties to Constant so it can stand in for Num, Str and Bytes
+    Constant.n = property(lambda self: self.value, lambda self, value: setattr(self, 'value', value))  # type: ignore[assignment]
+    Constant.s = property(lambda self: self.value, lambda self, value: setattr(self, 'value', value))  # type: ignore[assignment]
 
-    class Str(Constant):
+    # These classes are redefined from the ones in ast that complain about deprecation
+    # They will continue to work once they are removed from ast
+
+    class Str(Constant):  # type: ignore[no-redef]
         def __new__(cls, s, *args, **kwargs):
             return Constant(value=s, *args, **kwargs)
 
-    class Bytes(Constant):
+    class Bytes(Constant):  # type: ignore[no-redef]
         def __new__(cls, s, *args, **kwargs):
             return Constant(value=s, *args, **kwargs)
 
-    class Num(Constant):
+    class Num(Constant):  # type: ignore[no-redef]
         def __new__(cls, n, *args, **kwargs):
             return Constant(value=n, *args, **kwargs)
 
-    class NameConstant(Constant):
+    class NameConstant(Constant):  # type: ignore[no-redef]
         def __new__(cls, *args, **kwargs):
             return Constant(*args, **kwargs)
 
-    class Ellipsis(Constant):
+    class Ellipsis(Constant):  # type: ignore[no-redef]
         def __new__(cls, *args, **kwargs):
             return Constant(value=literal_eval('...'), *args, **kwargs)
