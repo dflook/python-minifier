@@ -64,15 +64,25 @@ jobs:
           path: python-minifier
 
       - name: Install ref
+        id: install
         run: |
           set -ex
           (cd python-minifier && git log --pretty=format:'%H' -n 1) > sha.txt
           cat sha.txt
           VERSION=0.0.0
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" python-minifier/setup.py
-          (cd python-minifier && pip${{ matrix.python }} install .)
+          
+          if ! pip${{ matrix.python }} install python-minifier/ 2> >(tee -a stderr.log >&2) then;
+            if grep -q "requires a different Python" stderr.log; then
+              echo "${{ matrix.ref }} doesn't support Python ${{ matrix.python }}. Skipping."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            else
+              exit 1
+            fi
+          fi
 
       - name: Run tests
+        if: steps.install.outputs.skip != 'true'
         run: |
           if [[ "${{ matrix.python }}" == "3.3" || "${{ matrix.python }}" == "3.4" || "${{ matrix.python }}" == "3.5" ]]; then
             # These versions randomise the hash seed, but don't preserve dict order
