@@ -257,7 +257,11 @@ def report_larger_than_base(results_dir: str, python_versions: str, minifier_sha
         except FileNotFoundError:
             continue
 
-        base_summary = result_summary(results_dir, python_version, base_sha)
+        try:
+            base_summary = result_summary(results_dir, python_version, base_sha)
+        except FileNotFoundError:
+            continue
+
         larger_than_original = sorted(summary.compare_size_increase(base_summary), key=lambda result: result.original_size)[:10]
 
         for entry in larger_than_original:
@@ -275,7 +279,10 @@ def report_slowest(results_dir: str, python_versions: str, minifier_sha: str) ->
 |--------------|--------------:|--------------:|-----:|'''
 
     for python_version in python_versions:
-        summary = result_summary(results_dir, python_version, minifier_sha)
+        try:
+            summary = result_summary(results_dir, python_version, minifier_sha)
+        except FileNotFoundError:
+            continue
 
         for entry in sorted(summary.entries.values(), key=lambda entry: entry.time, reverse=True)[:10]:
             yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} | {entry.time:.3f} |'
