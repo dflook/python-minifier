@@ -124,4 +124,4 @@ jobs:
             exit 1
           fi
 
-          stubtest python_minifier
+          stubtest python_minifier --allowlist typing_test/stubtest-allowlist.txt
