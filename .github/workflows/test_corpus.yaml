@@ -72,8 +72,10 @@ jobs:
           VERSION=0.0.0
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" python-minifier/setup.py
           
-          if ! pip${{ matrix.python }} install python-minifier/ 2> >(tee -a stderr.log >&2); then
-            if grep -q "require a different python version" stderr.log; then
+          if ! pip${{ matrix.python }} install python-minifier/ 2>stderr.log; then
+            echo stderr.log
+          
+            if grep -q -E 'require a different python version|requires a different Python' stderr.log; then
               echo "${{ matrix.ref }} doesn't support Python ${{ matrix.python }}. Skipping."
               echo "skip=true" >> "$GITHUB_OUTPUT"
             else
