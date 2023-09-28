@@ -54,12 +54,12 @@ class ResultSet:
     @property
     def mean_time(self) -> float:
         """Return the mean time to minify a file"""
-        return self.total_time / self.valid_count
+        return self.total_time / self.valid_count if self.valid_count else 0
 
     @property
     def mean_percent_of_original(self) -> float:
         """Return the mean minified size as a percent of the original size"""
-        return self.total_percent_of_original / self.valid_count
+        return self.total_percent_of_original / self.valid_count if self.valid_count else 0
 
     def larger_than_original(self) -> Iterable[Result]:
         """Return those entries that have a larger minified size than the original size"""
