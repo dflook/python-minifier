@@ -57,6 +57,7 @@ jobs:
       - name: Build wheel
         id: package
         run: |
+          pip install --upgrade wheel
           pip wheel dist/${{ needs.package_python3.outputs.sdist }} -w dist
           echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
