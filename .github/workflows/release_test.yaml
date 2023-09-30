@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          progress: false
+          show-progress: false
 
       - name: Set version statically
         run: |
@@ -57,6 +57,7 @@ jobs:
       - name: Build wheel
         id: package
         run: |
+          dnf install -y findutils
           pip install --upgrade wheel
           pip wheel dist/${{ needs.package_python3.outputs.sdist }} -w dist
           echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
@@ -85,7 +86,10 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          show-progress: false
 
       - name: Build documentation
         run: |
@@ -122,7 +126,10 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          show-progress: false
 
       - name: Test pyminify
         run: |
@@ -155,7 +162,10 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          show-progress: false
 
       - name: Test typing
         run: |
