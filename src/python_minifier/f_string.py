@@ -24,11 +24,12 @@ class FString(object):
     An F-string in the expression part of another f-string
     """
 
-    def __init__(self, node, allowed_quotes):
+    def __init__(self, node, allowed_quotes, quote_reuse):
         assert isinstance(node, ast.JoinedStr)
 
         self.node = node
         self.allowed_quotes = allowed_quotes
+        self.quote_reuse = quote_reuse
 
     def is_correct_ast(self, code):
         try:
@@ -53,7 +54,7 @@ class FString(object):
         conversion_candidates = [x + conversion for x in partial_specifier_candidates]
 
         if value_node.format_spec is not None:
-            conversion_candidates = [c + ':' + fs for c in conversion_candidates for fs in FormatSpec(value_node.format_spec, self.allowed_quotes).candidates()]
+            conversion_candidates = [c + ':' + fs for c in conversion_candidates for fs in FormatSpec(value_node.format_spec, self.allowed_quotes, self.quote_reuse).candidates()]
 
         return [x + '}' for x in conversion_candidates]
 
@@ -64,7 +65,10 @@ class FString(object):
             candidates = ['']
             debug_specifier_candidates = []
             nested_allowed = copy.copy(self.allowed_quotes)
-            nested_allowed.remove(quote)
+
+            if not self.quote_reuse:
+                nested_allowed.remove(quote)
+
             for v in self.node.values:
                 if is_ast_node(v, ast.Str):
 
@@ -86,7 +90,7 @@ class FString(object):
                     try:
                         completed = self.complete_debug_specifier(debug_specifier_candidates, v)
                         candidates = [
-                            x + y for x in candidates for y in FormattedValue(v, nested_allowed).get_candidates()
+                            x + y for x in candidates for y in FormattedValue(v, nested_allowed, self.quote_reuse).get_candidates()
                         ] + completed
                         debug_specifier_candidates = []
                     except Exception as e:
@@ -111,9 +115,9 @@ class OuterFString(FString):
     OuterFString is free to use backslashes in the Str parts
     """
 
-    def __init__(self, node):
+    def __init__(self, node, quote_reuse=False):
         assert isinstance(node, ast.JoinedStr)
-        super(OuterFString, self).__init__(node, ['"', "'", '"""', "'''"])
+        super(OuterFString, self).__init__(node, ['"', "'", '"""', "'''"], quote_reuse=quote_reuse)
 
     def __str__(self):
         if len(self.node.values) == 0:
@@ -151,12 +155,13 @@ class FormattedValue(ExpressionPrinter):
     An F-String Expression Part
     """
 
-    def __init__(self, node, allowed_quotes):
+    def __init__(self, node, allowed_quotes, quote_reuse):
         super(FormattedValue, self).__init__()
 
         assert isinstance(node, ast.FormattedValue)
         self.node = node
         self.allowed_quotes = allowed_quotes
+        self.quote_reuse = quote_reuse
         self.candidates = ['']
 
     def get_candidates(self):
@@ -177,7 +182,7 @@ class FormattedValue(ExpressionPrinter):
 
         if self.node.format_spec is not None:
             self.printer.delimiter(':')
-            self._append(FormatSpec(self.node.format_spec, self.allowed_quotes).candidates())
+            self._append(FormatSpec(self.node.format_spec, self.allowed_quotes, quote_reuse=self.quote_reuse).candidates())
 
         self.printer.delimiter('}')
 
@@ -215,7 +220,7 @@ class FormattedValue(ExpressionPrinter):
         assert isinstance(node, ast.JoinedStr)
         if self.printer.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
             self.printer.delimiter(' ')
-        self._append(FString(node, allowed_quotes=self.allowed_quotes).candidates())
+        self._append(FString(node, allowed_quotes=self.allowed_quotes, quote_reuse=self.quote_reuse).candidates())
 
     def _finalize(self):
         self.candidates = [x + str(self.printer) for x in self.candidates]
@@ -319,11 +324,12 @@ class FormatSpec(object):
 
     """
 
-    def __init__(self, node, allowed_quotes):
+    def __init__(self, node, allowed_quotes, quote_reuse):
         assert isinstance(node, ast.JoinedStr)
 
         self.node = node
         self.allowed_quotes = allowed_quotes
+        self.quote_reuse = quote_reuse
 
     def candidates(self):
 
@@ -333,7 +339,7 @@ class FormatSpec(object):
                 candidates = [x + self.str_for(v.s) for x in candidates]
             elif isinstance(v, ast.FormattedValue):
                 candidates = [
-                    x + y for x in candidates for y in FormattedValue(v, self.allowed_quotes).get_candidates()
+                    x + y for x in candidates for y in FormattedValue(v, self.allowed_quotes, self.quote_reuse).get_candidates()
                 ]
             else:
                 raise RuntimeError('Unexpected JoinedStr value')

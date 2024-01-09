@@ -735,7 +735,12 @@ class ExpressionPrinter(object):
 
         import python_minifier.f_string
 
-        self.printer.fstring(str(python_minifier.f_string.OuterFString(node)))
+        if sys.version_info < (3, 12):
+            quote_reuse = False
+        else:
+            quote_reuse = True
+
+        self.printer.fstring(str(python_minifier.f_string.OuterFString(node, quote_reuse=quote_reuse)))
 
     def visit_NamedExpr(self, node):
         self._expression(node.target)
