@@ -222,6 +222,11 @@ class FormattedValue(ExpressionPrinter):
             self.printer.delimiter(' ')
         self._append(FString(node, allowed_quotes=self.allowed_quotes, pep701=self.pep701).candidates())
 
+    def visit_Lambda(self, node):
+        self.printer.delimiter('(')
+        super().visit_Lambda(node)
+        self.printer.delimiter(')')
+
     def _finalize(self):
         self.candidates = [x + str(self.printer) for x in self.candidates]
         self.printer._code = ''

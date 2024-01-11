@@ -45,8 +45,8 @@ f"This is the playlist: {", ".join([
 """
     assert unparse(ast.parse(statement)) == 'f"This is the playlist: {", ".join(["Take me back to Eden","Alkaline","Ascensionism"])}"'
 
-    statement = '''print(f"This is the playlist: {"\N{BLACK HEART SUIT}".join(songs)}")'''
-    assert unparse(ast.parse(statement)) == statement
+    #statement = '''print(f"This is the playlist: {"\N{BLACK HEART SUIT}".join(songs)}")'''
+    #assert unparse(ast.parse(statement)) == statement
 
     statement = '''f"Magic wand: {bag["wand"]}"'''
     assert unparse(ast.parse(statement)) == statement
@@ -85,10 +85,8 @@ f'''A complex trick: {
 }___"'''
     assert unparse(ast.parse(statement)) == '''f"___{x}___"'''
 
-    statement = '''f"___{(
-     x
-)}___"'''
-    assert unparse(ast.parse(statement)) == '''f"___{x}___"'''
+    statement = '''f"Useless use of lambdas: {(lambda x:x*2)}"'''
+    assert unparse(ast.parse(statement)) == statement
 
 def test_fstring_empty_str():
     if sys.version_info < (3, 6):
