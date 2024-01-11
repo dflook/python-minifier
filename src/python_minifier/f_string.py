@@ -24,12 +24,12 @@ class FString(object):
     An F-string in the expression part of another f-string
     """
 
-    def __init__(self, node, allowed_quotes, quote_reuse):
+    def __init__(self, node, allowed_quotes, pep701):
         assert isinstance(node, ast.JoinedStr)
 
         self.node = node
         self.allowed_quotes = allowed_quotes
-        self.quote_reuse = quote_reuse
+        self.pep701 = pep701
 
     def is_correct_ast(self, code):
         try:
@@ -54,7 +54,7 @@ class FString(object):
         conversion_candidates = [x + conversion for x in partial_specifier_candidates]
 
         if value_node.format_spec is not None:
-            conversion_candidates = [c + ':' + fs for c in conversion_candidates for fs in FormatSpec(value_node.format_spec, self.allowed_quotes, self.quote_reuse).candidates()]
+            conversion_candidates = [c + ':' + fs for c in conversion_candidates for fs in FormatSpec(value_node.format_spec, self.allowed_quotes, self.pep701).candidates()]
 
         return [x + '}' for x in conversion_candidates]
 
@@ -66,7 +66,7 @@ class FString(object):
             debug_specifier_candidates = []
             nested_allowed = copy.copy(self.allowed_quotes)
 
-            if not self.quote_reuse:
+            if not self.pep701:
                 nested_allowed.remove(quote)
 
             for v in self.node.values:
@@ -90,7 +90,7 @@ class FString(object):
                     try:
                         completed = self.complete_debug_specifier(debug_specifier_candidates, v)
                         candidates = [
-                            x + y for x in candidates for y in FormattedValue(v, nested_allowed, self.quote_reuse).get_candidates()
+                            x + y for x in candidates for y in FormattedValue(v, nested_allowed, self.pep701).get_candidates()
                         ] + completed
                         debug_specifier_candidates = []
                     except Exception as e:
@@ -115,9 +115,9 @@ class OuterFString(FString):
     OuterFString is free to use backslashes in the Str parts
     """
 
-    def __init__(self, node, quote_reuse=False):
+    def __init__(self, node, pep701=False):
         assert isinstance(node, ast.JoinedStr)
-        super(OuterFString, self).__init__(node, ['"', "'", '"""', "'''"], quote_reuse=quote_reuse)
+        super(OuterFString, self).__init__(node, ['"', "'", '"""', "'''"], pep701=pep701)
 
     def __str__(self):
         if len(self.node.values) == 0:
@@ -155,13 +155,13 @@ class FormattedValue(ExpressionPrinter):
     An F-String Expression Part
     """
 
-    def __init__(self, node, allowed_quotes, quote_reuse):
+    def __init__(self, node, allowed_quotes, pep701):
         super(FormattedValue, self).__init__()
 
         assert isinstance(node, ast.FormattedValue)
         self.node = node
         self.allowed_quotes = allowed_quotes
-        self.quote_reuse = quote_reuse
+        self.pep701 = pep701
         self.candidates = ['']
 
     def get_candidates(self):
@@ -182,7 +182,7 @@ class FormattedValue(ExpressionPrinter):
 
         if self.node.format_spec is not None:
             self.printer.delimiter(':')
-            self._append(FormatSpec(self.node.format_spec, self.allowed_quotes, quote_reuse=self.quote_reuse).candidates())
+            self._append(FormatSpec(self.node.format_spec, self.allowed_quotes, pep701=self.pep701).candidates())
 
         self.printer.delimiter('}')
 
@@ -211,7 +211,7 @@ class FormattedValue(ExpressionPrinter):
         return False
 
     def visit_Str(self, node):
-        self.printer.append(str(Str(node.s, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
+        self.printer.append(str(Str(node.s, self.allowed_quotes, self.pep701)), TokenTypes.NonNumberLiteral)
 
     def visit_Bytes(self, node):
         self.printer.append(str(Bytes(node.s, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
@@ -220,7 +220,7 @@ class FormattedValue(ExpressionPrinter):
         assert isinstance(node, ast.JoinedStr)
         if self.printer.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
             self.printer.delimiter(' ')
-        self._append(FString(node, allowed_quotes=self.allowed_quotes, quote_reuse=self.quote_reuse).candidates())
+        self._append(FString(node, allowed_quotes=self.allowed_quotes, pep701=self.pep701).candidates())
 
     def _finalize(self):
         self.candidates = [x + str(self.printer) for x in self.candidates]
@@ -235,20 +235,21 @@ class Str(object):
     """
     A Str node inside an f-string expression
 
-    May use any of the allowed quotes, no backslashes!
+    May use any of the allowed quotes. In Python <3.12, backslashes are not allowed.
 
     """
 
-    def __init__(self, s, allowed_quotes):
+    def __init__(self, s, allowed_quotes, pep701=False):
         self._s = s
         self.allowed_quotes = allowed_quotes
         self.current_quote = None
+        self.pep701 = pep701
 
     def _can_quote(self, c):
         if self.current_quote is None:
             return False
 
-        if (c == '\n' or c == '\r') and len(self.current_quote) == 1:
+        if (c == '\n' or c == '\r') and len(self.current_quote) == 1 and not self.pep701:
             return False
 
         if c == self.current_quote[0]:
@@ -258,7 +259,7 @@ class Str(object):
 
     def _get_quote(self, c):
         for quote in self.allowed_quotes:
-            if c == '\n' or c == '\r':
+            if not self.pep701 and (c == '\n' or c == '\r'):
                 if len(quote) == 3:
                     return quote
             elif c != quote:
@@ -279,7 +280,13 @@ class Str(object):
 
             if l == '':
                 l += self.current_quote
-            l += c
+
+            if c == '\n':
+                l += '\\n'
+            elif c == '\r':
+                l += '\\r'
+            else:
+                l += c
 
         if l:
             l += self.current_quote
@@ -292,7 +299,7 @@ class Str(object):
         if '\0' in self._s or '\\' in self._s:
             raise ValueError('Impossible to represent a %r character in f-string expression part')
 
-        if '\n' in self._s or '\r' in self._s:
+        if not self.pep701 and ('\n' in self._s or '\r' in self._s):
             if '"""' not in self.allowed_quotes and "'''" not in self.allowed_quotes:
                 raise ValueError(
                     'Impossible to represent newline character in f-string expression part without a long quote'
@@ -324,12 +331,12 @@ class FormatSpec(object):
 
     """
 
-    def __init__(self, node, allowed_quotes, quote_reuse):
+    def __init__(self, node, allowed_quotes, pep701):
         assert isinstance(node, ast.JoinedStr)
 
         self.node = node
         self.allowed_quotes = allowed_quotes
-        self.quote_reuse = quote_reuse
+        self.pep701 = pep701
 
     def candidates(self):
 
@@ -339,7 +346,7 @@ class FormatSpec(object):
                 candidates = [x + self.str_for(v.s) for x in candidates]
             elif isinstance(v, ast.FormattedValue):
                 candidates = [
-                    x + y for x in candidates for y in FormattedValue(v, self.allowed_quotes, self.quote_reuse).get_candidates()
+                    x + y for x in candidates for y in FormattedValue(v, self.allowed_quotes, self.pep701).get_candidates()
                 ]
             else:
                 raise RuntimeError('Unexpected JoinedStr value')
