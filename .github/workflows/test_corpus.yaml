@@ -44,7 +44,7 @@ jobs:
         python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     container:
-      image: danielflook/python-minifier-build:python${{ matrix.python }}-2023-09-25
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-01-12
       volumes:
         - /corpus:/corpus
         - /corpus-results:/corpus-results
@@ -100,7 +100,7 @@ jobs:
     needs: generate_results
     runs-on: self-hosted
     container:
-      image: danielflook/python-minifier-build:python3.12-2023-09-25
+      image: danielflook/python-minifier-build:python3.12-2024-01-12
       volumes:
         - /corpus-results:/corpus-results
     if: ${{ always() }}
