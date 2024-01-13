@@ -290,6 +290,8 @@ class Str(object):
                 l += '\\n'
             elif c == '\r':
                 l += '\\r'
+            elif c == '\\':
+                l += '\\\\'
             else:
                 l += c
 
@@ -301,8 +303,8 @@ class Str(object):
         if self._s == '':
             return str(min(self.allowed_quotes, key=len)) * 2
 
-        if '\0' in self._s or '\\' in self._s:
-            raise ValueError('Impossible to represent a %r character in f-string expression part')
+        if '\0' in self._s or ('\\' in self._s and not self.pep701):
+            raise ValueError('Impossible to represent a character in f-string expression part')
 
         if not self.pep701 and ('\n' in self._s or '\r' in self._s):
             if '"""' not in self.allowed_quotes and "'''" not in self.allowed_quotes:
