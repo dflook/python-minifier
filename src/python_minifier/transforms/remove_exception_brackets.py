@@ -8,7 +8,7 @@ When printed, this essentially removes the brackets from the exception name.
 We can't generally know if a name refers to an exception, so we only do this for builtin exceptions
 """
 
-import ast
+import python_minifier.ast_compat as ast
 import sys
 
 from python_minifier.rename.binding import BuiltinBinding

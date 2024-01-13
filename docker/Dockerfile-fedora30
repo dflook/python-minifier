@@ -27,6 +27,7 @@ RUN dnf install -y \
       python27 \
       python2-test \
       python2-pip \
+      findutils \
   && dnf clean all && rm -rf /var/cache/dnf/*
 
 ##

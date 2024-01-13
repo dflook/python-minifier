@@ -37,7 +37,7 @@ class Manifest(object):
 
     def load(self):
         with open(self._manifest_path) as f:
-            self._files = yaml.safe_load(f)
+            self._files = yaml.safe_load(f) or {}
 
     def __len__(self):
         return sum([len(test_cases) for test_cases in self._files.values()])

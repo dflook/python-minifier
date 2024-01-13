@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 import sys
 
 from .expression_printer import ExpressionPrinter
@@ -440,7 +440,7 @@ class ModulePrinter(ExpressionPrinter):
         self._suite(node.body)
 
     def visit_With(self, node, is_async=False):
-        assert isinstance(node, ast.With) or (hasattr(ast, 'AsyncWith') and isinstance(node, ast.AsyncWith))
+        assert is_ast_node(node, (ast.With, 'AsyncWith'))
 
         self.printer.newline()
 
@@ -469,7 +469,7 @@ class ModulePrinter(ExpressionPrinter):
         self._suite(node.body)
 
     def visit_withitem(self, node):
-        assert (hasattr(ast, 'withitem') and isinstance(node, ast.withitem)) or isinstance(node, ast.With)
+        assert is_ast_node(node, ('withitem', ast.With))
 
         self._expression(node.context_expr)
 
@@ -478,9 +478,7 @@ class ModulePrinter(ExpressionPrinter):
             self._expression(node.optional_vars)
 
     def visit_FunctionDef(self, node, is_async=False):
-        assert isinstance(node, ast.FunctionDef) or (
-            hasattr(ast, 'AsyncFunctionDef') and isinstance(node, ast.AsyncFunctionDef)
-        )
+        assert is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef'))
 
         self.printer.newline()
 
@@ -494,6 +492,15 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.keyword('def')
         self.printer.identifier(node.name)
+
+        if hasattr(node, 'type_params') and node.type_params:
+            self.printer.delimiter('[')
+            delimiter = Delimiter(self.printer)
+            for type_param in node.type_params:
+                delimiter.new_item()
+                self.visit(type_param)
+            self.printer.delimiter(']')
+
         self.printer.delimiter('(')
         self.visit_arguments(node.args)
         self.printer.delimiter(')')
@@ -522,6 +529,14 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.keyword('class')
         self.printer.identifier(node.name)
+
+        if hasattr(node, 'type_params') and node.type_params:
+            self.printer.delimiter('[')
+            delimiter = Delimiter(self.printer)
+            for type_param in node.type_params:
+                delimiter.new_item()
+                self.visit(type_param)
+            self.printer.delimiter(']')
 
         with Delimiter(self.printer, add_parens=True) as delimiter:
 
@@ -712,6 +727,46 @@ class ModulePrinter(ExpressionPrinter):
 
     # endregion
 
+    # region Generic Types
+    def visit_TypeAlias(self, node):
+        assert isinstance(node, ast.TypeAlias)
+        self.printer.keyword('type')
+        self.visit_Name(node.name)
+
+        if hasattr(node, 'type_params') and node.type_params:
+            self.printer.delimiter('[')
+            delimiter = Delimiter(self.printer)
+            for param in node.type_params:
+                delimiter.new_item()
+                self.visit(param)
+            self.printer.delimiter(']')
+
+        self.printer.delimiter('=')
+        self._expression(node.value)
+        self.printer.end_statement()
+
+    def visit_TypeVar(self, node):
+        assert isinstance(node, ast.TypeVar)
+        assert isinstance(node.name, str)
+        self.printer.identifier(node.name)
+
+        if node.bound:
+            self.printer.delimiter(':')
+            self._expression(node.bound)
+
+    def visit_TypeVarTuple(self, node):
+        assert isinstance(node, ast.TypeVarTuple)
+        self.printer.operator('*')
+        self.printer.identifier(node.name)
+
+    def visit_ParamSpec(self, node):
+        assert isinstance(node, ast.ParamSpec)
+        self.printer.operator('*')
+        self.printer.operator('*')
+        self.printer.identifier(node.name)
+
+    # endregion
+
     def visit_Module(self, node):
         if hasattr(node, 'docstring') and node.docstring is not None:
             # Python 3.6 added a docstring field! Really useful for every use case except this one...
@@ -786,7 +841,8 @@ class ModulePrinter(ExpressionPrinter):
             'Print': self.visit_Print,
             'Exec': self.visit_Exec,
             'Match': self.visit_Match,
-            'match_case': self.visit_match_case
+            'match_case': self.visit_match_case,
+            'TypeAlias': self.visit_TypeAlias
         }
 
         for node in node_list:

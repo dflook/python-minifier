@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 import math
 import sys
 

@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import NameBinding
 from python_minifier.rename.util import arg_rename_in_place, get_global_namespace, get_nonlocal_namespace, builtins

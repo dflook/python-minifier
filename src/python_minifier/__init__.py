@@ -4,11 +4,10 @@ a 'minified' representation of the same source code.
 
 """
 
-import ast
+import python_minifier.ast_compat as ast
 import re
 
 from python_minifier.ast_compare import CompareError, compare_ast
-from python_minifier.ast_printer import print_ast
 from python_minifier.module_printer import ModulePrinter
 from python_minifier.rename import (
     rename_literals,
@@ -229,6 +228,7 @@ def unparse(module):
     try:
         compare_ast(module, minified_module)
     except CompareError as compare_error:
+        print(printer.code)
         raise UnstableMinification(compare_error, '', printer.code)
 
     return printer.code

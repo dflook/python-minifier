@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.util import arg_rename_in_place, insert
 from python_minifier.util import is_ast_node

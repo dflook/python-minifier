@@ -10,7 +10,7 @@ from python_minifier.ast_compare import compare_ast
 from python_minifier.ast_printer import print_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from expressions import Expression
-from module import Module
+from module import Module, TypeAlias
 from python_minifier.rename.mapper import add_parent
 from python_minifier.transforms.constant_folding import FoldConstants
 
@@ -72,3 +72,46 @@ def test_folding(node):
 
     # The constant folder asserts the value is correct
     constant_folder(node)
+
+@given(node=TypeAlias())
+@settings(report_multiple_bugs=False, deadline=timedelta(seconds=2), max_examples=1000, verbosity=Verbosity.verbose)
+def test_type_alias(node):
+
+    module = ast.Module(
+        body=[node],
+        type_ignores=[]
+    )
+
+    printer = ModulePrinter()
+    code = printer(module)
+    note(code)
+    compare_ast(module, ast.parse(code, 'test_type_alias'))
+
+@given(node=TypeAlias())
+@settings(report_multiple_bugs=False, deadline=timedelta(seconds=2), max_examples=1000, verbosity=Verbosity.verbose)
+def test_function_type_param(node):
+
+    module = ast.Module(
+        body=[ast.FunctionDef(
+            name='test',
+            args=ast.arguments(
+                posonlyargs=[],
+                args=[],
+                vararg=None,
+                kwonlyargs=[],
+                kw_defaults=[],
+                kwarg=None,
+                defaults=[],
+            ),
+            body=[ast.Pass()],
+            type_params=node.type_params,
+            decorator_list=[],
+            returns=None
+        )],
+        type_ignores=[]
+    )
+
+    printer = ModulePrinter()
+    code = printer(module)
+    note(code)
+    compare_ast(module, ast.parse(code, 'test_function_type_param'))

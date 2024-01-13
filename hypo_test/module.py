@@ -169,13 +169,33 @@ def ImportFrom(draw) -> ast.ImportFrom:
                           level=draw(integers(min_value=0, max_value=2)))
 
 @composite
+def TypeVar(draw) -> ast.TypeVar:
+    return ast.TypeVar(name=draw(name()),
+                       bound=draw(none() | expression()))
+
+@composite
+def TypeVarTuple(draw) -> ast.TypeVarTuple:
+    return ast.TypeVarTuple(name=draw(name()))
+
+@composite
+def ParamSpec(draw) -> ast.ParamSpec:
+    return ast.ParamSpec(name=draw(name()))
+
+@composite
+def TypeAlias(draw) -> ast.TypeAlias:
+    return ast.TypeAlias(name=draw(Name(ast.Store)),
+                         value=draw(expression()),
+                         type_params=draw(lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3)))
+
+@composite
 def FunctionDef(draw, statements) -> ast.FunctionDef:
     n = draw(name())
     args = draw(arguments())
     body = draw(lists(statements, min_size=1, max_size=3))
     decorator_list = draw(lists(Name(), min_size=0, max_size=2))
+    type_params = draw(none() | lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
     returns = draw(none() | expression())
-    return ast.FunctionDef(n, args, body, decorator_list, returns)
+    return ast.FunctionDef(n, args, body, decorator_list, returns, type_params=type_params)
 
 @composite
 def AsyncFunctionDef(draw, statements) -> ast.AsyncFunctionDef:
@@ -183,8 +203,9 @@ def AsyncFunctionDef(draw, statements) -> ast.AsyncFunctionDef:
     args = draw(arguments())
     body = draw(lists(statements, min_size=1, max_size=3))
     decorator_list = draw(lists(Name(), min_size=0, max_size=2))
+    type_params = draw(none() | lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
     returns = draw(none() | expression())
-    return ast.AsyncFunctionDef(n, args, body, decorator_list, returns)
+    return ast.AsyncFunctionDef(n, args, body, decorator_list, returns, type_params=type_params)
 
 @composite
 def keyword(draw) -> ast.keyword:
@@ -208,7 +229,8 @@ def ClassDef(draw, statements) -> ast.ClassDef:
         bases=bases,
         keywords=keywords,
         body=body,
-        decorator_list=decorator_list
+        decorator_list=decorator_list,
+        type_params=draw(none() | lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
     )
 
 if hasattr(ast, 'Print'):
@@ -244,7 +266,8 @@ else:
         AnnAssign(),
         AugAssign(),
         Import(),
-        ImportFrom()
+        ImportFrom(),
+        TypeAlias()
     )
 
 def suite() -> SearchStrategy:
