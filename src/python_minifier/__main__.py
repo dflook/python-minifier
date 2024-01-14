@@ -8,6 +8,7 @@ from pkg_resources import get_distribution, DistributionNotFound
 
 from python_minifier import minify
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
+from python_minifier.transforms.remove_unused_platform_options import RemoveUnusedPlatformOptions
 
 try:
     version = get_distribution('python_minifier').version
@@ -229,6 +230,30 @@ def parse_args():
         dest='remove_class_attribute_annotations',
     )
 
+
+    platform_options = parser.add_argument_group('remove unused platform options', 'Options that affect platform removal')
+    platform_options.add_argument(
+        '--remove-unused-platforms',
+        action='store_true',
+        help='Remove code blocks that are masked out for a specific platform',
+        dest='remove_unused_platforms',
+    )
+    platform_options.add_argument(
+        '--platform-test-key',
+        type=str,
+        default="_PLATFORM",
+        help='The variable name that is testing for a platform',
+        dest='platform_test_key',
+    )
+    platform_options.add_argument(
+        '--platform-preserve-value',
+        type=str,
+        default="linux",
+        help='The value that matches the target platform',
+        dest='platform_preserve_value',
+    )
+
+
     parser.add_argument('--version', '-v', action='version', version=version)
 
     args = parser.parse_args()
@@ -296,6 +321,17 @@ def do_minify(source, filename, minification_args):
             remove_class_attribute_annotations=minification_args.remove_class_attribute_annotations,
         )
 
+    if minification_args.remove_unused_platforms is False:
+        remove_unused_platforms = RemoveUnusedPlatformOptions(
+            platform_test_key="",
+            platform_preserve_value=""
+        )
+    else:
+        remove_unused_platforms = RemoveUnusedPlatformOptions(
+            platform_test_key=minification_args.platform_test_key,
+            platform_preserve_value=minification_args.platform_preserve_value
+        )
+
     return minify(
         source,
         filename=filename,
@@ -315,7 +351,8 @@ def do_minify(source, filename, minification_args):
         remove_debug=minification_args.remove_debug,
         remove_explicit_return_none=minification_args.remove_explicit_return_none,
         remove_builtin_exception_brackets=minification_args.remove_exception_brackets,
-        constant_folding=minification_args.constant_folding
+        constant_folding=minification_args.constant_folding,
+        remove_unused_platforms=remove_unused_platforms
     )
 
 
