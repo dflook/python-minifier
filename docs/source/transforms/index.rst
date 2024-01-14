@@ -29,3 +29,4 @@ They can be enabled or disabled through the minify function, or passing options 
    rename_globals
    remove_asserts
    remove_debug
+   remove_unused_platforms
