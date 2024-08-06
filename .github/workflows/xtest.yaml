@@ -15,7 +15,7 @@ jobs:
       image: danielflook/python-minifier-build:${{ matrix.python }}-2024-01-12
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

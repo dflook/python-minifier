@@ -53,12 +53,12 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout tests
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: workflow
 
       - name: Checkout ref
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ matrix.ref }}
           path: python-minifier
@@ -109,12 +109,12 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: workflow
 
       - name: Checkout ref
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
           path: python-minifier
@@ -125,7 +125,7 @@ jobs:
           cat sha.txt
 
       - name: Checkout base ref
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.base-ref }}
           path: python-minifier-base
