@@ -2,6 +2,9 @@ name: Release Test
 
 on: [push]
 
+env:
+   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
 jobs:
 
   package_python3:
@@ -14,7 +17,7 @@ jobs:
       image: danielflook/python-minifier-build:python3.12-2024-01-12
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           show-progress: false
@@ -86,7 +89,7 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           show-progress: false
@@ -126,7 +129,7 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           show-progress: false
@@ -162,7 +165,7 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           show-progress: false

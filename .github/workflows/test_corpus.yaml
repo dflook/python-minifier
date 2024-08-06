@@ -34,6 +34,9 @@ on:
         required: false
         default: false
 
+env:
+   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
 jobs:
   generate_results:
     name: Minify Corpus
@@ -53,12 +56,12 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           path: workflow
 
       - name: Checkout ref
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ matrix.ref }}
           path: python-minifier
@@ -109,12 +112,12 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           path: workflow
 
       - name: Checkout ref
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.ref }}
           path: python-minifier
@@ -125,7 +128,7 @@ jobs:
           cat sha.txt
 
       - name: Checkout base ref
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.base-ref }}
           path: python-minifier-base
