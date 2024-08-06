@@ -491,3 +491,20 @@ c = A + A
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
+def test_no_hoist_slots():
+    source = '''
+class SlotsA(object):
+    __slots__ = ['aaaaa', 'bbbbb']
+class SlotsB(object):
+    __slots__ = 'aaaaa', 'bbbbb'
+'''
+    expected = '''
+class A:
+    __slots__=['aaaaa', 'bbbbb']
+class B:
+    __slots__='aaaaa', 'bbbbb'
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = hoist(source)
+    compare_ast(expected_ast, actual_ast)
