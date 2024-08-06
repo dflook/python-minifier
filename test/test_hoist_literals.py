@@ -5,6 +5,7 @@ import pytest
 
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
+from python_minifier.ast_printer import print_ast
 from python_minifier.rename import add_namespace, bind_names, resolve_names, rename, rename_literals, allow_rename_locals, allow_rename_globals
 
 def hoist(source):
@@ -496,15 +497,24 @@ def test_no_hoist_slots():
     source = '''
 class SlotsA(object):
     __slots__ = ['aaaaa', 'bbbbb']
+    notslots = ['aaaaa', 'bbbbb']
 class SlotsB(object):
     __slots__ = 'aaaaa', 'bbbbb'
+    notslots = ['aaaaa', 'bbbbb']
 '''
     expected = '''
-class A:
-    __slots__=['aaaaa', 'bbbbb']
-class B:
-    __slots__='aaaaa', 'bbbbb'
+B = 'bbbbb'
+A = 'aaaaa'
+class SlotsA(object):
+    __slots__ = ['aaaaa', 'bbbbb']
+    notslots = [A, B]
+class SlotsB(object):
+    __slots__ = 'aaaaa', 'bbbbb'
+    notslots = [A, B]
 '''
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
+
+    print(print_ast(expected_ast))
+    print(print_ast(actual_ast))
     compare_ast(expected_ast, actual_ast)
