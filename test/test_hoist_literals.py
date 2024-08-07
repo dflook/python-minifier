@@ -494,55 +494,22 @@ c = A + A
     compare_ast(expected_ast, actual_ast)
 
 def test_no_hoist_slots():
-    if sys.version_info < (3, 3):
-        pytest.skip('Literal rename iterates bindings in a different order with Python2')
-
     source = '''
 class SlotsA(object):
     __slots__ = ['aaaaa', 'bbbbb']
-    notslots = ['aaaaa', 'bbbbb']
+    notslots = ['aaaaa']
 class SlotsB(object):
     __slots__ = 'aaaaa', 'bbbbb'
-    notslots = ['aaaaa', 'bbbbb']
+    notslots = ['aaaaa']
 '''
     expected = '''
-B = 'bbbbb'
 A = 'aaaaa'
 class SlotsA(object):
     __slots__ = ['aaaaa', 'bbbbb']
-    notslots = [A, B]
+    notslots = [A]
 class SlotsB(object):
     __slots__ = 'aaaaa', 'bbbbb'
-    notslots = [A, B]
-'''
-    expected_ast = ast.parse(expected)
-    actual_ast = hoist(source)
-
-    print(print_ast(expected_ast))
-    print(print_ast(actual_ast))
-    compare_ast(expected_ast, actual_ast)
-
-def test_no_hoist_slots_python2():
-    if sys.version_info > (2, 7):
-        pytest.skip('Literal rename iterates bindings in a different order with Python3')
-
-    source = '''
-class SlotsA(object):
-    __slots__ = ['aaaaa', 'bbbbb']
-    notslots = ['aaaaa', 'bbbbb']
-class SlotsB(object):
-    __slots__ = 'aaaaa', 'bbbbb'
-    notslots = ['aaaaa', 'bbbbb']
-'''
-    expected = '''
-B = 'aaaaa'
-A = 'bbbbb'
-class SlotsA(object):
-    __slots__ = ['aaaaa', 'bbbbb']
-    notslots = [A, B]
-class SlotsB(object):
-    __slots__ = 'aaaaa', 'bbbbb'
-    notslots = [A, B]
+    notslots = [A]
 '''
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
