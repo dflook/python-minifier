@@ -3738,15 +3738,7 @@
 - options:
     remove_literal_statements: true
     rename_globals: true
-/usr/local/lib/python3.9/test/test_urllib2net.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.9/test/test_urllib2net.py: []
 /usr/local/lib/python3.9/test/test_urllib_response.py:
 - options: {}
 - options:
