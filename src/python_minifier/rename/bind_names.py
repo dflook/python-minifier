@@ -24,11 +24,6 @@ class NameBinder(NodeVisitor):
         # nonlocal names should not create a binding in any context
         assert name not in namespace.nonlocal_names
 
-        if isinstance(namespace, ast.ClassDef):
-            binding = self.get_binding(name, get_nonlocal_namespace(namespace))
-            binding.disallow_rename()
-            return binding
-
         for binding in namespace.bindings:
             if binding.name == name:
                 break
@@ -41,6 +36,10 @@ class NameBinder(NodeVisitor):
 
         if name in namespace.nonlocal_names and isinstance(namespace, ast.Module):
             # This is actually a syntax error - but we want the same syntax error after minifying!
+            binding.disallow_rename()
+
+        if isinstance(namespace, ast.ClassDef):
+            # This name will become an attribute of the class, so it can't be renamed
             binding.disallow_rename()
 
         return binding
