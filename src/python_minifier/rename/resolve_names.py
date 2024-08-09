@@ -47,7 +47,11 @@ def resolve_names(node):
     if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
         get_binding(node.id, node.namespace).add_reference(node)
     elif isinstance(node, ast.Name) and node.id in node.namespace.nonlocal_names:
-        get_binding(node.id, node.namespace).add_reference(node)
+        binding = get_binding(node.id, node.namespace)
+        binding.add_reference(node)
+
+        if isinstance(node.ctx, ast.Store) and isinstance(node.namespace, ast.ClassDef):
+            binding.disallow_rename()
 
     elif isinstance(node, ast.ClassDef) and node.name in node.namespace.nonlocal_names:
         get_binding(node.name, node.namespace).add_reference(node)
