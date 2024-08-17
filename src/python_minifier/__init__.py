@@ -228,7 +228,6 @@ def unparse(module):
     try:
         compare_ast(module, minified_module)
     except CompareError as compare_error:
-        print(printer.code)
         raise UnstableMinification(compare_error, '', printer.code)
 
     return printer.code

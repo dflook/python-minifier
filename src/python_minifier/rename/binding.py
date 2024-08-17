@@ -11,7 +11,6 @@ class Binding(object):
     :param name: A name for this binding
     :type name: str or None
     :param bool allow_rename: If this binding may be renamed
-    :param int rename_cost: The cost of renaming this binding in bytes, NOT including the difference in name lengths
 
     """
 
@@ -289,7 +288,7 @@ class NameBinding(Binding):
             self.disallow_rename()
 
     def __repr__(self):
-        return self.__class__.__name__ + '(name=%r) <references=%r>' % (self._name, len(self._references))
+        return self.__class__.__name__ + '(name=%r, allow_rename=%r) <references=%r>' % (self._name, self._allow_rename, len(self._references))
 
     def should_rename(self, new_name):
         """
