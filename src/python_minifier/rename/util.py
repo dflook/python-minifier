@@ -23,6 +23,15 @@ def create_is_namespace():
 is_namespace = create_is_namespace()
 
 
+def iter_child_namespaces(node):
+
+    for child in ast.iter_child_nodes(node):
+        if is_namespace(child):
+            yield child
+        else:
+            for c in iter_child_namespaces(child):
+                yield c
+
 def get_global_namespace(node):
     """
     Return the global namespace for a node
