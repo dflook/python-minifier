@@ -53,8 +53,8 @@ def print_namespace(namespace, indent=''):
     return s
 
 def test_module_namespace():
-    if sys.version_info < (3, 0):
-        pytest.skip('Test requires python 3.0 or later')
+    if sys.version_info >= (3, 4):
+        pytest.skip('Test requires python 3.4 or later')
 
     source = '''
 name_in_module = True
@@ -68,6 +68,22 @@ name_in_module = True
 
     assert_namespace_tree(source, expected_namespaces)
 
+def test_module_namespace_python33():
+    if sys.version_info < (3, 4) and sys.version_info >= (3, 0):
+        pytest.skip('Test requires python 3.3')
+
+    source = '''
+name_in_module = True
+name_in_module = True
+'''
+
+    expected_namespaces = '''
++ Module
+  - NameBinding(name='name_in_module', allow_rename=True) <references=2>
+  - BuiltinBinding(name='True', allow_rename=True) <references=2>
+'''
+
+    assert_namespace_tree(source, expected_namespaces)
 
 def test_lambda_namespace():
     if sys.version_info < (3, 0):
