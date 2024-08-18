@@ -54,6 +54,9 @@ def print_namespace(namespace, indent=''):
 
 
 def test_module_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 name_in_module = True
 name_in_module = True
@@ -69,6 +72,9 @@ name_in_module = True
 
 
 def test_lambda_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 name_in_module = 0
 
@@ -89,6 +95,9 @@ b = lambda arg, *args, **kwargs: arg + 1
 
 
 def test_function_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 name_in_module = True
 
@@ -122,6 +131,9 @@ def func(arg, *args, **kwargs):
 # region generator namespace
 
 def test_generator_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 a = (x for x in range(10))
 '''
@@ -138,6 +150,9 @@ a = (x for x in range(10))
 
 
 def test_multi_generator_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = []
 f = []
@@ -157,6 +172,9 @@ a = (x for x in f for x in x)
 
 
 def test_multi_generator_namespace_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -179,6 +197,9 @@ a = (c for line in file for c in line)
 
 
 def test_nested_generator():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -202,6 +223,9 @@ a = (c for c in (line for line in file))
 
 
 def test_nested_generator_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = ''
 a = (x for x in (x for x in x))
@@ -226,6 +250,9 @@ a = (x for x in (x for x in x))
 # region setcomp
 
 def test_setcomp_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 a = {x for x in range(10)}
 '''
@@ -242,6 +269,9 @@ a = {x for x in range(10)}
 
 
 def test_multi_setcomp_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = []
 f = []
@@ -261,6 +291,9 @@ a = {x for x in f for x in x}
 
 
 def test_multi_setcomp_namespace_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -283,6 +316,9 @@ a = {c for line in file for c in line}
 
 
 def test_nested_setcomp():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -306,6 +342,9 @@ a = {c for c in {line for line in file}}
 
 
 def test_nested_setcomp_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = ''
 a = {x for x in {x for x in x}}
@@ -329,6 +368,8 @@ a = {x for x in {x for x in x}}
 # region listcomp
 
 def test_listcomp_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
 
     source = '''
 a = [x for x in range(10)]
@@ -345,6 +386,9 @@ a = [x for x in range(10)]
 
 
 def test_multi_listcomp_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = []
 f = []
@@ -362,6 +406,9 @@ a = [x for x in f for x in x]
 
 
 def test_multi_listcomp_namespace_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -381,6 +428,9 @@ a = [c for line in file for c in line]
 
 
 def test_nested_listcomp():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -400,6 +450,9 @@ a =[c for c in [line for line in file]]
 
 
 def test_nested_listcomp_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = ''
 a =[x for x in [x for x in x]]
@@ -419,6 +472,9 @@ a =[x for x in [x for x in x]]
 # region dictcomp
 
 def test_dictcomp_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 a = {x: x for x in range(10)}
 '''
@@ -435,6 +491,9 @@ a = {x: x for x in range(10)}
 
 
 def test_multi_dictcomp_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = []
 f = []
@@ -454,6 +513,9 @@ a = {x: x for x, x in f for x, x in x}
 
 
 def test_multi_dictcomp_namespace_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -476,6 +538,9 @@ a = {c: c for line, line in file for c, c in line}
 
 
 def test_nested_dictcomp():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 c = ''
 line = ''
@@ -499,6 +564,9 @@ a = {c: c for c, c in {line: line for line in file}}
 
 
 def test_nested_dictcomp_2():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
+
     source = '''
 x = {}
 a = {x:x  for x, x in {x: x for x in x}}
@@ -520,6 +588,8 @@ a = {x:x  for x, x in {x: x for x in x}}
 # endregion
 
 def test_class_namespace():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
 
     source = '''
 OhALongName = 'Hello'
@@ -552,6 +622,8 @@ func()
 
 
 def test_class_name_rebinding():
+    if sys.version_info >= (3, 0):
+        pytest.skip('Test is for python 2 only')
 
     source = '''
 OhALongName = 'Hello'
@@ -580,7 +652,3 @@ func()
 '''
 
     assert_namespace_tree(source, expected_namespaces)
-
-
-if sys.version_info >= (3, 0):
-    pytest.skip(allow_module_level=True)
