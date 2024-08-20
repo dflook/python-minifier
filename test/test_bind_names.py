@@ -124,8 +124,8 @@ def func(arg, *args, **kwargs):
     assert_namespace_tree(source, expected_namespaces)
 
 def test_async_function_namespace():
-    if sys.version_info < (3, 4):
-        pytest.skip('Test requires python 3.4 or later')
+    if sys.version_info < (3, 5):
+        pytest.skip('No async functions in python < 3.5')
 
     source = '''
 name_in_module = True
