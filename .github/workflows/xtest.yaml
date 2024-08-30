@@ -17,6 +17,11 @@ jobs:
     container:
       image: danielflook/python-minifier-build:${{ matrix.python }}-2024-01-12
     steps:
+      - name: Cleanup
+        run: |
+          echo rm -vrf "$HOME/.*" "$HOME/*" "$GITHUB_WORKSPACE/.*" "$GITHUB_WORKSPACE/*"
+          rm -vrf "$HOME/.*" "$HOME/*" "$GITHUB_WORKSPACE/.*" "$GITHUB_WORKSPACE/*"
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
