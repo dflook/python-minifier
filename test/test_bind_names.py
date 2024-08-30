@@ -1,56 +1,9 @@
-import ast
 import sys
 
 import pytest
 
-from python_minifier.rename import add_namespace, resolve_names
-from python_minifier.rename.bind_names import bind_names
-from python_minifier.rename.util import iter_child_namespaces
-from python_minifier.util import is_ast_node
+from helpers import assert_namespace_tree
 
-
-def assert_namespace_tree(source, expected_tree):
-    tree = ast.parse(source)
-
-    add_namespace(tree)
-    bind_names(tree)
-    resolve_names(tree)
-
-    actual = print_namespace(tree)
-
-    print(actual)
-    assert actual.strip() == expected_tree.strip()
-
-
-def print_namespace(namespace, indent=''):
-    s = ''
-
-    if not indent:
-        s += '\n'
-
-    def namespace_name(node):
-        if is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')):
-            return 'Function ' + node.name
-        elif isinstance(node, ast.ClassDef):
-            return 'Class ' + node.name
-        else:
-            return namespace.__class__.__name__
-
-    s += indent + '+ ' + namespace_name(namespace) + '\n'
-
-    for name in sorted(namespace.global_names):
-        s += indent + '  - global ' + name + '\n'
-
-    for name in sorted(namespace.nonlocal_names):
-        s += indent + '  - nonlocal ' + name + '\n'
-
-    for binding in namespace.bindings:
-        s += indent + '  - ' + repr(binding) + '\n'
-
-    for child in iter_child_namespaces(namespace):
-        s += print_namespace(child, indent=indent + '  ')
-
-    return s
 
 def test_module_namespace():
     if sys.version_info < (3, 4):
@@ -80,8 +33,8 @@ b = lambda arg, *args, **kwargs: arg + 1
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='name_in_module', allow_rename=True) <references=1>
   - NameBinding(name='b', allow_rename=True) <references=1>
+  - NameBinding(name='name_in_module', allow_rename=True) <references=1>
   + Lambda
     - NameBinding(name='arg', allow_rename=False) <references=2>
     - NameBinding(name='args', allow_rename=True) <references=1>
@@ -108,15 +61,15 @@ def func(arg, *args, **kwargs):
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='name_in_module', allow_rename=True) <references=3>
   - NameBinding(name='func', allow_rename=True) <references=1>
+  - NameBinding(name='name_in_module', allow_rename=True) <references=3>
   - BuiltinBinding(name='print', allow_rename=True) <references=2>
   + Function func
     - NameBinding(name='arg', allow_rename=True) <references=1>
     - NameBinding(name='args', allow_rename=True) <references=1>
+    - NameBinding(name='inner_func', allow_rename=True) <references=1>
     - NameBinding(name='kwargs', allow_rename=True) <references=1>
     - NameBinding(name='name_in_func', allow_rename=True) <references=1>
-    - NameBinding(name='inner_func', allow_rename=True) <references=1>
     + Function inner_func
       - NameBinding(name='name_in_inner_func', allow_rename=True) <references=1>
 '''
@@ -141,15 +94,15 @@ async def func(arg, *args, **kwargs):
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='name_in_module', allow_rename=True) <references=3>
   - NameBinding(name='func', allow_rename=True) <references=1>
+  - NameBinding(name='name_in_module', allow_rename=True) <references=3>
   - BuiltinBinding(name='print', allow_rename=True) <references=2>
   + Function func
     - NameBinding(name='arg', allow_rename=True) <references=1>
     - NameBinding(name='args', allow_rename=True) <references=1>
+    - NameBinding(name='inner_func', allow_rename=True) <references=1>
     - NameBinding(name='kwargs', allow_rename=True) <references=1>
     - NameBinding(name='name_in_func', allow_rename=True) <references=1>
-    - NameBinding(name='inner_func', allow_rename=True) <references=1>
     + Function inner_func
       - NameBinding(name='name_in_inner_func', allow_rename=True) <references=1>
 '''
@@ -188,9 +141,9 @@ a = (x for x in f for x in x)
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=1>
-  - NameBinding(name='f', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='f', allow_rename=True) <references=2>
+  - NameBinding(name='x', allow_rename=True) <references=1>
   + GeneratorExp
     - NameBinding(name='x', allow_rename=True) <references=4>
 '''
@@ -210,13 +163,13 @@ a = (c for line in file for c in line)
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + GeneratorExp
-    - NameBinding(name='line', allow_rename=True) <references=2>
     - NameBinding(name='c', allow_rename=True) <references=2>
+    - NameBinding(name='line', allow_rename=True) <references=2>
 '''
 
     assert_namespace_tree(source, expected_namespaces)
@@ -234,10 +187,10 @@ a = (c for c in (line for line in file))
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + GeneratorExp
     - NameBinding(name='c', allow_rename=True) <references=2>
     + GeneratorExp
@@ -257,8 +210,8 @@ a = (x for x in (x for x in x))
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='x', allow_rename=True) <references=2>
   + GeneratorExp
     - NameBinding(name='x', allow_rename=True) <references=2>
     + GeneratorExp
@@ -302,9 +255,9 @@ a = {x for x in f for x in x}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=1>
-  - NameBinding(name='f', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='f', allow_rename=True) <references=2>
+  - NameBinding(name='x', allow_rename=True) <references=1>
   + SetComp
     - NameBinding(name='x', allow_rename=True) <references=4>
 '''
@@ -324,13 +277,13 @@ a = {c for line in file for c in line}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + SetComp
-    - NameBinding(name='line', allow_rename=True) <references=2>
     - NameBinding(name='c', allow_rename=True) <references=2>
+    - NameBinding(name='line', allow_rename=True) <references=2>
 '''
 
     assert_namespace_tree(source, expected_namespaces)
@@ -348,10 +301,10 @@ a = {c for c in {line for line in file}}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + SetComp
     - NameBinding(name='c', allow_rename=True) <references=2>
     + SetComp
@@ -371,8 +324,8 @@ a = {x for x in {x for x in x}}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='x', allow_rename=True) <references=2>
   + SetComp
     - NameBinding(name='x', allow_rename=True) <references=2>
     + SetComp
@@ -415,9 +368,9 @@ a = [x for x in f for x in x]
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=1>
-  - NameBinding(name='f', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='f', allow_rename=True) <references=2>
+  - NameBinding(name='x', allow_rename=True) <references=1>
   + ListComp
     - NameBinding(name='x', allow_rename=True) <references=4>
 '''
@@ -437,13 +390,13 @@ a = [c for line in file for c in line]
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + ListComp
-    - NameBinding(name='line', allow_rename=True) <references=2>
     - NameBinding(name='c', allow_rename=True) <references=2>
+    - NameBinding(name='line', allow_rename=True) <references=2>
 '''
 
     assert_namespace_tree(source, expected_namespaces)
@@ -461,10 +414,10 @@ a =[c for c in [line for line in file]]
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + ListComp
     - NameBinding(name='c', allow_rename=True) <references=2>
     + ListComp
@@ -484,8 +437,8 @@ a =[x for x in [x for x in x]]
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='x', allow_rename=True) <references=2>
   + ListComp
     - NameBinding(name='x', allow_rename=True) <references=2>
     + ListComp
@@ -528,9 +481,9 @@ a = {x: x for x, x in f for x, x in x}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=1>
-  - NameBinding(name='f', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='f', allow_rename=True) <references=2>
+  - NameBinding(name='x', allow_rename=True) <references=1>
   + DictComp
     - NameBinding(name='x', allow_rename=True) <references=7>
 '''
@@ -550,13 +503,13 @@ a = {c: c for line, line in file for c, c in line}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + DictComp
-    - NameBinding(name='line', allow_rename=True) <references=3>
     - NameBinding(name='c', allow_rename=True) <references=4>
+    - NameBinding(name='line', allow_rename=True) <references=3>
 '''
 
     assert_namespace_tree(source, expected_namespaces)
@@ -574,10 +527,10 @@ a = {c: c for c, c in {line: line for line in file}}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='c', allow_rename=True) <references=1>
-  - NameBinding(name='line', allow_rename=True) <references=1>
-  - NameBinding(name='file', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='c', allow_rename=True) <references=1>
+  - NameBinding(name='file', allow_rename=True) <references=2>
+  - NameBinding(name='line', allow_rename=True) <references=1>
   + DictComp
     - NameBinding(name='c', allow_rename=True) <references=4>
     + DictComp
@@ -597,8 +550,8 @@ a = {x:x  for x, x in {x: x for x in x}}
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='x', allow_rename=True) <references=2>
   - NameBinding(name='a', allow_rename=True) <references=1>
+  - NameBinding(name='x', allow_rename=True) <references=2>
   + DictComp
     - NameBinding(name='x', allow_rename=True) <references=4>
     + DictComp
@@ -629,8 +582,8 @@ func()
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='OhALongName', allow_rename=False) <references=4>
   - NameBinding(name='MyOtherName', allow_rename=True) <references=1>
+  - NameBinding(name='OhALongName', allow_rename=False) <references=4>
   - NameBinding(name='func', allow_rename=True) <references=2>
   - BuiltinBinding(name='int', allow_rename=True) <references=1>
   + Function func
@@ -638,8 +591,8 @@ func()
     + Class C
       - nonlocal OhALongName
       - nonlocal int
-      - NameBinding(name='MyOtherName', allow_rename=False) <references=1>
       - NameBinding(name='ClassName', allow_rename=False) <references=1>
+      - NameBinding(name='MyOtherName', allow_rename=False) <references=1>
 '''
 
     assert_namespace_tree(source, expected_namespaces)
@@ -665,8 +618,8 @@ func()
 
     expected_namespaces = '''
 + Module
-  - NameBinding(name='OhALongName', allow_rename=False) <references=5>
   - NameBinding(name='MyOtherName', allow_rename=True) <references=1>
+  - NameBinding(name='OhALongName', allow_rename=False) <references=5>
   - NameBinding(name='func', allow_rename=True) <references=2>
   + Function func
     - NameBinding(name='C', allow_rename=True) <references=1>
