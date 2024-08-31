@@ -1,5 +1,4 @@
 import argparse
-import datetime
 import gzip
 import os
 import sys
@@ -62,6 +61,9 @@ def minify_corpus_entry(corpus_path, corpus_entry):
         end_time = time.time()
         result.time = end_time - start_time
         result.outcome = 'UnstableMinification'
+
+    except AssertionError as assertion_error:
+        result.outcome = 'Exception: AssertionError'
 
     except Exception as exception:
         result.outcome = 'Exception: ' + str(exception)

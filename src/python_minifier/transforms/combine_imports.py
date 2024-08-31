@@ -14,19 +14,22 @@ class CombineImports(SuiteTransformer):
     def _combine_import(self, node_list, parent):
 
         alias = []
+        namespace = None
 
         for statement in node_list:
+            namespace = statement.namespace
             if isinstance(statement, ast.Import):
                 alias += statement.names
             else:
                 if alias:
-                    yield self.add_child(ast.Import(names=alias), parent=parent)
+                    yield self.add_child(ast.Import(names=alias), parent=parent, namespace=namespace)
                     alias = []
 
                 yield statement
 
         if alias:
-            yield self.add_child(ast.Import(names=alias), parent=parent)
+            yield self.add_child(ast.Import(names=alias), parent=parent, namespace=namespace)
+
 
     def _combine_import_from(self, node_list, parent):
 
@@ -55,7 +58,7 @@ class CombineImports(SuiteTransformer):
             else:
                 if alias:
                     yield self.add_child(
-                        ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level), parent=parent
+                        ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level), parent=parent, namespace=prev_import.namespace
                     )
                     alias = []
 
@@ -63,7 +66,7 @@ class CombineImports(SuiteTransformer):
 
         if alias:
             yield self.add_child(
-                ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level), parent=parent
+                ast.ImportFrom(module=prev_import.module, names=alias, level=prev_import.level), parent=parent, namespace=prev_import.namespace
             )
 
     def suite(self, node_list, parent):
