@@ -34,6 +34,14 @@ def get_binding(name, namespace):
             namespace.bindings.append(binding)
             return binding
 
+def get_binding_disallow_class_namespace_rename(name, namespace):
+    binding = get_binding(name, namespace)
+
+    if isinstance(namespace, ast.ClassDef):
+        # This name will become an attribute of a class, so it can't be renamed
+        binding.disallow_rename()
+
+    return binding
 
 def resolve_names(node):
     """
@@ -54,20 +62,26 @@ def resolve_names(node):
             binding.disallow_rename()
 
     elif isinstance(node, ast.ClassDef) and node.name in node.namespace.nonlocal_names:
-        get_binding(node.name, node.namespace).add_reference(node)
+        binding = get_binding_disallow_class_namespace_rename(node.name, node.namespace)
+        binding.add_reference(node)
+
     elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')) and node.name in node.namespace.nonlocal_names:
-        get_binding(node.name, node.namespace).add_reference(node)
+        binding = get_binding_disallow_class_namespace_rename(node.name, node.namespace)
+        binding.add_reference(node)
+
     elif isinstance(node, ast.alias):
 
         if node.asname is not None:
             if node.asname in node.namespace.nonlocal_names:
-                get_binding(node.asname, node.namespace).add_reference(node)
+                binding = get_binding_disallow_class_namespace_rename(node.asname, node.namespace)
+                binding.add_reference(node)
+
         else:
             # This binds the root module only for a dotted import
             root_module = node.name.split('.')[0]
 
             if root_module in node.namespace.nonlocal_names:
-                binding = get_binding(root_module, node.namespace)
+                binding = get_binding_disallow_class_namespace_rename(root_module, node.namespace)
                 binding.add_reference(node)
 
                 if '.' in node.name:
@@ -75,15 +89,15 @@ def resolve_names(node):
 
     elif isinstance(node, ast.ExceptHandler) and node.name is not None:
         if isinstance(node.name, str) and node.name in node.namespace.nonlocal_names:
-            get_binding(node.name, node.namespace).add_reference(node)
+            get_binding_disallow_class_namespace_rename(node.name, node.namespace).add_reference(node)
 
     elif is_ast_node(node, 'Nonlocal'):
         for name in node.names:
-            get_binding(name, node.namespace).add_reference(node)
+            get_binding_disallow_class_namespace_rename(name, node.namespace).add_reference(node)
     elif is_ast_node(node, ('MatchAs', 'MatchStar')) and node.name in node.namespace.nonlocal_names:
-        get_binding(node.name, node.namespace).add_reference(node)
+        get_binding_disallow_class_namespace_rename(node.name, node.namespace).add_reference(node)
     elif is_ast_node(node, 'MatchMapping') and node.rest in node.namespace.nonlocal_names:
-        get_binding(node.rest, node.namespace).add_reference(node)
+        get_binding_disallow_class_namespace_rename(node.rest, node.namespace).add_reference(node)
 
     elif is_ast_node(node, 'Exec'):
         get_global_namespace(node).tainted = True
