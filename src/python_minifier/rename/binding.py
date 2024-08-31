@@ -447,3 +447,25 @@ class BuiltinBinding(NameBinding):
                 ),
             )
         )
+
+    def is_redefined(self):
+        """
+        Do one of the references to this builtin name redefine it?
+
+        Could some references actually not be references to the builtin?
+
+        This can happen with code like:
+
+        class MyClass:
+            IndexError = IndexError
+
+        """
+
+        for node in self.references:
+            if not isinstance(node, ast.Name):
+                return True
+
+            if not isinstance(node.ctx, ast.Load):
+                return True
+
+        return False

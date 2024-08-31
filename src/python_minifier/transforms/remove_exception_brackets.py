@@ -77,7 +77,8 @@ def _remove_empty_call(binding):
     assert isinstance(binding, BuiltinBinding)
 
     for name_node in binding.references:
-        assert isinstance(name_node, ast.Name)  # For this to be a builtin, all references must be name nodes as it is not defined anywhere
+        # For this to be a builtin, all references must be name nodes as it is not defined anywhere
+        assert isinstance(name_node, ast.Name) and isinstance(name_node.ctx, ast.Load)
 
         if not isinstance(name_node.parent, ast.Call):
             # This is not a call
@@ -110,7 +111,13 @@ def remove_no_arg_exception_call(module):
         return module
 
     for binding in module.bindings:
-        if isinstance(binding, BuiltinBinding) and binding.name in builtin_exceptions:
+        if not isinstance(binding, BuiltinBinding):
+            continue
+
+        if binding.is_redefined():
+            continue
+
+        if binding.name in builtin_exceptions:
             # We can remove any calls to builtin exceptions
             _remove_empty_call(binding)
 
