@@ -130,6 +130,12 @@ class Binding(object):
                 pass
             elif is_ast_node(node, 'MatchMapping'):
                 pass
+            elif is_ast_node(node, 'TypeVar'):
+                pass
+            elif is_ast_node(node, 'TypeVarTuple'):
+                pass
+            elif is_ast_node(node, 'ParamSpec'):
+                pass
 
             else:
                 raise AssertionError('Unknown reference node')
@@ -177,6 +183,12 @@ class Binding(object):
                 pass
             elif is_ast_node(node, 'MatchMapping'):
                 pass
+            elif is_ast_node(node, 'TypeVar'):
+                pass
+            elif is_ast_node(node, 'TypeVarTuple'):
+                pass
+            elif is_ast_node(node, 'ParamSpec'):
+                pass
 
             else:
                 raise AssertionError('Unknown reference node')
@@ -219,6 +231,12 @@ class Binding(object):
             elif is_ast_node(node, 'MatchStar'):
                 mentions += 1
             elif is_ast_node(node, 'MatchMapping'):
+                mentions += 1
+            elif is_ast_node(node, 'TypeVar'):
+                mentions += 1
+            elif is_ast_node(node, 'TypeVarTuple'):
+                mentions += 1
+            elif is_ast_node(node, 'ParamSpec'):
                 mentions += 1
 
             else:
@@ -386,6 +404,12 @@ class NameBinding(Binding):
                 node.name = new_name
             elif is_ast_node(node, 'MatchMapping'):
                 node.rest = new_name
+            elif is_ast_node(node, 'TypeVar'):
+                node.name = new_name
+            elif is_ast_node(node, 'TypeVarTuple'):
+                node.name = new_name
+            elif is_ast_node(node, 'ParamSpec'):
+                node.name = new_name
 
         if func_namespace_binding is not None:
             func_namespace_binding.body = list(

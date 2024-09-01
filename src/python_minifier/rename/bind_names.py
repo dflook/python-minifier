@@ -161,6 +161,18 @@ class NameBinder(NodeVisitor):
 
         self.generic_visit(node)
 
+    def visit_TypeVar(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+    def visit_TypeVarTuple(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+    def visit_ParamSpec(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
 def bind_names(module):
     """
     Bind names to their local namespace
