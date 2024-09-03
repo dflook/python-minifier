@@ -53,7 +53,7 @@ jobs:
       name: pypi
       url: https://pypi.org/project/python-minifier/
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist
           path: dist/

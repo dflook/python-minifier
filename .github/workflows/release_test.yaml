@@ -38,7 +38,7 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python3.11-2022-10-25
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist
           path: dist/
@@ -67,7 +67,7 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python${{ matrix.python }}-2022-10-25
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist
           path: dist/
@@ -97,7 +97,7 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python3.11-2022-10-25
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist
           path: dist/
