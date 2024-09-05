@@ -166,6 +166,14 @@ def minify(
         rename_globals = False
         rename_locals = False
 
+    if preserve_locals is None:
+        preserve_locals = []
+    if preserve_globals is None:
+        preserve_globals = []
+
+    preserve_locals.extend(module.preserved)
+    preserve_globals.extend(module.preserved)
+
     allow_rename_locals(module, rename_locals, preserve_locals)
     allow_rename_globals(module, rename_globals, preserve_globals)
 
