@@ -168,8 +168,12 @@ def minify(
 
     if preserve_locals is None:
         preserve_locals = []
+    elif isinstance(preserve_locals, str):
+        preserve_locals = [preserve_locals]
     if preserve_globals is None:
         preserve_globals = []
+    elif isinstance(preserve_globals, str):
+        preserve_globals = [preserve_globals]
 
     preserve_locals.extend(module.preserved)
     preserve_globals.extend(module.preserved)
