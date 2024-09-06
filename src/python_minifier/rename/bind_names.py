@@ -15,6 +15,7 @@ class NameBinder(NodeVisitor):
     def __call__(self, module):
         assert isinstance(module, ast.Module)
         module.tainted = False
+        module.preserved = set()
         return self.visit(module)
 
     def get_binding(self, name, namespace):
@@ -160,6 +161,24 @@ class NameBinder(NodeVisitor):
             self.get_binding(node.rest, node.namespace).add_reference(node)
 
         self.generic_visit(node)
+
+    def visit_TypeVar(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        get_global_namespace(node.namespace).preserved.add(node.name)
+
+    def visit_TypeVarTuple(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        get_global_namespace(node.namespace).preserved.add(node.name)
+
+    def visit_ParamSpec(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        get_global_namespace(node.namespace).preserved.add(node.name)
 
 def bind_names(module):
     """
