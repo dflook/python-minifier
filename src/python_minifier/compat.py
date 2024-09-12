@@ -58,17 +58,17 @@ class PythonSourceCompatibility(NodeVisitor):
         self.generic_visit(node)
         self.f_string_nesting -= 1
 
+    def visit_FormattedValue(self, node):
+        # Do not visit the format_spec
+        self.generic_visit(node.value)
+
     def visit_Str(self, node):
-        self.f_string_nesting += 1
-        if self.f_string_nesting > 4:
+        if self.f_string_nesting + 1 > 4:
             self.pep701_required = True
-        self.f_string_nesting -= 1
 
     def visit_Bytes(self, node):
-        self.f_string_nesting += 1
-        if self.f_string_nesting > 4:
+        if self.f_string_nesting + 1 > 4:
             self.pep701_required = True
-        self.f_string_nesting -= 1
 
     # endregion
 
