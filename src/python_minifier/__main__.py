@@ -4,7 +4,7 @@ import argparse
 import os
 import sys
 
-from python_minifier import minify
+from python_minifier import minify, TargetPythonOptions
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 
 if sys.version_info >= (3, 8):
@@ -75,6 +75,10 @@ examples:
             else:
                 sys.stdout.write(minified)
 
+def split_version(version):
+    if version is None:
+        return None
+    return tuple(map(int, version.split('.')))
 
 def parse_args():
     parser = argparse.ArgumentParser(prog='pyminify', description='Minify Python source code', formatter_class=argparse.RawDescriptionHelpFormatter, epilog=main.__doc__)
@@ -236,6 +240,36 @@ def parse_args():
         dest='remove_class_attribute_annotations',
     )
 
+    available_python_versions = ['2.7', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+    target_python_options = parser.add_argument_group('target python options', 'Options that affect which python versions the minified code should target')
+    target_python_options.add_argument(
+        '--target-python',
+        type=str,
+        choices=available_python_versions,
+        action='store',
+        help='The version of Python that the minified code should target.',
+        dest='target_python',
+        metavar='VERSION'
+    )
+    target_python_options.add_argument(
+        '--target-minimum-python',
+        type=str,
+        choices=available_python_versions,
+        action='store',
+        help='The minimum version of Python that the minified code should target. The default is the minimum version required by the source code.',
+        dest='target_minimum_python',
+        metavar='VERSION'
+    )
+    target_python_options.add_argument(
+        '--target-maximum-python',
+        type=str,
+        choices=available_python_versions,
+        action='store',
+        help='The maximum version of Python that the minified code should target. The default is the version pyminify is currently using. (Currently %s)' % '.'.join(str(v) for v in sys.version_info[:2]),
+        dest='target_maximum_python',
+        metavar='VERSION'
+    )
+
     parser.add_argument('--version', '-v', action='version', version=version)
 
     args = parser.parse_args()
@@ -256,6 +290,22 @@ def parse_args():
 
     if args.remove_class_attribute_annotations and not args.remove_annotations:
         sys.stderr.write('error: --remove-class-attribute-annotations would do nothing when used with --no-remove-annotations\n')
+        sys.exit(1)
+
+    if args.target_python and (args.target_minimum_python or args.target_maximum_python):
+        sys.stderr.write('error: --target-python cannot be used with --target-minimum-python or --target-maximum-python\n')
+        sys.exit(1)
+
+    if args.target_python and split_version(args.target_python) > sys.version_info[:2]:
+        sys.stderr.write('error: --target-python cannot be greater than the version of Python running pyminify\n')
+        sys.exit(1)
+
+    if args.target_maximum_python and split_version(args.target_maximum_python) > sys.version_info[:2]:
+        sys.stderr.write('error: --target-maximum-python cannot be greater than the version of Python running pyminify\n')
+        sys.exit(1)
+
+    if args.target_maximum_python and args.target_minimum_python and split_version(args.target_maximum_python) < split_version(args.target_minimum_python):
+        sys.stderr.write('error: --target-maximum-python cannot be less than --target-minimum-python\n')
         sys.exit(1)
 
     return args
@@ -305,6 +355,17 @@ def do_minify(source, filename, minification_args):
             remove_class_attribute_annotations=minification_args.remove_class_attribute_annotations,
         )
 
+    if minification_args.target_python:
+        target_python = TargetPythonOptions(
+            minimum=split_version(minification_args.target_python),
+            maximum=split_version(minification_args.target_python)
+        )
+    else:
+        target_python = TargetPythonOptions(
+            minimum=split_version(minification_args.target_minimum_python) if minification_args.target_minimum_python else (2, 7),
+            maximum=split_version(minification_args.target_maximum_python) if minification_args.target_maximum_python else sys.version_info[:2]
+        )
+
     return minify(
         source,
         filename=filename,
@@ -324,7 +385,8 @@ def do_minify(source, filename, minification_args):
         remove_debug=minification_args.remove_debug,
         remove_explicit_return_none=minification_args.remove_explicit_return_none,
         remove_builtin_exception_brackets=minification_args.remove_exception_brackets,
-        constant_folding=minification_args.constant_folding
+        constant_folding=minification_args.constant_folding,
+        target_python=target_python
     )
 
 

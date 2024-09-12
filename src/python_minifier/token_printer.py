@@ -82,7 +82,7 @@ class TokenPrinter(object):
     def __init__(self, prefer_single_line=False, allow_invalid_num_warnings=False):
         """
         :param prefer_single_line: If True, chooses to put as much code as possible on a single line.
-        :param allow_invalid_num_warnings: If True, allows invalid number literals to be printe that may cause warnings.
+        :param allow_invalid_num_warnings: If True, allows invalid number literals to be printed that may cause warnings.
         """
 
         self._prefer_single_line = prefer_single_line

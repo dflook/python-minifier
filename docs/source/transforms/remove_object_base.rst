@@ -2,7 +2,7 @@ Remove Object Base
 ==================
 
 In Python 3 all classes implicitly inherit from ``object``. This transform removes ``object`` from the base class list
-of all classes. This transform does nothing on Python 2.
+of all classes. This transform is only applied if the target Python version is 3.0 or higher.
 
 This transform is always safe to use and enabled by default.
 
