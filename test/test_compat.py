@@ -156,11 +156,11 @@ async for a in b:
     assert min_version, max_version == ((3, 5), sys.version_info[:2])
 
 def test_async_comprehension():
-    if sys.version_info < (3, 6):
-        pytest.skip('Python < 3.6 does not have async comprehensions')
+    if sys.version_info < (3, 7):
+        pytest.skip('Python < 3.7 does not have async comprehensions')
 
     source = '''
-[a async for a in b]
+result = [i async for i in aiter() if i % 2]
 '''
 
     min_version, max_version = find_syntax_versions(ast.parse(source))
