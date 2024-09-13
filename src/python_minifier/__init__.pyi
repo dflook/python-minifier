@@ -9,6 +9,8 @@ class UnstableMinification(RuntimeError):
 class TargetPythonOptions(object):
     def __init__(self, minimum: Optional[Tuple[int, int]], maximum: Optional[Tuple[int, int]]): ...
 
+    def apply_constraint(self, minimum: Tuple[int, int], maximum: Tuple[int, int]) -> None: ...
+
 def minify(
     source: AnyStr,
     filename: Optional[str] = ...,

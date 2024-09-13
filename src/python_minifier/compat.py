@@ -24,7 +24,6 @@ class PythonSourceCompatibility(NodeVisitor):
         self._max_version = sys.version_info[1], sys.version_info[2]
 
         self.f_string_nesting = 0
-        self.pep701_required = False
 
     def set_minimum(self, major, minor):
         if (major, minor) > self._min_version:
@@ -42,9 +41,6 @@ class PythonSourceCompatibility(NodeVisitor):
         try:
             self.visit(module)
 
-            if self.pep701_required:
-                self.set_minimum(3, 12)
-
             return self._min_version, self._max_version
         except self.Version as v:
             return v.version, v.version
@@ -54,21 +50,30 @@ class PythonSourceCompatibility(NodeVisitor):
         self.set_minimum(3, 6)
         self.f_string_nesting += 1
         if self.f_string_nesting > 4:
-            self.pep701_required = True
+            raise self.Version((3, 12))
         self.generic_visit(node)
         self.f_string_nesting -= 1
 
     def visit_FormattedValue(self, node):
         # Do not visit the format_spec
-        self.generic_visit(node.value)
+        for field, value in ast.iter_fields(node):
+            if field == 'format_spec':
+                continue
+
+            if isinstance(value, list):
+                for item in value:
+                    if isinstance(item, ast.AST):
+                        self.visit(item)
+            elif isinstance(value, ast.AST):
+                self.visit(value)
 
     def visit_Str(self, node):
         if self.f_string_nesting + 1 > 4:
-            self.pep701_required = True
+            raise self.Version((3, 12))
 
     def visit_Bytes(self, node):
         if self.f_string_nesting + 1 > 4:
-            self.pep701_required = True
+            raise self.Version((3, 12))
 
     # endregion
 

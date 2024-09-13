@@ -191,7 +191,7 @@ def minify(
     if remove_pass:
         module = RemovePass()(module)
 
-    if target_python.minimum > (3, 0) and remove_object_base:
+    if target_python.minimum >= (3, 0) and remove_object_base:
         module = RemoveObject()(module)
 
     if remove_asserts:
