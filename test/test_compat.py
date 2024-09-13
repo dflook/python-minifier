@@ -132,8 +132,8 @@ async def f():
     assert min_version, max_version == ((3, 5), sys.version_info[:2])
 
 def test_async_with():
-    if sys.version_info < (3, 5):
-        pytest.skip('Python < 3.5 does not have async with')
+    if sys.version_info < (3, 7):
+        pytest.skip('Python < 3.7 does not support top level async with')
 
     source = '''
 async with a:
@@ -144,8 +144,8 @@ async with a:
     assert min_version, max_version == ((3, 5), sys.version_info[:2])
 
 def test_async_for():
-    if sys.version_info < (3, 5):
-        pytest.skip('Python < 3.5 does not have async for')
+    if sys.version_info < (3, 7):
+        pytest.skip('Python < 3.7 does not support top level async for')
 
     source = '''
 async for a in b:
@@ -167,8 +167,8 @@ def test_async_comprehension():
     assert min_version, max_version == ((3, 6), sys.version_info[:2])
 
 def test_await():
-    if sys.version_info < (3, 5):
-        pytest.skip('Python < 3.5 does not have await')
+    if sys.version_info < (3, 7):
+        pytest.skip('Python < 3.7 does not have top level await')
 
     source = '''
 await a
