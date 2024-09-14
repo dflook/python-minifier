@@ -19,7 +19,7 @@ except NameError:
         pass
 
 
-def minify_corpus_entry(corpus_path, corpus_entry):
+def minify_corpus_entry(corpus_path, corpus_entry, target_python):
     """
     Minify a single entry in the corpus and return the result
 
@@ -40,7 +40,7 @@ def minify_corpus_entry(corpus_path, corpus_entry):
 
     start_time = time.time()
     try:
-        minified = python_minifier.minify(source, filename=corpus_entry)
+        minified = python_minifier.minify(source, filename=corpus_entry, target_python=target_python)
         end_time = time.time()
         result.time = end_time - start_time
 
@@ -71,7 +71,7 @@ def minify_corpus_entry(corpus_path, corpus_entry):
     return result
 
 
-def corpus_test(corpus_path, results_path, sha, regenerate_results):
+def corpus_test(corpus_path, results_path, sha, regenerate_results, target_current_python):
     """
     Test the minifier on the entire corpus
 
@@ -87,14 +87,25 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     """
     python_version = '.'.join([str(s) for s in sys.version_info[:2]])
 
-    log_path = 'results_' + python_version + '_' + sha + '.log'
+    if target_current_python:
+        log_path = 'results_' + python_version + '_' + sha + '.log'
+        results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
+        target_python = python_minifier.TargetPythonOptions(
+            minimum=sys.version_info[:2],
+            maximum=sys.version_info[:2]
+        )
+        print(target_python)
+    else:
+        log_path = 'results_' + python_version + '_compatible_target_' + sha + '.log'
+        results_file_path = os.path.join(results_path, 'results_' + python_version + '_compatible_target_' + sha + '.csv')
+        target_python = None
+        print('Targeting compatible Python versions')
+
     print('Logging in GitHub Actions is absolute garbage. Logs are going to ' + log_path)
 
     logging.basicConfig(filename=os.path.join(results_path, log_path), level=logging.DEBUG)
 
     corpus_entries = [entry[:-len('.py.gz')] for entry in os.listdir(corpus_path)]
-
-    results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
 
     if os.path.isfile(results_file_path):
         logging.info('Results file already exists: %s', results_file_path)
@@ -117,7 +128,7 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
 
             logging.debug(entry)
 
-            result = minify_corpus_entry(corpus_path, entry)
+            result = minify_corpus_entry(corpus_path, entry, target_python=target_python)
             result_writer.write(result)
             tested_entries += 1
 
@@ -144,9 +155,10 @@ def main():
     parser.add_argument('results_dir', type=str, help='Path to results directory', default='results')
     parser.add_argument('minifier_sha', type=str, help='The python-minifier sha we are testing')
     parser.add_argument('regenerate_results', type=bool_parse, help='Regenerate results even if they are present', default='false')
+    parser.add_argument('target_current_python', type=bool_parse, help='Target the minify process to the current Python version', default='true')
     args = parser.parse_args()
 
-    corpus_test(args.corpus_dir, args.results_dir, args.minifier_sha, args.regenerate_results)
+    corpus_test(args.corpus_dir, args.results_dir, args.minifier_sha, args.regenerate_results, args.target_current_python)
 
 
 if __name__ == '__main__':
