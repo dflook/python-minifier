@@ -4,32 +4,87 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.0] - 2024-09-15
+
+:information_source: Note that python-minifier depends on the python interpreter for parsing source code,
+and will output source code compatible with the version of the interpreter it is run with.
+
+This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
+the minified code may only run with Python 3.12.
+
+### Added
+- Python 3.12 support, including:
+    - PEP 695 Type parameter syntax
+    - PEP 701 Improved f-strings
+
+- A new transform to remove the brackets when instantiating and raising built-in exceptions, which is enabled by default.
+  e.g.
+
+ ```python
+def a():
+    raise ValueError()
+```
+
+  Will be minified to:
+
+```python
+def a():
+    raise ValueError
+```
+ 
+  The raise statement automatically instantiates classes derived from Exception, so the brackets are not required.
+
+- A new constant folding transform, which is enabled by default.
+  This will evaluate simple expressions when minifying, e.g.
+
+```python
+SECONDS_IN_A_DAY = 60 * 60 * 24
+```
+
+  Will be minified to:
+```python
+SECONDS_IN_A_DAY = 86400
+```
+
+### Changed
+- Annotation removal is now more configurable, with separate options for:
+    - Removal of variable annotations (`--no-remove-variable-annotations`)
+    - Removal of function return annotations (`--no-remove-return-annotations`)
+    - Removal of function argument annotations (`--remove-argument-annotations`)
+    - Removal of class attribute annotations (`--no-remove-class-annotations`)
+
+  The default behavior has changed, with class attribute annotations no longer removed by default.
+  These are increasingly being used at runtime, and removing them can cause issues.
+
+### Fixed
+- Fixed various subtle issues with renaming of names that overlap class scope.
+
 ## [2.9.0] - 2023-05-01
 
 ### Added
 - A new transform to remove `return` statements that are not required, which is enabled by default.
   e.g.
 
- ```python
-def important(a):
-    if a > 3:
-        return a
-    if a < 2:
-        return None
-    a.adjust(1)
-    return None
-```
+   ```python
+  def important(a):
+      if a > 3:
+          return a
+      if a < 2:
+          return None
+      a.adjust(1)
+      return None
+  ```
 
   Will be minified to:
 
-```python
-def important(a):
-    if a > 3:
-        return a
-    if a < 2:
-        return
-    a.adjust(1)
-```
+  ```python
+  def important(a):
+      if a > 3:
+          return a
+      if a < 2:
+          return
+      a.adjust(1)
+  ```
 
 - The f-string debug specifier will now be used where possible, e.g. `f'my_var={my_var!r}'` will be minified to `f'{my_var=}'`.
   The debug specifier should now be preserved where it is used in the input source.
@@ -199,6 +254,7 @@ def important(a):
 - python-minifier package
 - pyminify command
 
+[2.10.0]: https://github.com/dflook/python-minifier/compare/2.9.0...2.10.0
 [2.9.0]: https://github.com/dflook/python-minifier/compare/2.8.1...2.9.0
 [2.8.1]: https://github.com/dflook/python-minifier/compare/2.8.0...2.8.1
 [2.8.0]: https://github.com/dflook/python-minifier/compare/2.7.0...2.8.0
