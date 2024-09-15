@@ -20,31 +20,31 @@ the minified code may only run with Python 3.12.
 - A new transform to remove the brackets when instantiating and raising built-in exceptions, which is enabled by default.
   e.g.
 
- ```python
-def a():
-    raise ValueError()
-```
+   ```python
+  def a():
+      raise ValueError()
+  ```
 
   Will be minified to:
 
-```python
-def a():
-    raise ValueError
-```
+  ```python
+  def a():
+      raise ValueError
+  ```
  
   The raise statement automatically instantiates classes derived from Exception, so the brackets are not required.
 
 - A new constant folding transform, which is enabled by default.
   This will evaluate simple expressions when minifying, e.g.
 
-```python
-SECONDS_IN_A_DAY = 60 * 60 * 24
-```
+  ```python
+  SECONDS_IN_A_DAY = 60 * 60 * 24
+  ```
 
   Will be minified to:
-```python
-SECONDS_IN_A_DAY = 86400
-```
+  ```python
+  SECONDS_IN_A_DAY = 86400
+  ```
 
 ### Changed
 - Annotation removal is now more configurable, with separate options for:
