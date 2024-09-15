@@ -123,3 +123,43 @@ def test_raise_from_arg():
     expected_ast = ast.parse(expected)
     actual_ast = remove_brackets(source)
     compare_ast(expected_ast, actual_ast)
+
+def test_raise_builtin_in_class():
+    """This is a builtin so remove the brackets"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
+    source = '''
+class A:
+    raise IndexError()
+'''
+
+    expected = '''
+class A:
+    raise IndexError
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_brackets(source)
+    compare_ast(expected_ast, actual_ast)
+
+def test_raise_redefined_builtin_in_class():
+    """This was a builtin at some point, but it was redefined so don't remove the brackets"""
+    if sys.version_info < (3, 0):
+        pytest.skip('transform does not work in this version of python')
+
+    source = '''
+class A:
+    if random.choice([True, False]):
+        IndexError = IndexError
+    raise IndexError()
+'''
+
+    expected = '''
+class A:
+    if random.choice([True, False]):
+        IndexError = IndexError
+    raise IndexError()
+'''
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_brackets(source)
+    compare_ast(expected_ast, actual_ast)

@@ -4,11 +4,10 @@ a 'minified' representation of the same source code.
 
 """
 
-import ast
+import python_minifier.ast_compat as ast
 import re
 
 from python_minifier.ast_compare import CompareError, compare_ast
-from python_minifier.ast_printer import print_ast
 from python_minifier.module_printer import ModulePrinter
 from python_minifier.rename import (
     rename_literals,
@@ -166,6 +165,18 @@ def minify(
     if module.tainted:
         rename_globals = False
         rename_locals = False
+
+    if preserve_locals is None:
+        preserve_locals = []
+    elif isinstance(preserve_locals, str):
+        preserve_locals = [preserve_locals]
+    if preserve_globals is None:
+        preserve_globals = []
+    elif isinstance(preserve_globals, str):
+        preserve_globals = [preserve_globals]
+
+    preserve_locals.extend(module.preserved)
+    preserve_globals.extend(module.preserved)
 
     allow_rename_locals(module, rename_locals, preserve_locals)
     allow_rename_globals(module, rename_globals, preserve_globals)

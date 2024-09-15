@@ -2,7 +2,7 @@
 For each node in an AST set the namespace to use for name binding and resolution
 """
 
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.util import is_namespace
 from python_minifier.util import is_ast_node
@@ -61,6 +61,10 @@ def add_parent_to_functiondef(functiondef):
     for node in functiondef.decorator_list:
         add_parent(node, parent=functiondef, namespace=functiondef.namespace)
 
+    if hasattr(functiondef, 'type_params') and functiondef.type_params is not None:
+        for node in functiondef.type_params:
+            add_parent(node, parent=functiondef, namespace=functiondef.namespace)
+
     if hasattr(functiondef, 'returns') and functiondef.returns is not None:
         add_parent(functiondef.returns, parent=functiondef, namespace=functiondef.namespace)
 
@@ -88,6 +92,10 @@ def add_parent_to_classdef(classdef):
 
     for node in classdef.decorator_list:
         add_parent(node, parent=classdef, namespace=classdef.namespace)
+
+    if hasattr(classdef, 'type_params') and classdef.type_params is not None:
+        for node in classdef.type_params:
+            add_parent(node, parent=classdef, namespace=classdef.namespace)
 
 def add_parent_to_comprehension(node, namespace):
     assert is_ast_node(node, (ast.GeneratorExp, 'SetComp', 'DictComp', 'ListComp'))
@@ -151,6 +159,13 @@ def add_parent(node, parent=None, namespace=None):
         namespace.global_names.update(node.names)
     if is_ast_node(node, 'Nonlocal'):
         namespace.nonlocal_names.update(node.names)
+
+    if isinstance(node, ast.Name):
+        if isinstance(namespace, ast.ClassDef):
+            if isinstance(node.ctx, ast.Load):
+                namespace.nonlocal_names.add(node.id)
+            elif isinstance(node.ctx, ast.Store) and isinstance(node.parent, ast.AugAssign):
+                namespace.nonlocal_names.add(node.id)
 
     for child in ast.iter_child_nodes(node):
         add_parent(child, parent=node, namespace=namespace)

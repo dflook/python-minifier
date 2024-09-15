@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import NameBinding
 from python_minifier.rename.name_generator import name_filter

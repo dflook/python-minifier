@@ -188,17 +188,21 @@
 /usr/local/lib/python3.11/test/test_asyncio/test_futures.py: []
 /usr/local/lib/python3.11/test/test_asyncio/test_futures2.py:
 - options:
-    preserve_locals: future
+    preserve_locals:
+    - future
 - options:
     rename_globals: true
-    preserve_locals: future
+    preserve_locals:
+    - future
 - options:
     remove_literal_statements: true
-    preserve_locals: future
+    preserve_locals:
+    - future
 - options:
     remove_literal_statements: true
     rename_globals: true
-    preserve_locals: future
+    preserve_locals:
+    - future
 /usr/local/lib/python3.11/test/test_asyncio/test_locks.py:
 - options: {}
 - options:
@@ -2904,17 +2908,21 @@
     rename_globals: true
 /usr/local/lib/python3.11/test/test_opcache.py:
 - options:
-    preserve_locals: Class
+    preserve_locals:
+    - Class
 - options:
     rename_globals: true
-    preserve_locals: Class
+    preserve_locals:
+    - Class
 - options:
     remove_literal_statements: true
-    preserve_locals: Class
+    preserve_locals:
+    - Class
 - options:
     remove_literal_statements: true
     rename_globals: true
-    preserve_locals: Class
+    preserve_locals:
+    - Class
 /usr/local/lib/python3.11/test/test_opcodes.py:
 - options: {}
 - options:

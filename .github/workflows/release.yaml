@@ -8,12 +8,15 @@ concurrency:
   group: release
   cancel-in-progress: false
 
+env:
+   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
 jobs:
 
   release:
     runs-on: ubuntu-latest
     container:
-      image: danielflook/python-minifier-build:python3.11-2022-10-25
+      image: danielflook/python-minifier-build:python3.12-2024-01-12
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,8 +28,8 @@ jobs:
 
       - name: Build package
         run: |
-          pip3 install --upgrade setuptools wheel
-          python3 setup.py sdist bdist_wheel --universal
+          pip3 install --upgrade build
+          python3 -m build
 
       - uses: actions/upload-artifact@v3
         with:
@@ -51,7 +54,7 @@ jobs:
       id-token: write
     environment:
       name: pypi
-      url: https://pypi.org/project/python-minifier/
+      url: https://pypi.org/project/python-minifier/${{ github.event.release.tag_name }}
     steps:
       - uses: actions/download-artifact@v3
         with:

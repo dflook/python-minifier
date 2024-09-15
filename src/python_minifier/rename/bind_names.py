@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import NameBinding
 from python_minifier.rename.util import arg_rename_in_place, get_global_namespace, get_nonlocal_namespace, builtins
@@ -15,6 +15,7 @@ class NameBinder(NodeVisitor):
     def __call__(self, module):
         assert isinstance(module, ast.Module)
         module.tainted = False
+        module.preserved = set()
         return self.visit(module)
 
     def get_binding(self, name, namespace):
@@ -23,11 +24,6 @@ class NameBinder(NodeVisitor):
 
         # nonlocal names should not create a binding in any context
         assert name not in namespace.nonlocal_names
-
-        if isinstance(namespace, ast.ClassDef):
-            binding = self.get_binding(name, get_nonlocal_namespace(namespace))
-            binding.disallow_rename()
-            return binding
 
         for binding in namespace.bindings:
             if binding.name == name:
@@ -41,6 +37,10 @@ class NameBinder(NodeVisitor):
 
         if name in namespace.nonlocal_names and isinstance(namespace, ast.Module):
             # This is actually a syntax error - but we want the same syntax error after minifying!
+            binding.disallow_rename()
+
+        if isinstance(namespace, ast.ClassDef):
+            # This name will become an attribute of the class, so it can't be renamed
             binding.disallow_rename()
 
         return binding
@@ -161,6 +161,24 @@ class NameBinder(NodeVisitor):
             self.get_binding(node.rest, node.namespace).add_reference(node)
 
         self.generic_visit(node)
+
+    def visit_TypeVar(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        get_global_namespace(node.namespace).preserved.add(node.name)
+
+    def visit_TypeVarTuple(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        get_global_namespace(node.namespace).preserved.add(node.name)
+
+    def visit_ParamSpec(self, node):
+        if node.name not in node.namespace.nonlocal_names:
+            self.get_binding(node.name, node.namespace).add_reference(node)
+
+        get_global_namespace(node.namespace).preserved.add(node.name)
 
 def bind_names(module):
     """

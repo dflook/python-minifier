@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.util import arg_rename_in_place, insert
 from python_minifier.util import is_ast_node
@@ -11,7 +11,6 @@ class Binding(object):
     :param name: A name for this binding
     :type name: str or None
     :param bool allow_rename: If this binding may be renamed
-    :param int rename_cost: The cost of renaming this binding in bytes, NOT including the difference in name lengths
 
     """
 
@@ -131,6 +130,12 @@ class Binding(object):
                 pass
             elif is_ast_node(node, 'MatchMapping'):
                 pass
+            elif is_ast_node(node, 'TypeVar'):
+                pass
+            elif is_ast_node(node, 'TypeVarTuple'):
+                pass
+            elif is_ast_node(node, 'ParamSpec'):
+                pass
 
             else:
                 raise AssertionError('Unknown reference node')
@@ -178,6 +183,12 @@ class Binding(object):
                 pass
             elif is_ast_node(node, 'MatchMapping'):
                 pass
+            elif is_ast_node(node, 'TypeVar'):
+                pass
+            elif is_ast_node(node, 'TypeVarTuple'):
+                pass
+            elif is_ast_node(node, 'ParamSpec'):
+                pass
 
             else:
                 raise AssertionError('Unknown reference node')
@@ -220,6 +231,12 @@ class Binding(object):
             elif is_ast_node(node, 'MatchStar'):
                 mentions += 1
             elif is_ast_node(node, 'MatchMapping'):
+                mentions += 1
+            elif is_ast_node(node, 'TypeVar'):
+                mentions += 1
+            elif is_ast_node(node, 'TypeVarTuple'):
+                mentions += 1
+            elif is_ast_node(node, 'ParamSpec'):
                 mentions += 1
 
             else:
@@ -289,7 +306,7 @@ class NameBinding(Binding):
             self.disallow_rename()
 
     def __repr__(self):
-        return self.__class__.__name__ + '(name=%r) <references=%r>' % (self._name, len(self._references))
+        return self.__class__.__name__ + '(name=%r, allow_rename=%r) <references=%r>' % (self._name, self._allow_rename, len(self._references))
 
     def should_rename(self, new_name):
         """
@@ -387,6 +404,12 @@ class NameBinding(Binding):
                 node.name = new_name
             elif is_ast_node(node, 'MatchMapping'):
                 node.rest = new_name
+            elif is_ast_node(node, 'TypeVar'):
+                node.name = new_name
+            elif is_ast_node(node, 'TypeVarTuple'):
+                node.name = new_name
+            elif is_ast_node(node, 'ParamSpec'):
+                node.name = new_name
 
         if func_namespace_binding is not None:
             func_namespace_binding.body = list(
@@ -448,3 +471,25 @@ class BuiltinBinding(NameBinding):
                 ),
             )
         )
+
+    def is_redefined(self):
+        """
+        Do one of the references to this builtin name redefine it?
+
+        Could some references actually not be references to the builtin?
+
+        This can happen with code like:
+
+        class MyClass:
+            IndexError = IndexError
+
+        """
+
+        for node in self.references:
+            if not isinstance(node, ast.Name):
+                return True
+
+            if not isinstance(node.ctx, ast.Load):
+                return True
+
+        return False

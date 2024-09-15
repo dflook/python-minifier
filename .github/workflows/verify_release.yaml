@@ -8,14 +8,17 @@ on:
         required: true
         type: string
 
+env:
+   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
 jobs:
   test_package:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
     container:
-      image: danielflook/python-minifier-build:python${{ matrix.python }}-2022-10-25
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-01-12
     steps:
       - name: Test
         run: |

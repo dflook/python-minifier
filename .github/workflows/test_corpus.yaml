@@ -34,6 +34,9 @@ on:
         required: false
         default: false
 
+env:
+   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
 jobs:
   generate_results:
     name: Minify Corpus
@@ -41,10 +44,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     container:
-      image: danielflook/python-minifier-build:${{ matrix.python }}-2022-10-25
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-01-12
       volumes:
         - /corpus:/corpus
         - /corpus-results:/corpus-results
@@ -64,31 +67,43 @@ jobs:
           path: python-minifier
 
       - name: Install ref
+        id: install
         run: |
           set -ex
           (cd python-minifier && git log --pretty=format:'%H' -n 1) > sha.txt
           cat sha.txt
           VERSION=0.0.0
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" python-minifier/setup.py
-          (cd python-minifier && ${{matrix.python}} setup.py install)
+          
+          if ! pip${{ matrix.python }} install python-minifier/ 2>stderr.log; then
+            echo stderr.log
+          
+            if grep -q -E 'require a different python version|requires a different Python' stderr.log; then
+              echo "${{ matrix.ref }} doesn't support Python ${{ matrix.python }}. Skipping."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            else
+              exit 1
+            fi
+          fi
 
       - name: Run tests
+        if: steps.install.outputs.skip != 'true'
         run: |
-          if [[ "${{ matrix.python }}" == "python3.3" || "${{ matrix.python }}" == "python3.4" || "${{ matrix.python }}" == "python3.5" ]]; then
+          if [[ "${{ matrix.python }}" == "3.3" || "${{ matrix.python }}" == "3.4" || "${{ matrix.python }}" == "3.5" ]]; then
             # These versions randomise the hash seed, but don't preserve dict order
             # This affects how names are assigned. Disable the hash randomisation for
             # deterministic results.
             export PYTHONHASHSEED=0
           fi
           
-          ${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
+          python${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
 
   generate_report:
     name: Generate Report
     needs: generate_results
     runs-on: self-hosted
     container:
-      image: danielflook/python-minifier-build:python3.11-2022-10-25
+      image: danielflook/python-minifier-build:python3.12-2024-01-12
       volumes:
         - /corpus-results:/corpus-results
     if: ${{ always() }}
@@ -125,4 +140,4 @@ jobs:
 
       - name: Generate Report
         run: |
-          python3.11 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
+          python3.12 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY

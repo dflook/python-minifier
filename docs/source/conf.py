@@ -23,11 +23,11 @@ project = 'Python Minifier'
 copyright = '2020, Daniel Flook'
 author = 'Daniel Flook'
 
-from pkg_resources import get_distribution, DistributionNotFound
+from importlib import metadata
 try:
-    release = get_distribution('python_minifier').version
+    release = metadata.version('python-minifier')
     version = '.'.join(release.split('.')[:3])
-except DistributionNotFound:
+except metadata.PackageNotFoundError:
     release = '0.0.0'
     version = '0.0.0'
 

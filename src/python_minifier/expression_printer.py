@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 import sys
 
 from python_minifier.util import is_ast_node
@@ -69,7 +69,7 @@ class ExpressionPrinter(object):
 
         # Python2 parses negative ints as an ast.Num with a negative value.
         # Make sure the Num get the precedence of the USub operator in this case.
-        if sys.version_info < (3, 0) and isinstance(node, ast.Num):
+        if sys.version_info < (3, 0) and is_ast_node(node, ast.Num):
             if str(node.n)[0] == '-':
                 return self.precedences['USub']
 
@@ -208,7 +208,7 @@ class ExpressionPrinter(object):
     def visit_UnaryOp(self, node):
         self.visit(node.op)
 
-        if sys.version_info < (3, 0) and isinstance(node.op, ast.USub) and isinstance(node.operand, ast.Num):
+        if sys.version_info < (3, 0) and isinstance(node.op, ast.USub) and is_ast_node(node.operand, ast.Num):
             # For: -(1), which is parsed as a UnaryOp(USub, Num(1)).
             # Without this special case it would be printed as -1
             # This is fine, but python 2 will then parse it at Num(-1) so the AST wouldn't round-trip.
@@ -428,7 +428,7 @@ class ExpressionPrinter(object):
         value_precedence = self.precedence(node.value)
         attr_precedence = self.precedence(node)
 
-        if (value_precedence != 0 and (attr_precedence > value_precedence)) or isinstance(node.value, ast.Num):
+        if (value_precedence != 0 and (attr_precedence > value_precedence)) or is_ast_node(node.value, ast.Num):
             self.printer.delimiter('(')
             self._expression(node.value)
             self.printer.delimiter(')')
@@ -462,7 +462,7 @@ class ExpressionPrinter(object):
             self.visit_Slice(node.slice)
         elif isinstance(node.slice, ast.ExtSlice):
             self.visit_ExtSlice(node.slice)
-        elif isinstance(node.slice, ast.Ellipsis):
+        elif is_ast_node(node.slice, ast.Ellipsis):
             self.visit_Ellipsis(node)
         elif sys.version_info >= (3, 9) and isinstance(node.slice, ast.Tuple):
             self.visit_Tuple(node.slice)
@@ -735,7 +735,12 @@ class ExpressionPrinter(object):
 
         import python_minifier.f_string
 
-        self.printer.fstring(str(python_minifier.f_string.OuterFString(node)))
+        if sys.version_info < (3, 12):
+            pep701 = False
+        else:
+            pep701 = True
+
+        self.printer.fstring(str(python_minifier.f_string.OuterFString(node, pep701=pep701)))
 
     def visit_NamedExpr(self, node):
         self._expression(node.target)

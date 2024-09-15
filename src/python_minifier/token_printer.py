@@ -117,7 +117,9 @@ class TokenPrinter(object):
             'for', 'from', 'global', 'if', 'import',
             'in', 'is', 'lambda', 'nonlocal', 'not',
             'or', 'pass', 'raise', 'return',
-            'try', 'while', 'with', 'yield', '_', 'case', 'match', 'print', 'exec'
+            'try', 'while', 'with', 'yield', '_',
+            'case', 'match', 'print', 'exec',
+            'type'
         ]
 
         if self.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword, TokenTypes.NumberLiteral]:
@@ -125,7 +127,7 @@ class TokenPrinter(object):
 
         self._code += kw
 
-        if kw in ['_', 'case', 'match']:
+        if kw in ['_', 'case', 'match', 'type']:
             self.previous_token = TokenTypes.SoftKeyword
         else:
             self.previous_token = TokenTypes.Keyword

@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import Binding
 from python_minifier.rename.util import insert
@@ -113,8 +113,9 @@ class HoistLiterals(NodeVisitor):
     Hoist literal strings to module level variables
     """
 
-    def __call__(self, module):
+    def __call__(self, module, ignore_slots=True):
         self.module = module
+        self._ignore_slots = ignore_slots
         self._hoisted = {}
         self.visit(module)
         self.place_bindings()
@@ -229,6 +230,20 @@ class HoistLiterals(NodeVisitor):
 
         for n in node.body:
             self.visit(n)
+
+    def visit_Assign(self, node):
+        if not self._ignore_slots:
+            return self.generic_visit(node)
+
+        if not is_ast_node(node.namespace, ast.ClassDef):
+            return self.generic_visit(node)
+
+        for target in node.targets:
+            if is_ast_node(target, ast.Name) and target.id == '__slots__':
+                # This is a __slots__ assignment, don't hoist the literals
+                return
+
+        return self.generic_visit(node)
 
 def rename_literals(module):
     HoistLiterals()(module)

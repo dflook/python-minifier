@@ -1,4 +1,4 @@
-import ast
+import python_minifier.ast_compat as ast
 import sys
 
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
@@ -24,6 +24,9 @@ class RemoveAnnotations(SuiteTransformer):
         node.args = self.visit_arguments(node.args)
         node.body = self.suite(node.body, parent=node)
         node.decorator_list = [self.visit(d) for d in node.decorator_list]
+
+        if hasattr(node, 'type_params') and node.type_params is not None:
+            node.type_params = [self.visit(t) for t in node.type_params]
 
         if hasattr(node, 'returns') and self._options.remove_return_annotations:
             node.returns = None
