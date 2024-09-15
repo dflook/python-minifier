@@ -87,18 +87,23 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results, target_curre
     """
     python_version = '.'.join([str(s) for s in sys.version_info[:2]])
 
+    target_python = None
+
     if target_current_python:
         log_path = 'results_' + python_version + '_' + sha + '.log'
         results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
-        target_python = python_minifier.TargetPythonOptions(
-            minimum=sys.version_info[:2],
-            maximum=sys.version_info[:2]
-        )
-        print(target_python)
+
+        if hasattr(python_minifier, 'TargetPythonOptions'):
+            target_python = python_minifier.TargetPythonOptions(
+                minimum=sys.version_info[:2],
+                maximum=sys.version_info[:2]
+            )
+            print(target_python)
+        else:
+            print('Old version of python-minifier which always targets current version')
     else:
         log_path = 'results_' + python_version + '_compatible_target_' + sha + '.log'
         results_file_path = os.path.join(results_path, 'results_' + python_version + '_compatible_target_' + sha + '.csv')
-        target_python = None
         print('Targeting compatible Python versions')
 
     print('Logging in GitHub Actions is absolute garbage. Logs are going to ' + log_path)
