@@ -28,8 +28,7 @@ the minified code may only run with Python 3.12.
   Will be minified to:
 
   ```python
-  def a():
-      raise ValueError
+  def a():raise ValueError
   ```
  
   The raise statement automatically instantiates classes derived from Exception, so the brackets are not required.
@@ -43,7 +42,7 @@ the minified code may only run with Python 3.12.
 
   Will be minified to:
   ```python
-  SECONDS_IN_A_DAY = 86400
+  SECONDS_IN_A_DAY=86400
   ```
 
 ### Changed
