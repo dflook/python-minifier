@@ -754,16 +754,28 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.delimiter(':')
             self._expression(node.bound)
 
+        if hasattr(node, 'default_value') and node.default_value is not None:
+            self.printer.delimiter('=')
+            self._expression(node.default_value)
+
     def visit_TypeVarTuple(self, node):
         assert isinstance(node, ast.TypeVarTuple)
         self.printer.operator('*')
         self.printer.identifier(node.name)
+
+        if hasattr(node, 'default_value') and node.default_value is not None:
+            self.printer.delimiter('=')
+            self._expression(node.default_value)
 
     def visit_ParamSpec(self, node):
         assert isinstance(node, ast.ParamSpec)
         self.printer.operator('*')
         self.printer.operator('*')
         self.printer.identifier(node.name)
+
+        if hasattr(node, 'default_value') and node.default_value is not None:
+            self.printer.delimiter('=')
+            self._expression(node.default_value)
 
     # endregion
 
