@@ -49,8 +49,8 @@ the minified code may only run with Python 3.12.
 - Annotation removal is now more configurable, with separate options for:
     - Removal of variable annotations (`--no-remove-variable-annotations`)
     - Removal of function return annotations (`--no-remove-return-annotations`)
-    - Removal of function argument annotations (`--remove-argument-annotations`)
-    - Removal of class attribute annotations (`--no-remove-class-annotations`)
+    - Removal of function argument annotations (`--no-remove-argument-annotations`)
+    - Removal of class attribute annotations (`--remove-class-attribute-annotations`)
 
   The default behavior has changed, with class attribute annotations no longer removed by default.
   These are increasingly being used at runtime, and removing them can cause issues.
