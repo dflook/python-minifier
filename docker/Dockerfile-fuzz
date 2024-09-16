@@ -1,4 +1,4 @@
-FROM fedora:38 AS fuzz
+FROM fedora:40 AS fuzz
 
 RUN dnf install -y \
       python3 \

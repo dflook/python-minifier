@@ -12,7 +12,7 @@ on:
         type: string
         description: 'Git ref to compare against'
         required: true
-        default: '2.8.1'
+        default: '2.10.0'
       regenerate-results:
         type: boolean
         description: 'Regenerate results'
@@ -44,10 +44,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     container:
-      image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-01-12
+      image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
       volumes:
         - /corpus:/corpus
         - /corpus-results:/corpus-results
@@ -103,7 +103,7 @@ jobs:
     needs: generate_results
     runs-on: self-hosted
     container:
-      image: danielflook/python-minifier-build:python3.12-2024-01-12
+      image: danielflook/python-minifier-build:python3.13-2024-09-15
       volumes:
         - /corpus-results:/corpus-results
     if: ${{ always() }}
@@ -140,4 +140,4 @@ jobs:
 
       - name: Generate Report
         run: |
-          python3.12 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
+          python3.13 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} $(<sha.txt) ${{ inputs.base-ref }} $(<base-sha.txt) >> $GITHUB_STEP_SUMMARY
