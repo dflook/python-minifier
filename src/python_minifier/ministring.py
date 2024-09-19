@@ -32,11 +32,15 @@ class MiniString(object):
 
         try:
             eval(self.quote + s + self.quote)
-        except UnicodeDecodeError:
-            if self._safe_mode:
+        except (UnicodeDecodeError, UnicodeEncodeError) as e:
+            if self.safe_mode:
                 raise
 
-            self._safe_mode = True
+            self.safe_mode = True
+            if len(self.quote) == 1:
+                s = self.to_short()
+            else:
+                s = self.to_long()
 
         assert eval(self.quote + s + self.quote) == self._s
 
