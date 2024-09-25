@@ -1,1 +1,7567 @@
-{}
+/usr/local/lib/python3.13/test/leakers/test_ctypes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/leakers/test_selftype.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/regrtestdata/import_from_tests/test_regrtest_a.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/regrtestdata/import_from_tests/test_regrtest_c.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test___all__.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test__colorize.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test__interpchannels.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test__interpreters.py:
+- options:
+    hoist_literals: false
+  status: passing
+- options:
+    hoist_literals: false
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test__locale.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test__opcode.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test__osx_support.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_abc.py:
+- options:
+    preserve_locals:
+    - A
+    - B
+    - C
+    - D
+  status: passing
+- options:
+    preserve_locals:
+    - A
+    - B
+    - C
+    - D
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - A
+    - B
+    - C
+    - D
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - A
+    - B
+    - C
+    - D
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_abstract_numbers.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_android.py: []
+/usr/local/lib/python3.13/test/test_argparse.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_array.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asdl_parser.py: []
+/usr/local/lib/python3.13/test/test_ast/test_ast.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncgen.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_base_events.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_buffered_proto.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_context.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_eager_task_factory.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_events.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_futures.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_futures2.py:
+- options:
+    preserve_locals:
+    - future
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - future
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - future
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - future
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_locks.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_pep492.py:
+- options:
+    preserve_locals:
+    - foo
+    - spam
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - foo
+    - spam
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - foo
+    - spam
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - foo
+    - spam
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_proactor_events.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_protocols.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_queues.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_runners.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_selector_events.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_sendfile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_server.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_sock_lowlevel.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_ssl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_sslproto.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_staggered.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_streams.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_subprocess.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - TestSubprocessTransport
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - TestSubprocessTransport
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_taskgroups.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_tasks.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_threads.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_timeouts.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_transports.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_unix_events.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_waitfor.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_asyncio/test_windows_events.py: []
+/usr/local/lib/python3.13/test/test_asyncio/test_windows_utils.py: []
+/usr/local/lib/python3.13/test/test_atexit.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_audit.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_augassign.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_base64.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_baseexception.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bdb.py: []
+/usr/local/lib/python3.13/test/test_bigaddrspace.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bigmem.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_binascii.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_binop.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bisect.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bool.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_buffer.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bufio.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_builtin.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bytes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_bz2.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_c_locale_coercion.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    - tearDownModule
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    - tearDownModule
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_calendar.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_call.py:
+- options:
+    convert_posargs_to_args: false
+    preserve_globals:
+    - A
+    preserve_locals:
+    - arg
+    rename_globals: true
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    preserve_locals:
+    - arg
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    preserve_globals:
+    - A
+    preserve_locals:
+    - arg
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    preserve_locals:
+    - arg
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_abstract.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_bytearray.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_bytes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_codecs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_complex.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_dict.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_eval_code_ex.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_exceptions.py: []
+/usr/local/lib/python3.13/test/test_capi/test_float.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_getargs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_hash.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_immortal.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_list.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_long.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_mem.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_misc.py: []
+/usr/local/lib/python3.13/test/test_capi/test_number.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_object.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_opt.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_pyatomic.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_run.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_set.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_structmembers.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_sys.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_time.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_tuple.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_capi/test_unicode.py: []
+/usr/local/lib/python3.13/test/test_capi/test_watchers.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_charmapcodec.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_class.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_clinic.py: []
+/usr/local/lib/python3.13/test/test_cmath.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_cmd.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_cmd_line.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_cmd_line_script.py: []
+/usr/local/lib/python3.13/test/test_code.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_code_module.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codeccallbacks.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecencodings_cn.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecencodings_hk.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecencodings_iso2022.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecencodings_jp.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecencodings_kr.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecencodings_tw.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecmaps_cn.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecmaps_hk.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecmaps_jp.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecmaps_kr.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecmaps_tw.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codecs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_codeop.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_collections.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_colorsys.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_compare.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_compile.py: []
+/usr/local/lib/python3.13/test/test_compileall.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_compiler_assemble.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_compiler_codegen.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_complex.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_as_completed.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_deadlock.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_future.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_init.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_process_pool.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_shutdown.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_thread_pool.py: []
+/usr/local/lib/python3.13/test/test_concurrent_futures/test_wait.py: []
+/usr/local/lib/python3.13/test/test_configparser.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_contains.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_context.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_contextlib.py: []
+/usr/local/lib/python3.13/test/test_contextlib_async.py: []
+/usr/local/lib/python3.13/test/test_copy.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_copyreg.py:
+- options:
+    hoist_literals: false
+    preserve_globals:
+    - WithPrivate
+    - _WithLeadingUnderscoreAndPrivate
+    - TypeError
+    - type
+    - unittest
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    hoist_literals: false
+  status: passing
+- options:
+    hoist_literals: false
+    preserve_globals:
+    - WithPrivate
+    - _WithLeadingUnderscoreAndPrivate
+    - TypeError
+    - type
+    - unittest
+    rename_globals: true
+  status: passing
+- options:
+    hoist_literals: false
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_coroutines.py: []
+/usr/local/lib/python3.13/test/test_cprofile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_csv.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_aligned_structures.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_anon.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_array_in_pointer.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_arrays.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_as_parameter.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_bitfields.py:
+- options:
+    preserve_locals:
+    - Dummy
+  status: passing
+- options:
+    preserve_locals:
+    - Dummy
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - Dummy
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - Dummy
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_buffers.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_bytes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_byteswap.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_callbacks.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_cast.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_cfuncs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_checkretval.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_delattr.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_errno.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_find.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_frombuffer.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_funcptr.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_functions.py:
+- options:
+    remove_literal_statements: true
+    remove_object_base: false
+  status: passing
+- options:
+    remove_object_base: false
+    rename_globals: true
+  status: passing
+- options:
+    remove_object_base: false
+  status: passing
+- options:
+    remove_literal_statements: true
+    remove_object_base: false
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_incomplete.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_init.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_internals.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_keeprefs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_libc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_loading.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_macholib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_memfunctions.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_numbers.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_objects.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_parameters.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_pep3118.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_pickling.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_pointers.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_prototypes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_python_api.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_random_things.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_refcounts.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_repr.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - X
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - X
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_returnfuncptrs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_simplesubclasses.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_sizes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_slicing.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_stringptr.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_strings.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_struct_fields.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_structures.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_unaligned_structures.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_unicode.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_unions.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_values.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_varsize_struct.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ctypes/test_win32.py: []
+/usr/local/lib/python3.13/test/test_ctypes/test_wintypes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_curses.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_datetime.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - load_tests
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - load_tests
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dbm.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dbm_dumb.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dbm_gnu.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dbm_ndbm.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dbm_sqlite3.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_decimal.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_decorators.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_defaultdict.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_deque.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_descr.py: []
+/usr/local/lib/python3.13/test/test_descrtut.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - load_tests
+    - defaultdict
+    - defaultdict2
+    - D
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - load_tests
+    - defaultdict
+    - defaultdict2
+    - D
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_devpoll.py: []
+/usr/local/lib/python3.13/test/test_dict.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dict_version.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dictcomps.py: []
+/usr/local/lib/python3.13/test/test_dictviews.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_difflib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dis.py: []
+/usr/local/lib/python3.13/test/test_doctest/test_doctest.py: []
+/usr/local/lib/python3.13/test/test_doctest/test_doctest2.py:
+- options: {}
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_docxmlrpc.py:
+- options:
+    preserve_locals:
+    - add
+    - annotation
+    remove_annotations: false
+  status: passing
+- options:
+    preserve_locals:
+    - add
+    - annotation
+    remove_annotations: false
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dtrace.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dynamic.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_dynamicclassattribute.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_eintr.py: []
+/usr/local/lib/python3.13/test/test_email/test__encoded_words.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test__header_value_parser.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_asian_codecs.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_contentmanager.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_defect_handling.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_email.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_generator.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_headerregistry.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_inversion.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_message.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_parser.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_pickleable.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_policy.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_email/test_utils.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_embed.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ensurepip.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_enum.py: []
+/usr/local/lib/python3.13/test/test_enumerate.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_eof.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_epoll.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_errno.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_except_star.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_exception_group.py: []
+/usr/local/lib/python3.13/test/test_exception_hierarchy.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_exception_variations.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_exceptions.py: []
+/usr/local/lib/python3.13/test/test_extcall.py: []
+/usr/local/lib/python3.13/test/test_external_inspection.py: []
+/usr/local/lib/python3.13/test/test_faulthandler.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fcntl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_file.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_file_eintr.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_filecmp.py: []
+/usr/local/lib/python3.13/test/test_fileinput.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fileio.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fileutils.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_finalization.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_float.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_flufl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fnmatch.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fork1.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_format.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fractions.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_frame.py: []
+/usr/local/lib/python3.13/test/test_free_threading/test_dict.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_free_threading/test_list.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_free_threading/test_monitoring.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_free_threading/test_slots.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_free_threading/test_str.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_free_threading/test_tokenize.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_free_threading/test_type.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_frozen.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_fstring.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ftplib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_funcattrs.py: []
+/usr/local/lib/python3.13/test/test_functools.py:
+- options:
+    convert_posargs_to_args: false
+    remove_annotations: false
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    remove_annotations: false
+    rename_globals: true
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    remove_annotations: false
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    remove_annotations: false
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_future_stmt/test_future.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_future_stmt/test_future_flags.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_future_stmt/test_future_multiple_features.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_future_stmt/test_future_multiple_imports.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_future_stmt/test_future_single_import.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_gc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_gdb/test_backtrace.py: []
+/usr/local/lib/python3.13/test/test_gdb/test_cfunction.py: []
+/usr/local/lib/python3.13/test/test_gdb/test_cfunction_full.py: []
+/usr/local/lib/python3.13/test/test_gdb/test_misc.py: []
+/usr/local/lib/python3.13/test/test_gdb/test_pretty_print.py: []
+/usr/local/lib/python3.13/test/test_generated_cases.py: []
+/usr/local/lib/python3.13/test/test_generator_stop.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_generators.py:
+- options:
+    preserve_locals:
+    - conjoin
+    - Queens
+    - Knights
+    - f
+    - g
+    - call_send
+    - call_throw
+    - func
+    - a
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - GeneratorTest
+    - conjoin
+    - Queens
+    - Knights
+    - func
+    - a
+    - b
+    - support
+    preserve_locals:
+    - conjoin
+    - Queens
+    - Knights
+    - f
+    - g
+    - call_send
+    - call_throw
+    - func
+    - a
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - GeneratorTest
+    - conjoin
+    - Queens
+    - Knights
+    - func
+    - a
+    - b
+    - support
+    preserve_locals:
+    - conjoin
+    - Queens
+    - Knights
+    - f
+    - g
+    - call_send
+    - call_throw
+    - func
+    - a
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - conjoin
+    - Queens
+    - Knights
+    - f
+    - g
+    - call_send
+    - call_throw
+    - func
+    - a
+  status: passing
+/usr/local/lib/python3.13/test/test_genericalias.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_genericclass.py:
+- options:
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
+  status: passing
+- options:
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - D
+    - Meta
+    - C
+    - C_is_none
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_genericpath.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_genexps.py:
+- options:
+    preserve_globals:
+    - load_tests
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - load_tests
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options: {}
+  status: passing
+/usr/local/lib/python3.13/test/test_getopt.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_getpass.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_getpath.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_gettext.py: []
+/usr/local/lib/python3.13/test/test_glob.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_global.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_grammar.py:
+- options:
+    preserve_locals:
+    - f
+    - x
+    - y
+    - b
+    - c
+    - e
+    - g
+    - k
+    - j
+    - h
+    - l
+    - k
+    - Spam
+    remove_annotations: false
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - f
+    - x
+    - y
+    - b
+    - c
+    - e
+    - g
+    - k
+    - j
+    - h
+    - l
+    - k
+    - Spam
+    remove_annotations: false
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - f
+    - x
+    - y
+    - b
+    - c
+    - e
+    - g
+    - k
+    - j
+    - h
+    - l
+    - k
+    - Spam
+    remove_annotations: false
+  status: passing
+- options:
+    preserve_locals:
+    - f
+    - x
+    - y
+    - b
+    - c
+    - e
+    - g
+    - k
+    - j
+    - h
+    - l
+    - k
+    - Spam
+    remove_annotations: false
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_graphlib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_grp.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_gzip.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_hash.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_hashlib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_heapq.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_hmac.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_html.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_htmlparser.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_http_cookiejar.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_http_cookies.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_httplib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_httpservers.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_idle.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_imaplib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/builtin/test_finder.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/builtin/test_loader.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/extension/test_case_sensitivity.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/extension/test_finder.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/extension/test_loader.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - MultiPhaseExtensionModuleTests
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - MultiPhaseExtensionModuleTests
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/extension/test_path_hook.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/frozen/test_finder.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/frozen/test_loader.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test___loader__.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test___package__.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test_api.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test_caching.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test_fromlist.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test_helpers.py: []
+/usr/local/lib/python3.13/test/test_importlib/import_/test_meta_path.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test_packages.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/import_/test_path.py: []
+/usr/local/lib/python3.13/test/test_importlib/import_/test_relative_imports.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/metadata/test_api.py: []
+/usr/local/lib/python3.13/test/test_importlib/metadata/test_main.py: []
+/usr/local/lib/python3.13/test/test_importlib/metadata/test_zip.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_compatibilty_files.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_contents.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_custom.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_files.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_functional.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_open.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_path.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_read.py: []
+/usr/local/lib/python3.13/test/test_importlib/resources/test_reader.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/resources/test_resource.py: []
+/usr/local/lib/python3.13/test/test_importlib/source/test_case_sensitivity.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/source/test_file_loader.py: []
+/usr/local/lib/python3.13/test/test_importlib/source/test_finder.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/source/test_path_hook.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/source/test_source_encoding.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_abc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_api.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_lazy.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_locks.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_namespace_pkgs.py: []
+/usr/local/lib/python3.13/test/test_importlib/test_pkg_import.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_spec.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_threaded_import.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_util.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_importlib/test_windows.py: []
+/usr/local/lib/python3.13/test/test_index.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_inspect/test_inspect.py: []
+/usr/local/lib/python3.13/test/test_int.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_int_literal.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_interpreters/test_api.py: []
+/usr/local/lib/python3.13/test/test_interpreters/test_channels.py: []
+/usr/local/lib/python3.13/test/test_interpreters/test_lifecycle.py: []
+/usr/local/lib/python3.13/test/test_interpreters/test_queues.py: []
+/usr/local/lib/python3.13/test/test_interpreters/test_stress.py: []
+/usr/local/lib/python3.13/test/test_io.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ioctl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ipaddress.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_isinstance.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_iter.py: []
+/usr/local/lib/python3.13/test/test_iterlen.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_itertools.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_decode.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_default.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_dump.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_encode_basestring_ascii.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_enum.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_fail.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_float.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_indent.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_pass1.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_pass2.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_pass3.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_recursion.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_scanstring.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_separators.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_speedups.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_tool.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_json/test_unicode.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_keyword.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_keywordonlyarg.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_kqueue.py: []
+/usr/local/lib/python3.13/test/test_largefile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_launcher.py: []
+/usr/local/lib/python3.13/test/test_linecache.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_list.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_listcomps.py: []
+/usr/local/lib/python3.13/test/test_lltrace.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_locale.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_logging.py: []
+/usr/local/lib/python3.13/test/test_long.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_longexp.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_lzma.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_mailbox.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_marshal.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_math.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_math_property.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_memoryio.py:
+- options:
+    preserve_locals:
+    - PickleTestMemIO
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - PickleTestMemIO
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - PickleTestMemIO
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - PickleTestMemIO
+  status: passing
+/usr/local/lib/python3.13/test/test_memoryview.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_metaclass.py: []
+/usr/local/lib/python3.13/test/test_mimetypes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_minidom.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_mmap.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_modulefinder.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_monitoring.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_msvcrt.py: []
+/usr/local/lib/python3.13/test/test_multibytecodec.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_fork/test_manager.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_fork/test_misc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_fork/test_processes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_fork/test_threads.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_forkserver/test_manager.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_forkserver/test_misc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_forkserver/test_processes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_forkserver/test_threads.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_main_handling.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_spawn/test_manager.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_spawn/test_misc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_spawn/test_processes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_multiprocessing_spawn/test_threads.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_named_expressions.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_netrc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ntpath.py: []
+/usr/local/lib/python3.13/test/test_numeric_tower.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_opcache.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_opcodes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_openpty.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_operator.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_optimizer.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_optparse.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ordered_dict.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_os.py: []
+/usr/local/lib/python3.13/test/test_osx_env.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pathlib/test_pathlib.py: []
+/usr/local/lib/python3.13/test/test_pathlib/test_pathlib_abc.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_patma.py: []
+/usr/local/lib/python3.13/test/test_pdb.py: []
+/usr/local/lib/python3.13/test/test_peepholer.py: []
+/usr/local/lib/python3.13/test/test_peg_generator/test_c_parser.py: []
+/usr/local/lib/python3.13/test/test_peg_generator/test_first_sets.py: []
+/usr/local/lib/python3.13/test/test_peg_generator/test_grammar_validator.py: []
+/usr/local/lib/python3.13/test/test_peg_generator/test_pegen.py: []
+/usr/local/lib/python3.13/test/test_pep646_syntax.py:
+- options:
+    preserve_globals:
+    - load_tests
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - load_tests
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options: {}
+  status: passing
+/usr/local/lib/python3.13/test/test_perf_profiler.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_perfmaps.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pickle.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_picklebuffer.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pickletools.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pkg.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pkgutil.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_platform.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_plistlib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_poll.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_popen.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_poplib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_positional_only_arg.py:
+- options:
+    convert_posargs_to_args: false
+    preserve_locals:
+    - something
+    - a
+    - x
+    - b
+    - f
+    - g
+    remove_annotations: false
+    remove_literal_statements: true
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    preserve_globals:
+    - global_pos_only_f
+    - global_pos_only_and_normal
+    - global_pos_only_defaults
+    preserve_locals:
+    - something
+    - a
+    - x
+    - b
+    - f
+    - g
+    remove_annotations: false
+    rename_globals: true
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    preserve_locals:
+    - something
+    - a
+    - x
+    - b
+    - f
+    - g
+    remove_annotations: false
+  status: passing
+- options:
+    convert_posargs_to_args: false
+    preserve_globals:
+    - global_pos_only_f
+    - global_pos_only_and_normal
+    - global_pos_only_defaults
+    preserve_locals:
+    - something
+    - a
+    - x
+    - b
+    - f
+    - g
+    remove_annotations: false
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_posix.py: []
+/usr/local/lib/python3.13/test/test_posixpath.py: []
+/usr/local/lib/python3.13/test/test_pow.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pprint.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_print.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_profile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_property.py:
+- options:
+    preserve_locals:
+    - getter
+  status: passing
+- options:
+    preserve_globals:
+    - PropertyUnreachableAttributeNoName
+    - PropertyUnreachableAttributeWithName
+    preserve_locals:
+    - getter
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - PropertyUnreachableAttributeNoName
+    - PropertyUnreachableAttributeWithName
+    preserve_locals:
+    - getter
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - getter
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pstats.py:
+- options:
+    preserve_locals:
+    - pass1
+    - pass2
+    - pass3
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - pass1
+    - pass2
+    - pass3
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - pass1
+    - pass2
+    - pass3
+  status: passing
+- options:
+    preserve_locals:
+    - pass1
+    - pass2
+    - pass3
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pty.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pulldom.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pwd.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_py_compile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pyclbr.py: []
+/usr/local/lib/python3.13/test/test_pydoc/test_pydoc.py: []
+/usr/local/lib/python3.13/test/test_pyexpat.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pyrepl/test_input.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pyrepl/test_interact.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pyrepl/test_keymap.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pyrepl/test_pyrepl.py: []
+/usr/local/lib/python3.13/test/test_pyrepl/test_reader.py: []
+/usr/local/lib/python3.13/test/test_pyrepl/test_unix_console.py: []
+/usr/local/lib/python3.13/test/test_pyrepl/test_unix_eventqueue.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_pyrepl/test_windows_console.py: []
+/usr/local/lib/python3.13/test/test_queue.py:
+- options:
+    preserve_globals:
+    - import_helper
+    - threading
+    - threading_helper
+    - unittest
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options: {}
+  status: passing
+- options:
+    preserve_globals:
+    - import_helper
+    - threading
+    - threading_helper
+    - unittest
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_quopri.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_raise.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_random.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_range.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_re.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_readline.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_regrtest.py: []
+/usr/local/lib/python3.13/test/test_repl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_reprlib.py:
+- options:
+    preserve_globals:
+    - ClassWithFailingRepr
+    - ReprTests
+    - T
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - ClassWithFailingRepr
+    - ReprTests
+    - T
+    rename_globals: true
+  status: passing
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_resource.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_richcmp.py:
+- options:
+    preserve_locals:
+    - Spam
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - Spam
+  status: passing
+- options:
+    preserve_locals:
+    - Spam
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - Spam
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_rlcompleter.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_robotparser.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sax.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sched.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_scope.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_script_helper.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_secrets.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_select.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_selectors.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_set.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_setcomps.py: []
+/usr/local/lib/python3.13/test/test_shelve.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_shlex.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_shutil.py: []
+/usr/local/lib/python3.13/test/test_signal.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_site.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_slice.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_smtplib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_smtpnet.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_socket.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_socketserver.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sort.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_source_encoding.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sqlite3/test_backup.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_cli.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sqlite3/test_dbapi.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_dump.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_factory.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_hooks.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_regression.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_transactions.py: []
+/usr/local/lib/python3.13/test/test_sqlite3/test_types.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sqlite3/test_userfunctions.py: []
+/usr/local/lib/python3.13/test/test_ssl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_stable_abi_ctypes.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_startfile.py: []
+/usr/local/lib/python3.13/test/test_stat.py: []
+/usr/local/lib/python3.13/test/test_statistics.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_str.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_strftime.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_string.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_string_literals.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_stringprep.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_strptime.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_strtod.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_struct.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_structseq.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_subclassinit.py:
+- options:
+    preserve_locals:
+    - MyClass
+    - NotGoingToWork
+    - Descriptor
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyClass
+    - NotGoingToWork
+    - Descriptor
+  status: passing
+- options:
+    preserve_locals:
+    - MyClass
+    - NotGoingToWork
+    - Descriptor
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyClass
+    - NotGoingToWork
+    - Descriptor
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_subprocess.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sundry.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_super.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_support.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_symtable.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_syntax.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sys.py: []
+/usr/local/lib/python3.13/test/test_sys_setprofile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_sys_settrace.py: []
+/usr/local/lib/python3.13/test/test_sysconfig.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_syslog.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tabnanny.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tarfile.py: []
+/usr/local/lib/python3.13/test/test_tcl.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tempfile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_termios.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_textwrap.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_thread.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_threadedtempfile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_threading.py: []
+/usr/local/lib/python3.13/test/test_threading_local.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_threadsignals.py:
+- options:
+    preserve_globals:
+    - setUpModule
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options: {}
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_time.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_timeit.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_timeout.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tkinter/test_colorchooser.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_font.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_geometry_managers.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_images.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_loadtk.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_messagebox.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_misc.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_simpledialog.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_text.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_variables.py: []
+/usr/local/lib/python3.13/test/test_tkinter/test_widgets.py: []
+/usr/local/lib/python3.13/test/test_tokenize.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tomllib/test_data.py: []
+/usr/local/lib/python3.13/test/test_tomllib/test_error.py: []
+/usr/local/lib/python3.13/test/test_tomllib/test_misc.py: []
+/usr/local/lib/python3.13/test/test_tools/test_freeze.py: []
+/usr/local/lib/python3.13/test/test_tools/test_i18n.py: []
+/usr/local/lib/python3.13/test/test_tools/test_makefile.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tools/test_makeunicodedata.py: []
+/usr/local/lib/python3.13/test/test_tools/test_reindent.py: []
+/usr/local/lib/python3.13/test/test_tools/test_sundry.py: []
+/usr/local/lib/python3.13/test/test_trace.py: []
+/usr/local/lib/python3.13/test/test_traceback.py: []
+/usr/local/lib/python3.13/test/test_tracemalloc.py: []
+/usr/local/lib/python3.13/test/test_ttk/test_extensions.py: []
+/usr/local/lib/python3.13/test/test_ttk/test_style.py: []
+/usr/local/lib/python3.13/test/test_ttk/test_widgets.py: []
+/usr/local/lib/python3.13/test/test_ttk_textonly.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tty.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_tuple.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_turtle.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_type_aliases.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_type_annotations.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_type_cache.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_type_comments.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_type_params.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_typechecks.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_types.py:
+- options:
+    remove_annotations: false
+    rename_globals: true
+  status: passing
+- options:
+    remove_annotations: false
+  status: passing
+- options:
+    remove_annotations: false
+    remove_literal_statements: true
+  status: passing
+- options:
+    remove_annotations: false
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_typing.py:
+- options:
+    remove_annotations: false
+  status: passing
+- options:
+    remove_annotations: false
+    remove_literal_statements: true
+  status: passing
+- options:
+    remove_annotations: false
+    rename_globals: true
+  status: passing
+- options:
+    remove_annotations: false
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_ucn.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unary.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unicode_file.py: []
+/usr/local/lib/python3.13/test/test_unicode_file_functions.py: []
+/usr/local/lib/python3.13/test/test_unicode_identifiers.py:
+- options:
+    preserve_locals:
+    - Unicode
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - Unicode
+  status: passing
+- options:
+    preserve_locals:
+    - Unicode
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - Unicode
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unicodedata.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_assertions.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_async_case.py:
+- options:
+    preserve_globals:
+    - tearDownModule
+    - MyException
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_globals:
+    - tearDownModule
+    - MyException
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options: {}
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_break.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_case.py: []
+/usr/local/lib/python3.13/test/test_unittest/test_discovery.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_functiontestcase.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_loader.py:
+- options:
+    preserve_locals:
+    - MyTest
+    - MyTestCase
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyTest
+    - MyTestCase
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyTest
+    - MyTestCase
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyTest
+    - MyTestCase
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_program.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_result.py:
+- options:
+    preserve_globals:
+    - Test_TextTestResult
+    rename_globals: true
+  status: passing
+- options: {}
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_runner.py:
+- options:
+    preserve_globals:
+    - CustomError
+    preserve_locals:
+    - cleanup1
+    - cleanup2
+    - CleanUpExc
+    - exc2
+    - foo
+    - bar
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - CustomError
+    preserve_locals:
+    - cleanup1
+    - cleanup2
+    - CleanUpExc
+    - exc2
+    - foo
+    - bar
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - cleanup1
+    - cleanup2
+    - CleanUpExc
+    - exc2
+    - foo
+    - bar
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - cleanup1
+    - cleanup2
+    - CleanUpExc
+    - exc2
+    - foo
+    - bar
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_setups.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_skipping.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_suite.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unittest/test_util.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_univnewlines.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_unpack.py: []
+/usr/local/lib/python3.13/test/test_unpack_ex.py: []
+/usr/local/lib/python3.13/test/test_unparse.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urllib.py:
+- options:
+    preserve_locals:
+    - DummyURLopener
+  status: passing
+- options:
+    preserve_locals:
+    - DummyURLopener
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - DummyURLopener
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - DummyURLopener
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urllib2.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urllib2_localnet.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urllib2net.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urllib_response.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urllibnet.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_urlparse.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_userdict.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_userlist.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_userstring.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_utf8_mode.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_utf8source.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_uuid.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_venv.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_wait3.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_wait4.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_wave.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_weakref.py:
+- options:
+    preserve_globals:
+    - FinalizeTestCase
+    preserve_locals:
+    - MyConfig
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyConfig
+  status: passing
+- options:
+    preserve_globals:
+    - FinalizeTestCase
+    preserve_locals:
+    - MyConfig
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - MyConfig
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_weakset.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_webbrowser.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_winapi.py: []
+/usr/local/lib/python3.13/test/test_winconsoleio.py: []
+/usr/local/lib/python3.13/test/test_winreg.py: []
+/usr/local/lib/python3.13/test/test_winsound.py: []
+/usr/local/lib/python3.13/test/test_with.py: []
+/usr/local/lib/python3.13/test/test_wmi.py: []
+/usr/local/lib/python3.13/test/test_wsgiref.py:
+- options:
+    preserve_locals:
+    - CustomException
+  status: passing
+- options:
+    preserve_locals:
+    - CustomException
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - CustomException
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - CustomException
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_xml_dom_minicompat.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_xml_etree.py:
+- options:
+    preserve_globals:
+    - setUpModule
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options: {}
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_xml_etree_c.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_xmlrpc.py:
+- options:
+    preserve_locals:
+    - dispatched_func
+    - my_function
+    - foobar
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    preserve_locals:
+    - dispatched_func
+    - my_function
+    - foobar
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_xxlimited.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_xxtestfuzz.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_yield_from.py:
+- options:
+    preserve_locals:
+    - spam
+    - eggs
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - spam
+    - eggs
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - spam
+    - eggs
+    remove_literal_statements: true
+  status: passing
+- options:
+    preserve_locals:
+    - spam
+    - eggs
+  status: passing
+/usr/local/lib/python3.13/test/test_zipapp.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_zipfile/_path/test_complexity.py: []
+/usr/local/lib/python3.13/test/test_zipfile/_path/test_path.py: []
+/usr/local/lib/python3.13/test/test_zipfile/test_core.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_zipfile64.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_zipimport.py: []
+/usr/local/lib/python3.13/test/test_zipimport_support.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_zlib.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/test_zoneinfo/test_zoneinfo.py:
+- options:
+    preserve_locals:
+    - ZISubclass
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    - tearDownModule
+    preserve_locals:
+    - ZISubclass
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+- options:
+    preserve_globals:
+    - setUpModule
+    - tearDownModule
+    preserve_locals:
+    - ZISubclass
+    rename_globals: true
+  status: passing
+- options:
+    preserve_locals:
+    - ZISubclass
+    remove_literal_statements: true
+  status: passing
+/usr/local/lib/python3.13/test/test_zoneinfo/test_zoneinfo_property.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
+/usr/local/lib/python3.13/test/testcodec.py:
+- options: {}
+  status: passing
+- options:
+    remove_literal_statements: true
+  status: passing
+- options:
+    rename_globals: true
+  status: passing
+- options:
+    remove_literal_statements: true
+    rename_globals: true
+  status: passing
