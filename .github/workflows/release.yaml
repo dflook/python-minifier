@@ -16,7 +16,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     container:
-      image: danielflook/python-minifier-build:python3.12-2024-01-12
+      image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
       - name: Checkout
         uses: actions/checkout@v3

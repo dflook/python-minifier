@@ -17,10 +17,10 @@ Example
 Input
 ~~~~~
 
-.. literalinclude:: remove_exception_brackets.py
+.. literalinclude:: remove_builtin_exception_brackets.py
 
 Output
 ~~~~~~
 
-.. literalinclude:: remove_exception_brackets.min.py
+.. literalinclude:: remove_builtin_exception_brackets.min.py
     :language: python

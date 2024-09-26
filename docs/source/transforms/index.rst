@@ -19,6 +19,7 @@ They can be enabled or disabled through the minify function, or passing options 
    convert_posargs_to_args
    preserve_shebang
    remove_explicit_return_none
+   remove_builtin_exception_brackets
    constant_folding
 
 .. toctree::

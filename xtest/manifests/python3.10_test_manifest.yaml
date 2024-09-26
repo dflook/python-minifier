@@ -3825,15 +3825,7 @@
     remove_literal_statements: true
     rename_globals: true
 /usr/local/lib/python3.10/test/test_urllib.py: []
-/usr/local/lib/python3.10/test/test_urllib2.py:
-- options: {}
-- options:
-    rename_globals: true
-- options:
-    remove_literal_statements: true
-- options:
-    remove_literal_statements: true
-    rename_globals: true
+/usr/local/lib/python3.10/test/test_urllib2.py: []
 /usr/local/lib/python3.10/test/test_urllib2_localnet.py:
 - options: {}
 - options:
