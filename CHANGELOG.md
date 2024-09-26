@@ -259,6 +259,7 @@ the minified code may only run with Python 3.12.
 - python-minifier package
 - pyminify command
 
+[2.11.0]: https://github.com/dflook/python-minifier/compare/2.10.0...2.11.0
 [2.10.0]: https://github.com/dflook/python-minifier/compare/2.9.0...2.10.0
 [2.9.0]: https://github.com/dflook/python-minifier/compare/2.8.1...2.9.0
 [2.8.1]: https://github.com/dflook/python-minifier/compare/2.8.0...2.8.1
