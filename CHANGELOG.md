@@ -4,13 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.10.0] - 2024-09-15
-
 :information_source: Note that python-minifier depends on the python interpreter for parsing source code,
 and will output source code compatible with the version of the interpreter it is run with.
 
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
+
+## [2.11.0] - 2024-09-26
+
+### Added
+- Python 3.13 support, including:
+    - PEP 696 Type parameter defaults
+
+## [2.10.0] - 2024-09-15
 
 ### Added
 - Python 3.12 support, including:
