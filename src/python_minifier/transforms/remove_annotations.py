@@ -120,11 +120,11 @@ class RemoveAnnotations(SuiteTransformer):
         if is_dataclass_field(node) or is_typing_sensitive(node):
             return node
         elif node.value:
-            return self.add_child(ast.Assign([node.target], node.value), parent=node.parent)
+            return self.add_child(ast.Assign([node.target], node.value), parent=node.parent, namespace=node.namespace)
         else:
             # Valueless annotations cause the interpreter to treat the variable as a local.
             # I don't know of another way to do that without assigning to it, so
             # keep it as an AnnAssign, but replace the annotation with '0'
 
-            node.annotation = self.add_child(ast.Num(0), parent=node.parent)
+            node.annotation = self.add_child(ast.Num(0), parent=node.parent, namespace=node.namespace)
             return node
