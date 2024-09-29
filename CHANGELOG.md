@@ -10,6 +10,13 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [2.11.1] - 2024-09-29
+
+### Fixed
+- Using the `--remove-class-attribute-annotations` option together with `--rename-globals` was incorrectly causing
+  class attributes to be renamed. Both of these options are unsafe for arbitrary code and are disabled by default
+  but this was not the intended behavior, and has been fixed.
+
 ## [2.11.0] - 2024-09-26
 
 ### Added
@@ -259,6 +266,7 @@ the minified code may only run with Python 3.12.
 - python-minifier package
 - pyminify command
 
+[2.11.1]: https://github.com/dflook/python-minifier/compare/2.11.0...2.11.1
 [2.11.0]: https://github.com/dflook/python-minifier/compare/2.10.0...2.11.0
 [2.10.0]: https://github.com/dflook/python-minifier/compare/2.9.0...2.10.0
 [2.9.0]: https://github.com/dflook/python-minifier/compare/2.8.1...2.9.0
