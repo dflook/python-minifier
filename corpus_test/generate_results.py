@@ -115,7 +115,7 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
             if entry in result_writer:
                 continue
 
-            logging.debug(entry)
+            logging.debug('Corpus entry [' + entry + ']')
 
             result = minify_corpus_entry(corpus_path, entry)
             result_writer.write(result)
