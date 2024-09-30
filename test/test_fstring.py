@@ -3,7 +3,7 @@ import sys
 
 import pytest
 
-from python_minifier import unparse
+from python_minifier import unparse, TargetPythonOptions
 from python_minifier.ast_compare import compare_ast
 
 
@@ -27,11 +27,16 @@ def test_pep0701():
     if sys.version_info < (3, 12):
         pytest.skip('f-string syntax is bonkers before python 3.12')
 
+    python_312 = TargetPythonOptions((sys.version_info.major, sys.version_info.minor), (sys.version_info.major, sys.version_info.minor))
+
     statement = 'f"{f"{f"{f"{"hello"}"}"}"}"'
     assert unparse(ast.parse(statement)) == statement
 
     statement = 'f"This is the playlist: {", ".join([])}"'
-    assert unparse(ast.parse(statement)) == statement
+    # since this snippet doesn't require nested quotes, we may not use them in the output if it isn't smaller
+    assert unparse(ast.parse(statement)) == '''f"This is the playlist: {', '.join([])}"'''
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
+    assert len(unparse(ast.parse(statement))) == len(statement)
 
     statement = 'f"{f"{f"{f"{f"{f"{1+1}"}"}"}"}"}"'
     assert unparse(ast.parse(statement)) == statement
@@ -43,38 +48,39 @@ f"This is the playlist: {", ".join([
     'Ascensionism'           # Take to the broken skies at last
 ])}"
 """
-    assert unparse(ast.parse(statement)) == 'f"This is the playlist: {", ".join(["Take me back to Eden","Alkaline","Ascensionism"])}"'
+    assert unparse(ast.parse(statement), target_python=python_312) == 'f"This is the playlist: {", ".join(["Take me back to Eden","Alkaline","Ascensionism"])}"'
 
     #statement = '''print(f"This is the playlist: {"\N{BLACK HEART SUIT}".join(songs)}")'''
     #assert unparse(ast.parse(statement)) == statement
 
     statement = '''f"Magic wand: {bag["wand"]}"'''
-    assert unparse(ast.parse(statement)) == statement
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
 
     statement = """
 f'''A complex trick: {
  bag['bag']  # recursive bags!
 }'''
     """
-    assert unparse(ast.parse(statement)) == 'f"A complex trick: {bag["bag"]}"'
+    assert unparse(ast.parse(statement), target_python=python_312) == 'f"A complex trick: {bag["bag"]}"'
 
     statement = '''f"These are the things: {", ".join(things)}"'''
-    assert unparse(ast.parse(statement)) == statement
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
 
     statement = '''f"{source.removesuffix(".py")}.c: $(srcdir)/{source}"'''
-    assert unparse(ast.parse(statement)) == statement
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
 
     statement = '''f"{f"{f"infinite"}"}"+' '+f"{f"nesting!!!"}"'''
-    assert unparse(ast.parse(statement)) == statement
+    # Weirdly, this example doesn't require infinite nesting
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
 
     statement = '''f"{"\\n".join(a)}"'''
-    assert unparse(ast.parse(statement)) == statement
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
 
     statement = '''f"{f"{f"{f"{f"{f"{1+1}"}"}"}"}"}"'''
     assert unparse(ast.parse(statement)) == statement
 
     statement = '''f"{"":*^{1:{1}}}"'''
-    assert unparse(ast.parse(statement)) == statement
+    assert unparse(ast.parse(statement), target_python=python_312) == statement
 
     #statement = '''f"{"":*^{1:{1:{1}}}}"'''
     #assert unparse(ast.parse(statement)) == statement

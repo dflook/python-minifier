@@ -46,6 +46,7 @@ jobs:
       matrix:
         python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
+        target_current_python: ["true"]
     container:
       image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
       volumes:
@@ -96,7 +97,7 @@ jobs:
             export PYTHONHASHSEED=0
           fi
           
-          python${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }}
+          python${{matrix.python}} workflow/corpus_test/generate_results.py /corpus /corpus-results $(<sha.txt) ${{ inputs.regenerate-results }} ${{ matrix.target_current_python }}
 
   generate_report:
     name: Generate Report

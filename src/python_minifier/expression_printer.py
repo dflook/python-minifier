@@ -11,7 +11,7 @@ class ExpressionPrinter(object):
     Builds the smallest possible exact representation of an ast
     """
 
-    def __init__(self):
+    def __init__(self, target_python=None):
 
         self.precedences = {
             'Lambda': 2,  # Lambda
@@ -35,6 +35,7 @@ class ExpressionPrinter(object):
         }
 
         self.printer = TokenPrinter()
+        self._target_python = target_python
 
     def __call__(self, module):
         """
@@ -735,7 +736,7 @@ class ExpressionPrinter(object):
 
         import python_minifier.f_string
 
-        if sys.version_info < (3, 12):
+        if self._target_python.minimum < (3, 12):
             pep701 = False
         else:
             pep701 = True

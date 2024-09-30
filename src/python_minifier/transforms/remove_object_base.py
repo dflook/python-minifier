@@ -6,9 +6,6 @@ from python_minifier.transforms.suite_transformer import SuiteTransformer
 
 class RemoveObject(SuiteTransformer):
     def __call__(self, node):
-        if sys.version_info < (3, 0):
-            return node
-
         return self.visit(node)
 
     def visit_ClassDef(self, node):

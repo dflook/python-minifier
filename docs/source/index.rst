@@ -8,6 +8,7 @@ This package transforms python source code into a 'minified' representation of t
    :caption: Contents:
 
    installation
+   python_target_version
    command_usage
    api_usage
    transforms/index

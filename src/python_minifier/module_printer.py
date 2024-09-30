@@ -1,5 +1,4 @@
 import python_minifier.ast_compat as ast
-import sys
 
 from .expression_printer import ExpressionPrinter
 from .token_printer import Delimiter
@@ -11,8 +10,8 @@ class ModulePrinter(ExpressionPrinter):
     Builds the smallest possible exact representation of an ast
     """
 
-    def __init__(self, indent_char='\t'):
-        super(ModulePrinter, self).__init__()
+    def __init__(self, target_python, indent_char='\t'):
+        super(ModulePrinter, self).__init__(target_python)
         self.indent_char = indent_char
 
     def __call__(self, module):
@@ -143,7 +142,7 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.keyword('return')
         if isinstance(node.value, ast.Tuple):
-            if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
+            if self._target_python.minimum < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
                 self.printer.delimiter('(')
                 self._testlist(node.value)
                 self.printer.delimiter(')')

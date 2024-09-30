@@ -3,10 +3,12 @@ This package transforms python source code strings or ast.Module Nodes into
 a 'minified' representation of the same source code.
 
 """
+import sys
 
 import python_minifier.ast_compat as ast
 import re
 
+from python_minifier import compat
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.module_printer import ModulePrinter
 from python_minifier.rename import (
@@ -51,6 +53,46 @@ class UnstableMinification(RuntimeError):
     def __str__(self):
         return 'Minification was unstable! Please create an issue at https://github.com/dflook/python-minifier/issues'
 
+class TargetPythonOptions(object):
+    """
+    Options that can be passed to the minify function to specify the target python version
+
+    :param minimum: The minimum python version that the minified code should be compatible with
+    :type minimum: tuple[int, int] or None
+    :param maximum: The maximum python version that the minified code should be compatible with
+    :type maximum: tuple[int, int] or None
+    """
+
+    def __init__(self, minimum, maximum):
+        self.minimum = minimum
+        self.maximum = maximum
+        self._constrained = False
+
+    def apply_constraint(self, minimum, maximum):
+        """
+        Apply a constraint to the target python version
+
+        :param minimum: The minimum python version that the minified code should be compatible with
+        :type minimum: tuple[int, int]
+        :param maximum: The maximum python version that the minified code should be compatible with
+        :type maximum: tuple[int, int]
+        """
+        assert maximum >= minimum
+
+        if minimum > self.minimum:
+            self.minimum = minimum
+
+        if maximum < self.maximum:
+            self.maximum = maximum
+
+        if self.minimum > self.maximum:
+            self.maximum = self.minimum
+
+        self._constrained = True
+
+    def __repr__(self):
+        return 'TargetPythonOptions(minimum=%r, target_maximum_python=%r)' % (self.minimum, self.maximum)
+
 
 def minify(
     source,
@@ -71,7 +113,8 @@ def minify(
     remove_debug=False,
     remove_explicit_return_none=True,
     remove_builtin_exception_brackets=True,
-    constant_folding=True
+    constant_folding=True,
+    target_python=None
 ):
     """
     Minify a python module
@@ -105,6 +148,8 @@ def minify(
     :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
     :param bool remove_builtin_exception_brackets: If brackets should be removed when raising exceptions with no arguments
     :param bool constant_folding: If literal expressions should be evaluated
+    :param target_python: Options for the target python version
+    :type target_python: :class:`TargetPythonOptions`
 
     :rtype: str
 
@@ -114,6 +159,11 @@ def minify(
 
     # This will raise if the source file can't be parsed
     module = ast.parse(source, filename)
+
+    if target_python is None:
+        target_python = TargetPythonOptions((2, 7), (sys.version_info.major, sys.version_info.minor))
+    if target_python._constrained is False:
+        target_python.apply_constraint(*compat.find_syntax_versions(module))
 
     add_namespace(module)
 
@@ -141,7 +191,7 @@ def minify(
     if remove_pass:
         module = RemovePass()(module)
 
-    if remove_object_base:
+    if target_python.minimum >= (3, 0) and remove_object_base:
         module = RemoveObject()(module)
 
     if remove_asserts:
@@ -189,7 +239,7 @@ def minify(
     if convert_posargs_to_args:
         module = remove_posargs(module)
 
-    minified = unparse(module)
+    minified = unparse(module, target_python)
 
     if preserve_shebang is True:
         shebang_line = _find_shebang(source)
@@ -214,7 +264,7 @@ def _find_shebang(source):
 
     return None
 
-def unparse(module):
+def unparse(module, target_python=None):
     """
     Turn a module AST into python code
 
@@ -223,13 +273,22 @@ def unparse(module):
 
     :param module: The module to turn into python code
     :type: module: :class:`ast.Module`
+    :param target_python: Options for the target python version
+    :type target_python: :class:`TargetPythonOptions`
     :rtype: str
 
     """
 
     assert isinstance(module, ast.Module)
 
-    printer = ModulePrinter()
+    if target_python is None:
+        target_python = TargetPythonOptions((2, 7), (sys.version_info.major, sys.version_info.minor))
+    if target_python._constrained is False:
+        target_python.apply_constraint(*compat.find_syntax_versions(module))
+
+    sys.stderr.write('Target Python: %r\n' % target_python)
+
+    printer = ModulePrinter(target_python)
     printer(module)
 
     try:
@@ -245,7 +304,7 @@ def unparse(module):
     return printer.code
 
 
-def awslambda(source, filename=None, entrypoint=None):
+def awslambda(source, filename=None, entrypoint=None, target_python=None):
     """
     Minify a python module for use as an AWS Lambda function
 
@@ -256,6 +315,8 @@ def awslambda(source, filename=None, entrypoint=None):
     :param str filename: The original source filename if known
     :param entrypoint: The lambda entrypoint function
     :type entrypoint: str or NoneType
+    :param target_python: Options for the target python version
+    :type target_python: :class:`TargetPythonOptions`
     :rtype: str
 
     """
@@ -265,5 +326,10 @@ def awslambda(source, filename=None, entrypoint=None):
         rename_globals = False
 
     return minify(
-        source, filename, remove_literal_statements=True, rename_globals=rename_globals, preserve_globals=[entrypoint],
+        source,
+        filename,
+        remove_literal_statements=True,
+        rename_globals=rename_globals,
+        preserve_globals=[entrypoint],
+        target_python=target_python
     )
