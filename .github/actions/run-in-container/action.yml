@@ -1,0 +1,125 @@
+name: Run in container
+description: Run a command in a container
+author: Daniel Flook
+
+inputs:
+  image:
+    description: The image to run the command in
+    required: true
+  run:
+    description: The command to run
+    required: true
+  volumes:
+    description: Volumes to mount, one per line. Each line of the form 'source:target'
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Run command
+      env:
+        INPUT_VOLUMES: ${{ inputs.volumes }}
+      run: |
+
+        docker pull --quiet ${{ inputs.image }}
+        
+        function run() {
+          docker run --rm \
+          --workdir /github/workspace \
+          -e "GITHUB_WORKSPACE=/github/workspace" \
+          -v $GITHUB_WORKSPACE:/github/workspace \
+          -e "HOME=/github/home" \
+          -v "$RUNNER_TEMP/_github_home":"/github/home" \
+          -v "/var/run/docker.sock":"/var/run/docker.sock" \
+          --mount type=bind,source="$RUNNER_TEMP/run.sh",target=/run.sh,readonly \
+          -e GITHUB_EVENT_PATH \
+          --mount type=bind,source="$GITHUB_EVENT_PATH",target="$GITHUB_EVENT_PATH,readonly" \
+          -e GITHUB_PATH \
+          --mount type=bind,source="$GITHUB_PATH",target="$GITHUB_PATH" \
+          -e GITHUB_ENV \
+          --mount type=bind,source="$GITHUB_ENV",target="$GITHUB_ENV" \
+          -e GITHUB_STEP_SUMMARY \
+          --mount type=bind,source="$GITHUB_STEP_SUMMARY",target="$GITHUB_STEP_SUMMARY" \
+          -e GITHUB_TOKEN \
+          -e GITHUB_JOB \
+          -e GITHUB_REF \
+          -e GITHUB_SHA \
+          -e GITHUB_REPOSITORY \
+          -e GITHUB_REPOSITORY_OWNER \
+          -e GITHUB_RUN_ID \
+          -e GITHUB_RUN_NUMBER \
+          -e GITHUB_RETENTION_DAYS \
+          -e GITHUB_RUN_ATTEMPT \
+          -e GITHUB_ACTOR \
+          -e GITHUB_WORKFLOW \
+          -e GITHUB_HEAD_REF \
+          -e GITHUB_BASE_REF \
+          -e GITHUB_EVENT_NAME \
+          -e GITHUB_SERVER_URL \
+          -e GITHUB_API_URL \
+          -e GITHUB_GRAPHQL_URL \
+          -e GITHUB_ACTION \
+          -e GITHUB_ACTION_REPOSITORY \
+          -e GITHUB_ACTION_REF \
+          -e RUNNER_DEBUG \
+          -e RUNNER_OS \
+          -e RUNNER_NAME \
+          -e RUNNER_TOOL_CACHE \
+          -e ACTIONS_RUNTIME_URL \
+          -e ACTIONS_RUNTIME_TOKEN \
+          -e ACTIONS_CACHE_URL \
+          -e GITHUB_ACTIONS \
+          -e CI \
+          -e GITHUB_ACTOR_ID \
+          -e GITHUB_OUTPUT \
+          -e GITHUB_REF_NAME \
+          -e GITHUB_REF_PROTECTED \
+          -e GITHUB_REF_TYPE \
+          -e GITHUB_REPOSITORY_ID \
+          -e GITHUB_REPOSITORY_OWNER_ID \
+          -e GITHUB_TRIGGERING_ACTOR \
+          -e GITHUB_WORKFLOW_REF \
+          -e GITHUB_WORKFLOW_SHA \
+          $VOLUMES_ARGS \
+          --entrypoint /bin/bash \
+          ${{ inputs.image }} \
+          --noprofile --norc -eo pipefail /run.sh
+
+        }
+
+        function fix_owners() {
+            cat <<"EOF" >"$RUNNER_TEMP/run.sh"
+            chown -R --reference "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/" || true
+            chown -R --reference "/github/home" "/github/home/" || true
+            chown --reference "$GITHUB_WORKSPACE" $GITHUB_PATH || true
+            chown --reference "$GITHUB_WORKSPACE" $GITHUB_ENV || true
+            chown --reference "$GITHUB_WORKSPACE" $GITHUB_STEP_SUMMARY || true
+        EOF
+            VOLUMES_ARGS=""
+            run
+            rm -f "$RUNNER_TEMP/run.sh"
+        }
+
+        trap fix_owners EXIT
+        
+        VOLUMES_ARGS=""
+        if [[ -n "$INPUT_VOLUMES" ]]; then
+            for mount in $(echo "$INPUT_VOLUMES" | tr ',' '\n'); do
+                VOLUMES_ARGS="$VOLUMES_ARGS -v $mount"
+            done
+        fi
+
+        cat <<"EOF" >"$RUNNER_TEMP/run.sh"
+        ${{ inputs.run }}
+        EOF
+        
+        set -x
+        run
+        set +x
+
+      shell: bash
+
+branding:
+  icon: globe
+  color: purple
