@@ -8,30 +8,34 @@ concurrency:
   group: release
   cancel-in-progress: false
 
-env:
-   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 jobs:
 
   release:
+    name: Create sdist and Python 3 Wheel
     runs-on: ubuntu-latest
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
       - name: Set version statically
         run: |
           VERSION=${{ github.event.release.tag_name }}
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+          echo "Version: $VERSION"
 
-      - name: Build package
+      - name: Build distribution packages
         run: |
           pip3 install --upgrade build
           python3 -m build
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload distribution artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/
@@ -43,11 +47,13 @@ jobs:
           pip3 install dist/*.tar.gz
           sphinx-build docs/source /tmp/build
 
-      - uses: actions/upload-pages-artifact@v1
+      - name: Upload documentation artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: /tmp/build
 
   publish-to-pypi:
+    name: Publish to PyPI
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -56,18 +62,20 @@ jobs:
       name: pypi
       url: https://pypi.org/project/python-minifier/${{ github.event.release.tag_name }}
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download distribution artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
 
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@release/v1.10.1
         with:
           print-hash: true
           verbose: true
 
   publish-docs:
+    name: Publish Documentation
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -79,4 +87,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

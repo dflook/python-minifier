@@ -2,9 +2,6 @@ name: Unit Test
 
 on: [push]
 
-env:
-   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 jobs:
 
   test:
@@ -14,13 +11,13 @@ jobs:
       fail-fast: false
       matrix:
         python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "pypy", "pypy3"]
-    container:
-      image: danielflook/python-minifier-build:${{ matrix.python }}-2024-09-15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
       - name: Set version statically
         run: |
@@ -28,5 +25,8 @@ jobs:
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
 
       - name: Run tests
-        run: |
-          tox -r -e $(echo "${{ matrix.python }}" | tr -d .)
+        uses: ./.github/actions/run-in-container
+        with:
+          image: danielflook/python-minifier-build:${{ matrix.python }}-2024-09-15
+          run: |
+            tox -r -e $(echo "${{ matrix.python }}" | tr -d .)

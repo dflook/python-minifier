@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import gzip
 import os
 import sys
@@ -97,19 +98,19 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
     results_file_path = os.path.join(results_path, 'results_' + python_version + '_' + sha + '.csv')
 
     if os.path.isfile(results_file_path):
-        logging.info('Results file already exists: %s', results_file_path)
+        print('Results file already exists: %s' % results_file_path)
         if regenerate_results:
             os.remove(results_file_path)
 
     total_entries = len(corpus_entries)
-    logging.info('Testing python-minifier on %d entries' % total_entries)
+    print('Testing python-minifier on %d entries' % total_entries)
     tested_entries = 0
 
     start_time = time.time()
     next_checkpoint = time.time() + 60
 
     with ResultWriter(results_file_path) as result_writer:
-        logging.info('%d results already present' % len(result_writer))
+        print('%d results already present' % len(result_writer))
 
         for entry in corpus_entries:
             if entry in result_writer:
@@ -124,15 +125,15 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
             sys.stdout.flush()
 
             if time.time() > next_checkpoint:
-                percent = len(result_writer) / total_entries * 100
+                percent = len(result_writer) / float(total_entries) * 100
                 time_per_entry = (time.time() - start_time) / tested_entries
                 entries_remaining = len(corpus_entries) - len(result_writer)
-                time_remaining = int(entries_remaining * time_per_entry)
-                logging.info('Tested %d/%d entries (%d%%) %s seconds remaining' % (len(result_writer), total_entries, percent, time_remaining))
+                time_remaining = datetime.timedelta(seconds=int(entries_remaining * time_per_entry))
+                print('Tested %d/%d entries (%d%%) estimated %s remaining' % (len(result_writer), total_entries, percent, time_remaining))
                 sys.stdout.flush()
                 next_checkpoint = time.time() + 60
 
-    logging.info('Finished')
+    print('Finished')
 
 def bool_parse(value):
     return value == 'true'

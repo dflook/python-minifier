@@ -2,9 +2,6 @@ name: Release Test
 
 on: [push]
 
-env:
-   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 jobs:
 
   package_python3:
@@ -17,18 +14,20 @@ jobs:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          show-progress: false
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
       - name: Set version statically
         run: |
           pip3 install setuptools_scm
           VERSION="$(python3 -m setuptools_scm)"
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+          echo "Version: $VERSION"
 
-      - name: Create Packages
+      - name: Build distribution packages
         id: package
         run: |
           pip3 install --upgrade build
@@ -37,10 +36,18 @@ jobs:
           echo "sdist=$(find dist -name '*.tar.gz' -printf "%f\n")" >> "$GITHUB_OUTPUT"
           echo "wheel=$(find dist -name '*-py3-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload sdist artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: dist-sdist
+          path: dist/${{ steps.package.outputs.sdist }}
+          if-no-files-found: error
+
+      - name: Upload Python 3 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-py3-wheel
+          path: dist/${{ steps.package.outputs.wheel }}
           if-no-files-found: error
 
   package_python2:
@@ -52,12 +59,13 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python2.7-2024-09-15
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download source distribution artifact
+        uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: dist-sdist
           path: dist/
 
-      - name: Build wheel
+      - name: Build Python 2 wheel
         id: package
         run: |
           dnf install -y findutils
@@ -65,10 +73,11 @@ jobs:
           pip wheel dist/${{ needs.package_python3.outputs.sdist }} -w dist
           echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload Python 2 wheel artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: dist-py2-wheel
+          path: dist/${{ steps.package.outputs.wheel }}
           if-no-files-found: error
 
   documentation:
@@ -78,9 +87,9 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: dist-sdist
           path: dist/
 
       - name: Install package
@@ -89,10 +98,11 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          show-progress: false
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
       - name: Build documentation
         run: |
@@ -108,39 +118,41 @@ jobs:
       matrix:
         python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
         package_type: [sdist, wheel]
-    container:
-      image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: dist/
-
-      - name: Install package
-        run: |
-          if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
-            pip${{ matrix.python }} install dist/${{needs.package_python3.outputs.sdist}}
-          elif [[ "${{ matrix.python }}" == "2.7" ]]; then
-            pip${{ matrix.python }} install dist/${{needs.package_python2.outputs.wheel}}
-          else
-            pip${{ matrix.python }} install dist/${{needs.package_python3.outputs.wheel}}
-          fi
-          
-          pyminify --version
-
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          show-progress: false
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
-      - name: Test pyminify
-        run: |
-          set -x
-          cat setup.py | pyminify -
-          pyminify setup.py > /tmp/out.min.py
-          pyminify setup.py --output /tmp/out.min.py2
-          pyminify setup.py src test --in-place
+      - name: Download distribution artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: dist-*
+          path: dist/
+          merge-multiple: 'true'
+
+      - name: Test
+        uses: ./.github/actions/run-in-container
+        with:
+          image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
+          run: |
+            if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
+              pip${{ matrix.python }} install dist/${{needs.package_python3.outputs.sdist}}
+            elif [[ "${{ matrix.python }}" == "2.7" ]]; then
+              pip${{ matrix.python }} install dist/${{needs.package_python2.outputs.wheel}}
+            else
+              pip${{ matrix.python }} install dist/${{needs.package_python3.outputs.wheel}}
+            fi
+            
+            pyminify --version
+
+            set -x
+            cat setup.py | pyminify -
+            pyminify setup.py > /tmp/out.min.py
+            pyminify setup.py --output /tmp/out.min.py2
+            pyminify setup.py src test --in-place
 
   test_typing:
     runs-on: ubuntu-latest
@@ -151,10 +163,12 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download distribution artifacts
+        uses: actions/download-artifact@v4
         with:
-          name: dist
+          pattern: dist-*
           path: dist/
+          merge-multiple: 'true'
 
       - name: Install package
         run: |
@@ -165,10 +179,11 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          show-progress: false
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
       - name: Test typing
         run: |
