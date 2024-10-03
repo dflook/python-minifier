@@ -3,6 +3,12 @@ name: Release
 on:
   release:
     types: [released]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "The tag to release"
+        required: true
+        type: string
 
 concurrency:
   group: release
@@ -27,7 +33,7 @@ jobs:
 
       - name: Set version statically
         run: |
-          VERSION=${{ github.event.release.tag_name }}
+          VERSION="${{ github.event.release.tag_name }}${{ inputs.tag_name }}"
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
           echo "Version: $VERSION"
 
@@ -127,7 +133,7 @@ jobs:
       id-token: write
     environment:
       name: pypi
-      url: https://pypi.org/project/python-minifier/${{ github.event.release.tag_name }}
+      url: https://pypi.org/project/python-minifier/${{ github.event.release.tag_name }}${{ inputs.tag_name }}
     steps:
       - name: Download distribution artifacts
         uses: actions/download-artifact@v4
