@@ -85,7 +85,8 @@ def arg_rename_in_place(node):
         return True
 
     if isinstance(func.namespace, ast.ClassDef) and not isinstance(func, ast.Lambda):
-        if len(func.args.args) > 0 and node is func.args.args[0]:
+        all_args = (func.args.posonlyargs if hasattr(func.args, 'posonlyargs') else []) + func.args.args
+        if len(all_args) > 0 and node is all_args[0]:
             if len(func.decorator_list) == 0:
                 # rename 'self'
                 return True
