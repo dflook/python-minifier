@@ -10,9 +10,12 @@ concurrency:
 
 jobs:
 
-  release:
+  package_python3:
     name: Create sdist and Python 3 Wheel
     runs-on: ubuntu-latest
+    outputs:
+        sdist: ${{ steps.package.outputs.sdist }}
+        wheel: ${{ steps.package.outputs.wheel }}
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
@@ -25,26 +28,91 @@ jobs:
 
       - name: Set version statically
         run: |
-          VERSION=${{ github.event.release.tag_name }}
+          pip3 install setuptools_scm
+          VERSION="$(python3 -m setuptools_scm)"
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
           echo "Version: $VERSION"
 
       - name: Build distribution packages
+        id: package
         run: |
           pip3 install --upgrade build
           python3 -m build
+          
+          echo "sdist=$(find dist -name '*.tar.gz' -printf "%f\n")" >> "$GITHUB_OUTPUT"
+          echo "wheel=$(find dist -name '*-py3-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
-      - name: Upload distribution artifacts
+      - name: Upload sdist artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: dist-sdist
+          path: dist/${{ steps.package.outputs.sdist }}
           if-no-files-found: error
+
+      - name: Upload Python 3 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-py3-wheel
+          path: dist/${{ steps.package.outputs.wheel }}
+          if-no-files-found: error
+
+  package_python2:
+    name: Create Python 2 Wheel
+    runs-on: ubuntu-latest
+    needs: [package_python3]
+    outputs:
+        wheel: ${{ steps.package.outputs.wheel }}
+    container:
+      image: danielflook/python-minifier-build:python2.7-2024-09-15
+    steps:
+      - name: Download source distribution artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-sdist
+          path: dist/
+
+      - name: Build Python 2 wheel
+        id: package
+        run: |
+          dnf install -y findutils
+          pip install --upgrade wheel
+          pip wheel dist/${{ needs.package_python3.outputs.sdist }} -w dist
+          echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Python 2 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-py2-wheel
+          path: dist/${{ steps.package.outputs.wheel }}
+          if-no-files-found: error
+
+  documentation:
+    name: Test Documentation
+    runs-on: ubuntu-latest
+    needs: [package_python3]
+    container:
+      image: danielflook/python-minifier-build:python3.13-2024-09-15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-sdist
+          path: dist/
+
+      - name: Install package
+        run: |
+          pip3 install dist/${{needs.package_python3.outputs.sdist}}
+          pyminify --version
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          fetch-tags: 'true'
+          show-progress: 'false'
 
       - name: Build documentation
         run: |
           pip3 install sphinx sphinxcontrib-programoutput sphinx_rtd_theme
-          pip3 install dist/*.tar.gz
           sphinx-build docs/source /tmp/build
 
       - name: Upload documentation artifact
@@ -54,7 +122,9 @@ jobs:
 
   publish-to-pypi:
     name: Publish to PyPI
-    needs: release
+    needs:
+      - package_python3
+      - package_python2
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -65,8 +135,9 @@ jobs:
       - name: Download distribution artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist
+          pattern: dist-*
           path: dist/
+          merge-multiple: 'true'
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1.10.1
@@ -76,7 +147,8 @@ jobs:
 
   publish-docs:
     name: Publish Documentation
-    needs: release
+    needs:
+      - documentation
     runs-on: ubuntu-latest
     permissions:
       pages: write
