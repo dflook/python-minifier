@@ -164,6 +164,85 @@ class TestClass():
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
 
+
+def test_rename_posargs_in_place():
+    if sys.version_info < (3, 8):
+        pytest.skip('No posonlyargs in python < 3.8')
+
+    source = '''
+def test(arg, /, arg2): return arg, arg2
+
+class TestClass():
+    def mymethod(self, arg, /, arg2): return arg, arg2
+
+    @classmethod
+    def mymethod(cls, arg, /, arg2): return arg, arg2
+'''
+    expected = '''
+def test(A,/,arg2):return A,arg2
+class TestClass:
+	def mymethod(B,A,/,arg2):return A,arg2
+	@classmethod
+	def mymethod(B,A,/,arg2):return A,arg2
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = rename_locals(source)
+    assert_code(expected_ast, actual_ast)
+
+
+def test_rename_kwargonlyargs_in_place():
+    if sys.version_info < (3, 0):
+        pytest.skip('No kwonlyargs in python < 3.0')
+
+    source = '''
+def test(arg, arg2, *, arg3): return arg, arg2, arg3
+
+class TestClass():
+    def mymethod(self, arg, arg2, *, arg3): return arg, arg2, arg3
+
+    @classmethod
+    def mymethod(cls, arg, arg2, *, arg3): return arg, arg2, arg3
+'''
+    expected = '''
+def test(arg,arg2,*,arg3):return arg,arg2,arg3
+class TestClass:
+	def mymethod(A,arg,arg2,*,arg3):return arg,arg2,arg3
+	@classmethod
+	def mymethod(A,arg,arg2,*,arg3):return arg,arg2,arg3
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = rename_locals(source)
+    assert_code(expected_ast, actual_ast)
+
+
+def test_rename_posargs_kwargonlyargs_in_place():
+    if sys.version_info < (3, 8):
+        pytest.skip('No posonlyargs in python < 3.8')
+
+    source = '''
+def test(arg, /, arg2, *, arg3): return arg, arg2, arg3
+
+class TestClass():
+    def mymethod(self, arg, /, arg2, *, arg3): return arg, arg2, arg3
+
+    @classmethod
+    def mymethod(cls, arg, /, arg2, *, arg3): return arg, arg2, arg3
+'''
+    expected = '''
+def test(A,/,arg2,*,arg3):return A,arg2,arg3
+class TestClass:
+	def mymethod(B,A,/,arg2,*,arg3):return A,arg2,arg3
+	@classmethod
+	def mymethod(B,A,/,arg2,*,arg3):return A,arg2,arg3
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = rename_locals(source)
+    assert_code(expected_ast, actual_ast)
+
+
 def test_no_rename_long_arg():
     source = '''
 def f(this_is_my_long_argument_name):
