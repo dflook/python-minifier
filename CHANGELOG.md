@@ -10,6 +10,13 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [2.11.2] - 2024-10-03
+
+### Fixed
+- Using the positional only parameter separator `/` in method definitions could cause the following parameter to be
+  incorrectly renamed in place, which could lead to failure if the method was called with that parameter as a keyword argument.
+  This has been fixed.
+
 ## [2.11.1] - 2024-09-29
 
 ### Fixed
@@ -266,6 +273,7 @@ the minified code may only run with Python 3.12.
 - python-minifier package
 - pyminify command
 
+[2.11.2]: https://github.com/dflook/python-minifier/compare/2.11.1...2.11.2
 [2.11.1]: https://github.com/dflook/python-minifier/compare/2.11.0...2.11.1
 [2.11.0]: https://github.com/dflook/python-minifier/compare/2.10.0...2.11.0
 [2.10.0]: https://github.com/dflook/python-minifier/compare/2.9.0...2.10.0
