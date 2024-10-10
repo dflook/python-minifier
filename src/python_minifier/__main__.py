@@ -14,7 +14,7 @@ if sys.version_info >= (3, 8):
     except metadata.PackageNotFoundError:
         version = '0.0.0'
 else:
-    from pkg_resources import get_distribution, DistributionNotFound
+    from pkg_resources import DistributionNotFound, get_distribution
     try:
         version = get_distribution('python_minifier').version
     except DistributionNotFound:

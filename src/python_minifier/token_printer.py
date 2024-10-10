@@ -3,6 +3,7 @@
 import re
 import sys
 
+
 class TokenTypes(object):
     NoToken = 0
     Identifier = 1

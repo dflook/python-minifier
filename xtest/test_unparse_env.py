@@ -1,11 +1,13 @@
+import ast
 import os
 import sys
-import ast
-import pytest
 import warnings
-warnings.filterwarnings("ignore")
+
+import pytest
 
 from python_minifier import minify, unparse
+
+warnings.filterwarnings("ignore")
 
 def gather_files():
     print('Interpreter version: ', sys.version_info)

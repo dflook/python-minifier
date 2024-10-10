@@ -3,9 +3,9 @@ import sys
 
 import pytest
 
-from python_minifier import add_namespace
-from python_minifier.transforms.constant_folding import FoldConstants
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace
+from python_minifier.transforms.constant_folding import FoldConstants
 
 
 def fold_constants(source):

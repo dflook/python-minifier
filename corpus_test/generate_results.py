@@ -1,16 +1,14 @@
 import argparse
 import datetime
 import gzip
+import logging
 import os
 import sys
 import time
 
-
-import logging
-
-
 import python_minifier
-from result import Result, ResultWriter
+
+from .result import Result, ResultWriter
 
 try:
     RE = RecursionError

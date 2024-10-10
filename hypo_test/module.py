@@ -1,10 +1,10 @@
 import ast
 
 from hypothesis import assume
-from hypothesis.strategies import integers, lists, sampled_from, recursive, none, booleans, SearchStrategy, composite, one_of
+from hypothesis.strategies import SearchStrategy, booleans, composite, integers, lists, none, one_of, recursive, sampled_from
 
-from hypo_test.expressions import Name, expression, name
-from expressions import arguments
+from .expressions import Name, arguments, expression, name
+
 
 @composite
 def Assign(draw) -> ast.Assign:
@@ -193,7 +193,7 @@ def FunctionDef(draw, statements) -> ast.FunctionDef:
     args = draw(arguments())
     body = draw(lists(statements, min_size=1, max_size=3))
     decorator_list = draw(lists(Name(), min_size=0, max_size=2))
-    type_params = draw(none() | lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
+    type_params = draw(lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
     returns = draw(none() | expression())
     return ast.FunctionDef(n, args, body, decorator_list, returns, type_params=type_params)
 
@@ -203,7 +203,7 @@ def AsyncFunctionDef(draw, statements) -> ast.AsyncFunctionDef:
     args = draw(arguments())
     body = draw(lists(statements, min_size=1, max_size=3))
     decorator_list = draw(lists(Name(), min_size=0, max_size=2))
-    type_params = draw(none() | lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
+    type_params = draw(lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
     returns = draw(none() | expression())
     return ast.AsyncFunctionDef(n, args, body, decorator_list, returns, type_params=type_params)
 
@@ -230,7 +230,7 @@ def ClassDef(draw, statements) -> ast.ClassDef:
         keywords=keywords,
         body=body,
         decorator_list=decorator_list,
-        type_params=draw(none() | lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
+        type_params=draw(lists(one_of(TypeVar(), TypeVarTuple(), ParamSpec()), min_size=0, max_size=3))
     )
 
 if hasattr(ast, 'Print'):
@@ -286,7 +286,7 @@ def suite() -> SearchStrategy:
                 ClassDef(statements),
                 Try(statements)
             ),
-        max_leaves=150
+        max_leaves=100
     )
 
 @composite

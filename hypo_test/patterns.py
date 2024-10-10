@@ -3,7 +3,8 @@ import keyword
 import string
 
 from hypothesis import assume
-from hypothesis.strategies import lists, sampled_from, recursive, text, composite, one_of, none, booleans, integers
+from hypothesis.strategies import booleans, composite, integers, lists, none, one_of, recursive, sampled_from, text
+
 
 @composite
 def name(draw):

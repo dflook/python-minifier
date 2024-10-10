@@ -4,7 +4,8 @@ This should pass typechecking
 
 import ast
 
-from python_minifier import minify, unparse, awslambda, RemoveAnnotationsOptions
+from python_minifier import RemoveAnnotationsOptions, awslambda, minify, unparse
+
 
 def test_typing() -> None:
     """ This should have good types """

@@ -4,6 +4,7 @@ import pytest
 
 import python_minifier
 
+
 def test_nonlocal_name():
     if sys.version_info < (3, 0):
         pytest.skip('No nonlocal in python < 3.0')

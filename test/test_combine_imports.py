@@ -1,10 +1,11 @@
 import ast
 
 from helpers import print_namespace
-from python_minifier import add_namespace
-from python_minifier.rename import bind_names, resolve_names
-from python_minifier.transforms.combine_imports import CombineImports
+
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
+from python_minifier.transforms.combine_imports import CombineImports
+
 
 def combine_imports(module):
     add_namespace(module)

@@ -1,8 +1,8 @@
-from hypothesis import assume
-from hypothesis.strategies import integers, lists, binary, sampled_from, recursive, dictionaries, booleans, SearchStrategy, text, composite, one_of, floats, complex_numbers, characters, none
 import ast
 
-from expressions import NameConstant, Num
+from hypothesis.strategies import SearchStrategy, composite, lists, recursive, sampled_from
+
+from .expressions import NameConstant, Num
 
 leaves = NameConstant() | Num()
 

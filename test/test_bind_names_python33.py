@@ -4,6 +4,7 @@ import pytest
 
 from helpers import assert_namespace_tree
 
+
 def test_module_namespace():
     if sys.version_info < (3, 3) or sys.version_info > (3, 4):
         pytest.skip('Test is for python3.3 only')

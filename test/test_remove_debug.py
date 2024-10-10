@@ -2,8 +2,8 @@ import ast
 
 import pytest
 
-from python_minifier import add_namespace, bind_names, resolve_names
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
 from python_minifier.transforms.remove_debug import RemoveDebug
 
 

@@ -1,10 +1,11 @@
 import argparse
 import os
 import sys
+
 from dataclasses import dataclass, field
 from typing import Iterable
 
-from result import Result, ResultReader
+from .result import Result, ResultReader
 
 ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', True)
 

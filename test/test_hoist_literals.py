@@ -6,7 +6,16 @@ import pytest
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
 from python_minifier.ast_printer import print_ast
-from python_minifier.rename import add_namespace, bind_names, resolve_names, rename, rename_literals, allow_rename_locals, allow_rename_globals
+from python_minifier.rename import (
+    add_namespace,
+    allow_rename_globals,
+    allow_rename_locals,
+    bind_names,
+    rename,
+    rename_literals,
+    resolve_names
+)
+
 
 def hoist(source):
     module = ast.parse(source)

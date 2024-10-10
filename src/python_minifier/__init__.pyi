@@ -1,5 +1,6 @@
 import ast
-from typing import List, Text, AnyStr, Optional, Any, Union
+
+from typing import Any, AnyStr, List, Optional, Text, Union
 
 from .transforms.remove_annotations_options import RemoveAnnotationsOptions as RemoveAnnotationsOptions
 

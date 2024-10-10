@@ -5,12 +5,10 @@ This assumes the standard NameAssigner and name_generator
 """
 
 import ast
-import sys
 
-import pytest
-
-from python_minifier import add_namespace, bind_names, resolve_names, allow_rename_locals, allow_rename_globals, \
-    compare_ast, rename, CompareError, unparse
+from python_minifier import unparse
+from python_minifier.ast_compare import CompareError, compare_ast
+from python_minifier.rename import add_namespace, allow_rename_globals, allow_rename_locals, bind_names, rename, resolve_names
 
 
 def do_rename(source):

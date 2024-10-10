@@ -3,6 +3,7 @@ import ast
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
 
+
 def test_slice():
     """AST for slices was changed in 3.9"""
 
