@@ -6,7 +6,6 @@ import pytest
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
 
-
 # There are bizarrely few examples of this, some in the PEP are even syntax errors
 
 def test_pep696():

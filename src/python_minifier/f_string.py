@@ -270,7 +270,7 @@ class Str(object):
             elif c != quote:
                 return quote
 
-        raise ValueError('Couldn\'t find a quote')
+        raise ValueError("Couldn't find a quote")
 
     def _literals(self):
         l = ''
@@ -397,7 +397,7 @@ class Bytes(object):
             elif chr(c) != quote:
                 return quote
 
-        raise ValueError('Couldn\'t find a quote')
+        raise ValueError("Couldn't find a quote")
 
     def _literals(self):
         l = ''

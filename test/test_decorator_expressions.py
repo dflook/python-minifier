@@ -11,7 +11,7 @@ def test_pep():
     if sys.version_info < (3, 9):
         pytest.skip('Decorator expression not allowed in python <3.9')
 
-    source = """
+    source = '''
 buttons = [QPushButton(f'Button {i}') for i in range(10)]
 
 # Do stuff with the list of buttons...
@@ -58,7 +58,7 @@ def c(): pass
             ]))[0]
 def c(): pass
 
-"""
+'''
 
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)

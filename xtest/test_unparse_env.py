@@ -7,7 +7,7 @@ import pytest
 
 from python_minifier import minify, unparse
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
 
 
 def gather_files():

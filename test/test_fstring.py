@@ -39,13 +39,13 @@ def test_pep0701():
     statement = 'f"{f"{f"{f"{f"{f"{1+1}"}"}"}"}"}"'
     assert unparse(ast.parse(statement)) == statement
 
-    statement = """
+    statement = '''
 f"This is the playlist: {", ".join([
     'Take me back to Eden',  # My, my, those eyes like fire
     'Alkaline',              # Not acid nor alkaline
     'Ascensionism'           # Take to the broken skies at last
 ])}"
-"""
+'''
     assert unparse(ast.parse(statement)) == 'f"This is the playlist: {", ".join(["Take me back to Eden","Alkaline","Ascensionism"])}"'
 
     # statement = '''print(f"This is the playlist: {"\N{BLACK HEART SUIT}".join(songs)}")'''

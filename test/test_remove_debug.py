@@ -109,7 +109,7 @@ def test_remove_from_class_func_empty():
 
 
 @pytest.mark.parametrize(
-    "condition", [
+    'condition', [
         '__debug__',
         '__debug__ is True',
         '__debug__ is not False',
@@ -139,7 +139,7 @@ print(value)
 
 
 @pytest.mark.parametrize(
-    "condition", [
+    'condition', [
         'not __debug__',
         '__debug__ is False',
         '__debug__ is not True',

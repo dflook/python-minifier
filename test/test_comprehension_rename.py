@@ -9,7 +9,7 @@ from python_minifier.ast_compare import compare_ast
 
 def test_listcomp_regression_2_7():
     if sys.version_info >= (3, 0):
-        pytest.skip('ListComp doesn\'t create a new namespace in python < 3.0')
+        pytest.skip("ListComp doesn't create a new namespace in python < 3.0")
 
     source = '''
 def f(pa):
