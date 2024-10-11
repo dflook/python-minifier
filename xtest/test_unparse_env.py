@@ -9,6 +9,7 @@ from python_minifier import minify, unparse
 
 warnings.filterwarnings("ignore")
 
+
 def gather_files():
     print('Interpreter version: ', sys.version_info)
     print('sys.path: ', sys.path)
@@ -16,6 +17,7 @@ def gather_files():
         for subdir, dirs, files in os.walk(sys_path):
             for file in filter(lambda f: f.endswith('.py'), [os.path.join(subdir, file) for file in files]):
                 yield file
+
 
 @pytest.mark.parametrize('path', gather_files())
 def test_unparse(path):

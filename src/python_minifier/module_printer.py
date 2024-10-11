@@ -671,7 +671,7 @@ class ModulePrinter(ExpressionPrinter):
         for kwd, pattern in zip(node.kwd_attrs, node.kwd_patterns):
             delimiter.new_item()
 
-            self.printer.identifier(kwd)    
+            self.printer.identifier(kwd)
             self.printer.delimiter('=')
 
             self.pattern(pattern)
@@ -860,4 +860,3 @@ class ModulePrinter(ExpressionPrinter):
 
         for node in node_list:
             statements[node.__class__.__name__](node)
-

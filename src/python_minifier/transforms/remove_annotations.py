@@ -105,7 +105,7 @@ class RemoveAnnotations(SuiteTransformer):
             for node in node.parent.bases:
                 if isinstance(node, ast.Name) and node.id in tricky_types:
                     return True
-                elif isinstance(node, ast. Attribute) and node.attr in tricky_types:
+                elif isinstance(node, ast.Attribute) and node.attr in tricky_types:
                     return True
 
             return False

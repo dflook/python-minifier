@@ -16,6 +16,7 @@ if 'TypeAlias' in globals():
     Constant.n = property(lambda self: self.value, lambda self, value: setattr(self, 'value', value))  # type: ignore[assignment]
     Constant.s = property(lambda self: self.value, lambda self, value: setattr(self, 'value', value))  # type: ignore[assignment]
 
+
     # These classes are redefined from the ones in ast that complain about deprecation
     # They will continue to work once they are removed from ast
 
@@ -23,17 +24,21 @@ if 'TypeAlias' in globals():
         def __new__(cls, s, *args, **kwargs):
             return Constant(value=s, *args, **kwargs)
 
+
     class Bytes(Constant):  # type: ignore[no-redef]
         def __new__(cls, s, *args, **kwargs):
             return Constant(value=s, *args, **kwargs)
+
 
     class Num(Constant):  # type: ignore[no-redef]
         def __new__(cls, n, *args, **kwargs):
             return Constant(value=n, *args, **kwargs)
 
+
     class NameConstant(Constant):  # type: ignore[no-redef]
         def __new__(cls, *args, **kwargs):
             return Constant(*args, **kwargs)
+
 
     class Ellipsis(Constant):  # type: ignore[no-redef]
         def __new__(cls, *args, **kwargs):

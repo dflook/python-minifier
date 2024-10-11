@@ -33,6 +33,7 @@ def iter_child_namespaces(node):
             for c in iter_child_namespaces(child):
                 yield c
 
+
 def get_global_namespace(node):
     """
     Return the global namespace for a node

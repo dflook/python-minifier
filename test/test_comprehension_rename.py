@@ -18,6 +18,7 @@ def f(pa):
     expected = source
     compare_ast(ast.parse(minify(source, rename_locals=True)), ast.parse(expected))
 
+
 def test_listcomp_regression():
     if sys.version_info < (3, 0):
         pytest.skip('ListComp creates a new namespace in python > 3.0')
@@ -43,6 +44,7 @@ def test_expression():
 '''
     compare_ast(ast.parse(minify(source, rename_locals=True)), ast.parse(expected))
 
+
 def test_generator_expression():
     source = '''
 x=1
@@ -57,6 +59,7 @@ def func():
 '''
 
     compare_ast(ast.parse(minify(source, rename_locals=True)), ast.parse(expected))
+
 
 def test_generator_expression_multiple_for():
     source = '''
@@ -76,6 +79,7 @@ def func(long_name, another_long_name):
 '''
 
     compare_ast(ast.parse(minify(source, rename_locals=True)), ast.parse(expected))
+
 
 def test_generator_expression_nested_for():
     source = '''

@@ -198,6 +198,7 @@ def minify(
 
     return minified
 
+
 def _find_shebang(source):
     """
     Find a shebang line in source
@@ -213,6 +214,7 @@ def _find_shebang(source):
             return shebang.group()
 
     return None
+
 
 def unparse(module):
     """

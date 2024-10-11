@@ -34,7 +34,6 @@ def minify_corpus_entry(corpus_path, corpus_entry):
         with open(os.path.join(corpus_path, corpus_entry), 'rb') as f:
             source = f.read()
 
-
     result = Result(corpus_entry, len(source), 0, 0, '')
 
     start_time = time.time()
@@ -132,6 +131,7 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
                 next_checkpoint = time.time() + 60
 
     print('Finished')
+
 
 def bool_parse(value):
     return value == 'true'

@@ -156,7 +156,7 @@ class ExpressionPrinter(object):
             if key is None:
                 self.printer.operator('**')
 
-                if 0 < self.precedence(datum) <=7:
+                if 0 < self.precedence(datum) <= 7:
                     self.printer.delimiter('(')
                     self._expression(datum)
                     self.printer.delimiter(')')

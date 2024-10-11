@@ -29,6 +29,7 @@ def hoist(source):
     print(unparse(module))
     return module
 
+
 def test_nohoist_single_usage():
     source = '''
 a = 'Hello'
@@ -41,6 +42,7 @@ a = 'Hello'
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_multiple_usage():
     source = '''
@@ -58,6 +60,7 @@ B = C
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_no_hoist_multiple_small():
     source = '''
 A = ''
@@ -72,6 +75,7 @@ B = ''
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_multiple_small():
     source = '''
@@ -98,6 +102,7 @@ G = H
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_insert_after_docstring():
     source = '''
@@ -140,6 +145,7 @@ B = C
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_hoist_insert_after_future_docstring():
     source = '''
 "Hello this is a docstring"
@@ -162,6 +168,7 @@ B = C
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_hoist_bytes():
     source = '''
 "Hello this is a docstring"
@@ -183,6 +190,7 @@ B = C
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_after_multiple_future():
     source = '''
@@ -208,6 +216,7 @@ B = C
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_hoist_class():
     source = '''
 class a:
@@ -225,6 +234,7 @@ class a:
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_from_class_to_func():
     source = '''
@@ -245,6 +255,7 @@ def z():
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_from_func_to_func():
     source = '''
@@ -268,6 +279,7 @@ def z():
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_hoist_in_func():
     source = '''
 def z():
@@ -287,6 +299,7 @@ def z():
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_over_class():
     source = '''
@@ -309,6 +322,7 @@ class a:
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_from_generator():
     source = '''
@@ -340,6 +354,7 @@ class a:
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoist_from_listcomp():
     source = '''
@@ -407,6 +422,7 @@ class a:
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_hoist_from_setcomp():
     if sys.version_info < (2, 7):
         pytest.skip('No SetComp in python < 2.7')
@@ -437,6 +453,7 @@ class a:
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_hoist_from_lambda():
     source = '''
 class a:
@@ -458,6 +475,7 @@ class a:
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_hoisted_types_py3():
     if sys.version_info < (3, 0):
@@ -501,6 +519,7 @@ c = A + A
     expected_ast = ast.parse(expected)
     actual_ast = hoist(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_no_hoist_slots():
     source = '''

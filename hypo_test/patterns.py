@@ -14,17 +14,21 @@ def name(draw):
 
     return n
 
+
 @composite
 def MatchValue(draw) -> ast.MatchValue:
     return ast.MatchValue(ast.Constant(0))
+
 
 @composite
 def MatchSingleton(draw) -> ast.MatchSingleton:
     return ast.MatchSingleton(draw(sampled_from([None, True, False])))
 
+
 @composite
 def MatchStar(draw) -> ast.MatchStar:
     return ast.MatchStar(name=draw(sampled_from([None, 'rest'])))
+
 
 @composite
 def MatchSequence(draw, pattern) -> ast.MatchSequence:
@@ -38,6 +42,7 @@ def MatchSequence(draw, pattern) -> ast.MatchSequence:
 
     return ast.MatchSequence(patterns=l)
 
+
 @composite
 def MatchMapping(draw, pattern) -> ast.MatchMapping:
     l = draw(lists(pattern, min_size=1, max_size=3))
@@ -50,12 +55,13 @@ def MatchMapping(draw, pattern) -> ast.MatchMapping:
 
     return match_mapping
 
+
 @composite
 def MatchClass(draw, pattern) -> ast.MatchClass:
     patterns = draw(lists(pattern, min_size=0, max_size=3))
 
     kwd_patterns = draw(lists(pattern, min_size=0, max_size=3))
-    kwd=['a' for i in range(len(kwd_patterns))]
+    kwd = ['a' for i in range(len(kwd_patterns))]
 
     return ast.MatchClass(
         cls=ast.Name(draw(name()), ctx=ast.Load()),
@@ -63,6 +69,7 @@ def MatchClass(draw, pattern) -> ast.MatchClass:
         kwd_attrs=kwd,
         kwd_patterns=kwd_patterns
     )
+
 
 @composite
 def MatchAs(draw, pattern) -> ast.MatchAs:
@@ -75,12 +82,15 @@ def MatchAs(draw, pattern) -> ast.MatchAs:
 
     return ast.MatchAs(pattern=p, name=n)
 
+
 @composite
 def MatchOr(draw, pattern) -> ast.MatchOr:
     l = draw(lists(pattern, min_size=2, max_size=3))
     return ast.MatchOr(patterns=l)
 
+
 leaves = MatchValue() | MatchSingleton()
+
 
 def pattern():
     return recursive(
@@ -95,6 +105,7 @@ def pattern():
         ),
         max_leaves=150
     )
+
 
 @composite
 def Pattern(draw):

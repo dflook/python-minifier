@@ -68,4 +68,3 @@ class Test(object):
     expected_ast = ast.parse(expected)
     actual_ast = RemoveObject()(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
-

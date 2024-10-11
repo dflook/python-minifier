@@ -16,6 +16,7 @@ class TokenTypes(object):
     NewLine = 8
     EndStatement = 9
 
+
 class Delimiter(object):
     def __init__(self, terminal_printer, delimiter=',', add_parens=False):
         """
@@ -74,6 +75,7 @@ class Delimiter(object):
                 self._terminal_printer.delimiter('(')
         else:
             self._terminal_printer.delimiter(self._delimiter)
+
 
 class TokenPrinter(object):
     """

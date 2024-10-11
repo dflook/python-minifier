@@ -180,6 +180,7 @@ class NameBinder(NodeVisitor):
 
         get_global_namespace(node.namespace).preserved.add(node.name)
 
+
 def bind_names(module):
     """
     Bind names to their local namespace

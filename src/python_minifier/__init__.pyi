@@ -4,8 +4,10 @@ from typing import Any, AnyStr, List, Optional, Text, Union
 
 from .transforms.remove_annotations_options import RemoveAnnotationsOptions as RemoveAnnotationsOptions
 
+
 class UnstableMinification(RuntimeError):
     def __init__(self, exception: Any, source: Any, minified: Any): ...
+
 
 def minify(
     source: AnyStr,
@@ -29,7 +31,9 @@ def minify(
     constant_folding: bool = ...
 ) -> Text: ...
 
+
 def unparse(module: ast.Module) -> Text: ...
+
 
 def awslambda(
     source: AnyStr,

@@ -74,6 +74,7 @@ builtin_exceptions_3_11 = [
     'BaseExceptionGroup',
 ]
 
+
 def _remove_empty_call(binding):
     assert isinstance(binding, BuiltinBinding)
 

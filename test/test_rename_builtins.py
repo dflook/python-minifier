@@ -73,6 +73,7 @@ sorted()
     actual_ast = do_rename(source)
     assert_code(expected_ast, actual_ast)
 
+
 def test_rename_local_builtin():
     source = '''
 def t():
@@ -95,6 +96,7 @@ def B():
     expected_ast = ast.parse(expected)
     actual_ast = do_rename(source)
     assert_code(expected_ast, actual_ast)
+
 
 def test_no_rename_local_assigned_builtin():
     source = '''

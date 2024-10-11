@@ -9,12 +9,14 @@ from python_minifier.transforms.remove_annotations_options import RemoveAnnotati
 
 if sys.version_info >= (3, 8):
     from importlib import metadata
+
     try:
         version = metadata.version('python-minifier')
     except metadata.PackageNotFoundError:
         version = '0.0.0'
 else:
     from pkg_resources import DistributionNotFound, get_distribution
+
     try:
         version = get_distribution('python_minifier').version
     except DistributionNotFound:

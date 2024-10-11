@@ -34,6 +34,7 @@ def get_binding(name, namespace):
             namespace.bindings.append(binding)
             return binding
 
+
 def get_binding_disallow_class_namespace_rename(name, namespace):
     binding = get_binding(name, namespace)
 
@@ -42,6 +43,7 @@ def get_binding_disallow_class_namespace_rename(name, namespace):
         binding.disallow_rename()
 
     return binding
+
 
 def resolve_names(node):
     """

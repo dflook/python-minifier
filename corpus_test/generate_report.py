@@ -183,6 +183,7 @@ def format_difference(compare: Iterable[Result], base: Iterable[Result]) -> str:
     else:
         return s
 
+
 def report_larger_than_original(results_dir: str, python_versions: str, minifier_sha: str) -> str:
     yield '''
 ## Larger than original
@@ -201,6 +202,7 @@ def report_larger_than_original(results_dir: str, python_versions: str, minifier
         for entry in larger_than_original:
             yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} ({entry.minified_size - entry.original_size:+}) |'
 
+
 def report_unstable(results_dir: str, python_versions: str, minifier_sha: str) -> str:
     yield '''
 ## Unstable
@@ -218,6 +220,7 @@ def report_unstable(results_dir: str, python_versions: str, minifier_sha: str) -
 
         for entry in unstable:
             yield f'| {entry.corpus_entry} | {python_version} | {entry.original_size} |'
+
 
 def report_exceptions(results_dir: str, python_versions: str, minifier_sha: str) -> str:
     yield '''
@@ -242,6 +245,7 @@ def report_exceptions(results_dir: str, python_versions: str, minifier_sha: str)
 
     if not exceptions_found:
         yield ' None | | |'
+
 
 def report_larger_than_base(results_dir: str, python_versions: str, minifier_sha: str, base_sha: str) -> str:
     yield '''
@@ -272,6 +276,7 @@ def report_larger_than_base(results_dir: str, python_versions: str, minifier_sha
     if not there_are_some_larger_than_base:
         yield '| N/A | N/A | N/A |'
 
+
 def report_slowest(results_dir: str, python_versions: str, minifier_sha: str) -> str:
     yield '''
 ## Top 10 Slowest
@@ -287,6 +292,7 @@ def report_slowest(results_dir: str, python_versions: str, minifier_sha: str) ->
 
         for entry in sorted(summary.entries.values(), key=lambda entry: entry.time, reverse=True)[:10]:
             yield f'| {entry.corpus_entry} | {entry.original_size} | {entry.minified_size} | {entry.time:.3f} |'
+
 
 def report(results_dir: str, minifier_ref: str, minifier_sha: str, base_ref: str, base_sha: str) -> Iterable[str]:
     """

@@ -84,6 +84,7 @@ class HoistedBinding(Binding):
 
         return rename_cost <= current_cost
 
+
 class HoistedValue(object):
     """
     HoistedValue comparator object
@@ -244,6 +245,7 @@ class HoistLiterals(NodeVisitor):
                 return
 
         return self.generic_visit(node)
+
 
 def rename_literals(module):
     HoistLiterals()(module)

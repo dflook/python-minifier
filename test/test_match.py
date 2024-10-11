@@ -132,6 +132,7 @@ def change_red_to_blue(json_obj):
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
 
+
 def test_pep646_unparse():
     if sys.version_info < (3, 10):
         pytest.skip('Match statement not in python < 3.10')
@@ -298,6 +299,7 @@ match color:
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_match_unparse():
     if sys.version_info < (3, 10):

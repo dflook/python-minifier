@@ -22,6 +22,7 @@ class Foo[T]: ...
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_function_typevar_default():
     if sys.version_info < (3, 12):
         pytest.skip('Test is for > python3.12 only')
@@ -38,6 +39,7 @@ def foo[T](): ...
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_alias_typevar_default():
     if sys.version_info < (3, 12):
@@ -56,6 +58,7 @@ type Alias[DefaultT] = Blah
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_typevartuple_default():
     if sys.version_info < (3, 12):
         pytest.skip('Test is for > python3.12 only')
@@ -72,6 +75,7 @@ class Foo[*T]: ...
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_function_typevartuple_default():
     if sys.version_info < (3, 12):
@@ -90,6 +94,7 @@ def foo[*T](): ...
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_alias_typevartuple_default():
     if sys.version_info < (3, 12):
         pytest.skip('Test is for > python3.12 only')
@@ -106,6 +111,7 @@ type Alias[*DefaultT] = Blah
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_paramspec_default():
     if sys.version_info < (3, 12):
@@ -124,6 +130,7 @@ class Foo[**T]: ...
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_function_paramspec_default():
     if sys.version_info < (3, 12):
         pytest.skip('Test is for > python3.12 only')
@@ -140,6 +147,7 @@ def foo[**T](): ...
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_alias_paramspec_default():
     if sys.version_info < (3, 12):

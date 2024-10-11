@@ -23,18 +23,21 @@ from hypothesis.strategies import (
     text
 )
 
-comparison_operators = sampled_from([
-    ast.Eq(),
-    ast.NotEq(),
-    ast.Lt(),
-    ast.LtE(),
-    ast.Gt(),
-    ast.GtE(),
-    ast.Is(),
-    ast.IsNot(),
-    ast.In(),
-    ast.NotIn()
-])
+comparison_operators = sampled_from(
+    [
+        ast.Eq(),
+        ast.NotEq(),
+        ast.Lt(),
+        ast.LtE(),
+        ast.Gt(),
+        ast.GtE(),
+        ast.Is(),
+        ast.IsNot(),
+        ast.In(),
+        ast.NotIn()
+    ]
+)
+
 
 # region: Literals
 
@@ -53,37 +56,45 @@ def Num(draw) -> ast.AST:
 
     return to_node(draw(integers() | floats(allow_nan=False) | complex_numbers(allow_infinity=True, allow_nan=False)))
 
+
 @composite
 def Str(draw) -> ast.Str:
     return ast.Str(''.join(draw(lists(characters(), min_size=0, max_size=3))))
 
+
 @composite
 def Bytes(draw) -> ast.Bytes:
     return ast.Bytes(draw(binary(max_size=3)))
+
 
 @composite
 def List(draw, expression) -> ast.List:
     l = draw(lists(expression, min_size=0, max_size=3))
     return ast.List(elts=l, ctx=ast.Load())
 
+
 @composite
 def Tuple(draw, expression) -> ast.Tuple:
     t = draw(lists(expression, min_size=0, max_size=3))
     return ast.Tuple(elts=t, ctx=ast.Load())
+
 
 @composite
 def Set(draw, expression) -> ast.Set:
     s = draw(lists(expression, min_size=1, max_size=3))
     return ast.Set(elts=s)
 
+
 @composite
 def Dict(draw, expression) -> ast.Dict:
     d = draw(dictionaries(expression, expression, min_size=0, max_size=3))
     return ast.Dict(keys=list(d.keys()), values=list(d.values()))
 
+
 @composite
 def NameConstant(draw) -> ast.NameConstant:
     return ast.NameConstant(draw(sampled_from([None, True, False])))
+
 
 # endregion
 
@@ -93,7 +104,13 @@ def name(draw) -> SearchStrategy:
     other_id_continue = [chr(i) for i in [0x00B7, 0x0387, 0x19DA] + list(range(1369, 1371 + 1))]
 
     xid_start = draw(characters(whitelist_categories=['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'Nl'], whitelist_characters=['_'] + other_id_start, blacklist_characters=' '))
-    xid_continue = draw(lists(characters(whitelist_categories=['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'Nl', 'Mn', 'Mc', 'Nd', 'Pc'], whitelist_characters=['_'] + other_id_start + other_id_continue, blacklist_characters=' '), min_size=0, max_size=2))
+    xid_continue = draw(
+        lists(
+            characters(whitelist_categories=['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'Nl', 'Mn', 'Mc', 'Nd', 'Pc'], whitelist_characters=['_'] + other_id_start + other_id_continue, blacklist_characters=' '),
+            min_size=0,
+            max_size=2
+        )
+    )
 
     n = xid_start + ''.join(xid_continue)
 
@@ -106,9 +123,11 @@ def name(draw) -> SearchStrategy:
         assume(False)
     return normalised
 
+
 @composite
 def Name(draw, ctx=ast.Load) -> ast.Name:
     return ast.Name(draw(name()), ctx=ctx())
+
 
 @composite
 def UnaryOp(draw, expression) -> ast.UnaryOp:
@@ -121,29 +140,35 @@ def UnaryOp(draw, expression) -> ast.UnaryOp:
 def Compare(draw, expression) -> ast.Compare:
     num_comparators = draw(integers(min_value=2, max_value=3))
 
-    return ast.Compare(left=draw(expression),
-                       ops=[draw(comparison_operators) for i in range(num_comparators)],
-                       comparators=[draw(expression) for i in range(num_comparators)])
+    return ast.Compare(
+        left=draw(expression),
+        ops=[draw(comparison_operators) for i in range(num_comparators)],
+        comparators=[draw(expression) for i in range(num_comparators)]
+    )
 
 
 @composite
 def BinOp(draw, expression) -> ast.BinOp:
-    op = draw(sampled_from([
-        ast.Add(),
-        ast.Sub(),
-        ast.Mult(),
-        ast.Div(),
-        ast.FloorDiv(),
-        ast.Mod(),
-        ast.Pow(),
-        ast.LShift(),
-        ast.RShift(),
-        ast.BitOr(),
-        ast.BitXor(),
-        ast.BitOr(),
-        ast.BitAnd(),
-        ast.MatMult()
-    ]))
+    op = draw(
+        sampled_from(
+            [
+                ast.Add(),
+                ast.Sub(),
+                ast.Mult(),
+                ast.Div(),
+                ast.FloorDiv(),
+                ast.Mod(),
+                ast.Pow(),
+                ast.LShift(),
+                ast.RShift(),
+                ast.BitOr(),
+                ast.BitXor(),
+                ast.BitOr(),
+                ast.BitAnd(),
+                ast.MatMult()
+            ]
+        )
+    )
 
     le = draw(lists(expression, min_size=2, max_size=2))
 
@@ -152,13 +177,18 @@ def BinOp(draw, expression) -> ast.BinOp:
 
 @composite
 def BoolOp(draw, expression) -> ast.BoolOp:
-    op = draw(sampled_from([
-        ast.And(),
-        ast.Or(),
-    ]))
+    op = draw(
+        sampled_from(
+            [
+                ast.And(),
+                ast.Or(),
+            ]
+        )
+    )
 
     le = draw(lists(expression, min_size=2, max_size=3))
     return ast.BoolOp(op, values=le)
+
 
 @composite
 def Call(draw, expression) -> ast.Call:
@@ -189,21 +219,26 @@ def Subscript(draw, expression) -> ast.Subscript:
     attr = draw(text(alphabet=string.ascii_letters, min_size=1, max_size=3))
     return ast.Subscript(value, attr, ast.Load())
 
+
 @composite
 def Yield(draw, expression) -> ast.Yield:
     return ast.Yield(draw(expression))
+
 
 @composite
 def YieldFrom(draw, expression) -> ast.YieldFrom:
     return ast.YieldFrom(draw(expression))
 
+
 @composite
 def Await(draw, expression) -> ast.Await:
     return ast.Await(draw(expression))
 
+
 @composite
 def Index(draw, expression) -> ast.Index:
     return ast.Index(draw(Ellipsis() | expression))
+
 
 @composite
 def Slice(draw, expression) -> ast.Slice:
@@ -213,21 +248,27 @@ def Slice(draw, expression) -> ast.Slice:
         step=draw(none() | expression)
     )
 
+
 @composite
 def Ellipsis(draw) -> ast.Ellipsis:
     return ast.Ellipsis()
+
 
 @composite
 def ExtSlice(draw, expression) -> ast.ExtSlice:
     slice = draw(Slice(expression))
 
-    return ast.ExtSlice([slice] +
-        draw(lists(
-            Index(expression) | Slice(expression),
-            min_size=1,
-            max_size=3
-        ))
+    return ast.ExtSlice(
+        [slice] +
+        draw(
+            lists(
+                Index(expression) | Slice(expression),
+                min_size=1,
+                max_size=3
+            )
+        )
     )
+
 
 @composite
 def Subscript(draw, expression, ctx=ast.Load) -> ast.Subscript:
@@ -236,6 +277,7 @@ def Subscript(draw, expression, ctx=ast.Load) -> ast.Subscript:
         slice=draw(Index(expression) | Slice(expression) | ExtSlice(expression)),
         ctx=ctx()
     )
+
 
 @composite
 def arg(draw, allow_annotation=True) -> ast.arg:
@@ -250,6 +292,7 @@ def arg(draw, allow_annotation=True) -> ast.arg:
         annotation=annotation
     )
 
+
 @composite
 def arguments(draw, for_lambda=False) -> ast.arguments:
 
@@ -260,8 +303,8 @@ def arguments(draw, for_lambda=False) -> ast.arguments:
     kwonlyargs = draw(lists(arg(allow_annotation), max_size=2))
     vararg = draw(none() | arg(allow_annotation))
     kwarg = draw(none() | arg(allow_annotation))
-    defaults=[]
-    kw_defaults=draw(lists(none() | expression(), max_size=len(kwonlyargs), min_size=len(kwonlyargs)))
+    defaults = []
+    kw_defaults = draw(lists(none() | expression(), max_size=len(kwonlyargs), min_size=len(kwonlyargs)))
     return ast.arguments(
         posonlyargs=posonlyargs,
         args=args,
@@ -272,10 +315,14 @@ def arguments(draw, for_lambda=False) -> ast.arguments:
         kw_defaults=kw_defaults
     )
 
+
 @composite
 def Lambda(draw, expression) -> ast.Lambda:
-    return ast.Lambda(args=draw(arguments(for_lambda=True)),
-                      body=draw(expression))
+    return ast.Lambda(
+        args=draw(arguments(for_lambda=True)),
+        body=draw(expression)
+    )
+
 
 @composite
 def comprehension(draw, expression) -> ast.comprehension:
@@ -286,12 +333,14 @@ def comprehension(draw, expression) -> ast.comprehension:
         is_async=draw(booleans())
     )
 
+
 @composite
 def ListComp(draw, expression) -> ast.ListComp:
     return ast.ListComp(
         elt=draw(expression),
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
+
 
 @composite
 def SetComp(draw, expression) -> ast.SetComp:
@@ -300,12 +349,14 @@ def SetComp(draw, expression) -> ast.SetComp:
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
 
+
 @composite
 def GeneratorExp(draw, expression) -> ast.GeneratorExp:
     return ast.GeneratorExp(
         elt=draw(expression),
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
+
 
 @composite
 def DictComp(draw, expression) -> ast.DictComp:
@@ -315,11 +366,13 @@ def DictComp(draw, expression) -> ast.DictComp:
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
 
+
 leaves = NameConstant() | \
-        Name() | \
-        Num() | \
-        Str() | \
-        Bytes()
+         Name() | \
+         Num() | \
+         Str() | \
+         Bytes()
+
 
 def async_expression() -> SearchStrategy:
     return recursive(
@@ -349,6 +402,7 @@ def async_expression() -> SearchStrategy:
         max_leaves=150
     )
 
+
 def expression() -> SearchStrategy:
     return recursive(
         leaves,
@@ -356,7 +410,7 @@ def expression() -> SearchStrategy:
         one_of(
             Yield(expression),
             YieldFrom(expression),
-            #Await(expression),
+            # Await(expression),
             IfExp(expression),
             Call(expression),
             BinOp(expression),
@@ -376,6 +430,7 @@ def expression() -> SearchStrategy:
         ),
         max_leaves=150
     )
+
 
 @composite
 def Expression(draw) -> ast.Expression:

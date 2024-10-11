@@ -95,6 +95,7 @@ class FoldConstants(SuiteTransformer):
         # New representation is shorter and has the same value, so use it
         return self.add_child(new_node, node.parent, node.namespace)
 
+
 def equal_value_and_type(a, b):
     if type(a) != type(b):
         return False
@@ -104,12 +105,14 @@ def equal_value_and_type(a, b):
 
     return a == b
 
+
 def safe_eval(expression):
     globals = {}
     locals = {}
 
     # This will return the value, or could raise an exception
     return eval(expression, globals, locals)
+
 
 def unparse_expression(node):
     expression_printer = ExpressionPrinter()

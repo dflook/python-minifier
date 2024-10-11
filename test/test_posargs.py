@@ -36,6 +36,7 @@ def combined_example(pos_only, /, standard, *, kwd_only):
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
 
+
 def test_convert():
     if sys.version_info < (3, 8):
         pytest.skip('No Assignment expressions in python < 3.8')

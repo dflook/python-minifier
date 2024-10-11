@@ -27,6 +27,7 @@ def test_type_nodes():
 
     assert is_ast_node(ast.Ellipsis(), ast.Ellipsis)
 
+
 def test_constant_nodes():
     # only test on python 3.8+
     if sys.version_info < (3, 8):
