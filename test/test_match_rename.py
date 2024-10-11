@@ -4,6 +4,7 @@ import sys
 import pytest
 
 from python_minifier import unparse
+from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.rename import (
     add_namespace,
     allow_rename_globals,
