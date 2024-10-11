@@ -172,25 +172,25 @@ def parse_args():
     minification_options.add_argument(
         '--no-preserve-shebang',
         action='store_false',
-        help='Preserve any shebang line from the source',
+        help='Disable preserving any shebang line from the source',
         dest='preserve_shebang',
     )
     minification_options.add_argument(
         '--remove-asserts',
         action='store_true',
-        help='Remove assert statements',
+        help='Enable removing assert statements',
         dest='remove_asserts',
     )
     minification_options.add_argument(
         '--remove-debug',
         action='store_true',
-        help='Remove conditional statements that test __debug__ is True',
+        help='Enable removing conditional statements that test __debug__ is True',
         dest='remove_debug',
     )
     minification_options.add_argument(
         '--no-remove-explicit-return-none',
         action='store_false',
-        help='Replace explicit return None with a bare return',
+        help='Disable replacing explicit return None with a bare return',
         dest='remove_explicit_return_none',
     )
     minification_options.add_argument(
