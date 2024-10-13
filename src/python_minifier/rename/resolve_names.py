@@ -1,7 +1,7 @@
 import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import BuiltinBinding, NameBinding
-from python_minifier.rename.util import get_global_namespace, get_nonlocal_namespace, builtins
+from python_minifier.rename.util import builtins, get_global_namespace, get_nonlocal_namespace
 from python_minifier.util import is_ast_node
 
 
@@ -34,6 +34,7 @@ def get_binding(name, namespace):
             namespace.bindings.append(binding)
             return binding
 
+
 def get_binding_disallow_class_namespace_rename(name, namespace):
     binding = get_binding(name, namespace)
 
@@ -42,6 +43,7 @@ def get_binding_disallow_class_namespace_rename(name, namespace):
         binding.disallow_rename()
 
     return binding
+
 
 def resolve_names(node):
     """

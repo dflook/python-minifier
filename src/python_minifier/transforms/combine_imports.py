@@ -30,7 +30,6 @@ class CombineImports(SuiteTransformer):
         if alias:
             yield self.add_child(ast.Import(names=alias), parent=parent, namespace=namespace)
 
-
     def _combine_import_from(self, node_list, parent):
 
         prev_import = None

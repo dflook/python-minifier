@@ -1,15 +1,17 @@
 import ast
 
 from helpers import print_namespace
-from python_minifier import add_namespace
-from python_minifier.rename import bind_names, resolve_names
-from python_minifier.transforms.combine_imports import CombineImports
+
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
+from python_minifier.transforms.combine_imports import CombineImports
+
 
 def combine_imports(module):
     add_namespace(module)
     CombineImports()(module)
     return module
+
 
 def assert_namespace_tree(source, expected_tree):
     tree = ast.parse(source)
@@ -24,15 +26,16 @@ def assert_namespace_tree(source, expected_tree):
     print(actual)
     assert actual.strip() == expected_tree.strip()
 
+
 def test_import():
     source = '''import builtins
 import collections'''
     expected = 'import builtins, collections'
 
-
     expected_ast = ast.parse(expected)
     actual_ast = combine_imports(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
+
 
 def test_import_as():
     source = '''import builtins
@@ -43,7 +46,6 @@ import datetime
 pass'''
     expected = '''import builtins, collections as c, functools as f, datetime
 pass'''
-
 
     expected_ast = ast.parse(expected)
     actual_ast = combine_imports(ast.parse(source))
@@ -62,6 +64,7 @@ from collections import abc'''
     expected_ast = ast.parse(expected)
     actual_ast = combine_imports(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
+
 
 def test_import_in_function():
     source = '''def test():
@@ -97,6 +100,7 @@ from breakfast import sausage, bacon
     actual_ast = combine_imports(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
 
+
 def test_import_as_class_namespace():
 
     source = '''
@@ -112,6 +116,7 @@ class MyClass:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_import_class_namespace():
 
@@ -129,6 +134,7 @@ class MyClass:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_from_import_class_namespace():
 
     source = '''
@@ -145,6 +151,7 @@ class MyClass:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_from_import_as_class_namespace():
 
     source = '''
@@ -160,4 +167,3 @@ class MyClass:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
-

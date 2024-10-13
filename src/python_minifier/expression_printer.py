@@ -1,9 +1,9 @@
-import python_minifier.ast_compat as ast
 import sys
 
-from python_minifier.util import is_ast_node
+import python_minifier.ast_compat as ast
 
-from python_minifier.token_printer import TokenPrinter, Delimiter
+from python_minifier.token_printer import Delimiter, TokenPrinter
+from python_minifier.util import is_ast_node
 
 
 class ExpressionPrinter(object):
@@ -156,7 +156,7 @@ class ExpressionPrinter(object):
             if key is None:
                 self.printer.operator('**')
 
-                if 0 < self.precedence(datum) <=7:
+                if 0 < self.precedence(datum) <= 7:
                     self.printer.delimiter('(')
                     self._expression(datum)
                     self.printer.delimiter(')')

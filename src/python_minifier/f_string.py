@@ -6,13 +6,13 @@ Mostly because FStrings feel like a hack.
 
 """
 
-import python_minifier.ast_compat as ast
 import copy
 import re
 
+import python_minifier.ast_compat as ast
+
 from python_minifier import UnstableMinification
-from python_minifier.ast_compare import CompareError
-from python_minifier.ast_compare import compare_ast
+from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
 from python_minifier.token_printer import TokenTypes
@@ -270,7 +270,7 @@ class Str(object):
             elif c != quote:
                 return quote
 
-        raise ValueError('Couldn\'t find a quote')
+        raise ValueError("Couldn't find a quote")
 
     def _literals(self):
         l = ''
@@ -397,7 +397,7 @@ class Bytes(object):
             elif chr(c) != quote:
                 return quote
 
-        raise ValueError('Couldn\'t find a quote')
+        raise ValueError("Couldn't find a quote")
 
     def _literals(self):
         l = ''

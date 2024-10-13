@@ -1,8 +1,11 @@
 import ast
 import sys
+
 import pytest
+
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
+
 
 def test_dict_expanson():
     if sys.version_info < (3, 5):

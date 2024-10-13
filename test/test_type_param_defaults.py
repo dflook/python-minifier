@@ -1,6 +1,8 @@
 import ast
 import sys
+
 import pytest
+
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
 
@@ -22,6 +24,7 @@ class GenericClass[DefaultT = int, T]: ...  # SyntaxError: non-default TypeVars 
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_pep696_2():
     if sys.version_info < (3, 13):
@@ -46,6 +49,7 @@ type Rab[U, T = str] = Bar[T, U]
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
 
+
 def test_pep696_3():
     if sys.version_info < (3, 13):
         pytest.skip('Defaults for type parameters are not supported in python < 3.13')
@@ -62,6 +66,7 @@ reveal_type(Foo.meth)  # type is (self: Foo[int]) -> Foo[int]
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_example():
     if sys.version_info < (3, 13):

@@ -1,8 +1,9 @@
 import ast
 
-from python_minifier import add_namespace, bind_names, resolve_names
-from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
+from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
+
 
 def remove_literals(source):
     module = ast.parse(source, 'test_remove_literal_statements')
@@ -12,6 +13,7 @@ def remove_literals(source):
     resolve_names(module)
     return RemoveLiteralStatements()(module)
 
+
 def test_remove_literal_num():
     source = '213'
     expected = ''
@@ -20,6 +22,7 @@ def test_remove_literal_num():
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_remove_literal_str():
     source = '"hello"'
     expected = ''
@@ -27,6 +30,7 @@ def test_remove_literal_str():
     expected_ast = ast.parse(expected)
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_complex():
     source = '''

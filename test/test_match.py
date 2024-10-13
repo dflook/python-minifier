@@ -1,8 +1,11 @@
 import ast
 import sys
+
 import pytest
+
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
+
 
 def test_pep635_unparse():
     if sys.version_info < (3, 10):
@@ -128,6 +131,7 @@ def change_red_to_blue(json_obj):
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_pep646_unparse():
     if sys.version_info < (3, 10):
@@ -295,6 +299,7 @@ match color:
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_match_unparse():
     if sys.version_info < (3, 10):

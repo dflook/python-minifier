@@ -97,6 +97,7 @@ def add_parent_to_classdef(classdef):
         for node in classdef.type_params:
             add_parent(node, parent=classdef, namespace=classdef.namespace)
 
+
 def add_parent_to_comprehension(node, namespace):
     assert is_ast_node(node, (ast.GeneratorExp, 'SetComp', 'DictComp', 'ListComp'))
 

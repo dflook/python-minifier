@@ -66,6 +66,7 @@ class Manifest(object):
 
         return failed
 
+
 class Case(object):
     def __init__(self, test_path, **options):
         self.test_path = test_path

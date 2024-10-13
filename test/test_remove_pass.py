@@ -1,7 +1,9 @@
 import ast
-from python_minifier import add_namespace, bind_names, resolve_names
-from python_minifier.transforms.remove_pass import RemovePass
+
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
+from python_minifier.transforms.remove_pass import RemovePass
+
 
 def remove_literals(source):
     module = ast.parse(source, 'remove_literals')
@@ -11,6 +13,7 @@ def remove_literals(source):
     resolve_names(module)
     return RemovePass()(module)
 
+
 def test_remove_pass_empty_module():
     source = 'pass'
     expected = ''
@@ -18,6 +21,7 @@ def test_remove_pass_empty_module():
     expected_ast = ast.parse(expected)
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_pass_module():
     source = '''import collections
@@ -31,6 +35,7 @@ a=1'''
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_remove_if_empty():
     source = '''if True:
     pass'''
@@ -41,6 +46,7 @@ def test_remove_if_empty():
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_remove_if_line():
     source = '''if True: pass'''
     expected = '''if True: 0'''
@@ -48,6 +54,7 @@ def test_remove_if_line():
     expected_ast = ast.parse(expected)
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_suite():
     source = '''if True: 
@@ -62,6 +69,7 @@ def test_remove_suite():
     expected_ast = ast.parse(expected)
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_from_class():
     source = '''class A:
@@ -83,6 +91,7 @@ def test_remove_from_class():
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
 
+
 def test_remove_from_class_empty():
     source = '''class A:
     pass
@@ -92,6 +101,7 @@ def test_remove_from_class_empty():
     expected_ast = ast.parse(expected)
     actual_ast = remove_literals(source)
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_from_class_func_empty():
     source = '''class A:

@@ -1,5 +1,6 @@
 import python_minifier.ast_compat as ast
 
+
 def is_ast_node(node, types):
     """
     Is a node one of the specified node types

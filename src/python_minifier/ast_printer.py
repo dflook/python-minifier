@@ -63,6 +63,7 @@ default_fields = {
     'AugAssign': 'op',
 }
 
+
 def is_literal(node, field):
     if hasattr(ast, 'Constant') and isinstance(node, ast.Constant) and field == 'value':
         return True
@@ -80,6 +81,7 @@ def is_literal(node, field):
         return True
 
     return False
+
 
 def print_ast(node):
     if not isinstance(node, ast.AST):

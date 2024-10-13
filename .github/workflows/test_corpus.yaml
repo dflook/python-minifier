@@ -47,11 +47,10 @@ jobs:
       - name: Clear workspace
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
-      - name: Checkout tests
+      - name: Checkout workflow ref
         uses: actions/checkout@v4.2.0
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
           show-progress: 'false'
           path: workflow
 
@@ -66,7 +65,7 @@ jobs:
           path: python-minifier
 
       - name: Run tests
-        uses: ./.github/actions/run-in-container
+        uses: dflook/run-in-container@main
         with:
           image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
           volumes: |
@@ -111,7 +110,6 @@ jobs:
         with:
           path: workflow
           fetch-depth: 1
-          fetch-tags: 'true'
           show-progress: 'false'
 
       - name: Checkout ref
@@ -135,7 +133,7 @@ jobs:
           show-progress: 'false'
 
       - name: Generate Report
-        uses: ./.github/actions/run-in-container
+        uses: dflook/run-in-container@main
         with:
           image: danielflook/python-minifier-build:python3.13-2024-09-15
           volumes: |

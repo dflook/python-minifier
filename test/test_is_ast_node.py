@@ -3,7 +3,9 @@ import sys
 import pytest
 
 import python_minifier.ast_compat as ast
+
 from python_minifier.util import is_ast_node
+
 
 def test_type_nodes():
     assert is_ast_node(ast.Str('a'), ast.Str)
@@ -24,6 +26,7 @@ def test_type_nodes():
         assert is_ast_node(ast.Name(id='None', ctx=ast.Load()), ast.Name)
 
     assert is_ast_node(ast.Ellipsis(), ast.Ellipsis)
+
 
 def test_constant_nodes():
     # only test on python 3.8+

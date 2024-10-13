@@ -2,6 +2,7 @@ import itertools
 
 from python_minifier.rename.name_generator import name_filter
 
+
 def test_name_generator():
 
     ng = name_filter()

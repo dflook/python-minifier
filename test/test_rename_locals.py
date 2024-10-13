@@ -9,8 +9,9 @@ import sys
 
 import pytest
 
-from python_minifier import add_namespace, bind_names, resolve_names, allow_rename_locals, allow_rename_globals, \
-    compare_ast, rename, CompareError, unparse
+from python_minifier import unparse
+from python_minifier.ast_compare import CompareError, compare_ast
+from python_minifier.rename import add_namespace, allow_rename_globals, allow_rename_locals, bind_names, rename, resolve_names
 
 
 def rename_locals(source):
@@ -27,6 +28,7 @@ def rename_locals(source):
     rename(module)
 
     return module
+
 
 def assert_code(expected_ast, actual_ast):
     try:
@@ -51,6 +53,7 @@ def a():
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
 
+
 def test_rename_multiple_definitions():
     source = '''
 def inner(my_name):
@@ -69,6 +72,7 @@ def inner(my_name):
     expected_ast = ast.parse(expected)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
 
 def test_rename_self_cls_in_place():
     source = '''
@@ -271,6 +275,7 @@ def f(this_is_my_long_argument_name):
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
 
+
 def test_no_rename_single_char_arg():
     source = '''
 def f(a):
@@ -295,6 +300,7 @@ def f(a):
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
 
+
 def test_rename_arg():
     source = '''
 def f(aa):
@@ -318,6 +324,7 @@ def f(aa):
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
 
+
 def test_no_rename_lambda_arg():
     source = '''
 lambda my_argument: f(my_argument + my_argument + my_argument)                       
@@ -326,6 +333,7 @@ lambda my_argument: f(my_argument + my_argument + my_argument)
     expected_ast = ast.parse(source)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
 
 def test_rename_lambda_stararg():
     source = '''
@@ -339,6 +347,7 @@ lambda *A, **B: f(A, B)
     expected_ast = ast.parse(expected)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
 
 def test_python3_listcomp_scope():
     if sys.version_info < (3, 0):
@@ -355,6 +364,7 @@ def test_python3_listcomp_scope():
     expected_ast = ast.parse(expected)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
 
 def test_python2_listcomp_scope():
     if sys.version_info >= (3, 0):
@@ -378,6 +388,7 @@ def t():
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
 
+
 def test_arg_rename():
 
     source = '''
@@ -389,6 +400,7 @@ def f(*A,**B):pass
     expected_ast = ast.parse(expected)
     actual_ast = rename_locals(source)
     assert_code(expected_ast, actual_ast)
+
 
 def test_multiple_args():
     source = '''

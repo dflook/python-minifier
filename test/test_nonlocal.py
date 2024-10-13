@@ -4,6 +4,7 @@ import pytest
 
 import python_minifier
 
+
 def test_nonlocal_name():
     if sys.version_info < (3, 0):
         pytest.skip('No nonlocal in python < 3.0')
@@ -65,6 +66,7 @@ result = test()
     exec(minified, {}, minified_locals)
     assert minified_locals['result'] == 2
 
+
 def test_nonlocal_import():
     if sys.version_info < (3, 0):
         pytest.skip('No nonlocal in python < 3.0')
@@ -93,6 +95,7 @@ result = test()
     minified_locals = {}
     exec(minified, {}, minified_locals)
     assert minified_locals['result'] == True
+
 
 def test_nonlocal_import_alias():
     if sys.version_info < (3, 0):

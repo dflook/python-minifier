@@ -1,16 +1,20 @@
 import ast
 import sys
+
 import pytest
 
-from python_minifier import add_namespace, RemoveAnnotationsOptions
-from python_minifier.transforms.remove_annotations import RemoveAnnotations
+from python_minifier import RemoveAnnotationsOptions
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace
+from python_minifier.transforms.remove_annotations import RemoveAnnotations
+
 
 def remove_annotations(source, **kwargs):
     module = ast.parse(source)
     add_namespace(module)
     RemoveAnnotations(RemoveAnnotationsOptions(**kwargs))(module)
     return module
+
 
 def test_AnnAssign():
 
@@ -32,12 +36,15 @@ class A:
     a: int'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=True,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=False)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=True,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=False
+    )
     compare_ast(expected_ast, actual_ast)
+
 
 def test_FunctionDef():
     if sys.version_info < (3,):
@@ -50,11 +57,13 @@ def test_FunctionDef():
     pass'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=True,
-                                    remove_argument_annotations=True,
-                                    remove_class_attribute_annotations=False)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=True,
+        remove_argument_annotations=True,
+        remove_class_attribute_annotations=False
+    )
     compare_ast(expected_ast, actual_ast)
 
     # args only are removed
@@ -64,11 +73,13 @@ def test_FunctionDef():
     pass'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=True,
-                                    remove_class_attribute_annotations=False)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=True,
+        remove_class_attribute_annotations=False
+    )
     compare_ast(expected_ast, actual_ast)
 
     # return only are removed
@@ -84,8 +95,9 @@ def test_FunctionDef():
         remove_return_annotations=True,
         remove_argument_annotations=False,
         remove_class_attribute_annotations=False
-        )
+    )
     compare_ast(expected_ast, actual_ast)
+
 
 def test_AsyncFunctionDef():
     if sys.version_info < (3, 6):
@@ -97,12 +109,15 @@ def test_AsyncFunctionDef():
     pass'''
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=True,
-                                    remove_return_annotations=True,
-                                    remove_argument_annotations=True,
-                                    remove_class_attribute_annotations=False)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=True,
+        remove_return_annotations=True,
+        remove_argument_annotations=True,
+        remove_class_attribute_annotations=False
+    )
     compare_ast(expected_ast, actual_ast)
+
 
 def test_AnnAssign_novalue():
     if sys.version_info < (3, 6):
@@ -120,12 +135,15 @@ class A:
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=True,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=False)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=True,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=False
+    )
     compare_ast(expected_ast, actual_ast)
+
 
 def test_class_attributes():
     if sys.version_info < (3, 6):
@@ -145,11 +163,13 @@ class A:
 '''
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=True)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=True
+    )
     compare_ast(expected_ast, actual_ast)
 
 
@@ -184,12 +204,15 @@ class MyClass:
     expected = source
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=True)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=True
+    )
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove_dataclass():
     if sys.version_info < (3, 6):
@@ -211,11 +234,13 @@ class MyClass:
     mysecondfile: 0
 '''
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=True)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=True
+    )
     compare_ast(expected_ast, actual_ast)
 
 
@@ -239,12 +264,15 @@ class MyClass2(blah.NamedTuple):
     expected = source
 
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=True)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=True
+    )
     compare_ast(expected_ast, actual_ast)
+
 
 def test_remove():
     if sys.version_info < (3, 6):
@@ -269,11 +297,13 @@ class Dummy(typing.NermedTupel):
     mysecondfile: 0
 '''
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=True)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=True
+    )
     compare_ast(expected_ast, actual_ast)
 
 
@@ -317,9 +347,11 @@ class Dummy(typing.TypedDic):
         
 '''
     expected_ast = ast.parse(expected)
-    actual_ast = remove_annotations(source,
-                                    remove_variable_annotations=False,
-                                    remove_return_annotations=False,
-                                    remove_argument_annotations=False,
-                                    remove_class_attribute_annotations=True)
+    actual_ast = remove_annotations(
+        source,
+        remove_variable_annotations=False,
+        remove_return_annotations=False,
+        remove_argument_annotations=False,
+        remove_class_attribute_annotations=True
+    )
     compare_ast(expected_ast, actual_ast)

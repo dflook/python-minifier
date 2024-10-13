@@ -21,6 +21,7 @@ name_in_module = True
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_lambda_namespace():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -42,6 +43,7 @@ b = lambda arg, *args, **kwargs: arg + 1
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_function_namespace():
     if sys.version_info < (3, 4):
@@ -76,6 +78,7 @@ def func(arg, *args, **kwargs):
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_async_function_namespace():
     if sys.version_info < (3, 5):
         pytest.skip('No async functions in python < 3.5')
@@ -109,6 +112,7 @@ async def func(arg, *args, **kwargs):
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 # region generator namespace
 
 def test_generator_namespace():
@@ -128,6 +132,7 @@ a = (x for x in range(10))
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_multi_generator_namespace():
     if sys.version_info < (3, 4):
@@ -149,6 +154,7 @@ a = (x for x in f for x in x)
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_multi_generator_namespace_2():
     if sys.version_info < (3, 4):
@@ -173,6 +179,7 @@ a = (c for line in file for c in line)
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_nested_generator():
     if sys.version_info < (3, 4):
@@ -199,6 +206,7 @@ a = (c for c in (line for line in file))
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_nested_generator_2():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -219,6 +227,7 @@ a = (x for x in (x for x in x))
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 # endregion
 
@@ -243,6 +252,7 @@ a = {x for x in range(10)}
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_multi_setcomp_namespace():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -263,6 +273,7 @@ a = {x for x in f for x in x}
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_multi_setcomp_namespace_2():
     if sys.version_info < (3, 4):
@@ -287,6 +298,7 @@ a = {c for line in file for c in line}
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_nested_setcomp():
     if sys.version_info < (3, 4):
@@ -313,6 +325,7 @@ a = {c for c in {line for line in file}}
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_nested_setcomp_2():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -333,6 +346,7 @@ a = {x for x in {x for x in x}}
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 # endregion
 
@@ -356,6 +370,7 @@ a = [x for x in range(10)]
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_multi_listcomp_namespace():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -376,6 +391,7 @@ a = [x for x in f for x in x]
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_multi_listcomp_namespace_2():
     if sys.version_info < (3, 4):
@@ -400,6 +416,7 @@ a = [c for line in file for c in line]
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_nested_listcomp():
     if sys.version_info < (3, 4):
@@ -426,6 +443,7 @@ a =[c for c in [line for line in file]]
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_nested_listcomp_2():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -446,6 +464,7 @@ a =[x for x in [x for x in x]]
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 # endregion
 
@@ -469,6 +488,7 @@ a = {x: x for x in range(10)}
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_multi_dictcomp_namespace():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -489,6 +509,7 @@ a = {x: x for x, x in f for x, x in x}
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_multi_dictcomp_namespace_2():
     if sys.version_info < (3, 4):
@@ -513,6 +534,7 @@ a = {c: c for line, line in file for c, c in line}
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_nested_dictcomp():
     if sys.version_info < (3, 4):
@@ -539,6 +561,7 @@ a = {c: c for c, c in {line: line for line in file}}
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_nested_dictcomp_2():
     if sys.version_info < (3, 4):
         pytest.skip('Test requires python 3.4 or later')
@@ -559,6 +582,7 @@ a = {x:x  for x, x in {x: x for x in x}}
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 # endregion
 
@@ -630,6 +654,7 @@ func()
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_nonlocal_name_allow_rename():
     source = '''
 MyNonLocal = 1
@@ -650,6 +675,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_name_disallow_rename():
     source = '''
 class LazyList:
@@ -666,6 +692,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_builtin_name_allow_rename():
     source = '''
@@ -684,6 +711,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_builtin_name_disallow_rename():
     source = '''
@@ -727,6 +755,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_nonlocal_name_disallow_rename():
     source = '''
 MyNonLocal = 1
@@ -748,6 +777,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_name_disallow_rename():
     source = '''
 class LazyList:
@@ -765,6 +795,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_import_as_disallow_rename():
     """import os as MyNonLocal"""
@@ -788,6 +819,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_import_as_disallow_rename():
     source = '''
 class LazyList:
@@ -806,6 +838,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_import_from_as_disallow_rename():
     source = '''
@@ -828,6 +861,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_import_from_as_disallow_rename():
     source = '''
 class LazyList:
@@ -846,6 +880,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_import_disallow_rename():
     source = '''
@@ -868,6 +903,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_import_disallow_rename():
     source = '''
 class LazyList:
@@ -886,6 +922,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_import_from_disallow_rename():
     source = '''
@@ -908,6 +945,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_import_from_disallow_rename():
     source = '''
 class LazyList:
@@ -926,6 +964,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_dotted_import_disallow_rename():
     source = '''
@@ -948,6 +987,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_dotted_import_disallow_rename():
     source = '''
 class LazyList:
@@ -966,6 +1006,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_func_disallow_rename():
     source = '''
@@ -989,6 +1030,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_func_disallow_rename():
     source = '''
 class LazyList:
@@ -1008,6 +1050,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_async_func_disallow_rename():
     if sys.version_info < (3, 5):
@@ -1034,6 +1077,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_nonlocal_async_func_disallow_rename():
     if sys.version_info < (3, 5):
         pytest.skip('No async functions in python < 3.5')
@@ -1057,6 +1101,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_nonlocal_classdef_disallow_rename():
     source = '''
 MyNonLocal = 1
@@ -1078,6 +1123,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_undefined_nonlocal_classdef_disallow_rename():
     source = '''
@@ -1125,6 +1171,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_undefined_nonlocal_except_disallow_rename():
     source = '''
@@ -1179,6 +1226,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_match_disallow_rename():
     if sys.version_info < (3, 10):
         pytest.skip('Match statement not in python < 3.10')
@@ -1204,6 +1252,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_match_star_disallow_rename():
     if sys.version_info < (3, 10):
@@ -1233,6 +1282,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_match_star_disallow_rename():
     if sys.version_info < (3, 10):
         pytest.skip('Match statement not in python < 3.10')
@@ -1258,6 +1308,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_nonlocal_match_mapping_disallow_rename():
     if sys.version_info < (3, 10):
@@ -1287,6 +1338,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_undefined_match_mapping_disallow_rename():
     if sys.version_info < (3, 10):
         pytest.skip('Match statement not in python < 3.10')
@@ -1313,6 +1365,7 @@ class LazyList:
 
     assert_namespace_tree(source, expected_namespaces)
 
+
 def test_class_namespace_nonlocal_disallow_rename():
     if sys.version_info < (3, 0):
         pytest.skip('nonlocal in class is invalid in Python 2')
@@ -1333,6 +1386,7 @@ class LazyList:
 '''
 
     assert_namespace_tree(source, expected_namespaces)
+
 
 def test_class_namespace_undefined_nonlocal_disallow_rename():
     if sys.version_info < (3, 0):

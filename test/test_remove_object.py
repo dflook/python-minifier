@@ -1,9 +1,10 @@
 import ast
-import pytest
 import sys
 
-from python_minifier.transforms.remove_object_base import RemoveObject
+import pytest
+
 from python_minifier.ast_compare import compare_ast
+from python_minifier.transforms.remove_object_base import RemoveObject
 
 
 def test_remove_object_py3():
@@ -67,4 +68,3 @@ class Test(object):
     expected_ast = ast.parse(expected)
     actual_ast = RemoveObject()(ast.parse(source))
     compare_ast(expected_ast, actual_ast)
-

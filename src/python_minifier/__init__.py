@@ -4,29 +4,29 @@ a 'minified' representation of the same source code.
 
 """
 
-import python_minifier.ast_compat as ast
 import re
+
+import python_minifier.ast_compat as ast
 
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.module_printer import ModulePrinter
 from python_minifier.rename import (
-    rename_literals,
-    bind_names,
-    resolve_names,
-    rename,
+    add_namespace,
     allow_rename_globals,
     allow_rename_locals,
-    add_namespace,
+    bind_names,
+    rename,
+    rename_literals,
+    resolve_names
 )
-
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.constant_folding import FoldConstants
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.remove_asserts import RemoveAsserts
 from python_minifier.transforms.remove_debug import RemoveDebug
-from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
 from python_minifier.transforms.remove_exception_brackets import remove_no_arg_exception_call
+from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
 from python_minifier.transforms.remove_literal_statements import RemoveLiteralStatements
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
@@ -198,6 +198,7 @@ def minify(
 
     return minified
 
+
 def _find_shebang(source):
     """
     Find a shebang line in source
@@ -213,6 +214,7 @@ def _find_shebang(source):
             return shebang.group()
 
     return None
+
 
 def unparse(module):
     """

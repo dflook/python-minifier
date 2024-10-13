@@ -1,15 +1,13 @@
 import argparse
 import datetime
 import gzip
+import logging
 import os
 import sys
 import time
 
-
-import logging
-
-
 import python_minifier
+
 from result import Result, ResultWriter
 
 try:
@@ -35,7 +33,6 @@ def minify_corpus_entry(corpus_path, corpus_entry):
     else:
         with open(os.path.join(corpus_path, corpus_entry), 'rb') as f:
             source = f.read()
-
 
     result = Result(corpus_entry, len(source), 0, 0, '')
 
@@ -134,6 +131,7 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
                 next_checkpoint = time.time() + 60
 
     print('Finished')
+
 
 def bool_parse(value):
     return value == 'true'

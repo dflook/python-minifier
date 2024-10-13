@@ -2,8 +2,8 @@ import ast
 
 import pytest
 
-from python_minifier import add_namespace, bind_names, resolve_names
 from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
 from python_minifier.transforms.remove_debug import RemoveDebug
 
 
@@ -108,12 +108,14 @@ def test_remove_from_class_func_empty():
     compare_ast(expected_ast, actual_ast)
 
 
-@pytest.mark.parametrize("condition", [
-    '__debug__',
-    '__debug__ is True',
-    '__debug__ is not False',
-    '__debug__ == True'
-])
+@pytest.mark.parametrize(
+    'condition', [
+        '__debug__',
+        '__debug__ is True',
+        '__debug__ is not False',
+        '__debug__ == True'
+    ]
+)
 def test_remove_truthy_debug(condition):
     source = '''
 value = 10
@@ -136,15 +138,17 @@ print(value)
     compare_ast(expected_ast, actual_ast)
 
 
-@pytest.mark.parametrize("condition", [
-    'not __debug__',
-    '__debug__ is False',
-    '__debug__ is not True',
-    '__debug__ == False',
-    'not __debug__ is True',
-    'not __debug__ is not False',
-    'not __debug__ == True'
-])
+@pytest.mark.parametrize(
+    'condition', [
+        'not __debug__',
+        '__debug__ is False',
+        '__debug__ is not True',
+        '__debug__ == False',
+        'not __debug__ is True',
+        'not __debug__ is not False',
+        'not __debug__ == True'
+    ]
+)
 def test_no_remove_falsy_debug(condition):
     source = '''
 value = 10

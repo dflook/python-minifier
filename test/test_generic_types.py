@@ -1,13 +1,15 @@
 import ast
 import sys
+
 import pytest
+
 from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
+
 
 def test_type_statement():
     if sys.version_info < (3, 12):
         pytest.skip('Improved generic syntax python < 3.12')
-
 
     source = '''
 type Point = tuple[float, float]
@@ -17,6 +19,7 @@ type ListOrSet[T] = list[T] | set[T]
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_function_generic():
     if sys.version_info < (3, 12):
@@ -31,6 +34,7 @@ def func[T](a: T, b: T) -> T:
     expected_ast = ast.parse(source)
     actual_ast = unparse(expected_ast)
     compare_ast(expected_ast, ast.parse(actual_ast))
+
 
 def test_class_generic():
     if sys.version_info < (3, 12):
@@ -275,4 +279,3 @@ class ClassC[V]:
 
     expected_ast = ast.parse(source)
     unparse(expected_ast)
-

@@ -8,8 +8,9 @@ When printed, this essentially removes the brackets from the exception name.
 We can't generally know if a name refers to an exception, so we only do this for builtin exceptions
 """
 
-import python_minifier.ast_compat as ast
 import sys
+
+import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import BuiltinBinding
 
@@ -72,6 +73,7 @@ builtin_exceptions_3_11 = [
     'ExceptionGroup',
     'BaseExceptionGroup',
 ]
+
 
 def _remove_empty_call(binding):
     assert isinstance(binding, BuiltinBinding)

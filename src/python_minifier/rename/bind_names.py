@@ -1,7 +1,7 @@
 import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import NameBinding
-from python_minifier.rename.util import arg_rename_in_place, get_global_namespace, get_nonlocal_namespace, builtins
+from python_minifier.rename.util import arg_rename_in_place, builtins, get_global_namespace
 from python_minifier.transforms.suite_transformer import NodeVisitor
 
 
@@ -179,6 +179,7 @@ class NameBinder(NodeVisitor):
             self.get_binding(node.name, node.namespace).add_reference(node)
 
         get_global_namespace(node.namespace).preserved.add(node.name)
+
 
 def bind_names(module):
     """

@@ -9,12 +9,14 @@ from python_minifier.transforms.remove_annotations_options import RemoveAnnotati
 
 if sys.version_info >= (3, 8):
     from importlib import metadata
+
     try:
         version = metadata.version('python-minifier')
     except metadata.PackageNotFoundError:
         version = '0.0.0'
 else:
-    from pkg_resources import get_distribution, DistributionNotFound
+    from pkg_resources import DistributionNotFound, get_distribution
+
     try:
         version = get_distribution('python_minifier').version
     except DistributionNotFound:
@@ -170,25 +172,25 @@ def parse_args():
     minification_options.add_argument(
         '--no-preserve-shebang',
         action='store_false',
-        help='Preserve any shebang line from the source',
+        help='Disable preserving any shebang line from the source',
         dest='preserve_shebang',
     )
     minification_options.add_argument(
         '--remove-asserts',
         action='store_true',
-        help='Remove assert statements',
+        help='Enable removing assert statements',
         dest='remove_asserts',
     )
     minification_options.add_argument(
         '--remove-debug',
         action='store_true',
-        help='Remove conditional statements that test __debug__ is True',
+        help='Enable removing conditional statements that test __debug__ is True',
         dest='remove_debug',
     )
     minification_options.add_argument(
         '--no-remove-explicit-return-none',
         action='store_false',
-        help='Replace explicit return None with a bare return',
+        help='Disable replacing explicit return None with a bare return',
         dest='remove_explicit_return_none',
     )
     minification_options.add_argument(

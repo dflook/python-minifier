@@ -1,5 +1,6 @@
-import python_minifier.ast_compat as ast
 import sys
+
+import python_minifier.ast_compat as ast
 
 from python_minifier.util import is_ast_node
 
@@ -31,6 +32,7 @@ def iter_child_namespaces(node):
         else:
             for c in iter_child_namespaces(child):
                 yield c
+
 
 def get_global_namespace(node):
     """
