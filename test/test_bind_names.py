@@ -778,7 +778,7 @@ class LazyList:
     assert_namespace_tree(source, expected_namespaces)
 
 
-def test_class_namespace_undefined_nonlocal_name_disallow_rename():
+def test_class_namespace_undefined_nonlocal_name_disallow_rename_2():
     source = '''
 class LazyList:
     MyAttribute = MyNonLocal

@@ -22,8 +22,8 @@ def rename_locals(source):
     bind_names(module)
     resolve_names(module)
 
-    allow_rename_locals(module, True)
-    allow_rename_globals(module, False)
+    allow_rename_locals(module, rename_locals=True)
+    allow_rename_globals(module, rename_globals=False)
 
     rename(module)
 
