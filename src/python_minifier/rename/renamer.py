@@ -55,7 +55,7 @@ def reservation_scope(namespace, binding):
 
     """
 
-    namespaces = set([namespace])
+    namespaces = {namespace}
 
     for node in binding.references:
         while node is not namespace:
@@ -112,7 +112,7 @@ class UniqueNameAssigner(object):
     def __call__(self, module):
         assert isinstance(module, ast.Module)
 
-        for namespace, binding in sorted_bindings(module):
+        for _namespace, binding in sorted_bindings(module):
             if binding.allow_rename:
                 binding.new_name = self.available_name()
 
@@ -154,6 +154,8 @@ class NameAssigner(object):
             if self.is_available(prefix + name, reservation_scope):
                 return prefix + name
 
+        return None
+
     def is_available(self, name, reservation_scope):
         """
         Is a name unreserved in a reservation scope
@@ -165,11 +167,7 @@ class NameAssigner(object):
 
         """
 
-        for namespace in reservation_scope:
-            if name in namespace.assigned_names:
-                return False
-
-        return True
+        return all(name not in namespace.assigned_names for namespace in reservation_scope)
 
     def __call__(self, module, prefix_globals, reserved_globals=None):
         assert isinstance(module, ast.Module)
@@ -184,6 +182,26 @@ class NameAssigner(object):
             for name in reserved_globals:
                 module.assigned_names.add(name)
 
+        def should_rename(binding, name, scope):
+            if binding.should_rename(name):
+                return True
+
+            # It's no longer efficient to do this rename
+
+            if isinstance(binding, NameBinding):
+                # Check that the original name is still available
+
+                if binding.reserved == binding.name:
+                    # We already reserved it (this is probably an arg)
+                    return False
+
+                if not self.is_available(binding.name, scope):
+                    # The original name has already been assigned to another binding,
+                    # so we need to rename this anyway.
+                    return True
+
+            return False
+
         for namespace, binding in sorted_bindings(module):
             scope = reservation_scope(namespace, binding)
 
@@ -194,27 +212,7 @@ class NameAssigner(object):
                 else:
                     name = self.available_name(scope)
 
-                def should_rename():
-                    if binding.should_rename(name):
-                        return True
-
-                    # It's no longer efficient to do this rename
-
-                    if isinstance(binding, NameBinding):
-                        # Check that the original name is still available
-
-                        if binding.reserved == binding.name:
-                            # We already reserved it (this is probably an arg)
-                            return False
-
-                        if not self.is_available(binding.name, scope):
-                            # The original name has already been assigned to another binding,
-                            # so we need to rename this anyway.
-                            return True
-
-                    return False
-
-                if should_rename():
+                if should_rename(binding, name, scope):
                     binding.rename(name)
                 else:
                     # Any existing name will become reserved
@@ -228,3 +226,5 @@ class NameAssigner(object):
 
 def rename(module, prefix_globals=False, preserved_globals=None):
     NameAssigner()(module, prefix_globals, preserved_globals)
+
+

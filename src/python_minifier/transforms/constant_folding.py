@@ -70,7 +70,7 @@ class FoldConstants(SuiteTransformer):
         try:
             folded_expression = unparse_expression(new_node)
             folded_value = safe_eval(folded_expression)
-        except Exception as e:
+        except Exception:
             # This can happen if the value is too large to be represented as a literal
             # or if the value is unparsed as nan, inf or -inf - which are not valid python literals
             return node
@@ -107,11 +107,11 @@ def equal_value_and_type(a, b):
 
 
 def safe_eval(expression):
-    globals = {}
-    locals = {}
+    empty_globals = {}
+    empty_locals = {}
 
     # This will return the value, or could raise an exception
-    return eval(expression, globals, locals)
+    return eval(expression, empty_globals, empty_locals)
 
 
 def unparse_expression(node):

@@ -14,6 +14,7 @@ import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import BuiltinBinding
 
+
 # These are always exceptions, in every version of python
 builtin_exceptions = [
     'SyntaxError', 'Exception', 'ValueError', 'BaseException', 'MemoryError', 'RuntimeError', 'DeprecationWarning', 'UnicodeEncodeError', 'KeyError', 'LookupError', 'TypeError', 'BufferError',
@@ -80,7 +81,8 @@ def _remove_empty_call(binding):
 
     for name_node in binding.references:
         # For this to be a builtin, all references must be name nodes as it is not defined anywhere
-        assert isinstance(name_node, ast.Name) and isinstance(name_node.ctx, ast.Load)
+        assert isinstance(name_node, ast.Name)
+        assert isinstance(name_node.ctx, ast.Load)
 
         if not isinstance(name_node.parent, ast.Call):
             # This is not a call

@@ -23,9 +23,9 @@ def is_ast_node(node, types):
     actual_types = []
     for node_type in types:
         if isinstance(node_type, str):
-            node_type = getattr(ast, node_type, None)
-            if node_type is not None:
-                actual_types.append(node_type)
+            actual_type = getattr(ast, node_type, None)
+            if actual_type is not None:
+                actual_types.append(actual_type)
         else:
             actual_types.append(node_type)
 

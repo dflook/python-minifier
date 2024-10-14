@@ -78,14 +78,14 @@ class RemoveAnnotations(SuiteTransformer):
             if len(node.parent.decorator_list) == 0:
                 return False
 
-            for node in node.parent.decorator_list:
-                if isinstance(node, ast.Name) and node.id == 'dataclass':
+            for decorator_node in node.parent.decorator_list:
+                if isinstance(decorator_node, ast.Name) and decorator_node.id == 'dataclass':
                     return True
-                elif isinstance(node, ast.Attribute) and node.attr == 'dataclass':
+                elif isinstance(decorator_node, ast.Attribute) and decorator_node.attr == 'dataclass':
                     return True
-                elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'dataclass':
+                elif isinstance(decorator_node, ast.Call) and isinstance(decorator_node.func, ast.Name) and decorator_node.func.id == 'dataclass':
                     return True
-                elif isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == 'dataclass':
+                elif isinstance(decorator_node, ast.Call) and isinstance(decorator_node.func, ast.Attribute) and decorator_node.func.attr == 'dataclass':
                     return True
 
             return False
@@ -102,10 +102,10 @@ class RemoveAnnotations(SuiteTransformer):
 
             tricky_types = ['NamedTuple', 'TypedDict']
 
-            for node in node.parent.bases:
-                if isinstance(node, ast.Name) and node.id in tricky_types:
+            for base_node in node.parent.bases:
+                if isinstance(base_node, ast.Name) and base_node.id in tricky_types:
                     return True
-                elif isinstance(node, ast.Attribute) and node.attr in tricky_types:
+                elif isinstance(base_node, ast.Attribute) and base_node.attr in tricky_types:
                     return True
 
             return False
