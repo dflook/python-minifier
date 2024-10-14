@@ -331,7 +331,7 @@ class a:
         for i in (a for a in 'Hello'):
             pass
         for i in (a for a in 'World'):
-            pass            
+            pass
         return 'World'
     def c():
         return 'Hello'
@@ -345,7 +345,7 @@ class a:
         for i in (a for a in A):
             pass
         for i in (a for a in B):
-            pass            
+            pass
         return B
     def c():
         return A
@@ -363,7 +363,7 @@ class a:
         for i in [a for a in 'Hello']:
             pass
         for i in [a for a in 'World']:
-            pass            
+            pass
         return 'World'
     def c():
         return 'Hello'
@@ -377,7 +377,7 @@ class a:
         for i in [a for a in A]:
             pass
         for i in [a for a in B]:
-            pass            
+            pass
         return B
     def c():
         return A
@@ -398,7 +398,7 @@ class a:
         for i in {a: a for a in 'Hello'}:
             pass
         for i in {a: a for a in 'World'}:
-            pass            
+            pass
         return 'World'
     def c():
         return 'Hello'
@@ -412,7 +412,7 @@ class a:
         for i in {a: a for a in A}:
             pass
         for i in {a: a for a in B}:
-            pass            
+            pass
         return B
     def c():
         return A
@@ -432,7 +432,7 @@ class a:
     def a():
         for i in {a for a in 'Hello' + 'Hello' + 'World'}:
             pass
-        return 'World'    
+        return 'World'
     def c():
         return 'World'
 '''
@@ -443,7 +443,7 @@ class a:
     def a():
         B = 'Hello'
         for i in {a for a in B + B + A}:
-            pass  
+            pass
         return A
     def c():
         return A

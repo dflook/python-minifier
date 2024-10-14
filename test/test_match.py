@@ -20,7 +20,7 @@ match x:
         
 match node:
     case BinOp("+", a, BinOp("*", b, c)):
-        pass   
+        pass
         
 match json_pet:
     case {"type": "cat", "name": name, "pattern": pattern}:
@@ -314,7 +314,7 @@ match a:
     
 match a:
     case 0|(0|0): pass
-    case (0|0)|0: pass    
+    case (0|0)|0: pass
     case 0|0|0: pass
 
 match (lambda: a)():
@@ -322,7 +322,7 @@ match (lambda: a)():
 
 match a:= h:
     case [action, obj]:pass
-    case {**rest}: pass   
+    case {**rest}: pass
     '''
 
     expected_ast = ast.parse(source)

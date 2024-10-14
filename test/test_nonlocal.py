@@ -17,7 +17,7 @@ def test():
             rename_me = 'inner'
 
         inner()
-    rename_me = False        
+    rename_me = False
     outer()
     return rename_me
 

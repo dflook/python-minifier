@@ -54,7 +54,7 @@ def func():
       case hello: pass
       
 match 'hello' + 'hello':
-  case 'hello': pass   
+  case 'hello': pass
 '''
     expected = '''
 B='hello'
@@ -66,7 +66,7 @@ def C():
       case hello: pass
 
 match B + B:
-  case 'hello': pass   
+  case 'hello': pass
 '''
 
     expected_ast = ast.parse(expected)
@@ -105,7 +105,7 @@ def func(expensive_rename):
         case None: pass
         
     match B + B + B:
-        case 'hello': pass        
+        case 'hello': pass
 '''
 
     expected_ast = ast.parse(expected)
@@ -125,8 +125,8 @@ def func(expensive_rename):
     hello=0
     match None:
         case None if hello + hello + hello + hello: pass
-        case None if expensive_rename: pass        
-        case 'hello' if 'hello' + 'hello' + 'hello' + 'hello': pass        
+        case None if expensive_rename: pass
+        case 'hello' if 'hello' + 'hello' + 'hello' + 'hello': pass
     '''
     expected = '''
 match None:
@@ -138,7 +138,7 @@ def func(expensive_rename):
     match None:
         case None if A + A + A + A: pass
         case None if expensive_rename: pass
-        case 'hello' if B + B + B + B: pass                    
+        case 'hello' if B + B + B + B: pass
     '''
 
     expected_ast = ast.parse(expected)
@@ -154,14 +154,14 @@ def test_rename_guard_global():
 sausage=0
 match None:
     case None if sausage + sausage + sausage + sausage: pass
-    case 'hello' if 'hello' + 'hello' + 'hello' + 'hello': pass    
+    case 'hello' if 'hello' + 'hello' + 'hello' + 'hello': pass
 
 def func(expensive_rename):
     hello=0
     match None:
         case None if hello + hello + hello + hello: pass
-        case None if expensive_rename: pass        
-        case 'hello' if 'hello' + 'hello' + 'hello' + 'hello': pass     
+        case None if expensive_rename: pass
+        case 'hello' if 'hello' + 'hello' + 'hello' + 'hello': pass
         '''
 
     expected = '''
@@ -169,14 +169,14 @@ A='hello'
 B=0
 match None:
     case None if B + B + B + B: pass
-    case 'hello' if A + A + A + A: pass        
+    case 'hello' if A + A + A + A: pass
 
 def C(expensive_rename):
     hello=0
     match None:
         case None if hello + hello + hello + hello: pass
-        case None if expensive_rename: pass        
-        case 'hello' if A + A + A + A: pass          
+        case None if expensive_rename: pass
+        case 'hello' if A + A + A + A: pass
         '''
 
     expected_ast = ast.parse(expected)
@@ -197,11 +197,11 @@ def func(expensive_rename):
     hello=0
     match None:
         case None: hello + hello + hello + hello
-        case None: expensive_rename        
+        case None: expensive_rename
         '''
 
     expected = '''
-sausage=0    
+sausage=0
 match None:
     case None: sausage + sausage + sausage + sausage
 
@@ -209,7 +209,7 @@ def func(expensive_rename):
     A=0
     match None:
         case None: A + A + A + A
-        case None: expensive_rename        
+        case None: expensive_rename
         '''
 
     expected_ast = ast.parse(expected)
@@ -222,7 +222,7 @@ def test_rename_body_global():
         pytest.skip('Match statement not in python < 3.10')
 
     source = '''
-sausage=0    
+sausage=0
 match None:
     case None: sausage + sausage + sausage + sausage
 
@@ -230,7 +230,7 @@ def func(expensive_rename):
     hello=0
     match None:
         case None: hello + hello + hello + hello
-        case None: expensive_rename        
+        case None: expensive_rename
         '''
 
     expected = '''
@@ -242,7 +242,7 @@ def B(expensive_rename):
     hello=0
     match None:
         case None: hello + hello + hello + hello
-        case None: expensive_rename           
+        case None: expensive_rename
         '''
 
     expected_ast = ast.parse(expected)
@@ -263,7 +263,7 @@ match None:
     case ['hello', 'hello', 'hello', 'hello']: pass
     case [None, None, None, None]: pass
     case [True, True, True, True]: pass
-    case [False, False, False, False]: pass             
+    case [False, False, False, False]: pass
 
 def func(expensive_rename):
     class Local: pass
@@ -271,11 +271,11 @@ def func(expensive_rename):
     match None:
         case expensive_rename(a, b) if a: b
         case Global(d, e) if d: e
-        case Local(f, g) if f: g  
+        case Local(f, g) if f: g
         case ['hello', 'hello', 'hello', 'hello']: pass
         case [None, None, None, None]: pass
         case [True, True, True, True]: pass
-        case [False, False, False, False]: pass             
+        case [False, False, False, False]: pass
             '''
 
     expected = '''
@@ -287,7 +287,7 @@ match None:
     case ['hello', 'hello', 'hello', 'hello']: pass
     case [None, None, None, None]: pass
     case [True, True, True, True]: pass
-    case [False, False, False, False]: pass          
+    case [False, False, False, False]: pass
 
 def func(expensive_rename):
     class A: pass
@@ -299,7 +299,7 @@ def func(expensive_rename):
         case ['hello', 'hello', 'hello', 'hello']: pass
         case [None, None, None, None]: pass
         case [True, True, True, True]: pass
-        case [False, False, False, False]: pass        
+        case [False, False, False, False]: pass
             '''
 
     expected_ast = ast.parse(expected)
@@ -319,7 +319,7 @@ match None:
     case ['hello', 'hello', 'hello', 'hello']: pass
     case [None, None, None, None]: pass
     case [True, True, True, True]: pass
-    case [False, False, False, False]: pass             
+    case [False, False, False, False]: pass
 
 def func(expensive_rename):
     class Local: pass
@@ -327,11 +327,11 @@ def func(expensive_rename):
     match None:
         case expensive_rename(a, b) if a: b
         case Global(d, e) if d: e
-        case Local(f, g) if f: g  
+        case Local(f, g) if f: g
         case ['hello', 'hello', 'hello', 'hello']: pass
         case [None, None, None, None]: pass
         case [True, True, True, True]: pass
-        case [False, False, False, False]: pass             
+        case [False, False, False, False]: pass
                 '''
 
     expected = '''
@@ -342,7 +342,7 @@ match None:
     case ['hello', 'hello', 'hello', 'hello']: pass
     case [None, None, None, None]: pass
     case [True, True, True, True]: pass
-    case [False, False, False, False]: pass          
+    case [False, False, False, False]: pass
 
 def D(expensive_rename):
     class Local: pass
@@ -354,7 +354,7 @@ def D(expensive_rename):
         case ['hello', 'hello', 'hello', 'hello']: pass
         case [None, None, None, None]: pass
         case [True, True, True, True]: pass
-        case [False, False, False, False]: pass        
+        case [False, False, False, False]: pass
                 '''
 
     expected_ast = ast.parse(expected)

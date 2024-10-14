@@ -335,7 +335,7 @@ class Dummy(TypedDict):
     
 class Dummy(HypedDict):
     myfield: 0
-    mysecondfile: 0    
+    mysecondfile: 0
 
 class Dummy(typing.TypedDict):
     myfield: int

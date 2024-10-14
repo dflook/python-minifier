@@ -49,13 +49,13 @@ def test_remove_if_empty():
 
 
 def test_remove_suite():
-    source = '''if True: 
+    source = '''if True:
     if __debug__: pass
-    a=1 
-    if __debug__: pass 
+    a=1
+    if __debug__: pass
     return None'''
     expected = '''if True:
-    a=1 
+    a=1
     return None'''
 
     expected_ast = ast.parse(expected)
@@ -124,13 +124,13 @@ value = 10
 if ''' + condition + ''':
   value += 1
 
-print(value)    
+print(value)
 '''
 
     expected = '''
 value = 10
 
-print(value)    
+print(value)
 '''
 
     expected_ast = ast.parse(expected)
@@ -157,7 +157,7 @@ value = 10
 if ''' + condition + ''':
   value += 1
 
-print(value)    
+print(value)
     '''
 
     expected = source

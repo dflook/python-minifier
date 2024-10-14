@@ -1180,7 +1180,7 @@ class LazyList:
     try:
         pass
     except Exception as MyNonLocal:
-        pass        
+        pass
 
 '''
 
@@ -1237,7 +1237,7 @@ class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
         case MyNonLocal:
-            pass  
+            pass
 '''
 
     expected_namespaces = '''
@@ -1293,7 +1293,7 @@ class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
         case [*MyNonLocal]:
-            pass  
+            pass
 '''
 
     expected_namespaces = '''
@@ -1349,7 +1349,7 @@ class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
         case {**MyNonLocal}:
-            pass  
+            pass
 '''
 
     expected_namespaces = '''
