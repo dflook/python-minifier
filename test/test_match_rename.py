@@ -52,7 +52,7 @@ match hello + hello + hello + hello:
 def func():
     match hello + hello + hello + hello:
       case hello: pass
-      
+
 match 'hello' + 'hello':
   case 'hello': pass
 '''
@@ -88,7 +88,7 @@ def func(expensive_rename):
 
     match expensive_rename:
         case None: pass
-    
+
     match 'hello' + 'hello' + 'hello':
         case 'hello': pass
 '''
@@ -103,7 +103,7 @@ def func(expensive_rename):
 
     match expensive_rename:
         case None: pass
-        
+
     match B + B + B:
         case 'hello': pass
 '''

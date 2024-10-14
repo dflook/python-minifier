@@ -635,7 +635,7 @@ def func():
   class C:
     OhALongName = OhALongName + ' World'
     MyOtherName = OhALongName
-    
+
 
 func()
 '''
@@ -1205,7 +1205,7 @@ def test_class_namespace_nonlocal_match_disallow_rename():
     source = '''
 MyNonLocal = 1
 Blah = "Hello"
-    
+
 class LazyList:
     MyAttribute = MyNonLocal
     match Blah:

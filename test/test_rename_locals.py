@@ -88,14 +88,14 @@ class TestClass():
     def mystatic(asdfghjkl): return asdfghjkl
     @staticmethod
     def mystatic(): return 'No cls'
-    
+
     @classmethod
     def mystatic(cls): return cls
     @classmethod
     def mystatic(asdfghjkl): return asdfghjkl
     @classmethod
     def mystatic(): return 'No cls'
-    
+
     @unknown_decorator
     def unknown(self): return self
     @unknown_decorator
@@ -104,7 +104,7 @@ class TestClass():
     def unknown(self, arg): return self, arg
     @unknown_decorator
     def unknown(): return 'No arg'
-    
+
 '''
     expected = '''
 class TestClass():
@@ -119,14 +119,14 @@ class TestClass():
     def mystatic(asdfghjkl): return asdfghjkl
     @staticmethod
     def mystatic(): return 'No cls'
-    
+
     @classmethod
     def mystatic(A): return A
     @classmethod
     def mystatic(A): return A
     @classmethod
     def mystatic(): return 'No cls'
-    
+
     @unknown_decorator
     def unknown(self): return self
     @unknown_decorator
@@ -146,20 +146,20 @@ def test_rename_arg_kwargs_in_place():
     source = '''
 def test(arg, arg2, *args, **kwargs): return args, kwargs
 def samename(arg, arg2, *asd, **asd): return asd
-    
+
 class TestClass():
     def mymethod(self, arg, *args, **kwargs): return args, kwargs
-    
+
     @classmethod
     def mymethod(cls, arg, *args, **kwargs): return args, kwargs
 '''
     expected = '''
 def test(arg, arg2, *A, **B): return A, B
 def samename(arg, arg2, *A, **A): return A
-    
+
 class TestClass():
     def mymethod(C, arg, *A, **B): return A, B
-    
+
     @classmethod
     def mymethod(C, arg, *A, **B): return A, B
 '''

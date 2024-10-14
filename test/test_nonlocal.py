@@ -48,7 +48,7 @@ def test():
 
     def f():
         return 1
-        
+
     patch()
     return f()
 

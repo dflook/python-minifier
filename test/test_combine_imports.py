@@ -70,7 +70,7 @@ def test_import_in_function():
     source = '''def test():
     import collection as c
     import builtins
-    
+
     return None
 '''
     expected = '''def test():
