@@ -128,4 +128,4 @@ def test_regrtest(test_case):
 
 
 if __name__ == '__main__':
-    exit(manifest.verify())
+    sys.exit(manifest.verify())
