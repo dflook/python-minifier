@@ -226,5 +226,3 @@ class NameAssigner(object):
 
 def rename(module, prefix_globals=False, preserved_globals=None):
     NameAssigner()(module, prefix_globals, preserved_globals)
-
-
