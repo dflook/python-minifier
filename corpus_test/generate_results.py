@@ -11,10 +11,10 @@ import python_minifier
 from result import Result, ResultWriter
 
 try:
-    RE = RecursionError
+    RError = RecursionError
 except NameError:
     # Python 2
-    class RE(Exception):
+    class RError(Exception):
         pass
 
 
@@ -46,7 +46,7 @@ def minify_corpus_entry(corpus_path, corpus_entry):
 
         result.outcome = 'Minified'
 
-    except RE:
+    except RError:
         # Source is too deep
         result.outcome = 'RecursionError'
 
@@ -60,7 +60,7 @@ def minify_corpus_entry(corpus_path, corpus_entry):
         result.time = end_time - start_time
         result.outcome = 'UnstableMinification'
 
-    except AssertionError as assertion_error:
+    except AssertionError:
         result.outcome = 'Exception: AssertionError'
 
     except Exception as exception:
@@ -113,7 +113,7 @@ def corpus_test(corpus_path, results_path, sha, regenerate_results):
             if entry in result_writer:
                 continue
 
-            logging.debug('Corpus entry [' + entry + ']')
+            logging.debug('Corpus entry [%s]', entry)
 
             result = minify_corpus_entry(corpus_path, entry)
             result_writer.write(result)
