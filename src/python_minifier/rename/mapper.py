@@ -161,12 +161,11 @@ def add_parent(node, parent=None, namespace=None):
     if is_ast_node(node, 'Nonlocal'):
         namespace.nonlocal_names.update(node.names)
 
-    if isinstance(node, ast.Name):
-        if isinstance(namespace, ast.ClassDef):
-            if isinstance(node.ctx, ast.Load):
-                namespace.nonlocal_names.add(node.id)
-            elif isinstance(node.ctx, ast.Store) and isinstance(node.parent, ast.AugAssign):
-                namespace.nonlocal_names.add(node.id)
+    if isinstance(node, ast.Name) and isinstance(namespace, ast.ClassDef):
+        if isinstance(node.ctx, ast.Load):
+            namespace.nonlocal_names.add(node.id)
+        elif isinstance(node.ctx, ast.Store) and isinstance(node.parent, ast.AugAssign):
+            namespace.nonlocal_names.add(node.id)
 
     for child in ast.iter_child_nodes(node):
         add_parent(child, parent=node, namespace=namespace)

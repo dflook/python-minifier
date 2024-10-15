@@ -8,6 +8,7 @@ deprecation warnings.
 
 from ast import *
 
+
 # Ideally we don't import anything else
 
 if 'TypeAlias' in globals():

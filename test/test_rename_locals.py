@@ -22,8 +22,8 @@ def rename_locals(source):
     bind_names(module)
     resolve_names(module)
 
-    allow_rename_locals(module, True)
-    allow_rename_globals(module, False)
+    allow_rename_locals(module, rename_locals=True)
+    allow_rename_globals(module, rename_globals=False)
 
     rename(module)
 
@@ -84,27 +84,27 @@ class TestClass():
 
     @staticmethod
     def mystatic(cls): return cls
-    @staticmethod    
+    @staticmethod
     def mystatic(asdfghjkl): return asdfghjkl
-    @staticmethod    
+    @staticmethod
     def mystatic(): return 'No cls'
-    
+
     @classmethod
     def mystatic(cls): return cls
-    @classmethod    
+    @classmethod
     def mystatic(asdfghjkl): return asdfghjkl
-    @classmethod    
+    @classmethod
     def mystatic(): return 'No cls'
-    
+
     @unknown_decorator
     def unknown(self): return self
-    @unknown_decorator    
+    @unknown_decorator
     def unknown(qwertyuiop): return qwertyuiop
-    @unknown_decorator        
+    @unknown_decorator
     def unknown(self, arg): return self, arg
-    @unknown_decorator    
-    def unknown(): return 'No arg'        
-    
+    @unknown_decorator
+    def unknown(): return 'No arg'
+
 '''
     expected = '''
 class TestClass():
@@ -115,26 +115,26 @@ class TestClass():
 
     @staticmethod
     def mystatic(cls): return cls
-    @staticmethod    
+    @staticmethod
     def mystatic(asdfghjkl): return asdfghjkl
-    @staticmethod    
+    @staticmethod
     def mystatic(): return 'No cls'
-    
+
     @classmethod
     def mystatic(A): return A
-    @classmethod    
+    @classmethod
     def mystatic(A): return A
-    @classmethod    
+    @classmethod
     def mystatic(): return 'No cls'
-    
+
     @unknown_decorator
     def unknown(self): return self
-    @unknown_decorator    
+    @unknown_decorator
     def unknown(qwertyuiop): return qwertyuiop
-    @unknown_decorator        
+    @unknown_decorator
     def unknown(self, arg): return self, arg
-    @unknown_decorator    
-    def unknown(): return 'No arg'        
+    @unknown_decorator
+    def unknown(): return 'No arg'
 '''
 
     expected_ast = ast.parse(expected)
@@ -146,22 +146,22 @@ def test_rename_arg_kwargs_in_place():
     source = '''
 def test(arg, arg2, *args, **kwargs): return args, kwargs
 def samename(arg, arg2, *asd, **asd): return asd
-    
+
 class TestClass():
     def mymethod(self, arg, *args, **kwargs): return args, kwargs
-    
+
     @classmethod
     def mymethod(cls, arg, *args, **kwargs): return args, kwargs
 '''
     expected = '''
 def test(arg, arg2, *A, **B): return A, B
 def samename(arg, arg2, *A, **A): return A
-    
+
 class TestClass():
     def mymethod(C, arg, *A, **B): return A, B
-    
+
     @classmethod
-    def mymethod(C, arg, *A, **B): return A, B   
+    def mymethod(C, arg, *A, **B): return A, B
 '''
 
     expected_ast = ast.parse(expected)
@@ -262,7 +262,7 @@ def test_rename_long_arg():
     source = '''
 def f(this_is_my_long_argument_name):
     print(this_is_my_long_argument_name)
-    print(this_is_my_long_argument_name)    
+    print(this_is_my_long_argument_name)
 '''
     expected = '''
 def f(this_is_my_long_argument_name):
@@ -282,18 +282,18 @@ def f(a):
     print(a)
     print(a)
     print(a)
-    print(a) 
-    print(a)  
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a) 
-    print(a)                     
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
+    print(a)
 '''
 
     expected_ast = ast.parse(source)
@@ -308,7 +308,7 @@ def f(aa):
     print(aa)
     print(aa)
     print(aa)
-    print(aa)                           
+    print(aa)
 '''
     expected = '''
 def f(aa):
@@ -317,7 +317,7 @@ def f(aa):
     print(A)
     print(A)
     print(A)
-    print(A)                   
+    print(A)
 '''
 
     expected_ast = ast.parse(expected)
@@ -327,7 +327,7 @@ def f(aa):
 
 def test_no_rename_lambda_arg():
     source = '''
-lambda my_argument: f(my_argument + my_argument + my_argument)                       
+lambda my_argument: f(my_argument + my_argument + my_argument)
 '''
 
     expected_ast = ast.parse(source)
@@ -337,11 +337,11 @@ lambda my_argument: f(my_argument + my_argument + my_argument)
 
 def test_rename_lambda_stararg():
     source = '''
-lambda *args, **kwargs: f(args, kwargs)                       
+lambda *args, **kwargs: f(args, kwargs)
 '''
 
     expected = '''
-lambda *A, **B: f(A, B)                       
+lambda *A, **B: f(A, B)
 '''
 
     expected_ast = ast.parse(expected)
@@ -354,11 +354,11 @@ def test_python3_listcomp_scope():
         pytest.skip('No list comprehension scope in python < 3.0')
 
     source = '''
-[a for a in mylist]                     
+[a for a in mylist]
 '''
 
     expected = '''
-[A for A in mylist]                     
+[A for A in mylist]
 '''
 
     expected_ast = ast.parse(expected)
@@ -371,17 +371,17 @@ def test_python2_listcomp_scope():
         pytest.skip('list comprehension scope in python >= 3.0')
 
     source = '''
-[a for a in mylist]               
+[a for a in mylist]
 def t():
     a = True
-    [a for a in mylist] 
+    [a for a in mylist]
 '''
 
     expected = '''
-[a for a in mylist]               
+[a for a in mylist]
 def t():
     A = True
-    [A for A in mylist]                    
+    [A for A in mylist]
 '''
 
     expected_ast = ast.parse(expected)
@@ -405,7 +405,7 @@ def f(*A,**B):pass
 def test_multiple_args():
     source = '''
 def f(hello, hello):
-    print(hello + hello)      
+    print(hello + hello)
     '''
     expected = '''
 def f(hello, hello):

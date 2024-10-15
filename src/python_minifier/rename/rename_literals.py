@@ -155,18 +155,18 @@ class HoistLiterals(NodeVisitor):
 
         """
 
-        l = []
+        path = []
 
         while True:
             namespace = self.nearest_function_namespace(node)
-            l.insert(0, namespace)
+            path.insert(0, namespace)
 
             if isinstance(namespace, ast.Module):
                 break
 
             node = namespace
 
-        return l
+        return path
 
     def common_path(self, n1_path, n2_path):
 
@@ -217,8 +217,7 @@ class HoistLiterals(NodeVisitor):
             if is_ast_node(v, ast.Str):
                 # Can't hoist this!
                 continue
-            else:
-                self.visit(v)
+            self.visit(v)
 
     def visit_NameConstant(self, node):
         self.get_binding(node.value, node).add_reference(node)
@@ -242,7 +241,7 @@ class HoistLiterals(NodeVisitor):
         for target in node.targets:
             if is_ast_node(target, ast.Name) and target.id == '__slots__':
                 # This is a __slots__ assignment, don't hoist the literals
-                return
+                return None
 
         return self.generic_visit(node)
 

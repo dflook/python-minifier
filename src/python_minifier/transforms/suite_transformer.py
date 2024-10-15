@@ -13,7 +13,7 @@ class NodeVisitor(object):
 
     def generic_visit(self, node):
         """Called if no explicit visitor function exists for a node."""
-        for field, value in ast.iter_fields(node):
+        for _field, value in ast.iter_fields(node):
             if isinstance(value, list):
                 for item in value:
                     if isinstance(item, ast.AST):

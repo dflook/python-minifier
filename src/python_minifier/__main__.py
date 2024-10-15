@@ -7,6 +7,7 @@ import sys
 from python_minifier import minify
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 
+
 if sys.version_info >= (3, 8):
     from importlib import metadata
 
@@ -270,9 +271,9 @@ def source_modules(args):
 
     for path_arg in args.path:
         if os.path.isdir(path_arg):
-            for root, dirs, files in os.walk(path_arg, onerror=error, followlinks=True):
+            for root, _dirs, files in os.walk(path_arg, onerror=error, followlinks=True):
                 for file in files:
-                    if file.endswith('.py') or file.endswith('.pyw'):
+                    if file.endswith(('.py', '.pyw')):
                         yield os.path.join(root, file)
         else:
             yield path_arg

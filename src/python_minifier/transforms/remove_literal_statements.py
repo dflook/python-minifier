@@ -6,9 +6,8 @@ from python_minifier.util import is_ast_node
 
 def find_doc(node):
 
-    if isinstance(node, ast.Attribute):
-        if node.attr == '__doc__':
-            raise ValueError('__doc__ found!')
+    if isinstance(node, ast.Attribute) and node.attr == '__doc__':
+        raise ValueError('__doc__ found!')
 
     for child in ast.iter_child_nodes(node):
         find_doc(child)
@@ -18,7 +17,7 @@ def _doc_in_module(module):
     try:
         find_doc(module)
         return False
-    except:
+    except Exception:
         return True
 
 

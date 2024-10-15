@@ -12,7 +12,6 @@ from python_minifier.ast_compare import compare_ast
         'f"{1=!r:.4}"',
         'f"{1=:.4}"',
         'f"{1=!s:.4}"',
-        'f"{1=:.4}"',
         'f"{1}"',
         'f"{1=}"',
         'f"{1=!s}"',

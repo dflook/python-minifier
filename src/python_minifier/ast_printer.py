@@ -14,6 +14,7 @@ import python_minifier.ast_compat as ast
 
 from python_minifier.util import is_ast_node
 
+
 INDENT = '    '
 
 # The field name that can be omitted for each node

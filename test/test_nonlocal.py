@@ -17,7 +17,7 @@ def test():
             rename_me = 'inner'
 
         inner()
-    rename_me = False        
+    rename_me = False
     outer()
     return rename_me
 
@@ -48,7 +48,7 @@ def test():
 
     def f():
         return 1
-        
+
     patch()
     return f()
 
@@ -88,13 +88,13 @@ result = test()
     # First check we understand the behavior
     unminified_locals = {}
     exec(test_code, {}, unminified_locals)
-    assert unminified_locals['result'] == True
+    assert unminified_locals['result'] is True
 
     minified = python_minifier.minify(test_code, rename_locals=True)
     print(minified)
     minified_locals = {}
     exec(minified, {}, minified_locals)
-    assert minified_locals['result'] == True
+    assert minified_locals['result'] is True
 
 
 def test_nonlocal_import_alias():
@@ -118,10 +118,10 @@ result = test()
     # First check we understand the behavior
     unminified_locals = {}
     exec(test_code, {}, unminified_locals)
-    assert unminified_locals['result'] == True
+    assert unminified_locals['result'] is True
 
     minified = python_minifier.minify(test_code, rename_locals=True)
     print(minified)
     minified_locals = {}
     exec(minified, {}, minified_locals)
-    assert minified_locals['result'] == True
+    assert minified_locals['result'] is True

@@ -244,7 +244,7 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(node, ast.ImportFrom)
 
         self.printer.keyword('from')
-        for i in range(node.level):
+        for _i in range(node.level):
             self.printer.delimiter('.')
         if node.module is not None:
             self.printer.identifier(node.module)

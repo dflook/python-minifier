@@ -273,7 +273,7 @@ class Binding(object):
 
         """
 
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def rename(self, new_name):
         """
@@ -283,7 +283,7 @@ class Binding(object):
 
         """
 
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class NameBinding(Binding):

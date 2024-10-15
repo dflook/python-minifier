@@ -36,7 +36,7 @@ class FString(object):
             c = ast.parse(code, 'FString candidate', mode='eval')
             compare_ast(self.node, c.body)
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def complete_debug_specifier(self, partial_specifier_candidates, value_node):
@@ -79,12 +79,12 @@ class FString(object):
                             # Maybe!
                             try:
                                 debug_specifier_candidates = [x + '{' + v.s for x in candidates]
-                            except Exception as e:
+                            except Exception:
                                 continue
 
                     try:
                         candidates = [x + self.str_for(v.s, quote) for x in candidates]
-                    except Exception as e:
+                    except Exception:
                         continue
                 elif isinstance(v, ast.FormattedValue):
                     try:
@@ -93,15 +93,14 @@ class FString(object):
                             x + y for x in candidates for y in FormattedValue(v, nested_allowed, self.pep701).get_candidates()
                         ] + completed
                         debug_specifier_candidates = []
-                    except Exception as e:
+                    except Exception:
                         continue
                 else:
                     raise RuntimeError('Unexpected JoinedStr value')
 
                 actual_candidates += ['f' + quote + x + quote for x in candidates]
 
-        actual_candidates = filter(self.is_correct_ast, actual_candidates)
-        return actual_candidates
+        return filter(self.is_correct_ast, actual_candidates)
 
     def str_for(self, s, quote):
         return s.replace('{', '{{').replace('}', '}}')

@@ -17,11 +17,11 @@ match x:
         mode = "http"
     case host, port, mode:
         pass
-        
+
 match node:
     case BinOp("+", a, BinOp("*", b, c)):
-        pass   
-        
+        pass
+
 match json_pet:
     case {"type": "cat", "name": name, "pattern": pattern}:
         return Cat(name, pattern)
@@ -29,7 +29,7 @@ match json_pet:
         return Dog(name, breed)
     case _:
         raise ValueError("Not a suitable pet")
-        
+
 def sort(seq):
     match seq:
         case [] | [_]:
@@ -57,7 +57,7 @@ def simplify_expr(tokens):
             return Num(left + right)
         case [(int() | float()) as value]:
             return Num(value)
-   
+
 def simplify(expr):
     match expr:
         case ('/', 0, 0):
@@ -96,7 +96,7 @@ def average(*args):
             return 0
         case a:                # captures the entire sequence
             return sum(a) / len(a)
- 
+
 def is_closed(sequence):
    match sequence:
        case [_]:               # any sequence with a single element
@@ -105,7 +105,7 @@ def is_closed(sequence):
            return start == end
        case _:                 # anything
            return False
- 
+
 def handle_reply(reply):
    match reply:
        case (HttpStatus.OK, MimeType.TEXT, body):
@@ -311,10 +311,10 @@ match a:
 
 match a:
     case _:pass
-    
+
 match a:
     case 0|(0|0): pass
-    case (0|0)|0: pass    
+    case (0|0)|0: pass
     case 0|0|0: pass
 
 match (lambda: a)():
@@ -322,7 +322,7 @@ match (lambda: a)():
 
 match a:= h:
     case [action, obj]:pass
-    case {**rest}: pass   
+    case {**rest}: pass
     '''
 
     expected_ast = ast.parse(source)

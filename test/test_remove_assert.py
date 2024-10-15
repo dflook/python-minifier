@@ -57,13 +57,13 @@ def test_remove_if_line():
 
 
 def test_remove_suite():
-    source = '''if True: 
+    source = '''if True:
     assert False
-    a=1 
-    assert False 
+    a=1
+    assert False
     return None'''
     expected = '''if True:
-    a=1 
+    a=1
     return None'''
 
     expected_ast = ast.parse(expected)

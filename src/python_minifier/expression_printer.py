@@ -629,7 +629,8 @@ class ExpressionPrinter(object):
     def visit_arg(self, node):
         if isinstance(node, ast.Name):
             # Python 2 uses Name nodes
-            return self.visit_Name(node)
+            self.visit_Name(node)
+            return
 
         self.printer.identifier(node.arg)
 

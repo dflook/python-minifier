@@ -26,7 +26,7 @@ def run_test(source, expected):
 
 
 @pytest.mark.parametrize(
-    'source,expected', [
+    ('source', 'expected'), [
         ('True | True', 'True'),
         ('True | False', 'True'),
         ('False | True', 'True'),
@@ -87,7 +87,7 @@ def test_bool(source, expected):
 
 
 @pytest.mark.parametrize(
-    'source,expected', [
+    ('source', 'expected'), [
         ('10 + 10', '20'),
         ('10 + 0', '10'),
         ('0 + 10', '10'),
@@ -116,7 +116,7 @@ def test_int(source, expected):
 
 
 @pytest.mark.parametrize(
-    'source,expected', [
+    ('source', 'expected'), [
         ('10/10', '10/10'),
         ('5+5/10', '5+5/10'),
         ('2*5/10', '10/10'),
@@ -134,7 +134,7 @@ def test_int_not_eval(source, expected):
 
 
 @pytest.mark.parametrize(
-    'source,expected', [
+    ('source', 'expected'), [
         ('"Hello" + "World"', '"Hello" + "World"'),
         ('"Hello" * 5', '"Hello" * 5'),
         ('b"Hello" + b"World"', 'b"Hello" + b"World"'),

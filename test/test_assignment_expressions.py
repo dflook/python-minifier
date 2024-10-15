@@ -15,9 +15,9 @@ def test_pep():
 if a := True:
     print(a)
 if self._is_special and (ans := self._check_nans(context=context)):
-    return ans    
+    return ans
 results = [(x, y, x/y) for x in input_data if (y := f(x)) > 0]
-stuff = [[y := f(x), x/y] for x in range(5)]    
+stuff = [[y := f(x), x/y] for x in range(5)]
 '''
 
     expected_ast = ast.parse(source)

@@ -32,7 +32,7 @@ class MiniString(object):
 
         try:
             eval(self.quote + s + self.quote)
-        except (UnicodeDecodeError, UnicodeEncodeError) as e:
+        except (UnicodeDecodeError, UnicodeEncodeError):
             if self.safe_mode:
                 raise
 
@@ -63,7 +63,7 @@ class MiniString(object):
         }
 
         for c in self._s:
-            if c in escaped.keys():
+            if c in escaped:
                 s += escaped[c]
             else:
                 if self.safe_mode:
@@ -95,7 +95,7 @@ class MiniString(object):
         }
 
         for c in self._s:
-            if c in escaped.keys():
+            if c in escaped:
                 s += escaped[c]
             else:
                 if self.safe_mode:

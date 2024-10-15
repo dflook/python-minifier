@@ -57,7 +57,7 @@ def test_import_from():
 from builtins import help
 import collections
 from collections import abc'''
-    expected = '''from builtins import dir, help 
+    expected = '''from builtins import dir, help
 import collections
 from collections import abc'''
 
@@ -70,7 +70,7 @@ def test_import_in_function():
     source = '''def test():
     import collection as c
     import builtins
-    
+
     return None
 '''
     expected = '''def test():

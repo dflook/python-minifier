@@ -332,19 +332,19 @@ class Dummy(typing.TypedDic):
 class Dummy(TypedDict):
     myfield: int
     mysecondfile: str
-    
+
 class Dummy(HypedDict):
     myfield: 0
-    mysecondfile: 0    
+    mysecondfile: 0
 
 class Dummy(typing.TypedDict):
     myfield: int
     mysecondfile: str
-    
+
 class Dummy(typing.TypedDic):
     myfield: 0
     mysecondfile: 0
-        
+
 '''
     expected_ast = ast.parse(expected)
     actual_ast = remove_annotations(

@@ -119,7 +119,7 @@ def name(draw) -> SearchStrategy:
     assume(' ' not in normalised)
     try:
         ast.parse(normalised, mode='eval')
-    except:
+    except Exception:
         assume(False)
     return normalised
 
@@ -212,14 +212,6 @@ def Attribute(draw, expression) -> ast.Attribute:
     attr = draw(text(alphabet=string.ascii_letters, min_size=1, max_size=3).filter(lambda n: n not in keyword.kwlist))
     return ast.Attribute(value, attr, ast.Load())
 
-
-@composite
-def Subscript(draw, expression) -> ast.Subscript:
-    value = draw(expression)
-    attr = draw(text(alphabet=string.ascii_letters, min_size=1, max_size=3))
-    return ast.Subscript(value, attr, ast.Load())
-
-
 @composite
 def Yield(draw, expression) -> ast.Yield:
     return ast.Yield(draw(expression))
@@ -296,7 +288,7 @@ def arg(draw, allow_annotation=True) -> ast.arg:
 @composite
 def arguments(draw, for_lambda=False) -> ast.arguments:
 
-    allow_annotation = False if for_lambda else True
+    allow_annotation = not for_lambda
 
     args = draw(lists(arg(allow_annotation), max_size=2))
     posonlyargs = draw(lists(arg(allow_annotation), max_size=2))

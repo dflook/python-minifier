@@ -18,8 +18,8 @@ def do_rename(source):
     bind_names(module)
     resolve_names(module)
 
-    allow_rename_locals(module, True)
-    allow_rename_globals(module, True)
+    allow_rename_locals(module, rename_locals=True)
+    allow_rename_globals(module, rename_globals=True)
 
     rename(module)
 

@@ -79,7 +79,7 @@ class ResultReader:
     def __enter__(self):
         self.results = open(self._results_path, 'r')
         header = self.results.readline()
-        assert header == 'corpus_entry,original_size,minified_size,time,result\n' or header == ''
+        assert header in ['corpus_entry,original_size,minified_size,time,result\n', '']
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -99,12 +99,12 @@ class ResultReader:
 
         if line == '':
             raise StopIteration
-        else:
-            result_line = line.split(',')
-            return Result(
-                result_line[0],
-                int(result_line[1]),
-                int(result_line[2]),
-                float(result_line[3]),
-                result_line[4].rstrip()
-            )
+
+        result_line = line.split(',')
+        return Result(
+            result_line[0],
+            int(result_line[1]),
+            int(result_line[2]),
+            float(result_line[3]),
+            result_line[4].rstrip()
+        )

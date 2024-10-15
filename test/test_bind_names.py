@@ -635,7 +635,7 @@ def func():
   class C:
     OhALongName = OhALongName + ' World'
     MyOtherName = OhALongName
-    
+
 
 func()
 '''
@@ -778,7 +778,7 @@ class LazyList:
     assert_namespace_tree(source, expected_namespaces)
 
 
-def test_class_namespace_undefined_nonlocal_name_disallow_rename():
+def test_class_namespace_undefined_nonlocal_name_disallow_rename_2():
     source = '''
 class LazyList:
     MyAttribute = MyNonLocal
@@ -1180,7 +1180,7 @@ class LazyList:
     try:
         pass
     except Exception as MyNonLocal:
-        pass        
+        pass
 
 '''
 
@@ -1205,7 +1205,7 @@ def test_class_namespace_nonlocal_match_disallow_rename():
     source = '''
 MyNonLocal = 1
 Blah = "Hello"
-    
+
 class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
@@ -1237,7 +1237,7 @@ class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
         case MyNonLocal:
-            pass  
+            pass
 '''
 
     expected_namespaces = '''
@@ -1293,7 +1293,7 @@ class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
         case [*MyNonLocal]:
-            pass  
+            pass
 '''
 
     expected_namespaces = '''
@@ -1349,7 +1349,7 @@ class LazyList:
     MyAttribute = MyNonLocal
     match Blah:
         case {**MyNonLocal}:
-            pass  
+            pass
 '''
 
     expected_namespaces = '''
