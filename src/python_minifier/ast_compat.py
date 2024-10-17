@@ -49,6 +49,7 @@ if 'TypeAlias' in globals():
 # Create a dummy class for missing AST nodes
 for _node_type in [
     'AnnAssign',
+    'AsyncFor',
     'AsyncFunctionDef',
     'AsyncFunctionDef',
     'AsyncWith',
