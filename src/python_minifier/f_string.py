@@ -16,7 +16,7 @@ from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.ministring import MiniString
 from python_minifier.token_printer import TokenTypes
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 class FString(object):
@@ -70,7 +70,7 @@ class FString(object):
                 nested_allowed.remove(quote)
 
             for v in self.node.values:
-                if is_ast_node(v, ast.Str):
+                if is_constant_node(v, ast.Str):
 
                     # Could this be used as a debug specifier?
                     if len(candidates) < 10:
@@ -348,7 +348,7 @@ class FormatSpec(object):
 
         candidates = ['']
         for v in self.node.values:
-            if is_ast_node(v, ast.Str):
+            if is_constant_node(v, ast.Str):
                 candidates = [x + self.str_for(v.s) for x in candidates]
             elif isinstance(v, ast.FormattedValue):
                 candidates = [

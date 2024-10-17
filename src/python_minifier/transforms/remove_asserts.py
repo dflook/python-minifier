@@ -1,7 +1,6 @@
 import python_minifier.ast_compat as ast
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
-from python_minifier.util import is_ast_node
 
 
 class RemoveAsserts(SuiteTransformer):
@@ -15,7 +14,7 @@ class RemoveAsserts(SuiteTransformer):
         return self.visit(node)
 
     def suite(self, node_list, parent):
-        without_assert = [self.visit(a) for a in filter(lambda n: not is_ast_node(n, ast.Assert), node_list)]
+        without_assert = [self.visit(a) for a in filter(lambda n: not isinstance(n, ast.Assert), node_list)]
 
         if len(without_assert) == 0:
             if isinstance(parent, ast.Module):

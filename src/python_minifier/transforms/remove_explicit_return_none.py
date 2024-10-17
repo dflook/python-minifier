@@ -3,7 +3,7 @@ import sys
 import python_minifier.ast_compat as ast
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 class RemoveExplicitReturnNone(SuiteTransformer):
@@ -18,13 +18,13 @@ class RemoveExplicitReturnNone(SuiteTransformer):
         if sys.version_info < (3, 4) and isinstance(node.value, ast.Name) and node.value.id == 'None':
             node.value = None
 
-        elif sys.version_info >= (3, 4) and is_ast_node(node.value, 'NameConstant') and node.value.value is None:
+        elif sys.version_info >= (3, 4) and is_constant_node(node.value, ast.NameConstant) and node.value.value is None:
             node.value = None
 
         return node
 
     def visit_FunctionDef(self, node):
-        assert is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef'))
+        assert isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
 
         node.body = [self.visit(a) for a in node.body]
 

@@ -6,7 +6,7 @@ import python_minifier.ast_compat as ast
 from python_minifier.ast_compare import compare_ast
 from python_minifier.expression_printer import ExpressionPrinter
 from python_minifier.transforms.suite_transformer import SuiteTransformer
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 class FoldConstants(SuiteTransformer):
@@ -24,9 +24,9 @@ class FoldConstants(SuiteTransformer):
 
         # Check this is a constant expression that could be folded
         # We don't try to fold strings or bytes, since they have probably been arranged this way to make the source shorter and we are unlikely to beat that
-        if not is_ast_node(node.left, (ast.Num, 'NameConstant')):
+        if not is_constant_node(node.left, (ast.Num, ast.NameConstant)):
             return node
-        if not is_ast_node(node.right, (ast.Num, 'NameConstant')):
+        if not is_constant_node(node.right, (ast.Num, ast.NameConstant)):
             return node
 
         if isinstance(node.op, ast.Div):

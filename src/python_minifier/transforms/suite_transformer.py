@@ -1,7 +1,6 @@
 import python_minifier.ast_compat as ast
 
 from python_minifier.rename.mapper import add_parent
-from python_minifier.util import is_ast_node
 
 
 class NodeVisitor(object):
@@ -185,7 +184,7 @@ class SuiteTransformer(NodeVisitor):
 
             """
 
-            if is_ast_node(node, (ast.FunctionDef, ast.Module, 'AsyncFunctionDef')):
+            if isinstance(node, (ast.FunctionDef, ast.Module, ast.AsyncFunctionDef)):
                 return node
             return nearest_function_namespace(node.parent)
 

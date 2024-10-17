@@ -3,7 +3,7 @@ import sys
 import python_minifier.ast_compat as ast
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 class RemoveDebug(SuiteTransformer):
@@ -19,7 +19,7 @@ class RemoveDebug(SuiteTransformer):
     def constant_value(self, node):
         if sys.version_info < (3, 4):
             return node.id == 'True'
-        elif is_ast_node(node, 'NameConstant'):
+        elif is_constant_node(node, ast.NameConstant):
             return node.value
         return None
 

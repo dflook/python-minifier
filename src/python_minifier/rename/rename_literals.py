@@ -3,7 +3,7 @@ import python_minifier.ast_compat as ast
 from python_minifier.rename.binding import Binding
 from python_minifier.rename.util import insert
 from python_minifier.transforms.suite_transformer import NodeVisitor
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 def replace(old_node, new_node):
@@ -43,7 +43,7 @@ class HoistedBinding(Binding):
 
     @property
     def value(self):
-        if is_ast_node(self._value_node, (ast.Str, 'Bytes')):
+        if is_constant_node(self._value_node, (ast.Str, ast.Bytes)):
             return self._value_node.s
         else:
             return self._value_node.value
@@ -133,7 +133,7 @@ class HoistLiterals(NodeVisitor):
 
         """
 
-        if is_ast_node(node.namespace, (ast.FunctionDef, ast.Module, 'AsyncFunctionDef')):
+        if isinstance(node.namespace, (ast.FunctionDef, ast.Module, ast.AsyncFunctionDef)):
             return node.namespace
         return self.nearest_function_namespace(node.namespace)
 
@@ -214,7 +214,7 @@ class HoistLiterals(NodeVisitor):
 
     def visit_JoinedStr(self, node):
         for v in node.values:
-            if is_ast_node(v, ast.Str):
+            if is_constant_node(v, ast.Str):
                 # Can't hoist this!
                 continue
             self.visit(v)
@@ -235,11 +235,11 @@ class HoistLiterals(NodeVisitor):
         if not self._ignore_slots:
             return self.generic_visit(node)
 
-        if not is_ast_node(node.namespace, ast.ClassDef):
+        if not isinstance(node.namespace, ast.ClassDef):
             return self.generic_visit(node)
 
         for target in node.targets:
-            if is_ast_node(target, ast.Name) and target.id == '__slots__':
+            if isinstance(target, ast.Name) and target.id == '__slots__':
                 # This is a __slots__ assignment, don't hoist the literals
                 return None
 

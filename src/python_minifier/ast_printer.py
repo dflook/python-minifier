@@ -12,7 +12,7 @@ fields or field names may be omitted for clarity. It should still be precise and
 
 import python_minifier.ast_compat as ast
 
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 INDENT = '    '
@@ -69,16 +69,16 @@ def is_literal(node, field):
     if hasattr(ast, 'Constant') and isinstance(node, ast.Constant) and field == 'value':
         return True
 
-    if is_ast_node(node, ast.Num) and field == 'n':
+    if is_constant_node(node, ast.Num) and field == 'n':
         return True
 
-    if is_ast_node(node, ast.Str) and field == 's':
+    if is_constant_node(node, ast.Str) and field == 's':
         return True
 
-    if is_ast_node(node, 'Bytes') and field == 's':
+    if is_constant_node(node, ast.Bytes) and field == 's':
         return True
 
-    if is_ast_node(node, 'NameConstant') and field == 'value':
+    if is_constant_node(node, ast.NameConstant) and field == 'value':
         return True
 
     return False
