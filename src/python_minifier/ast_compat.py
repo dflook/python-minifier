@@ -53,6 +53,7 @@ for _node_type in [
     'AsyncFunctionDef',
     'AsyncWith',
     'Bytes',
+    'Constant',
     'DictComp',
     'Exec',
     'ListComp',
