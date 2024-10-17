@@ -2,7 +2,6 @@ import python_minifier.ast_compat as ast
 
 from python_minifier.rename.binding import BuiltinBinding, NameBinding
 from python_minifier.rename.util import builtins, get_global_namespace, get_nonlocal_namespace
-from python_minifier.util import is_ast_node
 
 
 def get_binding(name, namespace):
@@ -67,7 +66,7 @@ def resolve_names(node):
         binding = get_binding_disallow_class_namespace_rename(node.name, node.namespace)
         binding.add_reference(node)
 
-    elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')) and node.name in node.namespace.nonlocal_names:
+    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in node.namespace.nonlocal_names:
         binding = get_binding_disallow_class_namespace_rename(node.name, node.namespace)
         binding.add_reference(node)
 
@@ -93,15 +92,15 @@ def resolve_names(node):
         if isinstance(node.name, str) and node.name in node.namespace.nonlocal_names:
             get_binding_disallow_class_namespace_rename(node.name, node.namespace).add_reference(node)
 
-    elif is_ast_node(node, 'Nonlocal'):
+    elif isinstance(node, ast.Nonlocal):
         for name in node.names:
             get_binding_disallow_class_namespace_rename(name, node.namespace).add_reference(node)
-    elif is_ast_node(node, ('MatchAs', 'MatchStar')) and node.name in node.namespace.nonlocal_names:
+    elif isinstance(node, (ast.MatchAs, ast.MatchStar)) and node.name in node.namespace.nonlocal_names:
         get_binding_disallow_class_namespace_rename(node.name, node.namespace).add_reference(node)
-    elif is_ast_node(node, 'MatchMapping') and node.rest in node.namespace.nonlocal_names:
+    elif isinstance(node, ast.MatchMapping) and node.rest in node.namespace.nonlocal_names:
         get_binding_disallow_class_namespace_rename(node.rest, node.namespace).add_reference(node)
 
-    elif is_ast_node(node, 'Exec'):
+    elif isinstance(node, ast.Exec):
         get_global_namespace(node).tainted = True
 
     for child in ast.iter_child_nodes(node):

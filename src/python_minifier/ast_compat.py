@@ -44,3 +44,33 @@ if 'TypeAlias' in globals():
     class Ellipsis(Constant):  # type: ignore[no-redef]
         def __new__(cls, *args, **kwargs):
             return Constant(value=literal_eval('...'), *args, **kwargs)
+
+
+# Create a dummy class for missing AST nodes
+for _node_type in [
+    'AnnAssign',
+    'AsyncFunctionDef',
+    'AsyncFunctionDef',
+    'AsyncWith',
+    'Bytes',
+    'DictComp',
+    'Exec',
+    'ListComp',
+    'MatchAs',
+    'MatchMapping',
+    'MatchStar',
+    'NameConstant',
+    'NamedExpr',
+    'Nonlocal',
+    'ParamSpec',
+    'SetComp',
+    'Starred',
+    'TryStar',
+    'TypeVar',
+    'TypeVarTuple',
+    'YieldFrom',
+    'arg',
+    'withitem',
+]:
+    if _node_type not in globals():
+        globals()[_node_type] = type(_node_type, (AST,), {})

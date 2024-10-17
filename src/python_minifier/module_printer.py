@@ -4,7 +4,6 @@ import python_minifier.ast_compat as ast
 
 from .expression_printer import ExpressionPrinter
 from .token_printer import Delimiter
-from .util import is_ast_node
 
 
 class ModulePrinter(ExpressionPrinter):
@@ -56,7 +55,7 @@ class ModulePrinter(ExpressionPrinter):
     def visit_Expr(self, node):
         assert isinstance(node, ast.Expr)
 
-        if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
+        if isinstance(node.value, (ast.Yield, ast.YieldFrom)):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -83,7 +82,7 @@ class ModulePrinter(ExpressionPrinter):
             self.printer.delimiter('=')
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
+        if isinstance(node.value, (ast.Yield, ast.YieldFrom)):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -98,7 +97,7 @@ class ModulePrinter(ExpressionPrinter):
         self.printer.delimiter('=')
 
         # Yield nodes that are the sole node on the right hand side of an assignment do not need parens
-        if is_ast_node(node.value, (ast.Yield, 'YieldFrom')):
+        if isinstance(node.value, (ast.Yield, ast.YieldFrom)):
             self._yield_expr(node.value)
         else:
             self._testlist(node.value)
@@ -144,7 +143,7 @@ class ModulePrinter(ExpressionPrinter):
 
         self.printer.keyword('return')
         if isinstance(node.value, ast.Tuple):
-            if sys.version_info < (3, 8) and [n for n in node.value.elts if is_ast_node(n, 'Starred')]:
+            if sys.version_info < (3, 8) and [n for n in node.value.elts if isinstance(n, ast.Starred)]:
                 self.printer.delimiter('(')
                 self._testlist(node.value)
                 self.printer.delimiter(')')
@@ -363,7 +362,7 @@ class ModulePrinter(ExpressionPrinter):
             self._suite(node.orelse)
 
     def visit_Try(self, node, star=False):
-        assert is_ast_node(node, (ast.Try, 'TryStar'))
+        assert isinstance(node, (ast.Try, ast.TryStar))
 
         self.printer.newline()
         self.printer.keyword('try')
@@ -441,7 +440,7 @@ class ModulePrinter(ExpressionPrinter):
         self._suite(node.body)
 
     def visit_With(self, node, is_async=False):
-        assert is_ast_node(node, (ast.With, 'AsyncWith'))
+        assert isinstance(node, (ast.With, ast.AsyncWith))
 
         self.printer.newline()
 
@@ -470,7 +469,7 @@ class ModulePrinter(ExpressionPrinter):
         self._suite(node.body)
 
     def visit_withitem(self, node):
-        assert is_ast_node(node, ('withitem', ast.With))
+        assert isinstance(node, (ast.withitem, ast.With))
 
         self._expression(node.context_expr)
 
@@ -479,7 +478,7 @@ class ModulePrinter(ExpressionPrinter):
             self._expression(node.optional_vars)
 
     def visit_FunctionDef(self, node, is_async=False):
-        assert is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef'))
+        assert isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
 
         self.printer.newline()
 
