@@ -326,7 +326,7 @@ class ModulePrinter(ExpressionPrinter):
                 self._suite(node.orelse)
 
     def visit_For(self, node, is_async=False):
-        assert isinstance(node, ast.For) or (hasattr(ast, 'AsyncFor') and isinstance(node, ast.AsyncFor))
+        assert isinstance(node, (ast.For, ast.AsyncFor))
 
         self.printer.newline()
 
