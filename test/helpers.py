@@ -1,4 +1,5 @@
 import python_minifier.ast_compat as ast
+from python_minifier.ast_annotation import add_parent
 
 from python_minifier.rename import add_namespace, resolve_names
 from python_minifier.rename.bind_names import bind_names
@@ -9,6 +10,7 @@ from python_minifier.util import is_constant_node
 def assert_namespace_tree(source, expected_tree):
     tree = ast.parse(source)
 
+    add_parent(tree)
     add_namespace(tree)
     bind_names(tree)
     resolve_names(tree)

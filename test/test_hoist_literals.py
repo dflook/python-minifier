@@ -4,6 +4,7 @@ import sys
 import pytest
 
 from python_minifier import unparse
+from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import compare_ast
 from python_minifier.ast_printer import print_ast
 from python_minifier.rename import (
@@ -19,6 +20,7 @@ from python_minifier.rename import (
 
 def hoist(source):
     module = ast.parse(source)
+    add_parent(module)
     add_namespace(module)
     bind_names(module)
     resolve_names(module)
