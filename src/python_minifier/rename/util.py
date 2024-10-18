@@ -2,7 +2,7 @@ import sys
 
 import python_minifier.ast_compat as ast
 
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 def create_is_namespace():
@@ -127,7 +127,7 @@ def insert(suite, new_node):
 
         if not inserted:
             if (isinstance(node, ast.ImportFrom) and node.module == '__future__') or (
-                isinstance(node, ast.Expr) and is_ast_node(node.value, ast.Str)
+                isinstance(node, ast.Expr) and is_constant_node(node.value, ast.Str)
             ):
                 pass
             else:
@@ -166,7 +166,7 @@ def find__all__(module):
                 if isinstance(name, ast.Name) and name.id == '__all__':
                     return True
 
-        elif is_ast_node(node, (ast.AugAssign, 'AnnAssign')):
+        elif isinstance(node, (ast.AugAssign, ast.AnnAssign)):
             if isinstance(node.target, ast.Name) and node.target.id == '__all__':
                 return True
 
@@ -180,7 +180,7 @@ def find__all__(module):
             continue
 
         for el in node.value.elts:
-            if is_ast_node(el, ast.Str):
+            if is_constant_node(el, ast.Str):
                 names.append(el.s)
 
     return names

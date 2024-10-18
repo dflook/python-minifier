@@ -3,7 +3,7 @@ import sys
 import python_minifier.ast_compat as ast
 
 from python_minifier.token_printer import Delimiter, TokenPrinter
-from python_minifier.util import is_ast_node
+from python_minifier.util import is_constant_node
 
 
 class ExpressionPrinter(object):
@@ -69,7 +69,7 @@ class ExpressionPrinter(object):
 
         # Python2 parses negative ints as an ast.Num with a negative value.
         # Make sure the Num get the precedence of the USub operator in this case.
-        if sys.version_info < (3, 0) and is_ast_node(node, ast.Num):
+        if sys.version_info < (3, 0) and is_constant_node(node, ast.Num):
             if str(node.n)[0] == '-':
                 return self.precedences['USub']
 
@@ -208,7 +208,7 @@ class ExpressionPrinter(object):
     def visit_UnaryOp(self, node):
         self.visit(node.op)
 
-        if sys.version_info < (3, 0) and isinstance(node.op, ast.USub) and is_ast_node(node.operand, ast.Num):
+        if sys.version_info < (3, 0) and isinstance(node.op, ast.USub) and is_constant_node(node.operand, ast.Num):
             # For: -(1), which is parsed as a UnaryOp(USub, Num(1)).
             # Without this special case it would be printed as -1
             # This is fine, but python 2 will then parse it at Num(-1) so the AST wouldn't round-trip.
@@ -428,7 +428,7 @@ class ExpressionPrinter(object):
         value_precedence = self.precedence(node.value)
         attr_precedence = self.precedence(node)
 
-        if (value_precedence != 0 and (attr_precedence > value_precedence)) or is_ast_node(node.value, ast.Num):
+        if (value_precedence != 0 and (attr_precedence > value_precedence)) or is_constant_node(node.value, ast.Num):
             self.printer.delimiter('(')
             self._expression(node.value)
             self.printer.delimiter(')')
@@ -462,7 +462,7 @@ class ExpressionPrinter(object):
             self.visit_Slice(node.slice)
         elif isinstance(node.slice, ast.ExtSlice):
             self.visit_ExtSlice(node.slice)
-        elif is_ast_node(node.slice, ast.Ellipsis):
+        elif is_constant_node(node.slice, ast.Ellipsis):
             self.visit_Ellipsis(node)
         elif sys.version_info >= (3, 9) and isinstance(node.slice, ast.Tuple):
             self.visit_Tuple(node.slice)
@@ -649,7 +649,7 @@ class ExpressionPrinter(object):
         self._expression(node.body)
 
     def _expression(self, expression):
-        if is_ast_node(expression, (ast.Yield, 'YieldFrom')):
+        if isinstance(expression, (ast.Yield, ast.YieldFrom)):
             self.printer.delimiter('(')
             self._yield_expr(expression)
             self.printer.delimiter(')')
@@ -657,7 +657,7 @@ class ExpressionPrinter(object):
             self.printer.delimiter('(')
             self.visit_Tuple(expression)
             self.printer.delimiter(')')
-        elif is_ast_node(expression, 'NamedExpr'):
+        elif isinstance(expression, ast.NamedExpr):
             self.printer.delimiter('(')
             self.visit_NamedExpr(expression)
             self.printer.delimiter(')')
@@ -665,11 +665,11 @@ class ExpressionPrinter(object):
             self.visit(expression)
 
     def _testlist(self, test):
-        if is_ast_node(test, (ast.Yield, 'YieldFrom')):
+        if isinstance(test, (ast.Yield, ast.YieldFrom)):
             self.printer.delimiter('(')
             self._yield_expr(test)
             self.printer.delimiter(')')
-        elif is_ast_node(test, 'NamedExpr'):
+        elif isinstance(test, ast.NamedExpr):
             self.printer.delimiter('(')
             self.visit_NamedExpr(test)
             self.printer.delimiter(')')

@@ -1,7 +1,6 @@
 import python_minifier.ast_compat as ast
 
 from python_minifier.rename.util import arg_rename_in_place, insert
-from python_minifier.util import is_ast_node
 
 
 class Binding(object):
@@ -105,11 +104,11 @@ class Binding(object):
                     # Python 2 Param context
                     if not arg_rename_in_place(node):
                         arg_rename = True
-            elif is_ast_node(node, (ast.ClassDef, ast.FunctionDef, 'AsyncFunctionDef')):
+            elif isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
                 pass
             elif isinstance(node, ast.ExceptHandler):
                 pass
-            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
+            elif isinstance(node, (ast.Global, ast.Nonlocal)):
                 pass
             elif isinstance(node, ast.alias):
                 if node.asname is None:
@@ -119,22 +118,22 @@ class Binding(object):
                     pass
                 if node.kwarg == self._name:
                     pass
-            elif is_ast_node(node, 'arg'):
+            elif isinstance(node, ast.arg):
                 if not arg_rename_in_place(node):
                     arg_rename = True
 
-            elif is_ast_node(node, 'MatchAs'):
+            elif isinstance(node, ast.MatchAs):
                 if node.name is None:
                     additional_bytes += 4  # ' as '
-            elif is_ast_node(node, 'MatchStar'):
+            elif isinstance(node, ast.MatchStar):
                 pass
-            elif is_ast_node(node, 'MatchMapping'):
+            elif isinstance(node, ast.MatchMapping):
                 pass
-            elif is_ast_node(node, 'TypeVar'):
+            elif isinstance(node, ast.TypeVar):
                 pass
-            elif is_ast_node(node, 'TypeVarTuple'):
+            elif isinstance(node, ast.TypeVarTuple):
                 pass
-            elif is_ast_node(node, 'ParamSpec'):
+            elif isinstance(node, ast.ParamSpec):
                 pass
 
             else:
@@ -160,11 +159,11 @@ class Binding(object):
                         mentions += 1
                         arg_rename = True
 
-            elif is_ast_node(node, (ast.ClassDef, ast.FunctionDef, 'AsyncFunctionDef')):
+            elif isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
                 pass
             elif isinstance(node, ast.ExceptHandler):
                 pass
-            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
+            elif isinstance(node, (ast.Global, ast.Nonlocal)):
                 pass
             elif isinstance(node, ast.alias):
                 if node.asname is None:
@@ -172,22 +171,22 @@ class Binding(object):
                     mentions += 1
             elif isinstance(node, ast.arguments):
                 pass
-            elif is_ast_node(node, 'arg'):
+            elif isinstance(node, ast.arg):
                 if not arg_rename_in_place(node):
                     mentions += 1
                     arg_rename = True
 
-            elif is_ast_node(node, 'MatchAs'):
+            elif isinstance(node, ast.MatchAs):
                 pass
-            elif is_ast_node(node, 'MatchStar'):
+            elif isinstance(node, ast.MatchStar):
                 pass
-            elif is_ast_node(node, 'MatchMapping'):
+            elif isinstance(node, ast.MatchMapping):
                 pass
-            elif is_ast_node(node, 'TypeVar'):
+            elif isinstance(node, ast.TypeVar):
                 pass
-            elif is_ast_node(node, 'TypeVarTuple'):
+            elif isinstance(node, ast.TypeVarTuple):
                 pass
-            elif is_ast_node(node, 'ParamSpec'):
+            elif isinstance(node, ast.ParamSpec):
                 pass
 
             else:
@@ -210,11 +209,11 @@ class Binding(object):
                 else:
                     # Python 2 Param context
                     arg_rename = True
-            elif is_ast_node(node, (ast.ClassDef, ast.FunctionDef, 'AsyncFunctionDef')):
+            elif isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
                 mentions += 1
             elif isinstance(node, ast.ExceptHandler):
                 mentions += 1
-            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
+            elif isinstance(node, (ast.Global, ast.Nonlocal)):
                 mentions += len([n for n in node.names if n == self._name])
             elif isinstance(node, ast.alias):
                 mentions += 1
@@ -223,20 +222,20 @@ class Binding(object):
                     mentions += 1
                 if node.kwarg == self._name:
                     mentions += 1
-            elif is_ast_node(node, 'arg'):
+            elif isinstance(node, ast.arg):
                 arg_rename = True
 
-            elif is_ast_node(node, 'MatchAs'):
+            elif isinstance(node, ast.MatchAs):
                 mentions += 1
-            elif is_ast_node(node, 'MatchStar'):
+            elif isinstance(node, ast.MatchStar):
                 mentions += 1
-            elif is_ast_node(node, 'MatchMapping'):
+            elif isinstance(node, ast.MatchMapping):
                 mentions += 1
-            elif is_ast_node(node, 'TypeVar'):
+            elif isinstance(node, ast.TypeVar):
                 mentions += 1
-            elif is_ast_node(node, 'TypeVarTuple'):
+            elif isinstance(node, ast.TypeVarTuple):
                 mentions += 1
-            elif is_ast_node(node, 'ParamSpec'):
+            elif isinstance(node, ast.ParamSpec):
                 mentions += 1
 
             else:
@@ -362,7 +361,7 @@ class NameBinding(Binding):
                         else:
                             assert func_namespace_binding is node.namespace
 
-            elif is_ast_node(node, (ast.FunctionDef, 'AsyncFunctionDef')):
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 node.name = new_name
             elif isinstance(node, ast.ClassDef):
                 node.name = new_name
@@ -371,7 +370,7 @@ class NameBinding(Binding):
                     node.asname = None
                 else:
                     node.asname = new_name
-            elif is_ast_node(node, 'arg'):
+            elif isinstance(node, ast.arg):
 
                 if arg_rename_in_place(node):
                     node.arg = new_name
@@ -384,7 +383,7 @@ class NameBinding(Binding):
 
             elif isinstance(node, ast.ExceptHandler):
                 node.name = new_name
-            elif is_ast_node(node, (ast.Global, 'Nonlocal')):
+            elif isinstance(node, (ast.Global, ast.Nonlocal)):
                 node.names = [new_name if n == self._name else n for n in node.names]
             elif isinstance(node, ast.arguments):
 
@@ -398,17 +397,17 @@ class NameBinding(Binding):
                     node.kwarg = new_name
                     node.kwarg_renamed = True
 
-            elif is_ast_node(node, 'MatchAs'):
+            elif isinstance(node, ast.MatchAs):
                 node.name = new_name
-            elif is_ast_node(node, 'MatchStar'):
+            elif isinstance(node, ast.MatchStar):
                 node.name = new_name
-            elif is_ast_node(node, 'MatchMapping'):
+            elif isinstance(node, ast.MatchMapping):
                 node.rest = new_name
-            elif is_ast_node(node, 'TypeVar'):
+            elif isinstance(node, ast.TypeVar):
                 node.name = new_name
-            elif is_ast_node(node, 'TypeVarTuple'):
+            elif isinstance(node, ast.TypeVarTuple):
                 node.name = new_name
-            elif is_ast_node(node, 'ParamSpec'):
+            elif isinstance(node, ast.ParamSpec):
                 node.name = new_name
 
         if func_namespace_binding is not None:

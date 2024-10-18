@@ -1,14 +1,13 @@
 import python_minifier.ast_compat as ast
 
 
-def is_ast_node(node, types):
+def is_constant_node(node, types):
     """
     Is a node one of the specified node types
 
-    A node type may be an actual ast class, or a string naming one.
-    types is a single node type or an iterable of many.
+    A node type may be an actual ast class or a tuple of many.
 
-    If a node_type specified a specific Constant type (Str, Bytes, Num etc),
+    If types includes a specific Constant type (Str, Bytes, Num etc),
     returns true for Constant nodes of the correct type.
 
     :type node: ast.AST
@@ -20,29 +19,23 @@ def is_ast_node(node, types):
     if not isinstance(types, tuple):
         types = (types,)
 
-    actual_types = []
     for node_type in types:
-        if isinstance(node_type, str):
-            actual_type = getattr(ast, node_type, None)
-            if actual_type is not None:
-                actual_types.append(actual_type)
-        else:
-            actual_types.append(node_type)
+        assert not isinstance(node_type, str)
 
-    if isinstance(node, tuple(actual_types)):
+    if isinstance(node, types):
         return True
 
-    if hasattr(ast, 'Constant') and isinstance(node, ast.Constant):
+    if isinstance(node, ast.Constant):
         if type(node.value) in [type(None), type(True), type(False)]:
-            return ast.NameConstant in actual_types
+            return ast.NameConstant in types
         elif isinstance(node.value, (int, float, complex)):
-            return ast.Num in actual_types
+            return ast.Num in types
         elif isinstance(node.value, str):
-            return ast.Str in actual_types
+            return ast.Str in types
         elif isinstance(node.value, bytes):
-            return ast.Bytes in actual_types
+            return ast.Bytes in types
         elif node.value == Ellipsis:
-            return ast.Ellipsis in actual_types
+            return ast.Ellipsis in types
         else:
             raise RuntimeError('Unknown Constant value %r' % type(node.value))
 
