@@ -7,6 +7,7 @@ This assumes the standard NameAssigner and name_generator
 import ast
 
 from python_minifier import unparse
+from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.rename import add_namespace, allow_rename_globals, allow_rename_locals, bind_names, rename, resolve_names
 
@@ -14,6 +15,7 @@ from python_minifier.rename import add_namespace, allow_rename_globals, allow_re
 def do_rename(source):
     # This will raise if the source file can't be parsed
     module = ast.parse(source, 'test_rename_bultins')
+    add_parent(module)
     add_namespace(module)
     bind_names(module)
     resolve_names(module)

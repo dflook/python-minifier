@@ -7,6 +7,7 @@ a 'minified' representation of the same source code.
 import re
 
 import python_minifier.ast_compat as ast
+from python_minifier.ast_annotation import add_parent
 
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.module_printer import ModulePrinter
@@ -115,6 +116,7 @@ def minify(
     # This will raise if the source file can't be parsed
     module = ast.parse(source, filename)
 
+    add_parent(module)
     add_namespace(module)
 
     if remove_literal_statements:

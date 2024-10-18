@@ -2,6 +2,7 @@ import ast
 
 import pytest
 
+from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import compare_ast
 from python_minifier.rename import add_namespace, bind_names, resolve_names
 from python_minifier.transforms.remove_debug import RemoveDebug
@@ -10,6 +11,7 @@ from python_minifier.transforms.remove_debug import RemoveDebug
 def remove_debug(source):
     module = ast.parse(source, 'remove_debug')
 
+    add_parent(module)
     add_namespace(module)
     bind_names(module)
     resolve_names(module)

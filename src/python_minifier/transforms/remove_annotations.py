@@ -1,6 +1,7 @@
 import sys
 
 import python_minifier.ast_compat as ast
+from python_minifier.ast_annotation import get_parent
 
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.suite_transformer import SuiteTransformer
@@ -72,13 +73,13 @@ class RemoveAnnotations(SuiteTransformer):
             if sys.version_info < (3, 7):
                 return False
 
-            if not isinstance(node.parent, ast.ClassDef):
+            if not isinstance(get_parent(node), ast.ClassDef):
                 return False
 
-            if len(node.parent.decorator_list) == 0:
+            if len(get_parent(node).decorator_list) == 0:
                 return False
 
-            for decorator_node in node.parent.decorator_list:
+            for decorator_node in get_parent(node).decorator_list:
                 if isinstance(decorator_node, ast.Name) and decorator_node.id == 'dataclass':
                     return True
                 elif isinstance(decorator_node, ast.Attribute) and decorator_node.attr == 'dataclass':
@@ -94,15 +95,15 @@ class RemoveAnnotations(SuiteTransformer):
             if sys.version_info < (3, 5):
                 return False
 
-            if not isinstance(node.parent, ast.ClassDef):
+            if not isinstance(get_parent(node), ast.ClassDef):
                 return False
 
-            if len(node.parent.bases) == 0:
+            if len(get_parent(node).bases) == 0:
                 return False
 
             tricky_types = ['NamedTuple', 'TypedDict']
 
-            for base_node in node.parent.bases:
+            for base_node in get_parent(node).bases:
                 if isinstance(base_node, ast.Name) and base_node.id in tricky_types:
                     return True
                 elif isinstance(base_node, ast.Attribute) and base_node.attr in tricky_types:
@@ -111,7 +112,7 @@ class RemoveAnnotations(SuiteTransformer):
             return False
 
         # is this a class attribute or a variable?
-        if isinstance(node.parent, ast.ClassDef):
+        if isinstance(get_parent(node), ast.ClassDef):
             if not self._options.remove_class_attribute_annotations:
                 return node
         else:
@@ -121,11 +122,11 @@ class RemoveAnnotations(SuiteTransformer):
         if is_dataclass_field(node) or is_typing_sensitive(node):
             return node
         elif node.value:
-            return self.add_child(ast.Assign([node.target], node.value), parent=node.parent, namespace=node.namespace)
+            return self.add_child(ast.Assign([node.target], node.value), parent=get_parent(node), namespace=node.namespace)
         else:
             # Valueless annotations cause the interpreter to treat the variable as a local.
             # I don't know of another way to do that without assigning to it, so
             # keep it as an AnnAssign, but replace the annotation with '0'
 
-            node.annotation = self.add_child(ast.Num(0), parent=node.parent, namespace=node.namespace)
+            node.annotation = self.add_child(ast.Num(0), parent=get_parent(node), namespace=node.namespace)
             return node

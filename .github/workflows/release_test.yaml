@@ -188,7 +188,7 @@ jobs:
 
       - name: Test typing
         run: |
-          pip3.13 install mypy!=1.12.0 types-setuptools
+          pip3.13 install 'mypy<1.12.0' types-setuptools
           mypy --strict typing_test/test_typing.py
 
           if mypy --strict typing_test/test_badtyping.py; then

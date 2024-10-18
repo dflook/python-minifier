@@ -1,6 +1,7 @@
 import ast
 
 from helpers import print_namespace
+from python_minifier.ast_annotation import add_parent
 
 from python_minifier.ast_compare import compare_ast
 from python_minifier.rename import add_namespace, bind_names, resolve_names
@@ -8,6 +9,7 @@ from python_minifier.transforms.combine_imports import CombineImports
 
 
 def combine_imports(module):
+    add_parent(module)
     add_namespace(module)
     CombineImports()(module)
     return module
@@ -16,6 +18,7 @@ def combine_imports(module):
 def assert_namespace_tree(source, expected_tree):
     tree = ast.parse(source)
 
+    add_parent(tree)
     add_namespace(tree)
     CombineImports()(tree)
     bind_names(tree)
