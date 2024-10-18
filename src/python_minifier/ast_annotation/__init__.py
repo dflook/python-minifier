@@ -5,7 +5,7 @@ class NoParent(ast.AST):
 
 def add_parent(node, parent=NoParent()):
     # type: (ast.AST, ast.AST) -> None
-    node._parent = parent
+    node._parent = parent  # type: ignore[attr-defined]
     for child in ast.iter_child_nodes(node):
         add_parent(child, node)
 
@@ -13,8 +13,8 @@ def get_parent(node):
     # type: (ast.AST) -> ast.AST
     if isinstance(node, NoParent):
         raise ValueError('Node has no parent')
-    return node._parent
+    return node._parent  # type: ignore[attr-defined]
 
 def set_parent(node, parent):
     # type: (ast.AST, ast.AST) -> None
-    node._parent = parent
+    node._parent = parent  # type: ignore[attr-defined]
