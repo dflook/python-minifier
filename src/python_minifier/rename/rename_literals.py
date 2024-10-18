@@ -1,4 +1,5 @@
 import python_minifier.ast_compat as ast
+from python_minifier.ast_annotation import get_parent, set_parent
 
 from python_minifier.rename.binding import Binding
 from python_minifier.rename.util import insert
@@ -7,8 +8,8 @@ from python_minifier.util import is_constant_node
 
 
 def replace(old_node, new_node):
-    parent = old_node.parent
-    new_node.parent = parent
+    parent = get_parent(old_node)
+    set_parent(new_node, parent)
     new_node.namespace = old_node.namespace
 
     for field, old_value in ast.iter_fields(parent):
@@ -202,7 +203,7 @@ class HoistLiterals(NodeVisitor):
 
     def visit_Str(self, node):
 
-        if isinstance(node.parent, ast.Expr):
+        if isinstance(get_parent(node), ast.Expr):
             # This is literal statement
             # The RemoveLiteralStatements transformer must have left it here, so ignore it.
             return
