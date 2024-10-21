@@ -10,6 +10,7 @@ import sys
 import pytest
 
 from python_minifier import unparse
+from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.rename import add_namespace, allow_rename_globals, allow_rename_locals, bind_names, rename, resolve_names
 
@@ -18,6 +19,7 @@ def rename_locals(source):
 
     # This will raise if the source file can't be parsed
     module = ast.parse(source, 'test_rename_locals')
+    add_parent(module)
     add_namespace(module)
     bind_names(module)
     resolve_names(module)

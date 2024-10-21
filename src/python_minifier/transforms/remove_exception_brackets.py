@@ -11,6 +11,7 @@ We can't generally know if a name refers to an exception, so we only do this for
 import sys
 
 import python_minifier.ast_compat as ast
+from python_minifier.ast_annotation import get_parent, set_parent
 
 from python_minifier.rename.binding import BuiltinBinding
 
@@ -84,15 +85,15 @@ def _remove_empty_call(binding):
         assert isinstance(name_node, ast.Name)
         assert isinstance(name_node.ctx, ast.Load)
 
-        if not isinstance(name_node.parent, ast.Call):
+        if not isinstance(get_parent(name_node), ast.Call):
             # This is not a call
             continue
-        call_node = name_node.parent
+        call_node = get_parent(name_node)
 
-        if not isinstance(call_node.parent, ast.Raise):
+        if not isinstance(get_parent(call_node), ast.Raise):
             # This is not a raise statement
             continue
-        raise_node = call_node.parent
+        raise_node = get_parent(call_node)
 
         if len(call_node.args) > 0 or len(call_node.keywords) > 0:
             # This is a call with arguments
@@ -105,7 +106,7 @@ def _remove_empty_call(binding):
             raise_node.exc = name_node
         elif raise_node.cause is call_node:
             raise_node.cause = name_node
-        name_node.parent = raise_node
+        set_parent(name_node, raise_node)
 
 
 def remove_no_arg_exception_call(module):

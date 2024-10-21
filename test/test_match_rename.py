@@ -4,6 +4,7 @@ import sys
 import pytest
 
 from python_minifier import unparse
+from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import CompareError, compare_ast
 from python_minifier.rename import (
     add_namespace,
@@ -19,6 +20,7 @@ from python_minifier.rename import (
 def do_rename(source, allow_locals, allow_globals):
     # This will raise if the source file can't be parsed
     module = ast.parse(source, 'test_match_rename')
+    add_parent(module)
     add_namespace(module)
     bind_names(module)
     resolve_names(module)
