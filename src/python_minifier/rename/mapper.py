@@ -112,10 +112,27 @@ def add_parent_to_comprehension(node, namespace):
 
         add_parent(generator.target, namespace=node)
         add_parent(generator.iter, namespace=iter_namespace)
-        iter_namespace = node
+
         for if_ in generator.ifs:
             add_parent(if_, namespace=node)
 
+        iter_namespace = node
+
+def namedexpr_namespace(node):
+    """
+    Get the namespace for a NamedExpr target
+    """
+
+    if not isinstance(node, (ast.ListComp, ast.DictComp, ast.SetComp, ast.GeneratorExp)):
+        return node
+
+    return namedexpr_namespace(node.namespace)
+
+def add_parent_to_namedexpr(node):
+    assert isinstance(node, ast.NamedExpr)
+
+    add_parent(node.target, namespace=namedexpr_namespace(node.namespace))
+    add_parent(node.value, namespace=node.namespace)
 
 def add_parent(node, namespace=None):
     """
@@ -160,6 +177,11 @@ def add_parent(node, namespace=None):
             namespace.nonlocal_names.add(node.id)
         elif isinstance(node.ctx, ast.Store) and isinstance(get_parent(node), ast.AugAssign):
             namespace.nonlocal_names.add(node.id)
+
+    if isinstance(node, ast.NamedExpr):
+        # NamedExpr is 'special'
+        add_parent_to_namedexpr(node)
+        return
 
     for child in ast.iter_child_nodes(node):
         add_parent(child, namespace=namespace)

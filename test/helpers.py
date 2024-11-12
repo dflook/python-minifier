@@ -43,7 +43,7 @@ def print_namespace(namespace, indent=''):
     for name in sorted(namespace.nonlocal_names):
         s += indent + '  - nonlocal ' + name + '\n'
 
-    for binding in sorted(namespace.bindings, key=lambda b: b.name):
+    for binding in sorted(namespace.bindings, key=lambda b: b.name or str(b.value)):
         s += indent + '  - ' + repr(binding) + '\n'
 
     for child in iter_child_namespaces(namespace):

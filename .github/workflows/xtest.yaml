@@ -32,7 +32,6 @@ jobs:
         with:
           image: danielflook/python-minifier-build:${{ matrix.python }}-2024-09-15
           run: |
-            exit 0
             
             if [[ "${{ matrix.python }}" == "python3.4" ]]; then
               (cd /usr/lib64/python3.4/test && python3.4 make_ssl_certs.py)
