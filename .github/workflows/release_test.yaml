@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: 1
           show-progress: false
+          persist-credentials: false
 
       - name: Set version statically
         run: |
