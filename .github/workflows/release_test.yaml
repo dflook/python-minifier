@@ -14,11 +14,10 @@ jobs:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          show-progress: false
 
       - name: Set version statically
         run: |
@@ -37,14 +36,14 @@ jobs:
           echo "wheel=$(find dist -name '*-py3-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
       - name: Upload sdist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: dist-sdist
           path: dist/${{ steps.package.outputs.sdist }}
           if-no-files-found: error
 
       - name: Upload Python 3 wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: dist-py3-wheel
           path: dist/${{ steps.package.outputs.wheel }}
@@ -60,21 +59,23 @@ jobs:
       image: danielflook/python-minifier-build:python2.7-2024-09-15
     steps:
       - name: Download source distribution artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           name: dist-sdist
           path: dist/
 
       - name: Build Python 2 wheel
         id: package
+        env:
+          PYTHON3_SDIST: ${{ needs.package_python3.outputs.sdist }}
         run: |
           dnf install -y findutils
           pip install --upgrade wheel
-          pip wheel dist/${{ needs.package_python3.outputs.sdist }} -w dist
+          pip wheel "dist/$PYTHON3_SDIST" -w dist
           echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
       - name: Upload Python 2 wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: dist-py2-wheel
           path: dist/${{ steps.package.outputs.wheel }}
@@ -87,22 +88,25 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.1.8
         with:
           name: dist-sdist
           path: dist/
 
       - name: Install package
+        env:
+          PYTHON3_SDIST: ${{ needs.package_python3.outputs.sdist }}
         run: |
-          pip3 install dist/${{needs.package_python3.outputs.sdist}}
+          pip3 install "dist/$PYTHON3_SDIST"
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          fetch-tags: true
+          show-progress: false
+          persist-credentials: false
 
       - name: Build documentation
         run: |
@@ -120,18 +124,19 @@ jobs:
         package_type: [sdist, wheel]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          fetch-tags: true
+          show-progress: false
+          persist-credentials: false
 
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           pattern: dist-*
           path: dist/
-          merge-multiple: 'true'
+          merge-multiple: true
 
       - name: Test
         uses: ./.github/actions/run-in-container
@@ -165,26 +170,30 @@ jobs:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           pattern: dist-*
           path: dist/
-          merge-multiple: 'true'
+          merge-multiple: true
 
       - name: Install package
+        env:
+          PYTHON3_SDIST: ${{ needs.package_python3.outputs.sdist }}
+          PYTHON3_WHEEL: ${{ needs.package_python3.outputs.wheel }}
         run: |
           if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
-            pip3.13 install dist/${{needs.package_python3.outputs.sdist}}
+            pip3.13 install "dist/$PYTHON3_SDIST"
           else
-            pip3.13 install dist/${{needs.package_python3.outputs.wheel}}
+            pip3.13 install "dist/$PYTHON3_WHEEL"
           fi
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          fetch-tags: true
+          show-progress: false
+          persist-credentials: false
 
       - name: Test typing
         run: |

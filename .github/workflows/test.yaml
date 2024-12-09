@@ -13,11 +13,11 @@ jobs:
         python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "pypy", "pypy3"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          show-progress: false
+          persist-credentials: false
 
       - name: Set version statically
         run: |

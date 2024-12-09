@@ -18,6 +18,8 @@ jobs:
       image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
     steps:
       - name: Test
+        env:
+          VERSION: ${{ inputs.version }}
         run: |
-          pip${{ matrix.python }} install python-minifier==${{ inputs.version }}
+          pip${{ matrix.python }} install "python-minifier==$VERSION"
           pyminify --version

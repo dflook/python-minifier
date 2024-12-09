@@ -48,21 +48,23 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout workflow ref
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          show-progress: 'false'
+          show-progress: false
           path: workflow
+          persist-credentials: false
 
       - name: Checkout ref
         id: checkout-ref
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          fetch-tags: true
+          show-progress: false
           ref: ${{ matrix.ref }}
           path: python-minifier
+          persist-credentials: false
 
       - name: Run tests
         uses: dflook/run-in-container@main
@@ -106,31 +108,34 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout workflow ref
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.2
         with:
           path: workflow
           fetch-depth: 1
-          show-progress: 'false'
+          show-progress: false
+          persist-credentials: false
 
       - name: Checkout ref
         id: ref
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ inputs.ref }}
           path: python-minifier
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          fetch-tags: true
+          show-progress: false
+          persist-credentials: false
 
       - name: Checkout base ref
         id: base-ref
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ inputs.base-ref }}
           path: python-minifier-base
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          fetch-tags: true
+          show-progress: false
+          persist-credentials: false
 
       - name: Generate Report
         uses: dflook/run-in-container@main

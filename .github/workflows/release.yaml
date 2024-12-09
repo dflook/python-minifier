@@ -20,14 +20,16 @@ jobs:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          show-progress: 'false'
+          show-progress: false
+          persist-credentials: false
 
       - name: Set version statically
+        env:
+          VERSION: ${{ github.event.release.tag_name }}
         run: |
-          VERSION=${{ github.event.release.tag_name }}
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
           echo "Version: $VERSION"
 
@@ -41,14 +43,14 @@ jobs:
           echo "wheel=$(find dist -name '*-py3-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
       - name: Upload sdist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: dist-sdist
           path: dist/${{ steps.package.outputs.sdist }}
           if-no-files-found: error
 
       - name: Upload Python 3 wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: dist-py3-wheel
           path: dist/${{ steps.package.outputs.wheel }}
@@ -64,21 +66,23 @@ jobs:
       image: danielflook/python-minifier-build:python2.7-2024-09-15
     steps:
       - name: Download source distribution artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           name: dist-sdist
           path: dist/
 
       - name: Build Python 2 wheel
         id: package
+        env:
+          PYTHON3_SDIST: ${{ needs.package_python3.outputs.sdist }}
         run: |
           dnf install -y findutils
           pip install --upgrade wheel
-          pip wheel dist/${{ needs.package_python3.outputs.sdist }} -w dist
+          pip wheel dist/"$PYTHON3_SDIST" -w dist
           echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
       - name: Upload Python 2 wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: dist-py2-wheel
           path: dist/${{ steps.package.outputs.wheel }}
@@ -91,21 +95,24 @@ jobs:
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.1.8
         with:
           name: dist-sdist
           path: dist/
 
       - name: Install package
+        env:
+          PYTHON3_SDIST: ${{ needs.package_python3.outputs.sdist }}
         run: |
-          pip3 install dist/${{needs.package_python3.outputs.sdist}}
+          pip3 install dist/"$PYTHON3_SDIST"
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          show-progress: 'false'
+          show-progress: false
+          persist-credentials: false
 
       - name: Build documentation
         run: |
@@ -113,7 +120,7 @@ jobs:
           sphinx-build docs/source /tmp/build
 
       - name: Upload documentation artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: /tmp/build
 
@@ -130,14 +137,14 @@ jobs:
       url: https://pypi.org/project/python-minifier/${{ github.event.release.tag_name }}
     steps:
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           pattern: dist-*
           path: dist/
-          merge-multiple: 'true'
+          merge-multiple: true
 
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.10.1
+        uses: pypa/gh-action-pypi-publish@v1.12.3
         with:
           print-hash: true
           verbose: true
@@ -156,4 +163,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4.0.5

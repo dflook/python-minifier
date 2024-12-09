@@ -16,11 +16,11 @@ jobs:
         run: rm -rf "$GITHUB_WORKSPACE/*"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
-          fetch-tags: 'true'
-          show-progress: 'false'
+          show-progress: false
+          persist-credentials: false
 
       - name: Set version statically
         run: |
