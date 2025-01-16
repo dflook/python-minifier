@@ -32,6 +32,8 @@ from python_minifier.transforms.remove_literal_statements import RemoveLiteralSt
 from python_minifier.transforms.remove_object_base import RemoveObject
 from python_minifier.transforms.remove_pass import RemovePass
 from python_minifier.transforms.remove_posargs import remove_posargs
+from python_minifier.transforms.remove_unused_platform_options import RemoveUnusedPlatformOptions
+from python_minifier.transforms.remove_unused_platforms import RemoveUnusedPlatforms
 
 
 class UnstableMinification(RuntimeError):
@@ -72,12 +74,13 @@ def minify(
     remove_debug=False,
     remove_explicit_return_none=True,
     remove_builtin_exception_brackets=True,
-    constant_folding=True
+    constant_folding=True,
+    remove_unused_platforms=RemoveUnusedPlatformOptions(),
 ):
     """
     Minify a python module
 
-    The module is transformed according the the arguments.
+    The module is transformed according the arguments.
     If all transformation arguments are False, no transformations are made to the AST, the returned string will
     parse into exactly the same module.
 
@@ -106,7 +109,8 @@ def minify(
     :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
     :param bool remove_builtin_exception_brackets: If brackets should be removed when raising exceptions with no arguments
     :param bool constant_folding: If literal expressions should be evaluated
-
+    :param remove_unused_platforms: If top level platform masking blocks can be removed.
+    :type remove_unused_platforms: bool or RemoveUnusedPlatformOptions
     :rtype: str
 
     """
@@ -157,6 +161,20 @@ def minify(
 
     if constant_folding:
         module = FoldConstants()(module)
+
+    if isinstance(remove_unused_platforms, bool):
+        remove_unused_platforms_options = RemoveUnusedPlatformOptions(
+            platform_test_key=RemoveUnusedPlatformOptions.platform_test_key,
+            platform_preserve_value=RemoveUnusedPlatformOptions.platform_preserve_value,
+        )
+    elif isinstance(remove_unused_platforms, RemoveUnusedPlatformOptions):
+        remove_unused_platforms_options = remove_unused_platforms
+    else:
+        raise TypeError('remove_unused_platforms must be a bool or RemoveUnusedPlatformOptions')
+
+    if remove_unused_platforms_options:
+        module = RemoveUnusedPlatforms(remove_unused_platforms_options)(module)
+
 
     bind_names(module)
     resolve_names(module)
