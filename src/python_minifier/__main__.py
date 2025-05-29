@@ -53,7 +53,7 @@ examples:
         source = sys.stdin.buffer.read() if sys.version_info >= (3, 0) else sys.stdin.read()
         minified = do_minify(source, 'stdin', args)
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, 'w', encoding='utf-8') as f:
                 f.write(minified)
         else:
             sys.stdout.write(minified)
@@ -64,16 +64,17 @@ examples:
             if args.output or args.in_place:
                 sys.stdout.write(path + '\n')
 
+            # mode 'rb' doesn't need utf-8
             with open(path, 'rb') as f:
                 source = f.read()
 
             minified = do_minify(source, path, args)
 
             if args.in_place:
-                with open(path, 'w') as f:
+                with open(path, 'w', encoding='utf-8') as f:
                     f.write(minified)
             elif args.output:
-                with open(args.output, 'w') as f:
+                with open(args.output, 'w', encoding='utf-8') as f:
                     f.write(minified)
             else:
                 sys.stdout.write(minified)
