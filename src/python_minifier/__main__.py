@@ -7,6 +7,27 @@ import sys
 from python_minifier import minify
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 
+# Python 2.7 compatibility for UTF-8 file writing
+if sys.version_info[0] == 2:
+    import codecs
+    def open_utf8(filename, mode):
+        return codecs.open(filename, mode, encoding='utf-8')
+else:
+    def open_utf8(filename, mode):
+        return open(filename, mode, encoding='utf-8')
+
+def safe_stdout_write(text):
+    """Write text to stdout with proper encoding handling."""
+    try:
+        sys.stdout.write(text)
+    except UnicodeEncodeError:
+        # Fallback: encode to UTF-8 and write to stdout.buffer (Python 3) or sys.stdout (Python 2)
+        if sys.version_info[0] >= 3 and hasattr(sys.stdout, 'buffer'):
+            sys.stdout.buffer.write(text.encode('utf-8'))
+        else:
+            # Python 2.7 or no buffer attribute - write UTF-8 encoded bytes
+            sys.stdout.write(text.encode('utf-8'))
+
 
 if sys.version_info >= (3, 8):
     from importlib import metadata
@@ -53,10 +74,10 @@ examples:
         source = sys.stdin.buffer.read() if sys.version_info >= (3, 0) else sys.stdin.read()
         minified = do_minify(source, 'stdin', args)
         if args.output:
-            with open(args.output, 'w') as f:
+            with open_utf8(args.output, 'w') as f:
                 f.write(minified)
         else:
-            sys.stdout.write(minified)
+            safe_stdout_write(minified)
 
     else:
         # minify source paths
@@ -70,13 +91,13 @@ examples:
             minified = do_minify(source, path, args)
 
             if args.in_place:
-                with open(path, 'w') as f:
+                with open_utf8(path, 'w') as f:
                     f.write(minified)
             elif args.output:
-                with open(args.output, 'w') as f:
+                with open_utf8(args.output, 'w') as f:
                     f.write(minified)
             else:
-                sys.stdout.write(minified)
+                safe_stdout_write(minified)
 
 
 def parse_args():

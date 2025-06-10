@@ -30,3 +30,40 @@ jobs:
           image: danielflook/python-minifier-build:${{ matrix.python }}-2024-09-15
           run: |
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .)
+
+  test-windows:
+    name: Test Windows
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set version statically
+        shell: powershell
+        run: |
+          $content = Get-Content setup.py
+          $content = $content -replace "setup_requires=.*", "version='0.0.0',"
+          $content = $content -replace "use_scm_version=.*", ""
+          Set-Content setup.py $content
+
+      - name: Install tox
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox
+
+      - name: Run tests
+        run: |
+          tox -c tox-windows.ini -r -e ${{ matrix.python-version }}

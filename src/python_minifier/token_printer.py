@@ -91,13 +91,21 @@ class TokenPrinter(object):
         self._prefer_single_line = prefer_single_line
         self._allow_invalid_num_warnings = allow_invalid_num_warnings
 
-        self._code = ''
+        # Initialize as unicode string on Python 2.7 to handle Unicode content
+        if sys.version_info[0] < 3:
+            self._code = u''
+        else:
+            self._code = ''
         self.indent = 0
         self.unicode_literals = False
         self.previous_token = TokenTypes.NoToken
 
     def __str__(self):
         """Return the output code."""
+        return self._code
+    
+    def __unicode__(self):
+        """Return the output code as unicode (for Python 2.7 compatibility)."""
         return self._code
 
     def identifier(self, name):
