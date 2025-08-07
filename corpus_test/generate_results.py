@@ -50,6 +50,10 @@ def minify_corpus_entry(corpus_path, corpus_entry):
         # Source is too deep
         result.outcome = 'RecursionError'
 
+    except ValueError:
+        # Source is not valid Python
+        result.outcome = 'ValueError'
+
     except SyntaxError:
         # Source not valid for this version of Python
         result.outcome = 'SyntaxError'

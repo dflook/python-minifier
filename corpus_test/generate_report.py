@@ -49,7 +49,7 @@ class ResultSet:
             self.recursion_error_count += 1
         elif result.outcome == 'UnstableMinification':
             self.unstable_minification_count += 1
-        elif result.outcome.startswith('Exception'):
+        elif result.outcome.startswith('Exception') and result.outcome != 'Exception: source code string cannot contain null bytes':
             self.exception_count += 1
 
     @property
