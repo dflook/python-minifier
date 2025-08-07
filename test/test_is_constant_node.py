@@ -7,6 +7,11 @@ import ast
 from python_minifier.util import is_constant_node
 
 
+@pytest.mark.filterwarnings("ignore:ast.Str is deprecated:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:ast.Bytes is deprecated:DeprecationWarning") 
+@pytest.mark.filterwarnings("ignore:ast.Num is deprecated:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:ast.NameConstant is deprecated:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:ast.Ellipsis is deprecated:DeprecationWarning")
 def test_type_nodes():
     assert is_constant_node(ast.Str('a'), ast.Str)
 
@@ -28,6 +33,11 @@ def test_type_nodes():
     assert is_constant_node(ast.Ellipsis(), ast.Ellipsis)
 
 
+@pytest.mark.filterwarnings("ignore:ast.Str is deprecated:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:ast.Bytes is deprecated:DeprecationWarning") 
+@pytest.mark.filterwarnings("ignore:ast.Num is deprecated:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:ast.NameConstant is deprecated:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:ast.Ellipsis is deprecated:DeprecationWarning")
 def test_constant_nodes():
     # only test on python 3.8+
     if sys.version_info < (3, 8):
