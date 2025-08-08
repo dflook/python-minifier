@@ -33,11 +33,11 @@ jobs:
 
   test-windows:
     name: Test Windows
-    runs-on: windows-latest
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -47,7 +47,14 @@ jobs:
           persist-credentials: false
 
       - name: Set up Python
+        if: ${{ matrix.python-version != '2.7' }}
         uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Python
+        if: ${{ matrix.python-version == '2.7' }}
+        uses: LizardByte/actions/actions/setup_python@eddc8fc8b27048e25040e37e3585bd3ef9a968ed  # master
         with:
           python-version: ${{ matrix.python-version }}
 
