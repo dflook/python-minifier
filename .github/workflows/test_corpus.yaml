@@ -45,7 +45,7 @@ jobs:
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     steps:
       - name: Clear workspace
-        run: rm -rf "$GITHUB_WORKSPACE/*"
+        run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout workflow ref
         uses: actions/checkout@v4.2.2
@@ -105,7 +105,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Clear workspace
-        run: rm -rf "$GITHUB_WORKSPACE/*"
+        run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout workflow ref
         uses: actions/checkout@v4.2.2

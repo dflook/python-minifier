@@ -74,3 +74,19 @@ jobs:
       - name: Run tests
         run: |
           tox -c tox-windows.ini -r -e ${{ matrix.python-version }}
+
+  lint:
+    runs-on: ubuntu-24.04
+    name: Linting
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Actions workflows
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint
