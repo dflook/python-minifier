@@ -101,3 +101,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           uvx zizmor --format plain .
+
+      - name: Lint CHANGELOG
+        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        with:
+          config: '.config/changelog.markdownlint.yaml'
+          globs: 'CHANGELOG.md'
+
+      - name: Lint Other Markdown
+        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        with:
+          config: '.config/.markdownlint.yaml'
+          globs: |
+            **/README.md

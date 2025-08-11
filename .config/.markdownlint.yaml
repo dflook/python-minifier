@@ -1,0 +1,5 @@
+line-length:
+  line_length: 200
+  tables: false
+no-hard-tabs: false
+commands-show-output: false

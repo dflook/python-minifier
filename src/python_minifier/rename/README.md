@@ -2,7 +2,7 @@
 
 We can save bytes by shortening the names used in a python program.
 
-One simple way to do this is to replace each unique name in a module with a shorter one. 
+One simple way to do this is to replace each unique name in a module with a shorter one.
 This will probably exhaust the available single character names, so is not as efficient as it could be.
 Also, not all names can be safely changed this way.
 
@@ -22,6 +22,7 @@ Namespaces in python are introduced by Modules, Functions, Comprehensions, Gener
 The AST node that introduces a new namespace is called a 'namespace node'.
 
 These attributes are added to namespace nodes:
+
 - Bindings - A list of Bindings local to this namespace, populated by the Bind names step
 - Globals - A list of global names in this namespace
 - Nonlocals - A list of nonlocal names in this namespace
@@ -50,6 +51,7 @@ The node is added to the NameBinding as a reference.
 If the name is nonlocal in its namespace it does not create a binding.
 
 Nodes that create a binding:
+
 - FunctionDef nodes bind their name
 - ClassDef nodes bind their name
 - arg nodes bind their arg
@@ -68,10 +70,10 @@ If a name is nonlocal in a searched namespace, skip to the next parent namespace
 When traversing parent namespaces, Class namespaces are skipped.
 
 If a NameBinding is found, add the node as a reference.
-If no NameBinding is found, check if the name would resolve to a builtin. 
+If no NameBinding is found, check if the name would resolve to a builtin.
 If so, create a BuiltinBinding in the module namespace and add this node as a reference.
 
-Otherwise we failed to find a binding for this name - Create a NameBinding in the module namespace and add this node 
+Otherwise we failed to find a binding for this name - Create a NameBinding in the module namespace and add this node
 as a reference.
 
 ## Hoist Literals
@@ -84,7 +86,8 @@ to introduce new names.
 Collect all bindings in the module and sort by estimated byte savings
 
 For each binding:
- - Determine it's 'reservation scope', which is the set of namespaces that name is referenced in (and all namespaces between them)
- - Get the next available name that is unassigned and unreserved in all namespaces in the reservation scope.
- - Check if we should proceed with the rename - is it space efficient to do this rename, or has the original name been assigned somewhere else?
- - Rename the binding, rename all referenced nodes to the new name, and record this name as assigned in every namespace of the reservation scope.
+
+- Determine it's 'reservation scope', which is the set of namespaces that name is referenced in (and all namespaces between them)
+- Get the next available name that is unassigned and unreserved in all namespaces in the reservation scope.
+- Check if we should proceed with the rename - is it space efficient to do this rename, or has the original name been assigned somewhere else?
+- Rename the binding, rename all referenced nodes to the new name, and record this name as assigned in every namespace of the reservation scope.

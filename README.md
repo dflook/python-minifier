@@ -93,7 +93,7 @@ def handler(event,context):
 
 ## Why?
 
-AWS Cloudformation templates may have AWS lambda function source code embedded in them, but only if the function is less 
+AWS Cloudformation templates may have AWS lambda function source code embedded in them, but only if the function is less
 than 4KiB. I wrote this package so I could write python normally and still embed the module in a template.
 
 ## Installation
