@@ -144,4 +144,11 @@ jobs:
           volumes: |
             /corpus-results:/corpus-results
           run: |
-            python3.13 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} ${{ steps.ref.outputs.commit }} ${{ inputs.base-ref }} ${{ steps.base-ref.outputs.commit }} >> $GITHUB_STEP_SUMMARY
+            python3.13 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} ${{ steps.ref.outputs.commit }} ${{ inputs.base-ref }} ${{ steps.base-ref.outputs.commit }} | tee -a $GITHUB_STEP_SUMMARY > report.md
+
+      - name: Lint Report
+        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        continue-on-error: true
+        with:
+          config: '.config/corpus_report.markdownlint.yaml'
+          globs: 'report.md'
