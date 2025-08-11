@@ -20,9 +20,11 @@ runs:
     - name: Run command
       env:
         INPUT_VOLUMES: ${{ inputs.volumes }}
+        INPUT_IMAGE: ${{ inputs.image }}
+        INPUT_RUN: ${{ inputs.run }}
       run: |
 
-        docker pull --quiet ${{ inputs.image }}
+        docker pull --quiet ${INPUT_IMAGE}
         
         function run() {
           docker run --rm \
@@ -83,7 +85,7 @@ runs:
           -e GITHUB_WORKFLOW_SHA \
           $VOLUMES_ARGS \
           --entrypoint /bin/bash \
-          ${{ inputs.image }} \
+          ${INPUT_IMAGE} \
           --noprofile --norc -eo pipefail /run.sh
 
         }
@@ -111,7 +113,7 @@ runs:
         fi
 
         cat <<"EOF" >"$RUNNER_TEMP/run.sh"
-        ${{ inputs.run }}
+        ${INPUT_RUN}
         EOF
         
         set -x
