@@ -8,6 +8,9 @@ concurrency:
   group: release
   cancel-in-progress: false
 
+permissions:
+  contents: none
+
 jobs:
 
   package_python3:
@@ -18,6 +21,8 @@ jobs:
         wheel: ${{ steps.package.outputs.wheel }}
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -94,6 +99,8 @@ jobs:
     needs: [package_python3]
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
+    permissions:
+      contents: read
     steps:
       - uses: actions/download-artifact@v4.1.8
         with:
@@ -144,7 +151,7 @@ jobs:
           merge-multiple: true
 
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.12.3
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc  # v1.12.4
         with:
           print-hash: true
           verbose: true

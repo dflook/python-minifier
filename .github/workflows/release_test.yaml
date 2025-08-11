@@ -2,6 +2,9 @@ name: Release Test
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
 
   package_python3:

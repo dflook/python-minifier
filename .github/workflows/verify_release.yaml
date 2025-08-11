@@ -8,8 +8,12 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: none
+
 jobs:
   test_package:
+    name: Test Package
     runs-on: ubuntu-24.04
     strategy:
       matrix:
