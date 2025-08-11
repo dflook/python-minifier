@@ -9,6 +9,33 @@ from result import Result, ResultReader
 
 ENHANCED_REPORT = os.environ.get('ENHANCED_REPORT', True)
 
+def is_recursion_error(python_version: str, result: Result) -> bool:
+    """
+    Check if the result is a recursion error
+    """
+    if result.outcome == 'RecursionError':
+        return True
+
+    if python_version in ['2.7', '3.3', '3.4']:
+        # In these versions, the recursion error is raised as an Exception
+        return result.outcome.startswith('Exception: maximum recursion depth exceeded')
+
+    return False
+
+def is_syntax_error(python_version: str, result: Result) -> bool:
+    """
+    Check if the result is a syntax error
+    """
+    if result.outcome == 'SyntaxError':
+        return True
+
+    if python_version == '2.7' and result.outcome == 'Exception: compile() expected string without null bytes':
+        return True
+
+    if python_version != '2.7' and result.outcome == 'Exception: source code string cannot contain null bytes':
+        return True
+
+    return False
 
 @dataclass
 class ResultSet:
@@ -45,11 +72,11 @@ class ResultSet:
             if result.original_size < result.minified_size:
                 self.larger_than_original_count += 1
 
-        if result.outcome == 'RecursionError':
+        if is_recursion_error(self.python_version, result):
             self.recursion_error_count += 1
         elif result.outcome == 'UnstableMinification':
             self.unstable_minification_count += 1
-        elif result.outcome.startswith('Exception') and result.outcome != 'Exception: source code string cannot contain null bytes':
+        elif result.outcome.startswith('Exception') is not is_syntax_error(self.python_version, result):
             self.exception_count += 1
 
     @property
