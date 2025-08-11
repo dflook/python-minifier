@@ -1,0 +1,3 @@
+# Markdownlint configuration for corpus test reports
+# Disable line length rule since tables naturally exceed 80 characters
+MD013: false

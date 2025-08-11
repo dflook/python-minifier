@@ -1,6 +1,6 @@
 import ast
 
-from typing import Any, AnyStr, List, Optional, Text, Union
+from typing import Any, List, Optional, Text, Union
 
 from .transforms.remove_annotations_options import RemoveAnnotationsOptions as RemoveAnnotationsOptions
 
@@ -10,7 +10,7 @@ class UnstableMinification(RuntimeError):
 
 
 def minify(
-    source: AnyStr,
+    source: Union[str, bytes],
     filename: Optional[str] = ...,
     remove_annotations: Union[bool, RemoveAnnotationsOptions] = ...,
     remove_pass: bool = ...,
@@ -36,7 +36,7 @@ def unparse(module: ast.Module) -> Text: ...
 
 
 def awslambda(
-    source: AnyStr,
+    source: Union[str, bytes],
     filename: Optional[Text] = ...,
     entrypoint: Optional[Text] = ...
 ) -> Text: ...

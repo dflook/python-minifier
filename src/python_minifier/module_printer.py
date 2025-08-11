@@ -28,11 +28,15 @@ class ModulePrinter(ExpressionPrinter):
         assert isinstance(module, ast.Module)
 
         self.visit_Module(module)
-        return str(self.printer).rstrip('\n' + self.indent_char + ';')
+        # On Python 2.7, preserve unicode strings to avoid encoding issues
+        code = unicode(self.printer) if sys.version_info[0] < 3 else str(self.printer)
+        return code.rstrip('\n' + self.indent_char + ';')
 
     @property
     def code(self):
-        return str(self.printer).rstrip('\n' + self.indent_char + ';')
+        # On Python 2.7, preserve unicode strings to avoid encoding issues
+        code = unicode(self.printer) if sys.version_info[0] < 3 else str(self.printer)
+        return code.rstrip('\n' + self.indent_char + ';')
 
     # region Simple Statements
 
