@@ -6,7 +6,7 @@ jobs:
 
   package_python3:
     name: Create sdist and Python 3 Wheel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
         sdist: ${{ steps.package.outputs.sdist }}
         wheel: ${{ steps.package.outputs.wheel }}
@@ -52,7 +52,7 @@ jobs:
 
   package_python2:
     name: Create Python 2 Wheel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [package_python3]
     outputs:
         wheel: ${{ steps.package.outputs.wheel }}
@@ -84,7 +84,7 @@ jobs:
 
   documentation:
     name: Test Documentation
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [package_python3]
     container:
       image: danielflook/python-minifier-build:python3.13-2024-09-15
@@ -116,7 +116,7 @@ jobs:
 
   test_package:
     name: Test Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [package_python3, package_python2]
     strategy:
       fail-fast: false
@@ -162,7 +162,7 @@ jobs:
 
   test_typing:
     name: Test Typing
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [package_python3]
     strategy:
       matrix:
