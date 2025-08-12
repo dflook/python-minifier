@@ -120,3 +120,32 @@ jobs:
         with:
           args: --config=.config/ruff.toml check
           src: src
+
+  lint_dockerfiles:
+    runs-on: ubuntu-24.04
+    name: Lint Dockerfiles
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile:
+          - Dockerfile-fedora28
+          - Dockerfile-fedora30
+          - Dockerfile-fedora32
+          - Dockerfile-fedora34
+          - Dockerfile-fedora36
+          - Dockerfile-fedora38
+          - Dockerfile-fedora40
+          - Dockerfile-fuzz
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Lint ${{ matrix.dockerfile }}
+        uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+        with:
+          dockerfile: ./docker/${{ matrix.dockerfile }}
+          config: .config/hadolint.yaml
