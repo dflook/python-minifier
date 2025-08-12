@@ -20,11 +20,9 @@ runs:
     - name: Run command
       env:
         INPUT_VOLUMES: ${{ inputs.volumes }}
-        INPUT_IMAGE: ${{ inputs.image }}
-        INPUT_RUN: ${{ inputs.run }}
-      run: |
+      run: | # zizmor: ignore[template-injection]
 
-        docker pull --quiet ${INPUT_IMAGE}
+        docker pull --quiet ${{ inputs.image }}
         
         function run() {
           docker run --rm \
@@ -83,9 +81,10 @@ runs:
           -e GITHUB_TRIGGERING_ACTOR \
           -e GITHUB_WORKFLOW_REF \
           -e GITHUB_WORKFLOW_SHA \
+          -e PYTHONUNBUFFERED=1 \
           $VOLUMES_ARGS \
           --entrypoint /bin/bash \
-          ${INPUT_IMAGE} \
+          ${{ inputs.image }} \
           --noprofile --norc -eo pipefail /run.sh
 
         }
@@ -113,7 +112,7 @@ runs:
         fi
 
         cat <<"EOF" >"$RUNNER_TEMP/run.sh"
-        ${INPUT_RUN}
+        ${{ inputs.run }}
         EOF
         
         set -x
