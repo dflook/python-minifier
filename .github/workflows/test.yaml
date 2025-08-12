@@ -89,7 +89,7 @@ jobs:
           show-progress: false
           persist-credentials: false
 
-      - name: Actions workflows
+      - name: Lint Actions workflows
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint
@@ -115,7 +115,8 @@ jobs:
           globs: |
             **/README.md
 
-      - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+      - name: Lint Python code
+        uses: astral-sh/ruff-action@9828f49eb4cadf267b40eaa330295c412c68c1f9 # v3
         with:
-          dockerfile: ./docker/Dockerfile-*
+          args: --config=.config/ruff.toml check
+          src: src

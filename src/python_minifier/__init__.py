@@ -86,7 +86,8 @@ def minify(
     :param str source: The python module source code
     :param str filename: The original source filename if known
 
-    :param remove_annotations: Configures the removal of type annotations. True removes all annotations, False removes none. RemoveAnnotationsOptions can be used to configure the removal of specific annotations.
+    :param remove_annotations: Configures the removal of type annotations. True removes all annotations, False removes none.
+        RemoveAnnotationsOptions can be used to configure the removal of specific annotations.
     :type remove_annotations: bool or RemoveAnnotationsOptions
     :param bool remove_pass: If Pass statements should be removed where possible
     :param bool remove_literal_statements: If statements consisting of a single literal should be removed, including docstrings

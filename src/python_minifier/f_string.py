@@ -272,31 +272,31 @@ class Str(object):
         raise ValueError("Couldn't find a quote")
 
     def _literals(self):
-        l = ''
+        literal = ''
         for c in self._s:
             if not self._can_quote(c):
-                if l:
-                    l += self.current_quote
-                    yield l
-                    l = ''
+                if literal:
+                    literal += self.current_quote
+                    yield literal
+                    literal = ''
 
                 self.current_quote = self._get_quote(c)
 
-            if l == '':
-                l += self.current_quote
+            if literal == '':
+                literal += self.current_quote
 
             if c == '\n':
-                l += '\\n'
+                literal += '\\n'
             elif c == '\r':
-                l += '\\r'
+                literal += '\\r'
             elif c == '\\':
-                l += '\\\\'
+                literal += '\\\\'
             else:
-                l += c
+                literal += c
 
-        if l:
-            l += self.current_quote
-            yield l
+        if literal:
+            literal += self.current_quote
+            yield literal
 
     def __str__(self):
         if self._s == '':
@@ -315,10 +315,10 @@ class Str(object):
         for start_quote in self.allowed_quotes:
             self.current_quote = start_quote
             s = ''
-            for l in self._literals():
-                if s and s[-1] == l[0]:
+            for literal in self._literals():
+                if s and s[-1] == literal[0]:
                     s += ' '
-                s += l
+                s += literal
 
             if eval(s) == self._s:
                 candidates.append(s)
@@ -399,23 +399,23 @@ class Bytes(object):
         raise ValueError("Couldn't find a quote")
 
     def _literals(self):
-        l = ''
+        literal = ''
         for b in self._b:
             if not self._can_quote(b):
-                if l:
-                    l += self.current_quote
-                    yield l
-                    l = ''
+                if literal:
+                    literal += self.current_quote
+                    yield literal
+                    literal = ''
 
                 self.current_quote = self._get_quote(b)
 
-            if l == '':
-                l = 'b' + self.current_quote
-            l += chr(b)
+            if literal == '':
+                literal = 'b' + self.current_quote
+            literal += chr(b)
 
-        if l:
-            l += self.current_quote
-            yield l
+        if literal:
+            literal += self.current_quote
+            yield literal
 
     def __str__(self):
         if self._b == b'':
@@ -434,10 +434,10 @@ class Bytes(object):
         for start_quote in self.allowed_quotes:
             self.current_quote = start_quote
             s = ''
-            for l in self._literals():
-                if s and s[-1] == l[0]:
+            for literal in self._literals():
+                if s and s[-1] == literal[0]:
                     s += ' '
-                s += l
+                s += literal
 
             assert eval(s) == self._b
             candidates.append(s)
