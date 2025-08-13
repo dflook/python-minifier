@@ -10,6 +10,14 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [3.0.0] - 2025-08-13
+
+### Fixed
+- Better support of unicode on platforms that do not use UTF-8 as the default encoding.
+  This should fix issues with minifying files on Windows, and possibly other platforms with very old Python versions.
+
+  If you are still using Python 2.7 this could be a breaking change - the pyminify command is unchanged, but the `minify()` function now returns unicode strings.
+
 ## [2.11.3] - 2024-11-12
 
 ### Fixed
@@ -289,6 +297,7 @@ the minified code may only run with Python 3.12.
 - python-minifier package
 - pyminify command
 
+[3.0.0]: https://github.com/dflook/python-minifier/compare/2.11.3...3.0.0
 [2.11.3]: https://github.com/dflook/python-minifier/compare/2.11.2...2.11.3
 [2.11.2]: https://github.com/dflook/python-minifier/compare/2.11.1...2.11.2
 [2.11.1]: https://github.com/dflook/python-minifier/compare/2.11.0...2.11.1
