@@ -10,6 +10,14 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [Unreleased] - Work in Progress
+
+### Added
+- Python 3.14 support (work in progress), including:
+  + PEP 750 Template strings (t-strings)
+  + Exception handling without parentheses
+  + PEP 649 Deferred annotation evaluation
+
 ## [3.0.0] - 2025-08-13
 
 ### Fixed

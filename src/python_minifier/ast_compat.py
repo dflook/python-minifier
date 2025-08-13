@@ -70,6 +70,8 @@ for _node_type in [
     'TryStar',
     'TypeVar',
     'TypeVarTuple',
+    'TemplateStr',
+    'Interpolation',
     'YieldFrom',
     'arg',
     'withitem',

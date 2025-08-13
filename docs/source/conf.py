@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Python Minifier'
-copyright = '2024, Daniel Flook'
+copyright = '2025, Daniel Flook'
 author = 'Daniel Flook'
 
 from importlib import metadata

@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     steps:
       - name: Clear workspace
@@ -72,7 +72,7 @@ jobs:
       - name: Run tests
         uses: dflook/run-in-container@main
         with:
-          image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
+          image: danielflook/python-minifier-build:python${{ matrix.python }}-2025-08-13
           volumes: |
             /corpus:/corpus
             /corpus-results:/corpus-results
@@ -143,7 +143,7 @@ jobs:
       - name: Generate Report
         uses: dflook/run-in-container@main
         with:
-          image: danielflook/python-minifier-build:python3.13-2024-09-15
+          image: danielflook/python-minifier-build:python3.14-2025-08-13
           volumes: |
             /corpus-results:/corpus-results
           run: |

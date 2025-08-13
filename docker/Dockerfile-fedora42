@@ -1,0 +1,54 @@
+FROM fedora:42 AS python3.14
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# CircleCI required tools
+RUN <<EOF
+    dnf install -y \
+        git \
+        tar \
+        gzip \
+        gpg \
+        ca-certificates
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
+
+# Development tools
+RUN <<EOF
+    dnf install -y \
+        @development-tools \
+        findutils \
+        zlib-devel \
+        bzip2-devel \
+        ncurses-devel \
+        gdbm-devel \
+        openssl-devel \
+        sqlite-devel \
+        tk-devel \
+        libuuid-devel \
+        readline-devel \
+        libnsl2-devel \
+        xz-devel \
+        libffi-devel \
+        wget
+    git clone https://github.com/python/cpython.git
+    cd cpython
+    git checkout v3.14.0rc1
+    ./configure
+    make
+    make install
+    cd ..
+    rm -rf cpython
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
+
+# Other packages required for tests
+RUN <<EOF
+    dnf install -y bzip2
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
+
+RUN pip3 install --no-cache-dir tox==4.28.4
+
+WORKDIR /tmp/work
+ENTRYPOINT ["/bin/bash"]

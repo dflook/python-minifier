@@ -79,7 +79,7 @@ FROM base AS python3.8
 RUN <<EOF
     dnf install -y python38
     dnf clean all && rm -rf /var/cache/dnf/*
-    curl https://bootstrap.pypa.io/get-pip.py | python3.8
+    curl https://bootstrap.pypa.io/pip/3.8/get-pip.py | python3.8
 EOF
 
 ##

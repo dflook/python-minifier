@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "pypy", "pypy3"]
+        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "python3.14", "pypy", "pypy3"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -30,7 +30,7 @@ jobs:
       - name: Run tests
         uses: ./.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:${{ matrix.python }}-2024-09-15
+          image: danielflook/python-minifier-build:${{ matrix.python }}-2025-08-13
           run: |
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .)
 
@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -135,6 +135,7 @@ jobs:
           - Dockerfile-fedora36
           - Dockerfile-fedora38
           - Dockerfile-fedora40
+          - Dockerfile-fedora42
           - Dockerfile-fuzz
     steps:
       - name: Checkout
