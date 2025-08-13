@@ -1,0 +1,42 @@
+# Python 2.7 and 3.3+ compatibility requirements (using py37 as minimum ruff supports)
+target-version = "py37"
+
+# Define Python 2.7 builtins that don't exist in Python 3
+builtins = ["unicode"]
+
+line-length = 200
+
+[lint]
+# Enable most rules
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort
+]
+
+ignore = [
+    "I001",  # Import block unsorted
+    "W292",  # No newline at end of file
+    "W293",  # Blank line contains whitespace
+]
+
+# Per-file ignores for specific compatibility needs
+[lint.per-file-ignores]
+# AST compatibility module needs star imports for Python version compatibility
+"src/python_minifier/ast_compat.py" = ["F403", "F405"]
+
+# __init__.py files intentionally re-export for public API
+"*/__init__.py" = ["F401"]
+
+# Type comparisons needed for Python 2.7 compatibility in specific files
+"src/python_minifier/ast_compare.py" = ["E721"]
+"src/python_minifier/rename/rename_literals.py" = ["E721"]
+"src/python_minifier/transforms/constant_folding.py" = ["E721"]
+
+# Compatibility imports in utility modules
+"src/python_minifier/rename/util.py" = ["F401"]
+
+[lint.isort]
+force-single-line = false
+known-first-party = ["python_minifier"]

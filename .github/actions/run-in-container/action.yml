@@ -20,7 +20,7 @@ runs:
     - name: Run command
       env:
         INPUT_VOLUMES: ${{ inputs.volumes }}
-      run: |
+      run: | # zizmor: ignore[template-injection]
 
         docker pull --quiet ${{ inputs.image }}
         
@@ -81,6 +81,7 @@ runs:
           -e GITHUB_TRIGGERING_ACTOR \
           -e GITHUB_WORKFLOW_REF \
           -e GITHUB_WORKFLOW_SHA \
+          -e PYTHONUNBUFFERED=1 \
           $VOLUMES_ARGS \
           --entrypoint /bin/bash \
           ${{ inputs.image }} \

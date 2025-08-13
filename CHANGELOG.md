@@ -36,14 +36,14 @@ the minified code may only run with Python 3.12.
 
 ### Added
 - Python 3.13 support, including:
-    - PEP 696 Type parameter defaults
+  + PEP 696 Type parameter defaults
 
 ## [2.10.0] - 2024-09-15
 
 ### Added
 - Python 3.12 support, including:
-    - PEP 695 Type parameter syntax
-    - PEP 701 Improved f-strings
+  + PEP 695 Type parameter syntax
+  + PEP 701 Improved f-strings
 
 - A new transform to remove the brackets when instantiating and raising built-in exceptions, which is enabled by default.
   e.g.
@@ -58,7 +58,7 @@ the minified code may only run with Python 3.12.
   ```python
   def a():raise ValueError
   ```
- 
+
   The raise statement automatically instantiates classes derived from Exception, so the brackets are not required.
 
 - A new constant folding transform, which is enabled by default.
@@ -69,16 +69,17 @@ the minified code may only run with Python 3.12.
   ```
 
   Will be minified to:
+
   ```python
   SECONDS_IN_A_DAY=86400
   ```
 
 ### Changed
 - Annotation removal is now more configurable, with separate options for:
-    - Removal of variable annotations (`--no-remove-variable-annotations`)
-    - Removal of function return annotations (`--no-remove-return-annotations`)
-    - Removal of function argument annotations (`--no-remove-argument-annotations`)
-    - Removal of class attribute annotations (`--remove-class-attribute-annotations`)
+  + Removal of variable annotations (`--no-remove-variable-annotations`)
+  + Removal of function return annotations (`--no-remove-return-annotations`)
+  + Removal of function argument annotations (`--no-remove-argument-annotations`)
+  + Removal of class attribute annotations (`--remove-class-attribute-annotations`)
 
   The default behavior has changed, with class attribute annotations no longer removed by default.
   These are increasingly being used at runtime, and removing them can cause issues.
@@ -117,10 +118,10 @@ the minified code may only run with Python 3.12.
   The debug specifier should now be preserved where it is used in the input source.
 
 - Many small improvements to minification to be more precise about where whitespace or parentheses required
-  - Thanks [luk3yx](https://github.com/luk3yx) for improving whitespace in relative import statements.
-  - A generator as the sole argument to a function call is no longer wrapped in parentheses
-  - float literals can use a more compact scientific notation
-  - Many more subtle improvements
+  + Thanks [luk3yx](https://github.com/luk3yx) for improving whitespace in relative import statements.
+  + A generator as the sole argument to a function call is no longer wrapped in parentheses
+  + float literals can use a more compact scientific notation
+  + Many more subtle improvements
 
 ## [2.8.1] - 2023-03-15
 
@@ -132,8 +133,8 @@ the minified code may only run with Python 3.12.
 
 ### Added
 - New transforms that together work similarly to Python's [-O option](https://docs.python.org/3/using/cmdline.html#cmdoption-O)
-    - Remove asserts, which removes assert statements and is disabled by default
-    - Remove debug, which removes any `if` block that tests `__debug__ is True` and is disabled by default
+  + Remove asserts, which removes assert statements and is disabled by default
+  + Remove debug, which removes any `if` block that tests `__debug__ is True` and is disabled by default
 
 ### Changed
 - When minifiying a directory, files ending with '.pyw' will now be minified.
@@ -144,7 +145,7 @@ the minified code may only run with Python 3.12.
 - Python 3.11 support, including exception groups syntax
 
 ### Changed
-- Improved detection of dataclasses when using the remove annotations transform, 
+- Improved detection of dataclasses when using the remove annotations transform,
   which suppresses removal of annotations for those classes
 
 ### Fixed
@@ -156,10 +157,10 @@ the minified code may only run with Python 3.12.
 ### Added
 - A new option to preserve the shebang line from the source file, which is enabled by default
 - More flexible file processing options for the `pyminify` command:
-    - A new `--output` argument for writing the minified output to a file without having to use shell redirection
-    - A new `--in-place` option which overwrites the specified path with the minified output
-    - `path` arguments may be directories, which minifies all *.py files below that directory
-    - Multiple `path` arguments may be specified, which will all be minified
+  + A new `--output` argument for writing the minified output to a file without having to use shell redirection
+  + A new `--in-place` option which overwrites the specified path with the minified output
+  + `path` arguments may be directories, which minifies all *.py files below that directory
+  + Multiple `path` arguments may be specified, which will all be minified
 - Type information is included in the package to enable type checking of the public functions
 
 ### Fixed
@@ -192,7 +193,7 @@ the minified code may only run with Python 3.12.
 
 ### Added
 - Support for Python 3.9, including:
-    - PEP 614 - Relaxing Grammar Restrictions On Decorators
+  + PEP 614 - Relaxing Grammar Restrictions On Decorators
 
 ## [2.3.2] - 2020-10-11
 
@@ -208,7 +209,7 @@ the minified code may only run with Python 3.12.
 
 ### Added
 - Optional source transform:
-    - convert positional arguments to normal arguments, enabled by default
+  + convert positional arguments to normal arguments, enabled by default
 
 ### Fixed
 - Unnecessary spaces after ',' in tuple values
@@ -222,11 +223,12 @@ the minified code may only run with Python 3.12.
 - Fixed PendingDeprecationWarnings
 
 ## [2.2.0] - 2019-10-27
+
 ### Added
 - Support for Python 3.8 language features:
-    - Assignment expressions
-    - Positional parameters
-    - f-string = specifier
+  + Assignment expressions
+  + Positional parameters
+  + f-string = specifier
 
 ### Changed
 - Removed unnecessary parenthesis around yield statements
@@ -235,27 +237,31 @@ the minified code may only run with Python 3.12.
 - Reading from stdin
 
 ## [2.1.2] - 2019-06-27
+
 ### Changed
 - Improved renaming performance
 
 ## [2.1.1] - 2019-04-07
+
 ### Changed
 - Removed redundant parentheses from comprehension iteration values
 
 ## [2.1.0] - 2019-01-24
+
 ### Added
 - Optional source transforms:
-    - remove object base, enabled by default
+  + remove object base, enabled by default
 
 ### Changed
 - Return statements no longer wrap tuples in extraneous parentheses
 - Duplicated literals are only raised to the lowest common function namespace
 
 ## [2.0.0] - 2019-01-13
+
 ### Added
 - Optional source transformations:
-    - Rename locals, enabled by default
-    - Rename globals, disabled by default
+  + Rename locals, enabled by default
+  + Rename globals, disabled by default
 
 ### Changed
 - Minified code will no longer have leading or trailing whitespace
@@ -268,15 +274,17 @@ the minified code may only run with Python 3.12.
 - Python 3.7 dataclass field annotations are no longer removed when the remove annotation transformation is enabled
 
 ## [1.1.0] - 2018-06-05
+
 ### Added
 - Optional source transformations:
-    - Combine import statements
-    - Remove annotations
-    - Remove pass statements
-    - Remove unused literals, including docstrings
-    - Move duplicated literals into module level variables
+  + Combine import statements
+  + Remove annotations
+  + Remove pass statements
+  + Remove unused literals, including docstrings
+  + Move duplicated literals into module level variables
 
 ## [1.0.0] - 2018-05-25
+
 ### Added
 - python-minifier package
 - pyminify command

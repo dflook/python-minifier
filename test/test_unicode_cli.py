@@ -1,36 +1,10 @@
 # -*- coding: utf-8 -*-
 import tempfile
 import os
-import subprocess
 import sys
 import codecs
 
-# Compatibility for subprocess.run (added in Python 3.5)
-def run_subprocess(cmd, timeout=None):
-    """Cross-platform subprocess runner for Python 2.7+ compatibility."""
-    if hasattr(subprocess, 'run'):
-        # Python 3.5+
-        return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout)
-    else:
-        # Python 2.7, 3.3, 3.4
-        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = popen.communicate()
-        # Create a simple result object similar to subprocess.CompletedProcess
-        class Result:
-            def __init__(self, returncode, stdout, stderr):
-                self.returncode = returncode
-                self.stdout = stdout
-                self.stderr = stderr
-        return Result(popen.returncode, stdout, stderr)
-
-def safe_decode(data, encoding='utf-8', errors='replace'):
-    """Safe decode for Python 2.7/3.x compatibility."""
-    if isinstance(data, bytes):
-        try:
-            return data.decode(encoding, errors)
-        except UnicodeDecodeError:
-            return data.decode(encoding, 'replace')
-    return data
+from subprocess_compat import run_subprocess, safe_decode
 
 
 def test_cli_output_flag_with_unicode():

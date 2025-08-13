@@ -1,0 +1,6 @@
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        dflook/run-in-container: ref-pin
+        actions/*: ref-pin

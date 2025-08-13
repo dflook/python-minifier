@@ -1,57 +1,65 @@
 FROM fedora:28 AS python3.3
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # CircleCI required tools
-RUN dnf install -y \
-      openssh \
-      tar \
-      gzip \
-      gpg \
-      ca-certificates \
-  && dnf clean all && rm -rf /var/cache/dnf/*
+RUN <<EOF
+    dnf install -y \
+        openssh \
+        tar \
+        gzip \
+        gpg \
+        ca-certificates
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
 
 # Install git
-RUN dnf install -y \
-    @development-tools \
-    dh-autoreconf \
-    curl-devel \
-    expat-devel \
-    gettext-devel \
-    openssl-devel \
-    perl-devel \
-    zlib-devel \
- && dnf clean all && rm -rf /var/cache/dnf/* \
- && curl -f -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.18.5.tar.gz --output git-2.18.5.tar.gz \
- && tar -zxf git-2.18.5.tar.gz \
- && cd git-2.18.5 \
- && make configure \
- && ./configure --prefix=/usr/local \
- && make all \
- && make install \
- && cd .. \
- && rm -rf git-2.18.5 \
- && dnf autoremove -y \
-    @development-tools \
-    dh-autoreconf \
-    curl-devel \
-    expat-devel \
-    gettext-devel \
-    openssl-devel \
-    perl-devel \
-    zlib-devel \
- && dnf clean all && rm -rf /var/cache/dnf/*
+RUN <<EOF
+    dnf install -y \
+        @development-tools \
+        dh-autoreconf \
+        curl-devel \
+        expat-devel \
+        gettext-devel \
+        openssl-devel \
+        perl-devel \
+        zlib-devel
+    dnf clean all && rm -rf /var/cache/dnf/*
+    curl -f -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.18.5.tar.gz --output git-2.18.5.tar.gz
+    tar -zxf git-2.18.5.tar.gz
+    cd git-2.18.5
+    make configure
+    ./configure --prefix=/usr/local
+    make all
+    make install
+    cd ..
+    rm -rf git-2.18.5
+    dnf autoremove -y \
+        @development-tools \
+        dh-autoreconf \
+        curl-devel \
+        expat-devel \
+        gettext-devel \
+        openssl-devel \
+        perl-devel \
+        zlib-devel
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
 
 # Python versions
-RUN dnf install -y \
-      python33 \
-  && dnf clean all && rm -rf /var/cache/dnf/* \
-  && curl https://bootstrap.pypa.io/pip/3.3/get-pip.py | python3.3
+RUN <<EOF
+    dnf install -y python33
+    dnf clean all && rm -rf /var/cache/dnf/*
+    curl https://bootstrap.pypa.io/pip/3.3/get-pip.py | python3.3
+EOF
 
 # Other packages required for tests
-RUN dnf install -y \
-      bzip2 \
-  && dnf clean all && rm -rf /var/cache/dnf/*
+RUN <<EOF
+    dnf install -y bzip2
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
 
-RUN pip3 install 'tox<3' 'virtualenv<16' 'setuptools_scm<7'
+RUN pip3 install --no-cache-dir 'tox<3' 'virtualenv<16' 'setuptools_scm<7'
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]

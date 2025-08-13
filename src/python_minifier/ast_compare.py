@@ -77,26 +77,26 @@ def compare_ast(l_ast, r_ast):
                     % (type(l_ast), field, len(l_list), type(r_ast), field, len(r_list)),
                 )
 
-            for i, l, r in zip(counter(), l_list, r_list):
-                if isinstance(l, ast.AST) or isinstance(r, ast.AST):
-                    compare_ast(l, r)
-                elif l != r:
+            for i, left, right in zip(counter(), l_list, r_list):
+                if isinstance(left, ast.AST) or isinstance(right, ast.AST):
+                    compare_ast(left, right)
+                elif left != right:
                     raise CompareError(
                         l_ast,
                         r_ast,
                         'Fields do not match! %s.%s[%i]=%r, %s.%s[%i]=%r'
-                        % (type(l_ast), field, i, l, type(r_ast), field, i, r),
+                        % (type(l_ast), field, i, left, type(r_ast), field, i, right),
                     )
 
         else:
-            l = getattr(l_ast, field, None)
-            r = getattr(r_ast, field, None)
+            left_field = getattr(l_ast, field, None)
+            right_field = getattr(r_ast, field, None)
 
-            if isinstance(l, ast.AST) or isinstance(r, ast.AST):
-                compare_ast(l, r)
-            elif l != r:
+            if isinstance(left_field, ast.AST) or isinstance(right_field, ast.AST):
+                compare_ast(left_field, right_field)
+            elif left_field != right_field:
                 raise CompareError(
                     l_ast,
                     r_ast,
-                    'Fields do not match! %s.%s=%r, %s.%s=%r' % (type(l_ast), field, l, type(r_ast), field, r),
+                    'Fields do not match! %s.%s=%r, %s.%s=%r' % (type(l_ast), field, left_field, type(r_ast), field, right_field),
                 )

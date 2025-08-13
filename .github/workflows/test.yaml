@@ -2,11 +2,14 @@ name: Unit Test
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -33,7 +36,7 @@ jobs:
 
   test-windows:
     name: Test Windows
-    runs-on: windows-2022
+    runs-on: windows-2025
     strategy:
       fail-fast: false
       matrix:
@@ -74,3 +77,75 @@ jobs:
       - name: Run tests
         run: |
           tox -c tox-windows.ini -r -e ${{ matrix.python-version }}
+
+  lint:
+    runs-on: ubuntu-24.04
+    name: Linting
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Lint Actions workflows
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
+      - name: Actions Security Check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          uvx zizmor --format plain .
+
+      - name: Lint CHANGELOG
+        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        with:
+          config: '.config/changelog.markdownlint.yaml'
+          globs: 'CHANGELOG.md'
+
+      - name: Lint Other Markdown
+        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        with:
+          config: '.config/.markdownlint.yaml'
+          globs: |
+            **/README.md
+
+      - name: Lint Python code
+        uses: astral-sh/ruff-action@9828f49eb4cadf267b40eaa330295c412c68c1f9 # v3
+        with:
+          args: --config=.config/ruff.toml check
+          src: src
+
+  lint_dockerfiles:
+    runs-on: ubuntu-24.04
+    name: Lint Dockerfiles
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile:
+          - Dockerfile-fedora28
+          - Dockerfile-fedora30
+          - Dockerfile-fedora32
+          - Dockerfile-fedora34
+          - Dockerfile-fedora36
+          - Dockerfile-fedora38
+          - Dockerfile-fedora40
+          - Dockerfile-fuzz
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Lint ${{ matrix.dockerfile }}
+        uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+        with:
+          dockerfile: ./docker/${{ matrix.dockerfile }}
+          config: .config/hadolint.yaml

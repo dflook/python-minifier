@@ -1,48 +1,55 @@
 FROM fedora:36 AS python3.11
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # CircleCI required tools
-RUN dnf install -y \
-      git \
-      openssh \
-      tar \
-      gzip \
-      gpg \
-      ca-certificates \
-  && dnf clean all && rm -rf /var/cache/dnf/*
+RUN <<EOF
+    dnf install -y \
+        git \
+        openssh \
+        tar \
+        gzip \
+        gpg \
+        ca-certificates
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
 
 # Development tools
-RUN dnf install -y \
-      @development-tools \
-      findutils \
-      zlib-devel \
-      bzip2-devel \
-      ncurses-devel \
-      gdbm-devel \
-      openssl-devel \
-      sqlite-devel \
-      tk-devel \
-      libuuid-devel \
-      readline-devel \
-      libnsl2-devel \
-      xz-devel \
-      libffi-devel \
-      wget \
-  && git clone https://github.com/python/cpython.git \
-  && cd cpython \
-  && git checkout v3.11.0 \
-  && ./configure \
-  && make \
-  && make install \
-  && cd .. \
-  && rm -rf cpython \
-  && dnf clean all && rm -rf /var/cache/dnf/*
+RUN <<EOF
+    dnf install -y \
+        @development-tools \
+        findutils \
+        zlib-devel \
+        bzip2-devel \
+        ncurses-devel \
+        gdbm-devel \
+        openssl-devel \
+        sqlite-devel \
+        tk-devel \
+        libuuid-devel \
+        readline-devel \
+        libnsl2-devel \
+        xz-devel \
+        libffi-devel \
+        wget
+    git clone https://github.com/python/cpython.git
+    cd cpython
+    git checkout v3.11.0
+    ./configure
+    make
+    make install
+    cd ..
+    rm -rf cpython
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
 
 # Other packages required for tests
-RUN dnf install -y \
-      bzip2 \
-  && dnf clean all && rm -rf /var/cache/dnf/*
+RUN <<EOF
+    dnf install -y bzip2
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
 
-RUN pip3 install tox==3.25.1
+RUN pip3 install --no-cache-dir tox==3.25.1
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]
