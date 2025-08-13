@@ -90,4 +90,4 @@ def test_ast_compat_constant_nodes_python314():
     assert is_constant_node(ast.Constant(True), ast_compat.NameConstant)
     assert is_constant_node(ast.Constant(False), ast_compat.NameConstant)
     assert is_constant_node(ast.Constant(None), ast_compat.NameConstant)
-    assert is_constant_node(ast.Constant(...), ast_compat.Ellipsis)
+    assert is_constant_node(ast.Constant(ast.literal_eval('...')), ast_compat.Ellipsis)
