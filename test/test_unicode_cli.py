@@ -30,8 +30,12 @@ def test_cli_output_flag_with_unicode():
         assert result.returncode == 0, "CLI failed with encoding error: {}".format(safe_decode(result.stderr))
 
         # Verify the output file was created and contains Unicode characters
-        with codecs.open(output_path, 'r', encoding='utf-8') as f:
-            minified_content = f.read()
+        if sys.version_info[0] >= 3:
+            with open(output_path, 'r', encoding='utf-8') as f:
+                minified_content = f.read()
+        else:
+            with codecs.open(output_path, 'r', encoding='utf-8') as f:
+                minified_content = f.read()
 
         # Verify problematic Unicode characters are preserved
         if hasattr(sys, 'pypy_version_info') and sys.version_info[0] >= 3:
@@ -88,8 +92,12 @@ def test_cli_in_place_with_unicode():
 
         assert result.returncode == 0, "CLI failed with encoding error: {}".format(safe_decode(result.stderr))
 
-        with codecs.open(temp_file.name, 'r', encoding='utf-8') as f:
-            content = f.read()
+        if sys.version_info[0] >= 3:
+            with open(temp_file.name, 'r', encoding='utf-8') as f:
+                content = f.read()
+        else:
+            with codecs.open(temp_file.name, 'r', encoding='utf-8') as f:
+                content = f.read()
 
         if hasattr(sys, 'pypy_version_info') and sys.version_info[0] >= 3:
             # PyPy3: Unicode characters may be escaped as \\u escapes

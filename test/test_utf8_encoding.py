@@ -52,8 +52,12 @@ if __name__ == "__main__":
     try:
         # Read the file and minify it
         # Python 2.7 doesn't support encoding parameter in open()
-        with codecs.open(temp_file, 'r', encoding='utf-8') as f:
-            original_content = f.read()
+        if sys.version_info[0] >= 3:
+            with open(temp_file, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+        else:
+            with codecs.open(temp_file, 'r', encoding='utf-8') as f:
+                original_content = f.read()
 
         # This should work - minify the UTF-8 content
         minified = python_minifier.minify(original_content)
