@@ -743,6 +743,13 @@ class ExpressionPrinter(object):
 
         self.printer.fstring(str(python_minifier.f_string.OuterFString(node, pep701=pep701)))
 
+    def visit_TemplateStr(self, node):
+        assert isinstance(node, ast.TemplateStr)
+
+        import python_minifier.t_string
+
+        self.printer.tstring(str(python_minifier.t_string.TString(node)))
+
     def visit_NamedExpr(self, node):
         self._expression(node.target)
         self.printer.operator(':=')
