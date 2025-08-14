@@ -24,7 +24,7 @@ from python_minifier.util import is_constant_node
 class TString(object):
     """
     A Template String (t-string)
-    
+
     Much simpler than f-strings because PEP 701 eliminates quote restrictions
     """
 
@@ -74,11 +74,11 @@ class TString(object):
         for quote in self.allowed_quotes:
             candidates = ['']
             debug_specifier_candidates = []
-            
+
             for v in self.node.values:
                 if is_constant_node(v, ast.Constant) and isinstance(v.value, str):
                     # String literal part - check for debug specifiers
-                    
+
                     # Could this be used as a debug specifier?
                     if len(candidates) < 10:
                         import re
@@ -94,17 +94,17 @@ class TString(object):
                         candidates = [x + self.str_for(v.value, quote) for x in candidates]
                     except Exception:
                         continue
-                        
+
                 elif isinstance(v, ast.Interpolation):
                     # Interpolated expression part - check for debug completion
                     try:
                         # Try debug specifier completion
                         completed = self.complete_debug_specifier(debug_specifier_candidates, v)
-                        
+
                         # Regular interpolation processing
                         interpolation_candidates = InterpolationValue(v).get_candidates()
                         candidates = [x + y for x in candidates for y in interpolation_candidates] + completed
-                        
+
                         debug_specifier_candidates = []
                     except Exception:
                         continue
@@ -120,7 +120,7 @@ class TString(object):
         # Use MiniString for optimal string representation
         # Always allowed due to PEP 701 - no backslash restrictions
         mini_s = str(MiniString(s, quote)).replace('{', '{{').replace('}', '}}')
-        
+
         if mini_s == '':
             return '\\\n'
         return mini_s
@@ -153,13 +153,13 @@ class TString(object):
 class InterpolationValue(ExpressionPrinter):
     """
     A Template String Interpolation Part
-    
+
     Handles ast.Interpolation nodes (equivalent to FormattedValue for f-strings)
     """
 
     def __init__(self, node):
         super(InterpolationValue, self).__init__()
-        
+
         assert isinstance(node, ast.Interpolation)
         self.node = node
         # Always use all quotes - no restrictions due to PEP 701
@@ -168,7 +168,7 @@ class InterpolationValue(ExpressionPrinter):
 
     def get_candidates(self):
         """Generate all possible representations of this interpolation"""
-        
+
         self.printer.delimiter('{')
 
         if self.is_curly(self.node.value):
@@ -187,7 +187,7 @@ class InterpolationValue(ExpressionPrinter):
         # Handle format specifications
         if self.node.format_spec is not None:
             self.printer.delimiter(':')
-            
+
             # Format spec is a JoinedStr (f-string) in the AST
             if isinstance(self.node.format_spec, ast.JoinedStr):
                 import python_minifier.f_string
@@ -209,7 +209,7 @@ class InterpolationValue(ExpressionPrinter):
                             format_parts.append(inner[3:-3])
                         else:
                             format_parts.append(inner)
-                
+
                 if format_parts:
                     self._append(format_parts)
             else:
@@ -250,7 +250,7 @@ class InterpolationValue(ExpressionPrinter):
             from python_minifier.f_string import Str
             self.printer.append(str(Str(node.value, self.allowed_quotes, pep701=True)), TokenTypes.NonNumberLiteral)
         elif isinstance(node.value, bytes):
-            # Use Bytes class from f_string module for bytes handling  
+            # Use Bytes class from f_string module for bytes handling
             from python_minifier.f_string import Bytes
             self.printer.append(str(Bytes(node.value, self.allowed_quotes)), TokenTypes.NonNumberLiteral)
         else:
@@ -270,7 +270,7 @@ class InterpolationValue(ExpressionPrinter):
         assert isinstance(node, ast.JoinedStr)
         if self.printer.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
             self.printer.delimiter(' ')
-        
+
         import python_minifier.f_string
         # F-strings nested in t-strings also benefit from PEP 701
         self._append(python_minifier.f_string.OuterFString(node, pep701=True).candidates())
