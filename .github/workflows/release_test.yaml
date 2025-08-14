@@ -186,9 +186,9 @@ jobs:
           PYTHON3_WHEEL: ${{ needs.package_python3.outputs.wheel }}
         run: |
           if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
-            pip3.13 install "dist/$PYTHON3_SDIST"
+            pip3.14 install "dist/$PYTHON3_SDIST"
           else
-            pip3.13 install "dist/$PYTHON3_WHEEL"
+            pip3.14 install "dist/$PYTHON3_WHEEL"
           fi
 
       - name: Checkout
@@ -201,7 +201,7 @@ jobs:
 
       - name: Test typing
         run: |
-          pip3.13 install 'mypy<1.12.0' types-setuptools
+          pip3.14 install 'mypy<1.12.0' types-setuptools
           mypy --strict typing_test/test_typing.py
 
           if mypy --strict typing_test/test_badtyping.py; then
