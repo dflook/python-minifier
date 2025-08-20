@@ -220,6 +220,13 @@ class HoistLiterals(NodeVisitor):
                 continue
             self.visit(v)
 
+    def visit_TemplateStr(self, node):
+        for v in node.values:
+            if is_constant_node(v, ast.Str):
+                # Can't hoist string literals that are part of the template
+                continue
+            self.visit(v)
+
     def visit_NameConstant(self, node):
         self.get_binding(node.value, node).add_reference(node)
 
