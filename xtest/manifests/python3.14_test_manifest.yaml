@@ -1709,10 +1709,12 @@
   status: passing
 - options:
     rename_globals: true
+    preserve_globals: [example_args]
   status: passing
 - options:
     remove_literal_statements: true
     rename_globals: true
+    preserve_globals: [example_args]
   status: passing
 /usr/local/lib/python3.14/test/test_code_module.py:
 - options: {}
