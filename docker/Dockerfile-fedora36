@@ -49,7 +49,7 @@ RUN <<EOF
     dnf clean all && rm -rf /var/cache/dnf/*
 EOF
 
-RUN pip3 install --no-cache-dir tox==3.25.1
+RUN pip3 install --no-cache-dir tox==3.25.1 virtualenv==20.26.4
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]
