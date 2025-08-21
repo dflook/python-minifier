@@ -46,7 +46,7 @@ jobs:
             ${{ matrix.python }} /usr/local/lib/python${{ matrix.python == 'python3.10' && '3.10' || '3.11' }}/test/test_sundry.py || echo "FAILED: original test_sundry.py"
             
             echo "=== Testing environment under tox ==="
-            tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- --version
+            tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- xtest --version
             
             echo "=== Testing distutils import under tox ==="
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- -c "import distutils.bcppcompiler; print('SUCCESS in tox')"
@@ -71,7 +71,7 @@ jobs:
             ${{ matrix.python }} /usr/local/lib/python${{ matrix.python == 'python3.10' && '3.10' || '3.11' }}/test/test_sundry.py || echo "FAILED: original test_sundry.py"
             
             echo "=== Testing environment under tox ==="
-            tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- --version
+            tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- xtest --version
             
             echo "=== Testing distutils import under tox ==="
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- -c "import distutils.bcppcompiler; print('SUCCESS in tox')"
