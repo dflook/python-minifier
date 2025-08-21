@@ -1,0 +1,45 @@
+name: Debug test_sundry
+
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+
+  test:
+    name: Debug test_sundry
+    runs-on: self-hosted
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["python3.10", "python3.11"]
+    steps:
+      - name: Clear workspace
+        run: rm -rf "${GITHUB_WORKSPACE:?}/*"
+
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Set version statically
+        run: |
+          VERSION=0.0.0
+          sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
+
+      - name: Debug distutils availability
+        uses: ./.github/actions/run-in-container
+        with:
+          image: danielflook/python-minifier-build:${{ matrix.python }}-2025-08-13
+          run: |
+            echo "=== Testing distutils.bcppcompiler import ==="
+            ${{ matrix.python }} -c "import distutils.bcppcompiler; print('SUCCESS: distutils.bcppcompiler imported')" || echo "FAILED to import distutils.bcppcompiler"
+            
+            echo "=== Testing original test_sundry.py ==="
+            ${{ matrix.python }} /usr/local/lib/python${{ matrix.python == 'python3.10' && '3.10' || '3.11' }}/test/test_sundry.py || echo "FAILED: original test_sundry.py"
+            
+            echo "=== Running regression test ==="
+            tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- xtest
