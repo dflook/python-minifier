@@ -49,7 +49,7 @@ RUN <<EOF
     dnf clean all && rm -rf /var/cache/dnf/*
 EOF
 
-RUN pip3 install --no-cache-dir tox==3.25.1
+RUN pip3 install --no-cache-dir tox==3.25.1 virtualenv==20.26.4 distlib==0.4.0 filelock==3.19.1 packaging==25.0 platformdirs==4.3.8 pluggy==1.6.0 py==1.11.0 six==1.17.0 toml==0.10.2
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]

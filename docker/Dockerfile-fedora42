@@ -33,7 +33,7 @@ RUN <<EOF
         wget
     git clone https://github.com/python/cpython.git
     cd cpython
-    git checkout v3.14.0rc1
+    git checkout v3.14.0rc2
     ./configure
     make
     make install
@@ -48,7 +48,7 @@ RUN <<EOF
     dnf clean all && rm -rf /var/cache/dnf/*
 EOF
 
-RUN pip3 install --no-cache-dir tox==4.28.4
+RUN pip3 install --no-cache-dir tox==4.28.4 virtualenv==20.34.0 cachetools==6.1.0 chardet==5.2.0 colorama==0.4.6 distlib==0.4.0 filelock==3.19.1 packaging==25.0 platformdirs==4.3.8 pluggy==1.6.0 pyproject-api==1.9.1
 
 WORKDIR /tmp/work
 ENTRYPOINT ["/bin/bash"]

@@ -30,7 +30,7 @@ jobs:
       - name: Run tests
         uses: ./.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:${{ matrix.python }}-2025-08-13
+          image: danielflook/python-minifier-build:${{ matrix.python }}-2025-08-21
           run: |
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .)
 
