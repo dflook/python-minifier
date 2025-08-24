@@ -105,7 +105,7 @@ class FString(object):
     def candidates(self):
         actual_candidates = []
 
-        # Normal f-string candidates  
+        # Normal f-string candidates
         actual_candidates += self._generate_candidates_with_processor('f', self.str_for)
 
         # Raw f-string candidates (if we detect backslashes)

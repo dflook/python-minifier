@@ -59,7 +59,7 @@ jobs:
         if: ${{ matrix.python-version == '3.14' }}
         uses: actions/setup-python@v5
         with:
-          python-version: '3.14.0-rc.1'
+          python-version: '3.14.0-rc.2'
 
       - name: Set up Python
         if: ${{ matrix.python-version == '2.7' }}
