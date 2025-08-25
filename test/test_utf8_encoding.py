@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-import pytest
 import python_minifier
 import tempfile
 import os
 import codecs
-
+import sys
 
 def test_minify_utf8_file():
     """Test minifying a Python file with UTF-8 characters not in Windows default encoding."""
@@ -52,8 +51,12 @@ if __name__ == "__main__":
     try:
         # Read the file and minify it
         # Python 2.7 doesn't support encoding parameter in open()
-        with codecs.open(temp_file, 'r', encoding='utf-8') as f:
-            original_content = f.read()
+        if sys.version_info[0] >= 3:
+            with open(temp_file, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+        else:
+            with codecs.open(temp_file, 'r', encoding='utf-8') as f:
+                original_content = f.read()
 
         # This should work - minify the UTF-8 content
         minified = python_minifier.minify(original_content)
@@ -63,12 +66,12 @@ if __name__ == "__main__":
         # Test by executing the minified code and checking the actual values
         minified_globals = {}
         exec(minified, minified_globals)
-        
+
         # The minified code should contain the same functions that return Unicode
         assert 'greet_in_greek' in minified_globals
         assert u"Γεια σας κόσμος" == minified_globals['greet_in_greek']()
-        
-        # Test that mathematical symbols are also preserved 
+
+        # Test that mathematical symbols are also preserved
         assert 'mathematical_formula' in minified_globals
         assert u"∑ from i=1 to ∞" in minified_globals['mathematical_formula']()
 
@@ -101,11 +104,11 @@ class UnicodeClass:
     # Verify UTF-8 characters are preserved by executing the minified code
     minified_globals = {}
     exec(minified, minified_globals)
-    
+
     # Test that the functions return the correct Unicode strings
     assert u"🐍" in minified_globals['emoji_function']()
     assert u"∆" in minified_globals['emoji_function']()
-    
+
     # Test the class
     unicode_obj = minified_globals['UnicodeClass']()
     assert u"Héllö" in unicode_obj.message

@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
         ref: ["${{ inputs.ref }}", "${{ inputs.base-ref }}"]
     steps:
       - name: Clear workspace
@@ -72,7 +72,7 @@ jobs:
       - name: Run tests
         uses: dflook/run-in-container@main
         with:
-          image: danielflook/python-minifier-build:python${{ matrix.python }}-2024-09-15
+          image: danielflook/python-minifier-build:python${{ matrix.python }}-2025-08-21
           volumes: |
             /corpus:/corpus
             /corpus-results:/corpus-results
@@ -143,11 +143,11 @@ jobs:
       - name: Generate Report
         uses: dflook/run-in-container@main
         with:
-          image: danielflook/python-minifier-build:python3.13-2024-09-15
+          image: danielflook/python-minifier-build:python3.14-2025-08-21
           volumes: |
             /corpus-results:/corpus-results
           run: |
-            python3.13 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} ${{ steps.ref.outputs.commit }} ${{ inputs.base-ref }} ${{ steps.base-ref.outputs.commit }} | tee -a $GITHUB_STEP_SUMMARY > report.md
+            python3.14 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} ${{ steps.ref.outputs.commit }} ${{ inputs.base-ref }} ${{ steps.base-ref.outputs.commit }} | tee -a $GITHUB_STEP_SUMMARY > report.md
 
       - name: Lint Report
         uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19

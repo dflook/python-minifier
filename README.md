@@ -4,7 +4,7 @@ Transforms Python source code into its most compact representation.
 
 [Try it out!](https://python-minifier.com)
 
-python-minifier currently supports Python 2.7 and Python 3.3 to 3.13. Previous releases supported Python 2.6.
+python-minifier currently supports Python 2.7 and Python 3.3 to 3.14. Previous releases supported Python 2.6.
 
 * [PyPI](https://pypi.org/project/python-minifier/)
 * [Documentation](https://dflook.github.io/python-minifier/)

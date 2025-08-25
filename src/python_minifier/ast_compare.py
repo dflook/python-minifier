@@ -63,6 +63,9 @@ def compare_ast(l_ast, r_ast):
 
         if field == 'kind' and isinstance(l_ast, ast.Constant):
             continue
+        
+        if field == 'str' and hasattr(ast, 'Interpolation') and isinstance(l_ast, ast.Interpolation):
+            continue
 
         if isinstance(getattr(l_ast, field, None), list):
 

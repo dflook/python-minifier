@@ -1,4 +1,4 @@
-FROM fedora:40 AS fuzz
+FROM fedora:42 AS fuzz
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

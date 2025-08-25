@@ -198,7 +198,7 @@ def test_hoist_after_multiple_future():
     source = '''
 "Hello this is a docstring"
 from __future__ import print_function
-from __future__ import sausages
+from __future__ import unicode_literals
 import collections
 A = b'Hello'
 B = b'Hello'
@@ -207,7 +207,7 @@ B = b'Hello'
     expected = '''
 "Hello this is a docstring"
 from __future__ import print_function
-from __future__ import sausages
+from __future__ import unicode_literals
 C = b'Hello'
 import collections
 A = C

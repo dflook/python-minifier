@@ -181,6 +181,16 @@ class TokenPrinter(object):
         self._code += s
         self.previous_token = TokenTypes.NonNumberLiteral
 
+    def tstring(self, s):
+        """Add a template string (t-string) to the output code."""
+        assert isinstance(s, str)
+
+        if self.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword]:
+            self.delimiter(' ')
+
+        self._code += s
+        self.previous_token = TokenTypes.NonNumberLiteral
+
     def delimiter(self, d):
         """Add a delimiter to the output code."""
         assert d in [
