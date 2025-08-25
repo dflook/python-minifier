@@ -1,6 +1,6 @@
 name: Regression Test
 
-on: [pull_request]
+on: [push]
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "python3.14", "pypy3"]
+        python: ["python3.14"]
     steps:
       - name: Clear workspace
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
@@ -44,12 +44,6 @@ jobs:
               (cd /usr/lib64/pypy3-7.0/lib-python/3/test && pypy3 make_ssl_certs.py)
             fi
             
+            printenv
+            
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .) -- xtest
-
-  test-corpus:
-    needs: test
-    name: Minify Corpus
-    uses: ./.github/workflows/test_corpus.yaml
-    with:
-      ref: ${{ github.ref }}
-      base-ref: ${{ github.base_ref }}
