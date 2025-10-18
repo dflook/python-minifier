@@ -99,6 +99,7 @@ class TokenPrinter(object):
         self.indent = 0
         self.unicode_literals = False
         self.previous_token = TokenTypes.NoToken
+        self.indent_char = '\t'
 
     def __str__(self):
         """Return the output code."""
@@ -287,9 +288,9 @@ class TokenPrinter(object):
         if self._code == '':
             return
 
-        self._code = self._code.rstrip('\n\t;')
+        self._code = self._code.rstrip('\n;' + self.indent_char)
         self._code += '\n'
-        self._code += '\t' * self.indent
+        self._code += self.indent_char * self.indent
 
         self.previous_token = TokenTypes.NewLine
 

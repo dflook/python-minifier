@@ -13,7 +13,7 @@ class ModulePrinter(ExpressionPrinter):
 
     def __init__(self, indent_char='\t'):
         super(ModulePrinter, self).__init__()
-        self.indent_char = indent_char
+        self.printer.indent_char = indent_char
 
     def __call__(self, module):
         """
@@ -30,13 +30,13 @@ class ModulePrinter(ExpressionPrinter):
         self.visit_Module(module)
         # On Python 2.7, preserve unicode strings to avoid encoding issues
         code = unicode(self.printer) if sys.version_info[0] < 3 else str(self.printer)
-        return code.rstrip('\n' + self.indent_char + ';')
+        return code.rstrip('\n' + self.printer.indent_char + ';')
 
     @property
     def code(self):
         # On Python 2.7, preserve unicode strings to avoid encoding issues
         code = unicode(self.printer) if sys.version_info[0] < 3 else str(self.printer)
-        return code.rstrip('\n' + self.indent_char + ';')
+        return code.rstrip('\n' + self.printer.indent_char + ';')
 
     # region Simple Statements
 
