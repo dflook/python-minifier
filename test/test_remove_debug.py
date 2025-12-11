@@ -167,3 +167,61 @@ print(value)
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
     compare_ast(expected_ast, actual_ast)
+
+
+@pytest.mark.parametrize(
+    'condition', [
+        '__sandwich__',
+        '__sandwich__ is True',
+        '__sandwich__ is False',
+        '__sandwich__ is not False',
+        '__sandwich__ == True',
+        '__sandwich__ == __debug__',
+        '__sandwich() == True',
+        'func() is True',
+        'some_call(a, b) is True',
+        'obj.method() is True',
+        'obj.attr is True',
+        'True is something',
+        'True == something',
+    ]
+)
+def test_no_remove_not_debug(condition):
+    source = '''
+value = 10
+
+# Not a __debug__ test
+if ''' + condition + ''':
+  value += 1
+
+print(value)
+    '''
+
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_no_remove_is_true_in_elif_chain():
+    """Regression test for issue #142 - if/elif/else with 'is True' comparisons"""
+    source = '''
+def check_is_internet_working(c):
+    url, url_hostname = get_url_and_url_hostname(c)
+
+    if is_internet_working_socket_test(c, url_hostname) is True:
+        c.is_internet_connected = True
+    elif is_internet_working_urllib_open(c, url) is True:
+        c.is_internet_connected = True
+    else:
+        c.is_internet_connected = False
+
+    return c.is_internet_connected
+'''
+
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
