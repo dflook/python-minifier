@@ -27,18 +27,38 @@ class RemoveDebug(SuiteTransformer):
         if not isinstance(node, ast.If):
             return False
 
-        if isinstance(node.test, ast.Name) and node.test.id == '__debug__':
-            return True
+        def is_simple_debug_check():
+            # Simple case: if __debug__:
+            if isinstance(node.test, ast.Name) and node.test.id == '__debug__':
+                return True
+            return False
 
-        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Is) and self.constant_value(node.test.comparators[0]) is True:
-            return True
+        def is_truthy_debug_comparison():
+            # Comparison case: if __debug__ is True / False / etc.
+            if not isinstance(node.test, ast.Compare):
+                return False
 
-        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.IsNot) and self.constant_value(node.test.comparators[0]) is False:
-            return True
+            if not isinstance(node.test.left, ast.Name):
+                return False
 
-        if isinstance(node.test, ast.Compare) and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Eq) and self.constant_value(node.test.comparators[0]) is True:
-            return True
+            if node.test.left.id != '__debug__':
+                return False
 
+            if len(node.test.ops) == 1:
+                op = node.test.ops[0]
+                comparator_value = self.constant_value(node.test.comparators[0])
+
+                if isinstance(op, ast.Is) and comparator_value is True:
+                    return True
+                if isinstance(op, ast.IsNot) and comparator_value is False:
+                    return True
+                if isinstance(op, ast.Eq) and comparator_value is True:
+                    return True
+
+            return False
+
+        if is_simple_debug_check() or is_truthy_debug_comparison():
+            return True
         return False
 
     def suite(self, node_list, parent):
