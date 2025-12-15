@@ -1,0 +1,12 @@
+atomicwrites==1.4.1
+attrs==20.3.0
+coverage==5.5
+more-itertools==10.5.0
+pluggy==0.13.1
+py==1.11.0
+pytest==4.5.0
+pytest-cov==2.5.1
+PyYAML==5.1
+sh==1.12.14
+six==1.16.0
+wcwidth==0.2.13

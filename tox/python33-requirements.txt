@@ -1,0 +1,6 @@
+coverage==4.5.4
+py==1.4.34
+pytest==3.2.5
+pytest-cov==2.5.1
+PyYAML==3.13
+sh==1.12.14
