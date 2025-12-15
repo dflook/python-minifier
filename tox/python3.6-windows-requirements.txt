@@ -1,0 +1,14 @@
+atomicwrites==1.4.1
+attrs==22.2.0
+colorama==0.4.5
+importlib-metadata==4.8.3
+iniconfig==1.1.1
+packaging==21.3
+pluggy==1.0.0
+py==1.11.0
+pyparsing==3.1.4
+pytest==7.0.1
+PyYAML==6.0.1
+tomli==1.2.3
+typing_extensions==4.1.1
+zipp==3.6.0

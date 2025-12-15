@@ -34,6 +34,14 @@ jobs:
           run: |
             tox -r -e $(echo "${{ matrix.python }}" | tr -d .)
 
+      - name: Upload coverage
+        if: ${{ matrix.python != 'python3.3' && matrix.python != 'python3.4' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.python }}
+          path: .coverage.*
+          include-hidden-files: true
+
   test-windows:
     name: Test Windows
     runs-on: windows-2025
@@ -155,3 +163,54 @@ jobs:
         with:
           dockerfile: ./docker/${{ matrix.dockerfile }}
           config: .config/hadolint.yaml
+
+  coverage-report:
+    name: Coverage Report
+    runs-on: ubuntu-24.04
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 1
+          show-progress: false
+          persist-credentials: false
+
+      - name: Download coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-*
+          merge-multiple: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Install coverage
+        run: pip install coverage
+
+      - name: Combine coverage
+        run: |
+          ls -la .coverage*
+          coverage combine --rcfile=.config/.coveragerc
+          ls -la .coverage*
+
+      - name: Upload combined coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-combined
+          path: .coverage
+          include-hidden-files: true
+
+      - name: Generate report
+        run: |
+          coverage report --rcfile=.config/.coveragerc --format=markdown 2>&1 | tee coverage-report.md
+          cat coverage-report.md >> "$GITHUB_STEP_SUMMARY"
+          coverage html --rcfile=.config/.coveragerc
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html-report
+          path: htmlcov/

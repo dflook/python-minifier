@@ -1,0 +1,14 @@
+[run]
+branch = true
+parallel = true
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    if TYPE_CHECKING:
+
+[paths]
+source =
+    src/python_minifier
+    */site-packages/python_minifier
