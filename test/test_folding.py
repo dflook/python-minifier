@@ -447,3 +447,114 @@ def test_complex_not_folded(source, expected):
         pytest.skip('Complex subtraction representation differs in Python 2')
 
     run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        # These fold because the result is 0j or the folded form is shorter
+        ('-3j + 3j', '0j'),
+        ('1j + -1j', '0j'),
+    ]
+)
+def test_negative_complex_in_binop_folded(source, expected):
+    """
+    Test that negative complex numbers (UnaryOp USub on complex) participate in BinOp folding.
+    """
+    if sys.version_info < (3, 0):
+        pytest.skip('Complex number representation differs in Python 2')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('-3j + 1j', '-3j+1j'),
+        ('-5j * 2', '-5j*2'),
+        ('2 * -5j', '2*-5j'),
+        ('-10j + 5j', '-10j+5j'),
+    ]
+)
+def test_negative_complex_in_binop_not_folded(source, expected):
+    """
+    Test that some negative complex operations don't fold due to representation issues.
+
+    When negating a pure imaginary number like -2j, Python represents -(-2j) as (-0+2j),
+    which makes the folded form longer than the original expression.
+    """
+    if sys.version_info < (3, 0):
+        pytest.skip('Complex number representation differs in Python 2')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('~0 + 1', '0'),
+        ('~5 & 0xff', '250'),
+        ('~0 | 5', '-1'),  # -1 in binary is all 1s, so -1 | x = -1
+        ('1 + ~0', '0'),
+        ('~1 + 2', '0'),
+        ('~0xff & 0xff', '0'),
+    ]
+)
+def test_invert_in_binop(source, expected):
+    """
+    Test that bitwise invert (UnaryOp Invert) participates in BinOp folding.
+    """
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('~0', '~0'),
+        ('~1', '~1'),
+        ('~5', '~5'),
+        ('~255', '~255'),
+    ]
+)
+def test_invert_not_folded(source, expected):
+    """
+    Test that simple bitwise invert on literals is not folded when the result is not shorter.
+
+    ~0 = -1, ~1 = -2, ~5 = -6, etc. These are the same length or longer.
+    """
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('~~0', '0'),
+        ('~~5', '5'),
+        ('~~~0', '~0'),
+        ('~~~~5', '5'),
+    ]
+)
+def test_double_invert_folded(source, expected):
+    """
+    Test that double bitwise invert is folded.
+
+    ~~x = x, so double invert should fold away.
+    """
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        # In Python, True == 1 and False == 0 for arithmetic
+        ('-5 + True', '-4'),
+        ('10 * False', '0'),
+        ('True + True', '2'),
+        ('~True', '-2'),  # ~1 = -2, shorter than ~True
+        ('~False', '-1'),  # ~0 = -1, shorter than ~False
+    ]
+)
+def test_mixed_numeric_bool_folded(source, expected):
+    """
+    Test folding of expressions mixing numeric and boolean operands.
+
+    Python treats True as 1 and False as 0 in numeric contexts.
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
