@@ -11,4 +11,4 @@ setuptools==68.0.0
 tomli==2.0.1
 typing_extensions==4.7.1
 wheel==0.42.0
-zipp==3.15.0
+zipp==3.19.1
