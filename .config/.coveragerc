@@ -1,0 +1,16 @@
+[run]
+branch = true
+parallel = true
+relative_files = true
+context = ${COVERAGE_CONTEXT}
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    if TYPE_CHECKING:
+
+[paths]
+source =
+    src/python_minifier
+    */site-packages/python_minifier

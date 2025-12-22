@@ -1,0 +1,7 @@
+iniconfig==2.0.0
+packaging==24.1
+pluggy==1.5.0
+psutil==6.0.0
+pyperf==2.6.1
+pytest==7.4.2
+PyYAML==6.0.1

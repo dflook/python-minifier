@@ -10,6 +10,26 @@ from python_minifier.transforms.suite_transformer import SuiteTransformer
 from python_minifier.util import is_constant_node
 
 
+def is_foldable_constant(node):
+    """
+    Check if a node is a constant expression that can participate in folding.
+
+    We can asume that children have already been folded, so foldable constants are either:
+    - Simple literals (Num, NameConstant)
+    - UnaryOp(USub/Invert) on a Num - these don't fold to shorter forms,
+      so they remain after child visiting. UAdd and Not would have been
+      folded away since they always produce shorter results.
+    """
+    if is_constant_node(node, (ast.Num, ast.NameConstant)):
+        return True
+
+    if isinstance(node, ast.UnaryOp):
+        if isinstance(node.op, (ast.USub, ast.Invert)):
+            return is_constant_node(node.operand, ast.Num)
+
+    return False
+
+
 class FoldConstants(SuiteTransformer):
     """
     Fold Constants if it would reduce the size of the source
@@ -18,28 +38,7 @@ class FoldConstants(SuiteTransformer):
     def __init__(self):
         super(FoldConstants, self).__init__()
 
-    def visit_BinOp(self, node):
-
-        node.left = self.visit(node.left)
-        node.right = self.visit(node.right)
-
-        # Check this is a constant expression that could be folded
-        # We don't try to fold strings or bytes, since they have probably been arranged this way to make the source shorter and we are unlikely to beat that
-        if not is_constant_node(node.left, (ast.Num, ast.NameConstant)):
-            return node
-        if not is_constant_node(node.right, (ast.Num, ast.NameConstant)):
-            return node
-
-        if isinstance(node.op, ast.Div):
-            # Folding div is subtle, since it can have different results in Python 2 and Python 3
-            # Do this once target version options have been implemented
-            return node
-
-        if isinstance(node.op, ast.Pow):
-            # This can be folded, but it is unlikely to reduce the size of the source
-            # It can also be slow to evaluate
-            return node
-
+    def fold(self, node):
         # Evaluate the expression
         try:
             original_expression = unparse_expression(node)
@@ -95,6 +94,44 @@ class FoldConstants(SuiteTransformer):
 
         # New representation is shorter and has the same value, so use it
         return self.add_child(new_node, get_parent(node), node.namespace)
+
+    def visit_BinOp(self, node):
+
+        node.left = self.visit(node.left)
+        node.right = self.visit(node.right)
+
+        # Check this is a constant expression that could be folded
+        # We don't try to fold strings or bytes, since they have probably been arranged this way to make the source shorter and we are unlikely to beat that
+        if not is_foldable_constant(node.left):
+            return node
+        if not is_foldable_constant(node.right):
+            return node
+
+        if isinstance(node.op, ast.Div):
+            # Folding div is subtle, since it can have different results in Python 2 and Python 3
+            # Do this once target version options have been implemented
+            return node
+
+        if isinstance(node.op, ast.Pow):
+            # This can be folded, but it is unlikely to reduce the size of the source
+            # It can also be slow to evaluate
+            return node
+
+        return self.fold(node)
+
+    def visit_UnaryOp(self, node):
+
+        node.operand = self.visit(node.operand)
+
+        # Only fold if the operand is a foldable constant
+        if not is_foldable_constant(node.operand):
+            return node
+
+        # Only fold these unary operators
+        if not isinstance(node.op, (ast.USub, ast.UAdd, ast.Invert, ast.Not)):
+            return node
+
+        return self.fold(node)
 
 
 def equal_value_and_type(a, b):

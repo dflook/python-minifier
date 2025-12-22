@@ -37,11 +37,29 @@ def BinOp(draw, expression) -> ast.BinOp:
     return ast.BinOp(le[0], op, le[1])
 
 
+@composite
+def UnaryOp(draw, expression) -> ast.UnaryOp:
+    op = draw(
+        sampled_from(
+            [
+                ast.USub(),     # Unary minus: -x
+                ast.UAdd(),     # Unary plus: +x
+                ast.Invert(),   # Bitwise not: ~x
+                ast.Not(),      # Logical not: not x
+            ]
+        )
+    )
+
+    operand = draw(expression)
+
+    return ast.UnaryOp(op, operand)
+
+
 def expression() -> SearchStrategy:
     return recursive(
         leaves,
         lambda expression:
-        BinOp(expression),
+        one_of(BinOp(expression), UnaryOp(expression)),
         max_leaves=150
     )
 

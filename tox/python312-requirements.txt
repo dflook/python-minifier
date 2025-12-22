@@ -1,0 +1,11 @@
+coverage==7.6.10
+iniconfig==2.0.0
+packaging==24.1
+pip==24.2
+pluggy==1.5.0
+psutil==6.0.0
+pyperf==2.6.1
+pytest==7.4.2
+pytest-cov==5.0.0
+PyYAML==6.0.1
+sh==2.0.6
