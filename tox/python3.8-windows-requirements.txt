@@ -4,7 +4,7 @@ more-itertools==10.5.0
 pluggy==0.13.1
 py==1.11.0
 pytest==4.5.0
-PyYAML==5.1
+PyYAML==5.4
 setuptools==45.3.0
 six==1.16.0
 wcwidth==0.2.13

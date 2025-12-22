@@ -7,6 +7,6 @@ py==1.11.0
 pyperf==2.2.0
 pytest==6.2.4
 pytest-cov==2.5.1
-PyYAML==5.4.1
+PyYAML==5.4
 sh==1.14.2
 toml==0.10.2

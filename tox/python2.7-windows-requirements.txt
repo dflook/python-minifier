@@ -13,7 +13,7 @@ pluggy==0.13.1
 py==1.11.0
 pyparsing==2.4.7
 pytest==4.6.11
-PyYAML==5.4.1
+PyYAML==5.4
 scandir==1.10.0
 six==1.17.0
 typing==3.10.0.0

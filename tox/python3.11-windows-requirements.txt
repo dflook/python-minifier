@@ -5,5 +5,5 @@ pluggy==1.5.0
 py==1.11.0
 pyperf==2.4.1
 pytest==7.1.2
-PyYAML==6.0
+PyYAML==5.4
 tomli==2.0.1
