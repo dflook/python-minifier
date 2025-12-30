@@ -306,7 +306,7 @@ class TokenPrinter(object):
     def end_statement(self):
         """ End a statement with a newline, or a semi-colon if it saves characters. """
 
-        if self.indent == 0:
+        if self.indent == 0 and not self._prefer_single_line:
             self.newline()
         else:
             if self._code[-1] != ';':

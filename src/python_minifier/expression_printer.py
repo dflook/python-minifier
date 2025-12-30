@@ -11,7 +11,7 @@ class ExpressionPrinter(object):
     Builds the smallest possible exact representation of an ast
     """
 
-    def __init__(self):
+    def __init__(self, prefer_single_line=False):
 
         self.precedences = {
             'Lambda': 2,  # Lambda
@@ -34,7 +34,7 @@ class ExpressionPrinter(object):
             'Tuple': 18, 'Set': 18, 'List': 18, 'Dict': 18, 'ListComp': 18, 'SetComp': 18, 'DictComp': 18, 'GeneratorExp': 18,  # Container
         }
 
-        self.printer = TokenPrinter()
+        self.printer = TokenPrinter(prefer_single_line=prefer_single_line)
 
     def __call__(self, module):
         """

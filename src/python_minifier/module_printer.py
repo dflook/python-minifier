@@ -11,8 +11,8 @@ class ModulePrinter(ExpressionPrinter):
     Builds the smallest possible exact representation of an ast
     """
 
-    def __init__(self, indent_char='\t'):
-        super(ModulePrinter, self).__init__()
+    def __init__(self, indent_char='\t', prefer_single_line=False):
+        super(ModulePrinter, self).__init__(prefer_single_line=prefer_single_line)
         self.indent_char = indent_char
 
     def __call__(self, module):
