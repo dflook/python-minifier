@@ -140,6 +140,13 @@ def parse_args():
         dest='in_place'
     )
 
+    parser.add_argument(
+        '--prefer-single-line',
+        action='store_true',
+        help='Prefer multiple statements on a single line separated by semicolons, instead of newlines, where there is no difference in output size',
+        dest='prefer_single_line',
+    )
+
     # Minification arguments
     minification_options = parser.add_argument_group('minification options', 'Options that affect how the source is minified')
     minification_options.add_argument(
@@ -373,7 +380,8 @@ def do_minify(source, filename, minification_args):
         remove_debug=minification_args.remove_debug,
         remove_explicit_return_none=minification_args.remove_explicit_return_none,
         remove_builtin_exception_brackets=minification_args.remove_exception_brackets,
-        constant_folding=minification_args.constant_folding
+        constant_folding=minification_args.constant_folding,
+        prefer_single_line=minification_args.prefer_single_line,
     )
 
     # Encode minified result to bytes for comparison and output

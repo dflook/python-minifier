@@ -1,0 +1,2 @@
+word='hello'
+print(word)

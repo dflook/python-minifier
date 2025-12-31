@@ -72,7 +72,8 @@ def minify(
     remove_debug=False,
     remove_explicit_return_none=True,
     remove_builtin_exception_brackets=True,
-    constant_folding=True
+    constant_folding=True,
+    prefer_single_line=False,
 ):
     """
     Minify a python module
@@ -107,6 +108,7 @@ def minify(
     :param bool remove_explicit_return_none: If explicit return None statements should be replaced with a bare return
     :param bool remove_builtin_exception_brackets: If brackets should be removed when raising exceptions with no arguments
     :param bool constant_folding: If literal expressions should be evaluated
+    :param bool prefer_single_line: If semi-colons should be preferred over newlines where there is no difference in output size
 
     :rtype: str
 
@@ -192,7 +194,7 @@ def minify(
     if convert_posargs_to_args:
         module = remove_posargs(module)
 
-    minified = unparse(module)
+    minified = unparse(module, prefer_single_line=prefer_single_line)
 
     if preserve_shebang is True:
         shebang_line = _find_shebang(source)
@@ -219,7 +221,7 @@ def _find_shebang(source):
     return None
 
 
-def unparse(module):
+def unparse(module, prefer_single_line=False):
     """
     Turn a module AST into python code
 
@@ -228,13 +230,14 @@ def unparse(module):
 
     :param module: The module to turn into python code
     :type: module: :class:`ast.Module`
+    :param bool prefer_single_line: If semi-colons should be preferred over newlines where there is no difference in output size
     :rtype: str
 
     """
 
     assert isinstance(module, ast.Module)
 
-    printer = ModulePrinter()
+    printer = ModulePrinter(prefer_single_line=prefer_single_line)
     printer(module)
 
     try:

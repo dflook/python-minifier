@@ -10,7 +10,7 @@ This package transforms python source code into a 'minified' representation of t
    installation
    command_usage
    api_usage
-   transforms/index
+   minification_options/index
 
 
 
