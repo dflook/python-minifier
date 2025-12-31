@@ -143,7 +143,7 @@ def parse_args():
     parser.add_argument(
         '--prefer-single-line',
         action='store_true',
-        help='Prefer multiple statements on a single line where there is no difference in output size',
+        help='Prefer multiple statements on a single line separated by semicolons, instead of newlines, where there is no difference in output size',
         dest='prefer_single_line',
     )
 

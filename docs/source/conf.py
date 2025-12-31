@@ -44,16 +44,17 @@ def create_example(option):
         'rename_globals': False,
         'rename_locals': False,
         'remove_object_base': False,
-        'convert_posargs_to_args': False
+        'convert_posargs_to_args': False,
+        'prefer_single_line': False
     }
 
     options[option] = True
 
-    with open(f'transforms/{option}.py') as source:
-        with open(f'transforms/{option}.min.py', 'w') as minified:
+    with open(f'minification_options/{option}.py') as source:
+        with open(f'minification_options/{option}.min.py', 'w') as minified:
             minified.write(minify(source.read(), filename=f'{option}.py', **options))
 
-for file in os.listdir('transforms'):
+for file in os.listdir('minification_options'):
     if file.endswith('.py') and not file.endswith('.min.py'):
         create_example(file[:-len('.py')])
 
