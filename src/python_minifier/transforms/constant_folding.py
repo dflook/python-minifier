@@ -14,7 +14,7 @@ def is_foldable_constant(node):
     """
     Check if a node is a constant expression that can participate in folding.
 
-    We can asume that children have already been folded, so foldable constants are either:
+    We can assume that children have already been folded, so foldable constants are either:
     - Simple literals (Num, NameConstant)
     - UnaryOp(USub/Invert) on a Num - these don't fold to shorter forms,
       so they remain after child visiting. UAdd and Not would have been
@@ -116,6 +116,30 @@ class FoldConstants(SuiteTransformer):
             # This can be folded, but it is unlikely to reduce the size of the source
             # It can also be slow to evaluate
             return node
+
+        return self.fold(node)
+
+    def visit_BoolOp(self, node):
+        node.values = [self.visit(v) for v in node.values]
+
+        # Check this is a constant expression that could be folded
+        if not all(is_foldable_constant(v) for v in node.values):
+            return node
+
+        return self.fold(node)
+
+    def visit_Compare(self, node):
+        node.left = self.visit(node.left)
+        node.comparators = [self.visit(c) for c in node.comparators]
+
+        operands = [node.left] + node.comparators
+        if not all(is_foldable_constant(n) for n in operands):
+            return node
+
+        if any(isinstance(op, (ast.Is, ast.IsNot)) for op in node.ops):
+            # Identity is only language-guaranteed for the singletons
+            if not all(is_constant_node(n, ast.NameConstant) for n in operands):
+                return node
 
         return self.fold(node)
 

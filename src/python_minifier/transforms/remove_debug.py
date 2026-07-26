@@ -18,7 +18,11 @@ class RemoveDebug(SuiteTransformer):
 
     def constant_value(self, node):
         if sys.version_info < (3, 4):
-            return node.id == 'True'
+            # True and False are Name nodes before python 3.4.
+            # The comparator may be any expression, so check it is a Name.
+            if isinstance(node, ast.Name) and node.id in ('True', 'False'):
+                return node.id == 'True'
+            return None
         elif is_constant_node(node, ast.NameConstant):
             return node.value
         return None
@@ -61,14 +65,10 @@ class RemoveDebug(SuiteTransformer):
             return True
         return False
 
-    def suite(self, node_list, parent):
+    def visit_If(self, node):
+        assert isinstance(node, ast.If)
 
-        without_debug = [self.visit(a) for a in filter(lambda n: not self.can_remove(n), node_list)]
+        if self.can_remove(node):
+            node.resolved_test = False
 
-        if len(without_debug) == 0:
-            if isinstance(parent, ast.Module):
-                return []
-            else:
-                return [self.add_child(ast.Expr(value=ast.Num(0)), parent=parent)]
-
-        return without_debug
+        return self.generic_visit(node)

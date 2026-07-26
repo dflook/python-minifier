@@ -10,6 +10,7 @@ import python_minifier.ast_compat as ast
 from python_minifier.ast_annotation import add_parent
 
 from python_minifier.ast_compare import CompareError, compare_ast
+from python_minifier.ast_printer import print_ast
 from python_minifier.module_printer import ModulePrinter
 from python_minifier.rename import (
     add_namespace,
@@ -25,6 +26,7 @@ from python_minifier.transforms.constant_folding import FoldConstants
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.remove_asserts import RemoveAsserts
+from python_minifier.transforms.remove_dead_branches import RemoveDeadBranches
 from python_minifier.transforms.remove_debug import RemoveDebug
 from python_minifier.transforms.remove_exception_brackets import remove_no_arg_exception_call
 from python_minifier.transforms.remove_explicit_return_none import RemoveExplicitReturnNone
@@ -74,6 +76,7 @@ def minify(
     remove_builtin_exception_brackets=True,
     constant_folding=True,
     prefer_single_line=False,
+    remove_dead_branches=True
 ):
     """
     Minify a python module
@@ -109,6 +112,7 @@ def minify(
     :param bool remove_builtin_exception_brackets: If brackets should be removed when raising exceptions with no arguments
     :param bool constant_folding: If literal expressions should be evaluated
     :param bool prefer_single_line: If semi-colons should be preferred over newlines where there is no difference in output size
+    :param bool remove_dead_branches: If if-statements with a constant False test should be removed
 
     :rtype: str
 
@@ -155,11 +159,14 @@ def minify(
     if remove_debug:
         module = RemoveDebug()(module)
 
-    if remove_explicit_return_none:
-        module = RemoveExplicitReturnNone()(module)
-
     if constant_folding:
         module = FoldConstants()(module)
+
+    if remove_dead_branches:
+        module = RemoveDeadBranches()(module)
+
+    if remove_explicit_return_none:
+        module = RemoveExplicitReturnNone()(module)
 
     bind_names(module)
     resolve_names(module)
