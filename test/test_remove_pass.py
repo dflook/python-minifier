@@ -1,4 +1,7 @@
 import ast
+import sys
+
+import pytest
 
 from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import compare_ast
@@ -112,6 +115,82 @@ def test_remove_from_class_func_empty():
 '''
     expected = '''class A:
     def b(): 0'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_literals(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_remove_from_except_handler():
+    source = '''try:
+    a()
+except:
+    pass
+'''
+    expected = '''try:
+    a()
+except:
+    0
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_literals(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_remove_from_except_handler_suite():
+    source = '''try:
+    a()
+except Exception:
+    pass
+    b()
+    pass
+'''
+    expected = '''try:
+    a()
+except Exception:
+    b()
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_literals(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_remove_from_finally():
+    source = '''try:
+    a()
+finally:
+    pass
+'''
+    expected = '''try:
+    a()
+finally:
+    0
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_literals(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_remove_from_match_case():
+    if sys.version_info < (3, 10):
+        pytest.skip('Match statement not in python < 3.10')
+
+    source = '''match x:
+    case 1:
+        pass
+    case _:
+        pass
+        b()
+'''
+    expected = '''match x:
+    case 1:
+        0
+    case _:
+        b()
+'''
 
     expected_ast = ast.parse(expected)
     actual_ast = remove_literals(source)

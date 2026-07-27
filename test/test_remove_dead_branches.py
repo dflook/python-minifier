@@ -1,0 +1,500 @@
+import ast
+import sys
+
+import pytest
+
+from python_minifier.ast_annotation import add_parent
+from python_minifier.ast_compare import compare_ast
+from python_minifier.rename import add_namespace, bind_names, resolve_names
+from python_minifier.transforms.remove_dead_branches import RemoveDeadBranches
+
+
+def parse(source):
+    module = ast.parse(source, 'remove_dead_branches')
+
+    add_parent(module)
+    add_namespace(module)
+    bind_names(module)
+    resolve_names(module)
+    return module
+
+
+def remove_dead_branches(source):
+    return RemoveDeadBranches()(parse(source))
+
+
+def run_test(source, expected):
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_dead_branches(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def skip_if_no_nameconstant():
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+
+# region constant tests
+
+def test_removes_false_branch():
+    skip_if_no_nameconstant()
+    run_test('''
+if False:
+    a()
+else:
+    b()
+''', 'b()')
+
+
+def test_removes_true_else_branch():
+    skip_if_no_nameconstant()
+    run_test('''
+if True:
+    a()
+else:
+    b()
+''', 'a()')
+
+
+def test_removes_bare_false_branch():
+    skip_if_no_nameconstant()
+    run_test('''
+if False:
+    a()
+b()
+''', 'b()')
+
+
+def test_elif_chain_collapses():
+    skip_if_no_nameconstant()
+    run_test('''
+if False:
+    a()
+elif False:
+    b()
+elif x:
+    c()
+else:
+    d()
+''', '''
+if x:
+    c()
+else:
+    d()
+''')
+
+
+def test_pads_empty_function():
+    skip_if_no_nameconstant()
+    run_test('''
+def f():
+    if False:
+        a()
+''', '''
+def f():
+    0
+''')
+
+
+def test_pads_empty_class():
+    skip_if_no_nameconstant()
+    run_test('''
+class A:
+    if False:
+        a()
+''', '''
+class A:
+    0
+''')
+
+
+def test_no_stray_padding_mid_suite():
+    skip_if_no_nameconstant()
+    run_test('''
+def f():
+    x = 1
+    if False:
+        a()
+    return x
+''', '''
+def f():
+    x = 1
+    return x
+''')
+
+
+def test_pads_live_if_body():
+    skip_if_no_nameconstant()
+    run_test('''
+if x:
+    if False:
+        a()
+else:
+    b()
+''', '''
+if x:
+    0
+else:
+    b()
+''')
+
+
+def test_non_constant_test_kept():
+    run_test('''
+if x:
+    a()
+''', '''
+if x:
+    a()
+''')
+
+
+def test_none_test_kept():
+    skip_if_no_nameconstant()
+    run_test('''
+if None:
+    a()
+''', '''
+if None:
+    a()
+''')
+
+
+def test_number_test_kept():
+    run_test('''
+if 0:
+    a()
+if 1:
+    b()
+''', '''
+if 0:
+    a()
+if 1:
+    b()
+''')
+
+
+def test_name_constants_kept_before_34():
+    # On python 2 (and < 3.4) True and False are reassignable names
+    if sys.version_info >= (3, 4):
+        pytest.skip('True and False are NameConstant in python >= 3.4')
+
+    run_test('''
+if True:
+    a()
+if False:
+    b()
+''', '''
+if True:
+    a()
+if False:
+    b()
+''')
+
+# endregion
+
+# region resolved_test marks
+
+def test_resolved_test_false():
+    module = parse('''
+if x:
+    a()
+else:
+    b()
+''')
+    module.body[0].resolved_test = False
+    compare_ast(ast.parse('b()'), RemoveDeadBranches()(module))
+
+
+def test_resolved_test_true():
+    module = parse('''
+if x:
+    a()
+else:
+    b()
+''')
+    module.body[0].resolved_test = True
+    compare_ast(ast.parse('a()'), RemoveDeadBranches()(module))
+
+
+def test_resolved_test_overrides_constant():
+    skip_if_no_nameconstant()
+
+    module = parse('''
+if True:
+    a()
+else:
+    b()
+''')
+    module.body[0].resolved_test = False
+    compare_ast(ast.parse('b()'), RemoveDeadBranches()(module))
+
+# endregion
+
+# region symbol table guards
+
+def test_keeps_sole_local_binding():
+    skip_if_no_nameconstant()
+    source = '''
+def f():
+    if False:
+        x = 1
+    return x
+'''
+    run_test(source, source)
+
+
+def test_removes_local_binding_bound_elsewhere():
+    skip_if_no_nameconstant()
+    run_test('''
+def f():
+    if False:
+        x = 1
+    x = 2
+    return x
+''', '''
+def f():
+    x = 2
+    return x
+''')
+
+
+def test_keeps_generator_yield():
+    skip_if_no_nameconstant()
+    source = '''
+def f():
+    if False:
+        yield
+'''
+    run_test(source, source)
+
+
+def test_keeps_global_declaration():
+    skip_if_no_nameconstant()
+    source = '''
+def f():
+    if False:
+        global x
+    x = 1
+'''
+    run_test(source, source)
+
+
+def test_keeps_nonlocal_declaration():
+    skip_if_no_nameconstant()
+    source = '''
+def f():
+    x = 1
+    def g():
+        if False:
+            nonlocal x
+            x = 2
+'''
+    run_test(source, source)
+
+
+def test_nested_function_binding_does_not_mask():
+    # g's local x must not count as a binding of x in f
+    skip_if_no_nameconstant()
+    source = '''
+def f():
+    if False:
+        x = 1
+    def g():
+        x = 2
+    return x
+'''
+    run_test(source, source)
+
+
+def test_sibling_dead_branches_keep_one_binding():
+    # Both branches can't be removed, or x would stop being a local.
+    # The first branch found is removed greedily.
+    skip_if_no_nameconstant()
+    run_test('''
+def f():
+    if False:
+        x = 1
+    if False:
+        x = 2
+    return x
+''', '''
+def f():
+    if False:
+        x = 2
+    return x
+''')
+
+
+def test_nested_dead_branches_keep_one_binding():
+    # The dead branch inside the removed True branch is spliced into the
+    # same suite, and must still count the condemned sibling binding
+    skip_if_no_nameconstant()
+    run_test('''
+def f():
+    if False:
+        x = 1
+    if True:
+        if False:
+            x = 2
+    return x
+''', '''
+def f():
+    if False:
+        x = 2
+    return x
+''')
+
+# endregion
+
+# region module and class namespaces
+
+def test_removes_module_binding():
+    skip_if_no_nameconstant()
+    run_test('''
+if False:
+    DEBUG = True
+print(1)
+''', 'print(1)')
+
+
+def test_removes_module_import():
+    skip_if_no_nameconstant()
+    run_test('''
+if False:
+    import logging
+print(1)
+''', 'print(1)')
+
+
+def test_keeps_module_dead_nonlocal():
+    # The original is a compile time SyntaxError, removing the branch shouldn't fix it
+    skip_if_no_nameconstant()
+    source = '''
+if False:
+    nonlocal x
+'''
+    run_test(source, source)
+
+
+def test_keeps_module_dead_yield():
+    # The original is a compile time SyntaxError, removing the branch shouldn't fix it
+    skip_if_no_nameconstant()
+    source = '''
+if False:
+    yield
+'''
+    run_test(source, source)
+
+
+def test_removes_class_binding():
+    # Class name resolution is dynamic when no function scope encloses the class
+    skip_if_no_nameconstant()
+    run_test('''
+class C:
+    if False:
+        x = 1
+    y = x
+''', '''
+class C:
+    y = x
+''')
+
+
+def test_keeps_class_binding_in_function():
+    # A binding in the class body stops loads deferring to the enclosing
+    # function scope cell, so it can't be removed
+    skip_if_no_nameconstant()
+    source = '''
+def f():
+    x = 'cell'
+    class C:
+        if False:
+            x = 1
+        y = x
+    return C.y
+'''
+    run_test(source, source)
+
+
+def test_removes_class_branch_in_function_without_bindings():
+    skip_if_no_nameconstant()
+    run_test('''
+def f():
+    class C:
+        if False:
+            a()
+        b()
+''', '''
+def f():
+    class C:
+        b()
+''')
+
+
+def test_keeps_class_global_declaration():
+    # global in a class body applies to the whole class body
+    skip_if_no_nameconstant()
+    source = '''
+class C:
+    if False:
+        global x
+    x = 1
+'''
+    run_test(source, source)
+
+# endregion
+
+# region suite coverage
+
+def test_removes_from_except_handler():
+    skip_if_no_nameconstant()
+    run_test('''
+try:
+    f()
+except:
+    if False:
+        g()
+    h()
+''', '''
+try:
+    f()
+except:
+    h()
+''')
+
+
+def test_removes_from_finally():
+    skip_if_no_nameconstant()
+    run_test('''
+try:
+    f()
+finally:
+    if False:
+        g()
+    h()
+''', '''
+try:
+    f()
+finally:
+    h()
+''')
+
+
+def test_removes_from_match_case():
+    if sys.version_info < (3, 10):
+        pytest.skip('Match statement not in python < 3.10')
+
+    run_test('''
+match x:
+    case 1:
+        if False:
+            g()
+        h()
+''', '''
+match x:
+    case 1:
+        h()
+''')
+
+# endregion

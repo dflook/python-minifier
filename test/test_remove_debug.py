@@ -5,6 +5,7 @@ import pytest
 from python_minifier.ast_annotation import add_parent
 from python_minifier.ast_compare import compare_ast
 from python_minifier.rename import add_namespace, bind_names, resolve_names
+from python_minifier.transforms.remove_dead_branches import RemoveDeadBranches
 from python_minifier.transforms.remove_debug import RemoveDebug
 
 
@@ -15,7 +16,10 @@ def remove_debug(source):
     add_namespace(module)
     bind_names(module)
     resolve_names(module)
-    return RemoveDebug()(module)
+
+    # RemoveDebug only marks debug branches as dead, RemoveDeadBranches removes them
+    module = RemoveDebug()(module)
+    return RemoveDeadBranches()(module)
 
 
 def test_remove_debug_empty_module():
@@ -41,9 +45,9 @@ a=1'''
 
 
 def test_remove_if_empty():
-    source = '''if True:
+    source = '''if x:
     if __debug__: pass'''
-    expected = '''if True: 0'''
+    expected = '''if x: 0'''
 
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
@@ -51,12 +55,12 @@ def test_remove_if_empty():
 
 
 def test_remove_suite():
-    source = '''if True:
+    source = '''if x:
     if __debug__: pass
     a=1
     if __debug__: pass
     return None'''
-    expected = '''if True:
+    expected = '''if x:
     a=1
     return None'''
 
@@ -221,6 +225,154 @@ def check_is_internet_working(c):
 '''
 
     expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_keeps_else_branch():
+    # Under -O the else branch is the live branch, it must survive
+    source = '''
+if __debug__:
+    a()
+else:
+    b()
+'''
+    expected = 'b()'
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_elif_debug_splices():
+    source = '''
+if x:
+    a()
+elif __debug__:
+    d()
+else:
+    b()
+'''
+    expected = '''
+if x:
+    a()
+else:
+    b()
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_keeps_generator_function():
+    # Removing the only yield would stop this being a generator function
+    source = '''
+def f():
+    if __debug__:
+        yield 1
+'''
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_keeps_global_declaration():
+    # The global declaration applies to the whole scope, even if unreachable
+    source = '''
+x = 1
+def f():
+    if __debug__:
+        global x
+        x = 2
+'''
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_keeps_sole_local_binding():
+    # Removing the only binding of x would change UnboundLocalError into a global lookup
+    source = '''
+def f():
+    if __debug__:
+        x = 1
+    return x
+'''
+    expected = source
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_removes_local_binding_bound_elsewhere():
+    # x is still a local without the debug branch, so removal is safe
+    source = '''
+def f():
+    if __debug__:
+        x = 1
+    x = 2
+    return x
+'''
+    expected = '''
+def f():
+    x = 2
+    return x
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_removes_module_binding():
+    # Module name resolution is dynamic, an unreachable binding is invisible
+    source = '''
+if __debug__:
+    DEBUG = True
+print(1)
+'''
+    expected = 'print(1)'
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_removes_module_import():
+    source = '''
+if __debug__:
+    import logging
+print(1)
+'''
+    expected = 'print(1)'
+
+    expected_ast = ast.parse(expected)
+    actual_ast = remove_debug(source)
+    compare_ast(expected_ast, actual_ast)
+
+
+def test_removes_from_except_handler():
+    source = '''
+try:
+    f()
+except:
+    if __debug__:
+        log()
+'''
+    expected = '''
+try:
+    f()
+except:
+    0
+'''
 
     expected_ast = ast.parse(expected)
     actual_ast = remove_debug(source)
