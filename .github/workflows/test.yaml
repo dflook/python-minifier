@@ -71,7 +71,7 @@ jobs:
 
       - name: Set up Python
         if: ${{ matrix.python-version == '2.7' }}
-        uses: LizardByte/actions/actions/setup_python@eddc8fc8b27048e25040e37e3585bd3ef9a968ed  # master
+        uses: LizardByte/actions/actions/setup_python@a46850981292c4bbc0c41715f286ad95adaaaf4a  # v2026.625.20301
         with:
           python-version: ${{ matrix.python-version }}
 
