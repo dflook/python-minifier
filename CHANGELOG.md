@@ -10,6 +10,15 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [Unreleased]
+
+### Added
+- New transform to remove `if` statement branches that have no effect because the condition is always `True` or `False`. This is enabled by default and can be disabled with the `--no-remove-dead-branches` option.
+- Constant folding can now fold boolean (`and`/`or`) and comparison (`==`, `is`, `<`, ...) expressions with literal operands.
+
+### Fixed
+- The remove debug transform no longer removes branches if they affect the program, even though they aren't executed, e.g. they contain `yield`, a `global`/`nonlocal` declaration, or the only binding of a local name. It also now properly inlines the else branch.
+
 ## [3.2.0] - 2025-12-31
 
 ### Added

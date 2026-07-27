@@ -21,6 +21,7 @@ They can be enabled or disabled through the minify function, or passing options 
    remove_explicit_return_none
    remove_builtin_exception_brackets
    constant_folding
+   remove_dead_branches
 
 .. toctree::
    :caption: Disabled by default

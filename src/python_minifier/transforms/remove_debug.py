@@ -8,9 +8,11 @@ from python_minifier.util import is_constant_node
 
 class RemoveDebug(SuiteTransformer):
     """
-    Remove if statements where the condition tests __debug__ is True
+    Mark if statements whose condition tests __debug__ is True as dead
 
-    If a statement is syntactically necessary, use an empty expression instead
+    The marked statements are removed by the RemoveDeadBranches transform, which
+    keeps any else branch and any branch that can't be removed without changing
+    the meaning of the program.
     """
 
     def __call__(self, node):
