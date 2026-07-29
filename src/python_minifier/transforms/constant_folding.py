@@ -1,5 +1,6 @@
 import math
 import sys
+import warnings
 
 import python_minifier.ast_compat as ast
 from python_minifier.ast_annotation import get_parent
@@ -172,8 +173,11 @@ def safe_eval(expression):
     empty_globals = {}
     empty_locals = {}
 
-    # This will return the value, or could raise an exception
-    return eval(expression, empty_globals, empty_locals)
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+
+        # This will return the value, or could raise an exception
+        return eval(expression, empty_globals, empty_locals)
 
 
 def unparse_expression(node):
