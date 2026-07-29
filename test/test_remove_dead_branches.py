@@ -530,3 +530,129 @@ match x:
 ''')
 
 # endregion
+
+# region orelse cleanup
+
+def test_drops_emptied_if_else():
+    # A live if whose else is emptied by dead-branch removal drops the else
+    # rather than keeping the 0 padding
+    skip_if_no_nameconstant()
+    run_test('''
+if x:
+    a()
+else:
+    if False:
+        b()
+''', '''
+if x:
+    a()
+''')
+
+
+def test_keeps_live_if_else():
+    # The else still has a live statement, so it is kept
+    skip_if_no_nameconstant()
+    run_test('''
+if x:
+    a()
+else:
+    if False:
+        b()
+    c()
+''', '''
+if x:
+    a()
+else:
+    c()
+''')
+
+
+def test_drops_user_written_else_zero():
+    # A bare 0 expression else is a no-op, so it is dropped
+    run_test('''
+if x:
+    a()
+else:
+    0
+''', '''
+if x:
+    a()
+''')
+
+
+def test_keeps_padded_if_body():
+    # The body of a live if is not optional, so its 0 padding is kept
+    skip_if_no_nameconstant()
+    run_test('''
+if x:
+    if False:
+        a()
+''', '''
+if x:
+    0
+''')
+
+
+def test_drops_emptied_while_else():
+    skip_if_no_nameconstant()
+    run_test('''
+while x:
+    a()
+else:
+    if False:
+        b()
+''', '''
+while x:
+    a()
+''')
+
+
+def test_drops_emptied_for_else():
+    skip_if_no_nameconstant()
+    run_test('''
+for i in x:
+    a()
+else:
+    if False:
+        b()
+''', '''
+for i in x:
+    a()
+''')
+
+
+def test_drops_emptied_try_else():
+    skip_if_no_nameconstant()
+    run_test('''
+try:
+    a()
+except:
+    b()
+else:
+    if False:
+        c()
+''', '''
+try:
+    a()
+except:
+    b()
+''')
+
+
+def test_keeps_padded_try_finally():
+    # finally can't be dropped when there are no handlers, or try: would be bare
+    skip_if_no_nameconstant()
+    run_test('''
+try:
+    a()
+finally:
+    if False:
+        c()
+''', '''
+try:
+    a()
+finally:
+    0
+''')
+
+# endregion
