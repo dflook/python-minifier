@@ -19,3 +19,4 @@ docs/source/transforms/*.min.py
 .coverage
 .mypy_cache/
 .tox/
+docs/source/minification_options/*.min.py
