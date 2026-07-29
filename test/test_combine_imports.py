@@ -86,6 +86,25 @@ def test_import_in_function():
     compare_ast(expected_ast, actual_ast)
 
 
+def test_import_in_except_handler():
+    # SuiteTransformer now visits except handler bodies
+    source = '''try:
+    pass
+except Exception:
+    import collection as c
+    import builtins
+'''
+    expected = '''try:
+    pass
+except Exception:
+    import collection as c, builtins
+'''
+
+    expected_ast = ast.parse(expected)
+    actual_ast = combine_imports(ast.parse(source))
+    compare_ast(expected_ast, actual_ast)
+
+
 def test_import_star():
     source = '''
 from breakfast import hashbrown
