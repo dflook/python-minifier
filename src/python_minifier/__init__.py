@@ -10,7 +10,6 @@ import python_minifier.ast_compat as ast
 from python_minifier.ast_annotation import add_parent
 
 from python_minifier.ast_compare import CompareError, compare_ast
-from python_minifier.ast_printer import print_ast
 from python_minifier.module_printer import ModulePrinter
 from python_minifier.rename import (
     add_namespace,

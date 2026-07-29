@@ -345,6 +345,38 @@ def f():
     return x
 ''')
 
+
+def test_keeps_namedexpr_in_comprehension():
+    if sys.version_info < (3, 8):
+        pytest.skip('NamedExpr not in python < 3.8')
+
+    source = '''
+def f():
+    if False:
+        [x for x in range(3) if (y := x)]
+    return y
+'''
+    run_test(source, source)
+
+
+def test_removes_when_namedexpr_bound_elsewhere():
+    # The same NamedExpr binding also exists outside the dead branch, so removing
+    # the branch does not change f's bindings and it can be removed.
+    if sys.version_info < (3, 8):
+        pytest.skip('NamedExpr not in python < 3.8')
+
+    run_test('''
+def f():
+    if False:
+        [x for x in range(3) if (y := x)]
+    [x for x in range(3) if (y := x)]
+    return y
+''', '''
+def f():
+    [x for x in range(3) if (y := x)]
+    return y
+''')
+
 # endregion
 
 # region module and class namespaces

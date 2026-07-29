@@ -1,5 +1,4 @@
 import python_minifier.ast_compat as ast
-from python_minifier.rename.util import is_namespace
 
 from python_minifier.transforms.suite_transformer import SuiteTransformer
 from python_minifier.util import is_constant_node
@@ -63,15 +62,16 @@ class RemoveDeadBranches(SuiteTransformer):
 
     def get_namespace_properties(self, namespace, removed_suites=None):
         """
-        Gather names in the given namespace
+        Gather the binding properties of a namespace
 
-        Gather three sets of names: local, nonlocal and global.
+        Walks the namespace and collects the names it binds (as local, nonlocal
+        and global name sets) and whether it is a generator.
 
-        Doesn't recurse into child namespaces, and doesn't search the except_suite, which is assumed to be a branch that will be removed.
-
-        :param namespace:
-        :param except_branch:
-        :rtype: set[str]
+        :param namespace: The namespace node to analyse
+        :param removed_suites: Suites to skip while walking, for
+            branches that are being removed.
+        :type removed_suites: list or None
+        :rtype: NamespaceProperties
         """
         if removed_suites is None:
             removed_suites = []
@@ -79,62 +79,56 @@ class RemoveDeadBranches(SuiteTransformer):
         properties = NamespaceProperties()
 
         def explore_namespace(node):
-            if isinstance(node, ast.Name):
-                if isinstance(node.ctx, (ast.Store, ast.Del, ast.Param)):
-                    properties.local_names.add(node.id)
-            elif isinstance(node, ast.ClassDef):
-                properties.local_names.add(node.name)
-            elif isinstance(node, ast.FunctionDef):
-                properties.local_names.add(node.name)
-            elif isinstance(node, ast.AsyncFunctionDef):
-                properties.local_names.add(node.name)
-            elif isinstance(node, ast.alias):
-                # What about import *
+            binds_here = getattr(node, 'namespace', namespace) is namespace
 
-                if node.asname is not None:
-                    properties.local_names.add(node.asname)
-                else:
-                    properties.local_names.add(node.name.split('.')[0])
-            elif isinstance(node, ast.arguments):
-                if isinstance(node.vararg, str):
-                    properties.local_names.add(node.vararg)
-                if isinstance(node.kwarg, str):
-                    properties.local_names.add(node.kwarg)
-            elif isinstance(node, ast.arg):
-                properties.local_names.add(node.arg)
-            elif isinstance(node, ast.ExceptHandler):
-                if isinstance(node.name, str):
+            if binds_here:
+                if isinstance(node, ast.Name):
+                    if isinstance(node.ctx, (ast.Store, ast.Del, ast.Param)):
+                        properties.local_names.add(node.id)
+                elif isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
+                    properties.local_names.add(node.name)
+                elif isinstance(node, ast.alias):
+                    # What about import *
+
+                    if node.asname is not None:
+                        properties.local_names.add(node.asname)
+                    else:
+                        properties.local_names.add(node.name.split('.')[0])
+                elif isinstance(node, ast.arguments):
+                    if isinstance(node.vararg, str):
+                        properties.local_names.add(node.vararg)
+                    if isinstance(node.kwarg, str):
+                        properties.local_names.add(node.kwarg)
+                elif isinstance(node, ast.arg):
+                    properties.local_names.add(node.arg)
+                elif isinstance(node, ast.ExceptHandler):
+                    if isinstance(node.name, str):
+                        properties.local_names.add(node.name)
+
+                elif isinstance(node, ast.Global):
+                    properties.global_names.update(node.names)
+                elif isinstance(node, ast.Nonlocal):
+                    properties.nonlocal_names.update(node.names)
+
+                elif isinstance(node, ast.MatchAs):
+                    if isinstance(node.name, str):
+                        properties.local_names.add(node.name)
+                elif isinstance(node, ast.MatchStar):
+                    if isinstance(node.name, str):
+                        properties.local_names.add(node.name)
+                elif isinstance(node, ast.MatchMapping):
+                    if isinstance(node.rest, str):
+                        properties.local_names.add(node.rest)
+
+                elif isinstance(node, ast.TypeVar):
+                    properties.local_names.add(node.name)
+                elif isinstance(node, ast.TypeVarTuple):
+                    properties.local_names.add(node.name)
+                elif isinstance(node, ast.ParamSpec):
                     properties.local_names.add(node.name)
 
-            elif isinstance(node, ast.Global):
-                properties.global_names.update(node.names)
-            elif isinstance(node, ast.Nonlocal):
-                properties.nonlocal_names.update(node.names)
-
-            elif isinstance(node, ast.MatchAs):
-                if isinstance(node.name, str):
-                    properties.local_names.add(node.name)
-            elif isinstance(node, ast.MatchStar):
-                if isinstance(node.name, str):
-                    properties.local_names.add(node.name)
-            elif isinstance(node, ast.MatchMapping):
-                if isinstance(node.rest, str):
-                    properties.local_names.add(node.rest)
-
-            elif isinstance(node, ast.TypeVar):
-                properties.local_names.add(node.name)
-            elif isinstance(node, ast.TypeVarTuple):
-                properties.local_names.add(node.name)
-            elif isinstance(node, ast.ParamSpec):
-                properties.local_names.add(node.name)
-
-            elif isinstance(node, ast.Yield) or isinstance(node, ast.YieldFrom):
-                properties.is_generator = True
-
-            if is_namespace(node) and node is not namespace:
-                # A nested namespace. The name it binds (recorded above) belongs to
-                # this namespace, but its contents do not - don't descend into it.
-                return
+                elif isinstance(node, (ast.Yield, ast.YieldFrom)):
+                    properties.is_generator = True
 
             for name, field in ast.iter_fields(node):
                 if field in removed_suites:
@@ -166,15 +160,21 @@ class RemoveDeadBranches(SuiteTransformer):
         # Gather properties in the namespace, additionally excluding the candidate branch
         candidate_properties = self.get_namespace_properties(namespace, removed_suites=[candidate_suite] + self._removed_suites)
 
+        declarations_changed = (
+            properties.is_generator != candidate_properties.is_generator
+            or properties.nonlocal_names != candidate_properties.nonlocal_names
+            or properties.global_names != candidate_properties.global_names
+        )
+
         if isinstance(namespace, ast.Module):
             # The module namespace is dynamic, removing unreachable bindings doesn't
             # change their resolution behaviour, so we can safely remove them.
-            return properties.is_generator != candidate_properties.is_generator or properties.nonlocal_names != candidate_properties.nonlocal_names or properties.global_names != candidate_properties.global_names
+            return declarations_changed
         elif isinstance(namespace, ast.ClassDef) and not in_function_scope(namespace):
             # Class namespaces are also dynamic, but a binding in the class body stops
             # loads deferring to an enclosing function scope cell, so unreachable local
             # bindings can only be ignored when no function scope encloses the class.
-            return properties.is_generator != candidate_properties.is_generator or properties.nonlocal_names != candidate_properties.nonlocal_names or properties.global_names != candidate_properties.global_names
+            return declarations_changed
         else:
             return properties != candidate_properties
 
@@ -230,3 +230,54 @@ class RemoveDeadBranches(SuiteTransformer):
                 return [self.add_child(ast.Expr(value=ast.Num(0)), parent=parent)]
 
         return without_dead_branches
+
+    def _is_empty_suite(self, suite):
+        """
+        Is the suite empty?
+
+        An empty suite is either a zero length list, or a list containing a single expression statement that is the constant 0.
+        The constant 0 is used by various transforms as a placeholder for an empty suite, because not all suites can be empty (e.g. the body of a function or class).
+
+        :param suite:
+        :type suite: list
+        :rtype: bool
+        """
+        if len(suite) == 0:
+            return True
+        return len(suite) == 1 and isinstance(suite[0], ast.Expr) and is_constant_node(suite[0].value, ast.Num) and suite[0].value.n == 0
+
+    def visit_If(self, node):
+        node = super(RemoveDeadBranches, self).visit_If(node)
+
+        # Empty orelse suite can be omitted
+        if self._is_empty_suite(node.orelse):
+            node.orelse = []
+
+        return node
+
+    def visit_While(self, node):
+        node = super(RemoveDeadBranches, self).visit_While(node)
+
+        # Empty orelse suite can be omitted
+        if self._is_empty_suite(node.orelse):
+            node.orelse = []
+
+        return node
+
+    def visit_For(self, node):
+        node = super(RemoveDeadBranches, self).visit_For(node)
+
+        # Empty orelse suite can be omitted
+        if self._is_empty_suite(node.orelse):
+            node.orelse = []
+
+        return node
+
+    def visit_Try(self, node):
+        node = super(RemoveDeadBranches, self).visit_Try(node)
+
+        # Empty orelse suite can be omitted
+        if self._is_empty_suite(node.orelse):
+            node.orelse = []
+
+        return node
