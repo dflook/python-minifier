@@ -1,6 +1,5 @@
 import math
 import sys
-import warnings
 
 import python_minifier.ast_compat as ast
 from python_minifier.ast_annotation import get_parent
@@ -156,6 +155,13 @@ class FoldConstants(SuiteTransformer):
         if not isinstance(node.op, (ast.USub, ast.UAdd, ast.Invert, ast.Not)):
             return node
 
+        # ~ on a bool is deprecated from python 3.12 (removed in 3.16), so evaluating
+        # it would emit a DeprecationWarning. Folding ~True / ~False saves almost
+        # nothing, so skip it rather than suppress warnings globally. (~None is a
+        # TypeError that never folds anyway.)
+        if isinstance(node.op, ast.Invert) and is_constant_node(node.operand, ast.NameConstant):
+            return node
+
         return self.fold(node)
 
 
@@ -173,11 +179,8 @@ def safe_eval(expression):
     empty_globals = {}
     empty_locals = {}
 
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-
-        # This will return the value, or could raise an exception
-        return eval(expression, empty_globals, empty_locals)
+    # This will return the value, or could raise an exception
+    return eval(expression, empty_globals, empty_locals)
 
 
 def unparse_expression(node):

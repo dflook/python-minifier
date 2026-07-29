@@ -544,8 +544,6 @@ def test_double_invert_folded(source, expected):
         ('-5 + True', '-4'),
         ('10 * False', '0'),
         ('True + True', '2'),
-        ('~True', '-2'),  # ~1 = -2, shorter than ~True
-        ('~False', '-1'),  # ~0 = -1, shorter than ~False
     ]
 )
 def test_mixed_numeric_bool_folded(source, expected):
@@ -553,6 +551,23 @@ def test_mixed_numeric_bool_folded(source, expected):
     Test folding of expressions mixing numeric and boolean operands.
 
     Python treats True as 1 and False as 0 in numeric contexts.
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('~True', '~True'),
+        ('~False', '~False'),
+    ]
+)
+def test_invert_bool_not_folded(source, expected):
+    """
+    ~ on a bool is deprecated from python 3.12, so it is not folded (evaluating
+    it would emit a DeprecationWarning, and the saving is negligible).
     """
     if sys.version_info < (3, 4):
         pytest.skip('NameConstant not in python < 3.4')
