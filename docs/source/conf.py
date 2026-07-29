@@ -48,11 +48,18 @@ def create_example(option):
         'prefer_single_line': False
     }
 
-    options[option] = True
-
     with open(f'minification_options/{option}.py') as source:
-        with open(f'minification_options/{option}.min.py', 'w') as minified:
-            minified.write(minify(source.read(), filename=f'{option}.py', **options))
+        source_code = source.read()
+
+    # Output with the option enabled
+    options[option] = True
+    with open(f'minification_options/{option}.min.py', 'w') as minified:
+        minified.write(minify(source_code, filename=f'{option}.py', **options))
+
+    # Output with the option disabled, for pages that show both
+    options[option] = False
+    with open(f'minification_options/{option}_false.min.py', 'w') as minified:
+        minified.write(minify(source_code, filename=f'{option}.py', **options))
 
 for file in os.listdir('minification_options'):
     if file.endswith('.py') and not file.endswith('.min.py'):
