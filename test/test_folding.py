@@ -544,6 +544,8 @@ def test_double_invert_folded(source, expected):
         ('-5 + True', '-4'),
         ('10 * False', '0'),
         ('True + True', '2'),
+        ('~True', '-2'),
+        ('~False', '-1')
     ]
 )
 def test_mixed_numeric_bool_folded(source, expected):
@@ -551,6 +553,9 @@ def test_mixed_numeric_bool_folded(source, expected):
     Test folding of expressions mixing numeric and boolean operands.
 
     Python treats True as 1 and False as 0 in numeric contexts.
+
+    ~ on a bool is deprecated from python 3.12, so it is folded by computing the
+    value directly rather than evaluating it (which would emit a DeprecationWarning).
     """
     if sys.version_info < (3, 4):
         pytest.skip('NameConstant not in python < 3.4')
@@ -562,16 +567,18 @@ def test_mixed_numeric_bool_folded(source, expected):
     ('source', 'expected'), [
         ('~True', '~True'),
         ('~False', '~False'),
+        ('~~False', '~~False'),
     ]
 )
-def test_invert_bool_not_folded(source, expected):
+def test_invert_bool_not_folded_from_316(source, expected, monkeypatch):
     """
-    ~ on a bool is deprecated from python 3.12, so it is not folded (evaluating
-    it would emit a DeprecationWarning, and the saving is negligible).
+    ~ on a bool is removed in python 3.16, where it raises.
+    The minified code should fail the same way the original would.
     """
     if sys.version_info < (3, 4):
         pytest.skip('NameConstant not in python < 3.4')
 
+    monkeypatch.setattr(sys, 'version_info', (3, 16, 0))
     run_test(source, expected)
 
 

@@ -42,7 +42,14 @@ class FoldConstants(SuiteTransformer):
         # Evaluate the expression
         try:
             original_expression = unparse_expression(node)
-            original_value = safe_eval(original_expression)
+
+            if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Invert) and is_constant_node(node.operand, ast.NameConstant) and isinstance(node.operand.value, bool):
+                # ~ on a bool is deprecated from python 3.12, to be removed in 3.16.
+                if sys.version_info >= (3, 16):
+                    return node
+                original_value = ~int(node.operand.value)
+            else:
+                original_value = safe_eval(original_expression)
         except Exception:
             return node
 
@@ -153,13 +160,6 @@ class FoldConstants(SuiteTransformer):
 
         # Only fold these unary operators
         if not isinstance(node.op, (ast.USub, ast.UAdd, ast.Invert, ast.Not)):
-            return node
-
-        # ~ on a bool is deprecated from python 3.12 (removed in 3.16), so evaluating
-        # it would emit a DeprecationWarning. Folding ~True / ~False saves almost
-        # nothing, so skip it rather than suppress warnings globally. (~None is a
-        # TypeError that never folds anyway.)
-        if isinstance(node.op, ast.Invert) and is_constant_node(node.operand, ast.NameConstant):
             return node
 
         return self.fold(node)
