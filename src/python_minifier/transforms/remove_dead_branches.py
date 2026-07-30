@@ -130,8 +130,16 @@ class RemoveDeadBranches(SuiteTransformer):
                 elif isinstance(node, (ast.Yield, ast.YieldFrom)):
                     properties.is_generator = True
 
+            # Skip recursing into the body field of child namespaces, as they can only affect the child namespace
+            # Other fields (decorators, annotations, arguments...) can affect this namespace,
+            # so we do want to recurse into them
+            skip_body = node is not namespace and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.ClassDef))
+
             for name, field in ast.iter_fields(node):
                 if field in removed_suites:
+                    continue
+
+                if skip_body and name == 'body':
                     continue
 
                 if isinstance(field, ast.AST):
