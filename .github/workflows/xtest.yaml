@@ -83,3 +83,15 @@ jobs:
     with:
       ref: ${{ github.ref }}
       base-ref: ${{ github.base_ref }}
+
+  regression-tests-passed:
+    # Aggregate gate for branch protection.
+    name: Regression Tests Passed
+    runs-on: ubuntu-24.04
+    needs: [test, hypo_test, test-corpus]
+    if: ${{ always() }}
+    steps:
+      - name: Verify all jobs succeeded
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
+        run: |
+          exit 1
