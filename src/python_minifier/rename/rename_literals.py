@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import python_minifier.ast_compat as ast
 from python_minifier.ast_annotation import get_parent, set_parent
 
@@ -118,7 +120,7 @@ class HoistLiterals(NodeVisitor):
     def __call__(self, module, ignore_slots=True):
         self.module = module
         self._ignore_slots = ignore_slots
-        self._hoisted = {}
+        self._hoisted = OrderedDict()
         self.visit(module)
         self.place_bindings()
 

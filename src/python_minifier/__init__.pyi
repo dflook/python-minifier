@@ -29,7 +29,8 @@ def minify(
     remove_explicit_return_none: bool = ...,
     remove_builtin_exception_brackets: bool = ...,
     constant_folding: bool = ...,
-    prefer_single_line: bool = ...
+    prefer_single_line: bool = ...,
+    remove_dead_branches: bool = ...
 ) -> Text: ...
 
 

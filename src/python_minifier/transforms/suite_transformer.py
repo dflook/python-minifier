@@ -117,6 +117,51 @@ class SuiteTransformer(NodeVisitor):
 
         return node
 
+    def visit_TryStar(self, node):
+        return self.visit_Try(node)
+
+    def visit_TryFinally(self, node):
+        # Python 2
+        node.body = self.suite(node.body, parent=node)
+        node.finalbody = self.suite(node.finalbody, parent=node)
+        return node
+
+    def visit_TryExcept(self, node):
+        # Python 2
+        node.body = self.suite(node.body, parent=node)
+
+        node.handlers = [self.visit(h) for h in node.handlers]
+
+        if node.orelse:
+            node.orelse = self.suite(node.orelse, parent=node)
+
+        return node
+
+    def visit_ExceptHandler(self, node):
+        if node.type is not None:
+            node.type = self.visit(node.type)
+
+        if node.name is not None and isinstance(node.name, ast.AST):
+            # Python 2 uses a Name node
+            node.name = self.visit(node.name)
+
+        node.body = self.suite(node.body, parent=node)
+        return node
+
+    def visit_Match(self, node):
+        node.subject = self.visit(node.subject)
+        node.cases = [self.visit(c) for c in node.cases]
+        return node
+
+    def visit_match_case(self, node):
+        node.pattern = self.visit(node.pattern)
+
+        if node.guard is not None:
+            node.guard = self.visit(node.guard)
+
+        node.body = self.suite(node.body, parent=node)
+        return node
+
     def visit_While(self, node):
         node.test = self.visit(node.test)
 

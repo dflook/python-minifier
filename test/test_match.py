@@ -7,6 +7,34 @@ from python_minifier import unparse
 from python_minifier.ast_compare import compare_ast
 
 
+def test_match_guard_unparse():
+    if sys.version_info < (3, 10):
+        pytest.skip('Match statement not in python < 3.10')
+
+    source = '''
+match p:
+    case x if (1, 2):
+        pass
+    case x if a and b:
+        pass
+    case x if a if b else c:
+        pass
+    case x if a < b < c:
+        pass
+    case x if (y := f()):
+        pass
+
+def g():
+    match p:
+        case x if (yield):
+            pass
+'''
+
+    expected_ast = ast.parse(source)
+    actual_ast = unparse(expected_ast)
+    compare_ast(expected_ast, ast.parse(actual_ast))
+
+
 def test_pep635_unparse():
     if sys.version_info < (3, 10):
         pytest.skip('Match statement not in python < 3.10')

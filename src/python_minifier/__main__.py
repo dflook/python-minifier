@@ -250,6 +250,12 @@ def parse_args():
         help='Disable evaluating literal expressions',
         dest='constant_folding',
     )
+    minification_options.add_argument(
+        '--no-remove-dead-branches',
+        action='store_false',
+        help='Disable removing branches that are never executed',
+        dest='remove_dead_branches',
+    )
 
     annotation_options = parser.add_argument_group('remove annotations options', 'Options that affect how annotations are removed')
     annotation_options.add_argument(
@@ -303,6 +309,10 @@ def parse_args():
 
     if args.remove_class_attribute_annotations and not args.remove_annotations:
         sys.stderr.write('error: --remove-class-attribute-annotations would do nothing when used with --no-remove-annotations\n')
+        sys.exit(1)
+
+    if args.remove_debug and not args.remove_dead_branches:
+        sys.stderr.write('error: --remove-debug would do nothing when used with --no-remove-dead-branches\n')
         sys.exit(1)
 
     return args

@@ -1,2 +1,0 @@
-word='hello'
-print(word)

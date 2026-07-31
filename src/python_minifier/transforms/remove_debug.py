@@ -8,9 +8,11 @@ from python_minifier.util import is_constant_node
 
 class RemoveDebug(SuiteTransformer):
     """
-    Remove if statements where the condition tests __debug__ is True
+    Mark if statements whose condition tests __debug__ is True as dead
 
-    If a statement is syntactically necessary, use an empty expression instead
+    The marked statements are removed by the RemoveDeadBranches transform, which
+    keeps any else branch and any branch that can't be removed without changing
+    the meaning of the program.
     """
 
     def __call__(self, node):
@@ -18,7 +20,11 @@ class RemoveDebug(SuiteTransformer):
 
     def constant_value(self, node):
         if sys.version_info < (3, 4):
-            return node.id == 'True'
+            # True and False are Name nodes before python 3.4.
+            # The comparator may be any expression, so check it is a Name.
+            if isinstance(node, ast.Name) and node.id in ('True', 'False'):
+                return node.id == 'True'
+            return None
         elif is_constant_node(node, ast.NameConstant):
             return node.value
         return None
@@ -61,14 +67,10 @@ class RemoveDebug(SuiteTransformer):
             return True
         return False
 
-    def suite(self, node_list, parent):
+    def visit_If(self, node):
+        assert isinstance(node, ast.If)
 
-        without_debug = [self.visit(a) for a in filter(lambda n: not self.can_remove(n), node_list)]
+        if self.can_remove(node):
+            node.resolved_test = False
 
-        if len(without_debug) == 0:
-            if isinstance(parent, ast.Module):
-                return []
-            else:
-                return [self.add_child(ast.Expr(value=ast.Num(0)), parent=parent)]
-
-        return without_debug
+        return self.generic_visit(node)

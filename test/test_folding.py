@@ -544,8 +544,8 @@ def test_double_invert_folded(source, expected):
         ('-5 + True', '-4'),
         ('10 * False', '0'),
         ('True + True', '2'),
-        ('~True', '-2'),  # ~1 = -2, shorter than ~True
-        ('~False', '-1'),  # ~0 = -1, shorter than ~False
+        ('~True', '-2'),
+        ('~False', '-1')
     ]
 )
 def test_mixed_numeric_bool_folded(source, expected):
@@ -553,6 +553,136 @@ def test_mixed_numeric_bool_folded(source, expected):
     Test folding of expressions mixing numeric and boolean operands.
 
     Python treats True as 1 and False as 0 in numeric contexts.
+
+    ~ on a bool is deprecated from python 3.12, so it is folded by computing the
+    value directly rather than evaluating it (which would emit a DeprecationWarning).
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('~True', '~True'),
+        ('~False', '~False'),
+        ('~~False', '~~False'),
+    ]
+)
+def test_invert_bool_not_folded_from_316(source, expected, monkeypatch):
+    """
+    ~ on a bool is removed in python 3.16, where it raises.
+    The minified code should fail the same way the original would.
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    monkeypatch.setattr(sys, 'version_info', (3, 16, 0))
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('1 or 2', '1'),
+        ('0 or 2', '2'),
+        ('1 and 2', '2'),
+        ('0 and 2', '0'),
+    ]
+)
+def test_boolop_numeric_folded(source, expected):
+    """
+    Test that and/or expressions with numeric operands are folded.
+
+    BoolOp returns an operand value, not necessarily a bool.
+    """
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('True and False', 'False'),
+        ('False or True', 'True'),
+        ('None or False', 'False'),
+        ('True and True and True', 'True'),
+    ]
+)
+def test_boolop_folded(source, expected):
+    """
+    Test that and/or expressions with constant operands are folded.
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        # Partially constant expressions must not fold, even where
+        # short circuit evaluation makes the result predictable
+        ('True and x', 'True and x'),
+        ('True or x', 'True or x'),
+        ('x and False', 'x and False'),
+
+        # fold() doesn't construct None constants, only bool and numbers
+        ('False or None', 'False or None'),
+    ]
+)
+def test_boolop_not_folded(source, expected):
+    """
+    Test that and/or expressions with non-constant operands are not folded.
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        ('True is True', 'True'),
+        ('True is not False', 'True'),
+        ('None is None', 'True'),
+        ('True == True', 'True'),
+        ('1 < 2 < 3', 'True'),
+        ('3 < 2 < 1 < 0', 'False'),
+        ('1 == 1.0', 'True'),
+    ]
+)
+def test_compare_folded(source, expected):
+    """
+    Test that comparisons of constants are folded.
+    """
+    if sys.version_info < (3, 4):
+        pytest.skip('NameConstant not in python < 3.4')
+
+    run_test(source, expected)
+
+
+@pytest.mark.parametrize(
+    ('source', 'expected'), [
+        # Not smaller than the folded result
+        ('1 < 2', '1 < 2'),
+        ('1 == 1', '1 == 1'),
+
+        # Identity of non-singletons is implementation defined
+        ('1000 is 1000', '1000 is 1000'),
+        ('1000 is not 1000', '1000 is not 1000'),
+        ('1 < 2 is 2', '1 < 2 is 2'),
+
+        # Raises at runtime, must be preserved
+        ('1 in 2', '1 in 2'),
+        ('1 < None', '1 < None'),
+
+        # Not constant
+        ('x < 2', 'x < 2'),
+        ('True is x', 'True is x'),
+    ]
+)
+def test_compare_not_folded(source, expected):
+    """
+    Test comparisons that must not be folded.
     """
     if sys.version_info < (3, 4):
         pytest.skip('NameConstant not in python < 3.4')

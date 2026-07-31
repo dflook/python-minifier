@@ -602,7 +602,7 @@ class ModulePrinter(ExpressionPrinter):
 
         if node.guard is not None:
             self.printer.keyword('if')
-            self.visit(node.guard)
+            self._expression(node.guard)
 
         self.printer.delimiter(':')
         self._suite(node.body)
