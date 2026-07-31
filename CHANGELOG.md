@@ -16,8 +16,13 @@ the minified code may only run with Python 3.12.
 - New transform to remove `if` statement branches that have no effect because the condition is always `True` or `False`. This is enabled by default and can be disabled with the `--no-remove-dead-branches` option.
 - Constant folding can now fold boolean (`and`/`or`) and comparison (`==`, `is`, `<`, ...) expressions with literal operands.
 
+### Changed
+- The remove pass, remove asserts, remove literal statements and combine imports transforms now also apply within `except` handler and `match` case bodies, where they were previously skipped.
+
 ### Fixed
 - The remove debug transform no longer removes branches if they affect the program, even though they aren't executed, e.g. they contain `yield`, a `global`/`nonlocal` declaration, or the only binding of a local name. It also now properly inlines the else branch.
+- Fixed producing invalid output for a `match` case guard that is a tuple, `yield`, or named expression, e.g. `case x if (1, 2):`.
+- Constant folding no longer emits a `DeprecationWarning` when folding `~` on a boolean (e.g. `~True`) on Python 3.12 and later
 
 ## [3.2.0] - 2025-12-31
 
