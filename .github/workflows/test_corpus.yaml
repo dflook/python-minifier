@@ -51,7 +51,7 @@ jobs:
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout workflow ref
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -60,7 +60,7 @@ jobs:
 
       - name: Checkout ref
         id: checkout-ref
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           fetch-tags: true
@@ -111,7 +111,7 @@ jobs:
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout workflow ref
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           path: workflow
           fetch-depth: 1
@@ -120,7 +120,7 @@ jobs:
 
       - name: Checkout ref
         id: ref
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ inputs.ref }}
           path: python-minifier
@@ -131,7 +131,7 @@ jobs:
 
       - name: Checkout base ref
         id: base-ref
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ inputs.base-ref }}
           path: python-minifier-base
@@ -150,7 +150,7 @@ jobs:
             python3.14 workflow/corpus_test/generate_report.py /corpus-results ${{ inputs.ref }} ${{ steps.ref.outputs.commit }} ${{ inputs.base-ref }} ${{ steps.base-ref.outputs.commit }} | tee -a $GITHUB_STEP_SUMMARY > report.md
 
       - name: Lint Report
-        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        uses: DavidAnson/markdownlint-cli2-action@6bf21b07787794f89a243495939cd651942aeabe # v24.1.0
         continue-on-error: true
         with:
           config: '.config/corpus_report.markdownlint.yaml'
@@ -158,7 +158,7 @@ jobs:
 
       - name: Upload Report
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: corpus-report
           path: report.md

@@ -18,7 +18,7 @@ jobs:
       image: danielflook/python-minifier-build:python3.14-2025-09-26
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           show-progress: false
@@ -52,6 +52,4 @@ jobs:
       - name: Verify all jobs succeeded
         if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
         run: |
-          echo "A required job did not succeed:"
-          echo '${{ toJSON(needs) }}'
           exit 1

@@ -19,7 +19,7 @@ jobs:
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -54,7 +54,7 @@ jobs:
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
