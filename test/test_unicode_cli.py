@@ -14,9 +14,8 @@ def test_cli_output_flag_with_unicode():
     # Minimal source with all problematic Unicode characters from reported issues
     source_code = u'print(u"❌ ✓ 🐍 Привет © ∀")'
 
-    source_file = tempfile.NamedTemporaryFile(mode='wb', suffix='.py', delete=False)
-    source_file.write(source_code.encode('utf-8'))
-    source_file.close()
+    with tempfile.NamedTemporaryFile(mode='wb', suffix='.py', delete=False) as source_file:
+        source_file.write(source_code.encode('utf-8'))
 
     output_path = source_file.name + '.min.py'
 
@@ -79,9 +78,8 @@ def test_cli_in_place_with_unicode():
     """
     source_code = u'print(u"❌ ✓ 🐍 Привет © ∀")'
 
-    temp_file = tempfile.NamedTemporaryFile(mode='wb', suffix='.py', delete=False)
-    temp_file.write(source_code.encode('utf-8'))
-    temp_file.close()
+    with tempfile.NamedTemporaryFile(mode='wb', suffix='.py', delete=False) as temp_file:
+        temp_file.write(source_code.encode('utf-8'))
 
     try:
         # Run pyminify with --in-place flag
@@ -137,9 +135,8 @@ def test_cli_stdout_with_unicode():
     """
     source_code = u'print(u"❌ ✓ 🐍 Привет © ∀")'
 
-    temp_file = tempfile.NamedTemporaryFile(mode='wb', suffix='.py', delete=False)
-    temp_file.write(source_code.encode('utf-8'))
-    temp_file.close()
+    with tempfile.NamedTemporaryFile(mode='wb', suffix='.py', delete=False) as temp_file:
+        temp_file.write(source_code.encode('utf-8'))
 
     try:
         # Run without --output or --in-place (should output to stdout)

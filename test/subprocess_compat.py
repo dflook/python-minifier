@@ -9,7 +9,7 @@ def run_subprocess(cmd, timeout=None, input_data=None, env=None):
         # Python 3.5+ - encode string input to bytes for subprocess
         input_bytes = input_data.encode('utf-8') if isinstance(input_data, str) else input_data
         return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                            input=input_bytes, timeout=timeout, env=env)
+                            input=input_bytes, timeout=timeout, env=env, check=False)
     # Python 2.7, 3.3, 3.4 - no subprocess.run, no timeout support
     popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            stdin=subprocess.PIPE if input_data else None, env=env)

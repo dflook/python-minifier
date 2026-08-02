@@ -8,16 +8,21 @@ line-length = 200
 
 exclude = ["docs"]
 
+# corpus_test/generate_report.py only runs on the newest Python in CI,
+# unlike generate_results.py which runs on every supported version
+[per-file-target-version]
+"corpus_test/generate_report.py" = "py314"
+
 [lint]
-# Enable most rules
-select = [
+# The default ruleset is the starting point.
+# extend-select adds rule groups that are not (fully) enabled by default.
+# F (Pyflakes) and YTT (flake8-2020) were previously selected and are now fully enabled by default.
+extend-select = [
     "E",    # pycodestyle errors
     "W",    # pycodestyle warnings
-    "F",    # Pyflakes
     "I",    # isort
     "S",    # flake8-bandit (security)
     "ERA",  # eradicate (commented-out code)
-    "YTT",  # flake8-2020 (sys.version checks)
     "FBT",  # flake8-boolean-trap (boolean positional arguments)
     "A",    # flake8-builtins (shadowing builtins)
     "COM",  # flake8-commas (trailing commas)
@@ -33,15 +38,27 @@ ignore = [
     "S307",  # Use of eval() - intentional and safe in this codebase (constant folding, validation)
     "FBT002",  # Boolean default positional arguments - API design choice throughout codebase
     "COM812",  # Missing trailing comma - we prohibit trailing commas instead
+    "UP",  # pyupgrade suggests Python 3 only syntax - the codebase must remain Python 2.7 compatible
+    "BLE001",  # Catching Exception is intentional - transforms and candidate generation fall back on any error
+    "SIM102",  # Nested if statements separate node-type guards from attribute conditions - deliberate style
+    "SIM103",  # Guard clause chains deliberately end with a constant return rather than returning the last condition
+    "SIM114",  # Exhaustive branches per AST node type are deliberate, keeping dispatch readable and symmetric
 ]
 
 # Per-file ignores for specific compatibility needs
 [lint.per-file-ignores]
-# AST compatibility module needs star imports and shadows Ellipsis builtin for Python version compatibility
-"src/python_minifier/ast_compat.py" = ["F403", "F405", "A001"]
+# AST compatibility module needs star imports, shadows the Ellipsis builtin for Python version
+# compatibility, and forwards constructor arguments after a keyword argument in compat node classes
+"src/python_minifier/ast_compat.py" = ["F403", "F405", "A001", "B026"]
 
 # __init__.py files intentionally re-export for public API
 "*/__init__.py" = ["F401"]
+
+# The documented public API takes an options object as a default argument, evaluated once at import
+"src/python_minifier/__init__.py" = ["B008"]
+
+# A shared sentinel instance as a default argument is intentional
+"src/python_minifier/ast_annotation/__init__.py" = ["B008"]
 
 # Type comparisons needed for Python 2.7 compatibility in specific files
 "src/python_minifier/ast_compare.py" = ["E721"]
@@ -51,12 +68,18 @@ ignore = [
 # Compatibility imports in utility modules
 "src/python_minifier/rename/util.py" = ["F401"]
 
+# AssertionError for unreachable AST node types is an internal invariant check, not caller type validation
+"src/python_minifier/rename/binding.py" = ["TRY004"]
+
 # Broad exception handling needed for candidate generation (try different quote styles)
 "src/python_minifier/f_string.py" = ["S112"]
 "src/python_minifier/t_string.py" = ["S112"]
 
 # random.choice() used for variable name generation, not cryptography
 "src/python_minifier/rename/name_generator.py" = ["S311"]
+
+# Standalone CI script that deliberately logs through the root logger
+"corpus_test/generate_results.py" = ["LOG015"]
 
 # Test files need exec() to validate minified code behavior and subprocess calls for integration tests
 "test/**/*.py" = ["S102", "S603"]

@@ -10,7 +10,6 @@ from python_minifier.transforms.remove_annotations_options import RemoveAnnotati
 
 class MinificationNotBeneficialError(Exception):
     """Raised when minification results in larger output than the original."""
-    pass
 
 def stdout_write_bytes(data):
     """Write bytes to stdout with proper Python 2.7/3.x compatibility."""

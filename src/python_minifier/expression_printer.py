@@ -221,9 +221,7 @@ class ExpressionPrinter(object):
         right_precedence = self.precedence(node.operand)
         op_precedence = self.precedence(node)
 
-        if right_precedence != 0 and (
-            (op_precedence > right_precedence)
-        ):
+        if right_precedence != 0 and op_precedence > right_precedence:
             self.printer.delimiter('(')
             self._expression(node.operand)
             self.printer.delimiter(')')
