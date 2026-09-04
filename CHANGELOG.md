@@ -10,7 +10,7 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
-## [Unreleased]
+## [3.3.0] - 2026-09-04
 
 ### Added
 - New transform to remove `if` statement branches that have no effect because the condition is always `True` or `False`. This is enabled by default and can be disabled with the `--no-remove-dead-branches` option.
@@ -331,6 +331,7 @@ the minified code may only run with Python 3.12.
 - python-minifier package
 - pyminify command
 
+[3.3.0]: https://github.com/dflook/python-minifier/compare/3.2.0...3.3.0
 [3.2.0]: https://github.com/dflook/python-minifier/compare/3.1.1...3.2.0
 [3.1.1]: https://github.com/dflook/python-minifier/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/dflook/python-minifier/compare/3.0.0...3.1.0
