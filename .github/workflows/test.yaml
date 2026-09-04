@@ -28,7 +28,7 @@ jobs:
           sed -i "s/setup_requires=.*/version='$VERSION',/; s/use_scm_version=.*//" setup.py
 
       - name: Run tests
-        uses: ./.github/actions/run-in-container
+        uses: $/.github/actions/run-in-container
         with:
           image: danielflook/python-minifier-build:${{ matrix.python }}-2025-09-26
           run: |

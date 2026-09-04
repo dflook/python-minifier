@@ -19,7 +19,7 @@ jobs:
 
   create_draft_release:
     name: Create Draft Release
-    uses: ./.github/workflows/create_draft_release.yaml
+    uses: $/.github/workflows/create_draft_release.yaml
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
