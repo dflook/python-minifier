@@ -34,7 +34,7 @@ jobs:
 
   create_draft_release:
     name: Create Draft Release
-    uses: ./.github/workflows/create_draft_release.yaml
+    uses: $/.github/workflows/create_draft_release.yaml
     needs:
         - determine_version
     permissions:

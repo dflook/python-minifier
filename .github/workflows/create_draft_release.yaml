@@ -175,7 +175,7 @@ jobs:
           merge-multiple: true
 
       - name: Test
-        uses: ./.github/actions/run-in-container
+        uses: $/.github/actions/run-in-container
         with:
           image: danielflook/python-minifier-build:python${{ matrix.python }}-2025-09-26
           run: |
