@@ -19,7 +19,7 @@ jobs:
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -54,7 +54,7 @@ jobs:
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
 
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -83,3 +83,15 @@ jobs:
     with:
       ref: ${{ github.ref }}
       base-ref: ${{ github.base_ref }}
+
+  regression-tests-passed:
+    # Aggregate gate for branch protection.
+    name: Regression Tests Passed
+    runs-on: ubuntu-24.04
+    needs: [test, hypo_test, test-corpus]
+    if: ${{ always() }}
+    steps:
+      - name: Verify all jobs succeeded
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
+        run: |
+          exit 1

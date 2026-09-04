@@ -16,7 +16,7 @@ jobs:
         python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "python3.14", "pypy", "pypy3"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -36,7 +36,7 @@ jobs:
 
       - name: Upload coverage
         if: ${{ matrix.python != 'python3.3' && matrix.python != 'python3.4' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: coverage-${{ matrix.python }}
           path: .coverage.*
@@ -51,7 +51,7 @@ jobs:
         python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -59,13 +59,13 @@ jobs:
 
       - name: Set up Python
         if: ${{ matrix.python-version != '2.7' && matrix.python-version != '3.14' }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Set up Python 3.14
         if: ${{ matrix.python-version == '3.14' }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.14.0-rc.3'
 
@@ -97,7 +97,7 @@ jobs:
     name: Linting
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -109,7 +109,7 @@ jobs:
           ./actionlint
 
       - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       - name: Actions Security Check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -117,21 +117,22 @@ jobs:
           uvx zizmor --format plain .
 
       - name: Lint CHANGELOG
-        uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20.0.0
+        uses: DavidAnson/markdownlint-cli2-action@6bf21b07787794f89a243495939cd651942aeabe # v24.1.0
         with:
           config: '.config/changelog.markdownlint.yaml'
           globs: 'CHANGELOG.md'
 
       - name: Lint Other Markdown
-        uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20.0.0
+        uses: DavidAnson/markdownlint-cli2-action@6bf21b07787794f89a243495939cd651942aeabe # v24.1.0
         with:
           config: '.config/.markdownlint.yaml'
           globs: |
             **/README.md
 
       - name: Lint Python code
-        uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1 # v3.5.1
+        uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
         with:
+          version: 0.16.1
           args: --config=.config/ruff.toml check
 
   lint_dockerfiles:
@@ -152,14 +153,14 @@ jobs:
           - Dockerfile-fuzz
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
           persist-credentials: false
 
       - name: Lint ${{ matrix.dockerfile }}
-        uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+        uses: hadolint/hadolint-action@2a66e89f53d0771bb131a7fa31f3136336094aa6 # v3.4.0
         with:
           dockerfile: ./docker/${{ matrix.dockerfile }}
           config: .config/hadolint.yaml
@@ -170,20 +171,20 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
           persist-credentials: false
 
       - name: Download coverage artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7.0.0
         with:
           pattern: coverage-*
           merge-multiple: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.14'
 
@@ -197,7 +198,7 @@ jobs:
           ls -la .coverage*
 
       - name: Upload combined coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: coverage-combined
           path: .coverage
@@ -210,7 +211,19 @@ jobs:
           coverage html --rcfile=.config/.coveragerc
 
       - name: Upload HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: coverage-html-report
           path: htmlcov/
+
+  unit-tests-passed:
+    # Aggregate gate for branch protection.
+    name: Unit Tests Passed
+    runs-on: ubuntu-24.04
+    needs: [test, test-windows, lint, lint_dockerfiles, coverage-report]
+    if: ${{ always() }}
+    steps:
+      - name: Verify all jobs succeeded
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
+        run: |
+          exit 1

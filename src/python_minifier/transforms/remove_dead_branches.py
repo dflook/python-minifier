@@ -186,44 +186,62 @@ class RemoveDeadBranches(SuiteTransformer):
         else:
             return properties != candidate_properties
 
+    def constant_test(self, node):
+        """
+        The constant truth value of an if statement's test, or None
+
+        RemoveDebug marks if statements whose __debug__ test it has resolved
+        with a resolved_test attribute. Otherwise only the True and False
+        constants are recognised - before python 3.4 they are reassignable
+        names, so nothing is recognised.
+
+        :param node: The statement to examine
+        :type node: ast.AST
+        :rtype: bool or None
+        """
+        if not isinstance(node, ast.If):
+            return None
+
+        if hasattr(node, 'resolved_test'):
+            if node.resolved_test is True or node.resolved_test is False:
+                return node.resolved_test
+            return None
+
+        if is_constant_node(node.test, ast.NameConstant) and isinstance(node.test.value, bool):
+            return node.test.value
+
+        return None
+
     def remove_false_branches(self, node_list):
         suite = []
 
         for node in node_list:
-            if not isinstance(node, ast.If):
-                suite.append(self.visit(node))
+            condition = self.constant_test(node)
+
+            # A branch of a constant test can be removed, if that doesn't change
+            # the semantics of the program
+
+            if condition is True and not self.changes_semantics(node.namespace, node.orelse):
+                # The else branch is dead, keep only the body
+                self._removed_suites.append(node.orelse)
+                suite.extend(self.remove_false_branches(node.body))
                 continue
 
-            # This is an If statement
-
-            if hasattr(node, 'resolved_test'):
-                condition = node.resolved_test
-            elif is_constant_node(node.test, ast.NameConstant) and isinstance(node.test.value, bool):
-                condition = node.test.value
-            else:
-                # The test is not a constant, so we can't remove this branch
-                suite.append(self.visit(node))
+            if condition is False and not self.changes_semantics(node.namespace, node.body):
+                # The body is dead, keep only the else branch
+                self._removed_suites.append(node.body)
+                suite.extend(self.remove_false_branches(node.orelse))
                 continue
 
-            # We can possibly remove one of the branches, but we need to check if it changes the semantics of the program
+            node = self.visit(node)
 
-            if condition is True:
-                if self.changes_semantics(node.namespace, node.orelse):
-                    # Removing the else branch changes the semantics of the program, so we can't remove it
-                    suite.append(self.visit(node))
-                else:
-                    # The else branch is dead, keep only the body
-                    self._removed_suites.append(node.orelse)
-                    suite.extend(self.remove_false_branches(node.body))
+            # An else suite that dead branch removal (or another transform) emptied
+            # or reduced to the 0 padding can be omitted.
+            orelse = getattr(node, 'orelse', None)
+            if orelse and self._is_empty_suite(orelse):
+                node.orelse = []
 
-            elif condition is False:
-                if self.changes_semantics(node.namespace, node.body):
-                    # Removing the body branch changes the semantics of the program, so we can't remove it
-                    suite.append(self.visit(node))
-                else:
-                    # The body is dead, keep only the else branch
-                    self._removed_suites.append(node.body)
-                    suite.extend(self.remove_false_branches(node.orelse))
+            suite.append(node)
 
         return suite
 
@@ -253,39 +271,3 @@ class RemoveDeadBranches(SuiteTransformer):
         if len(suite) == 0:
             return True
         return len(suite) == 1 and isinstance(suite[0], ast.Expr) and is_constant_node(suite[0].value, ast.Num) and suite[0].value.n == 0
-
-    def visit_If(self, node):
-        node = super(RemoveDeadBranches, self).visit_If(node)
-
-        # Empty orelse suite can be omitted
-        if self._is_empty_suite(node.orelse):
-            node.orelse = []
-
-        return node
-
-    def visit_While(self, node):
-        node = super(RemoveDeadBranches, self).visit_While(node)
-
-        # Empty orelse suite can be omitted
-        if self._is_empty_suite(node.orelse):
-            node.orelse = []
-
-        return node
-
-    def visit_For(self, node):
-        node = super(RemoveDeadBranches, self).visit_For(node)
-
-        # Empty orelse suite can be omitted
-        if self._is_empty_suite(node.orelse):
-            node.orelse = []
-
-        return node
-
-    def visit_Try(self, node):
-        node = super(RemoveDeadBranches, self).visit_Try(node)
-
-        # Empty orelse suite can be omitted
-        if self._is_empty_suite(node.orelse):
-            node.orelse = []
-
-        return node

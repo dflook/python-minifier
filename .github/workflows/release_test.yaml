@@ -18,7 +18,7 @@ jobs:
       image: danielflook/python-minifier-build:python3.14-2025-09-26
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           show-progress: false
@@ -41,3 +41,15 @@ jobs:
       contents: write
     with:
       release_version: ${{ needs.determine_version.outputs.release_version }}
+
+  release-tests-passed:
+    # Aggregate gate for branch protection.
+    name: Release Tests Passed
+    runs-on: ubuntu-24.04
+    needs: [determine_version, create_draft_release]
+    if: ${{ always() }}
+    steps:
+      - name: Verify all jobs succeeded
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
+        run: |
+          exit 1

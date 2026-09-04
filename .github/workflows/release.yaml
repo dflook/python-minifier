@@ -38,7 +38,7 @@ jobs:
       url: https://pypi.org/project/python-minifier/${{ inputs.version }}
     steps:
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/download-artifact@v7.0.0
         with:
           pattern: dist-*
           path: dist/
@@ -58,13 +58,14 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      actions: read
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: actions/deploy-pages@v5.0.0
 
   publish_release:
     name: Publish Release

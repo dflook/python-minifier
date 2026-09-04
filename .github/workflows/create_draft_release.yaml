@@ -29,7 +29,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -65,14 +65,14 @@ jobs:
           echo "wheel=$(find dist -name '*-py3-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
       - name: Upload sdist artifact
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: dist-sdist
           path: dist/${{ steps.package.outputs.sdist }}
           if-no-files-found: error
 
       - name: Upload Python 3 wheel artifact
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: dist-py3-wheel
           path: dist/${{ steps.package.outputs.wheel }}
@@ -88,7 +88,7 @@ jobs:
       image: danielflook/python-minifier-build:python2.7-2025-09-26
     steps:
       - name: Download source distribution artifact
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/download-artifact@v7.0.0
         with:
           name: dist-sdist
           path: dist/
@@ -104,7 +104,7 @@ jobs:
           echo "wheel=$(find dist -name '*-py2-*.whl' -printf "%f\n")" >> "$GITHUB_OUTPUT"
 
       - name: Upload Python 2 wheel artifact
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: dist-py2-wheel
           path: dist/${{ steps.package.outputs.wheel }}
@@ -119,7 +119,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/download-artifact@v4.1.8
+      - uses: actions/download-artifact@v7.0.0
         with:
           name: dist-sdist
           path: dist/
@@ -132,7 +132,7 @@ jobs:
           pyminify --version
 
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -144,7 +144,7 @@ jobs:
           sphinx-build docs/source /tmp/build
 
       - name: Upload documentation artifact
-        uses: actions/upload-pages-artifact@v3.0.1
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: /tmp/build
 
@@ -161,14 +161,14 @@ jobs:
         package_type: [sdist, wheel]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
           persist-credentials: false
 
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/download-artifact@v7.0.0
         with:
           pattern: dist-*
           path: dist/
@@ -220,7 +220,7 @@ jobs:
       image: danielflook/python-minifier-build:python3.14-2025-09-26
     steps:
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/download-artifact@v7.0.0
         with:
           pattern: dist-*
           path: dist/
@@ -238,7 +238,7 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -271,7 +271,7 @@ jobs:
       release_id: ${{ steps.create_release.outputs.release_id }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 1
           show-progress: false
@@ -307,7 +307,7 @@ jobs:
           echo "release_id=$untagged_id" >> "$GITHUB_OUTPUT"
 
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/download-artifact@v7.0.0
         with:
           pattern: dist-*
           path: dist/

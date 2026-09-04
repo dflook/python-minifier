@@ -531,6 +531,43 @@ match x:
 
 # endregion
 
+# region deep nesting
+
+def stack_depth():
+    depth = 0
+    frame = sys._getframe()
+    while frame is not None:
+        depth += 1
+        frame = frame.f_back
+    return depth
+
+
+def test_deep_elif_chain():
+    # Machine generated dispatch code can contain elif chains hundreds of levels
+    # deep. elif chains nest through the orelse suite without any indentation, so
+    # they are not capped by the tokenizer's 100 level indentation limit and the
+    # transform must not use more stack frames per level than other transforms.
+    # The transform gets a fixed stack budget so the test doesn't depend on how
+    # deep the test runner's own stack already is.
+    source = 'if x0:\n a()\n' + ''.join('elif x%d:\n a()\n' % i for i in range(1, 150))
+
+    limit = sys.getrecursionlimit()
+    try:
+        sys.setrecursionlimit(stack_depth() + 700)
+        run_test(source, source)
+    finally:
+        sys.setrecursionlimit(limit)
+
+
+def test_deep_constant_elif_chain():
+    # A chain of dead elif branches is spliced level by level, which must not
+    # exhaust the stack either
+    skip_if_no_nameconstant()
+    source = 'if False:\n a()\n' + ''.join('elif False:\n a()\n' for _ in range(1, 150))
+    run_test(source, '')
+
+# endregion
+
 # region orelse cleanup
 
 def test_drops_emptied_if_else():
