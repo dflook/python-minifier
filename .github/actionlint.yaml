@@ -1,0 +1,10 @@
+# Configuration for actionlint
+# https://github.com/rhysd/actionlint/blob/main/docs/config.md
+
+paths:
+  .github/workflows/**/*.yaml:
+    ignore:
+      # actionlint doesn't recognise GitHub's self-repository syntax ($/...)
+      # in uses: yet. Remove these when it does.
+      - 'specifying action "\$/'
+      - 'reusable workflow call "\$/'
