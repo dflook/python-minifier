@@ -24,7 +24,7 @@ jobs:
         sdist: ${{ steps.package.outputs.sdist }}
         wheel: ${{ steps.package.outputs.wheel }}
     container:
-      image: danielflook/python-minifier-build:python3.14-2025-09-26
+      image: danielflook/python-minifier-build:python3.15-2026-09-10
     permissions:
       contents: read
     steps:
@@ -85,7 +85,7 @@ jobs:
     outputs:
         wheel: ${{ steps.package.outputs.wheel }}
     container:
-      image: danielflook/python-minifier-build:python2.7-2025-09-26
+      image: danielflook/python-minifier-build:python2.7-2026-09-10
     steps:
       - name: Download source distribution artifact
         uses: actions/download-artifact@v7.0.0
@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: [package_python3]
     container:
-      image: danielflook/python-minifier-build:python3.14-2025-09-26
+      image: danielflook/python-minifier-build:python3.15-2026-09-10
     permissions:
       contents: read
     steps:
@@ -157,7 +157,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        python: ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
         package_type: [sdist, wheel]
     steps:
       - name: Checkout
@@ -177,7 +177,7 @@ jobs:
       - name: Test
         uses: $/.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:python${{ matrix.python }}-2025-09-26
+          image: danielflook/python-minifier-build:python${{ matrix.python }}-2026-09-10
           run: |
             if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
               pip${{ matrix.python }} install dist/${{needs.package_python3.outputs.sdist}}
@@ -217,7 +217,7 @@ jobs:
     permissions:
       contents: read
     container:
-      image: danielflook/python-minifier-build:python3.14-2025-09-26
+      image: danielflook/python-minifier-build:python3.15-2026-09-10
     steps:
       - name: Download distribution artifacts
         uses: actions/download-artifact@v7.0.0
@@ -232,9 +232,9 @@ jobs:
           PYTHON3_WHEEL: ${{ needs.package_python3.outputs.wheel }}
         run: |
           if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
-            pip3.14 install "dist/$PYTHON3_SDIST"
+            pip3.15 install "dist/$PYTHON3_SDIST"
           else
-            pip3.14 install "dist/$PYTHON3_WHEEL"
+            pip3.15 install "dist/$PYTHON3_WHEEL"
           fi
 
       - name: Checkout
@@ -246,7 +246,7 @@ jobs:
 
       - name: Test typing
         run: |
-          pip3.14 install 'mypy<1.12.0' types-setuptools
+          pip3.15 install 'mypy<1.12.0' types-setuptools
           mypy --strict typing_test/test_typing.py
 
           if mypy --strict typing_test/test_badtyping.py; then

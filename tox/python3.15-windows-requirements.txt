@@ -1,0 +1,8 @@
+colorama
+iniconfig
+packaging
+pip
+pluggy
+Pygments
+pytest
+PyYAML
