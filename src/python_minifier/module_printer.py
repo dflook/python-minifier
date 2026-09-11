@@ -248,7 +248,7 @@ class ModulePrinter(ExpressionPrinter):
     def visit_ImportFrom(self, node):
         assert isinstance(node, ast.ImportFrom)
 
-        if getattr(node, 'is_lazy') == 1:
+        if getattr(node, 'is_lazy', 0) == 1:
             self.printer.keyword('lazy')
 
         self.printer.keyword('from')
