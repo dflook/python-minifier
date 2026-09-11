@@ -234,6 +234,8 @@ class ModulePrinter(ExpressionPrinter):
     def visit_Import(self, node):
         assert isinstance(node, ast.Import)
 
+        if getattr(node, 'is_lazy') == 1:
+            self.printer.keyword('lazy')
         self.printer.keyword('import')
 
         delimiter = Delimiter(self.printer)
@@ -245,6 +247,9 @@ class ModulePrinter(ExpressionPrinter):
 
     def visit_ImportFrom(self, node):
         assert isinstance(node, ast.ImportFrom)
+
+        if getattr(node, 'is_lazy') == 1:
+            self.printer.keyword('lazy')
 
         self.printer.keyword('from')
         for _i in range(node.level):

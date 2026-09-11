@@ -130,7 +130,7 @@ class TokenPrinter(object):
             'or', 'pass', 'raise', 'return',
             'try', 'while', 'with', 'yield', '_',
             'case', 'match', 'print', 'exec',
-            'type'
+            'type', 'lazy'
         ]
 
         if self.previous_token in [TokenTypes.Identifier, TokenTypes.Keyword, TokenTypes.SoftKeyword, TokenTypes.NumberLiteral]:
