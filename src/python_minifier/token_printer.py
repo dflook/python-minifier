@@ -138,7 +138,7 @@ class TokenPrinter(object):
 
         self._code += kw
 
-        if kw in ['_', 'case', 'match', 'type']:
+        if kw in ['_', 'case', 'match', 'type', 'lazy']:
             self.previous_token = TokenTypes.SoftKeyword
         else:
             self.previous_token = TokenTypes.Keyword
