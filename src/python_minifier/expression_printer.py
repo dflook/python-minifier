@@ -524,9 +524,15 @@ class ExpressionPrinter(object):
 
     def visit_DictComp(self, node):
         self.printer.delimiter('{')
-        self._expression(node.key)
-        self.printer.delimiter(':')
-        self._expression(node.value)
+
+        if node.value is None:
+            self.printer.operator('**')
+            self._expression(node.key)
+        else:
+            self._expression(node.key)
+            self.printer.delimiter(':')
+            self._expression(node.value)
+
         [self.visit_comprehension(x) for x in node.generators]
         self.printer.delimiter('}')
 

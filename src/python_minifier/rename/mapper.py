@@ -104,7 +104,9 @@ def add_parent_to_comprehension(node, namespace):
         add_parent(node.elt, namespace=node)
     elif hasattr(node, 'key'):
         add_parent(node.key, namespace=node)
-        add_parent(node.value, namespace=node)
+
+        if node.value is not None:
+            add_parent(node.value, namespace=node)
 
     iter_namespace = namespace
     for generator in node.generators:
