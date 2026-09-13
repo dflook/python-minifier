@@ -13,7 +13,13 @@ the minified code may only run with Python 3.12.
 ## [3.4.0] - Unreleased
 
 ### Added
-- Support for Python 3.15, including lazy imports
+- Python 3.15 support, including:
+  + PEP 810 lazy imports
+  + PEP 798 unpacking in comprehensions
+
+### Fixed
+- The combine imports transform now combines all runs of `from` imports that can be combined.
+  Previously only a leading run of imports from the same module was combined.
 
 ## [3.3.0] - 2026-09-04
 
