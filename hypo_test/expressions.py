@@ -363,9 +363,25 @@ def comprehension(draw, expression) -> ast.comprehension:
 
 
 @composite
+def comprehension_element(draw, expression):
+    """
+    The element of a list, set or generator comprehension
+
+    PEP 798 (Python 3.15) allows this to be unpacked with `*`, as in
+    `[*L for L in lists]`. That reuses Starred in the existing `elt` slot rather
+    than adding a field, so it is invisible to a diff of node `_fields`.
+    """
+
+    element = draw(expression)
+    if draw(booleans()):
+        return ast.Starred(value=element, ctx=ast.Load())
+    return element
+
+
+@composite
 def ListComp(draw, expression) -> ast.ListComp:
     return ast.ListComp(
-        elt=draw(expression),
+        elt=draw(comprehension_element(expression)),
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
 
@@ -373,7 +389,7 @@ def ListComp(draw, expression) -> ast.ListComp:
 @composite
 def SetComp(draw, expression) -> ast.SetComp:
     return ast.SetComp(
-        elt=draw(expression),
+        elt=draw(comprehension_element(expression)),
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
 
@@ -381,16 +397,19 @@ def SetComp(draw, expression) -> ast.SetComp:
 @composite
 def GeneratorExp(draw, expression) -> ast.GeneratorExp:
     return ast.GeneratorExp(
-        elt=draw(expression),
+        elt=draw(comprehension_element(expression)),
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
 
 
 @composite
 def DictComp(draw, expression) -> ast.DictComp:
+    # PEP 798 (Python 3.15) `{**d for d in dicts}` is a DictComp whose value is
+    # None, with the unpacked expression in key.
+    unpacked = draw(booleans())
     return ast.DictComp(
         key=draw(expression),
-        value=draw(expression),
+        value=None if unpacked else draw(expression),
         generators=draw(lists(comprehension(expression), min_size=1, max_size=3))
     )
 
