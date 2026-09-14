@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "python3.14", "pypy3"]
+        python: ["python2.7", "python3.3", "python3.4", "python3.5", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11", "python3.12", "python3.13", "python3.14", "python3.15", "pypy3"]
     steps:
       - name: Clear workspace
         run: rm -rf "${GITHUB_WORKSPACE:?}/*"
@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         uses: $/.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:${{ matrix.python }}-2025-09-26
+          image: danielflook/python-minifier-build:${{ matrix.python }}-2026-09-10
           run: |
             
             if [[ "${{ matrix.python }}" == "python3.4" ]]; then
@@ -68,11 +68,11 @@ jobs:
       - name: Run tests
         uses: $/.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:python3.14-2025-09-26
+          image: danielflook/python-minifier-build:python3.15-2026-09-10
           run: |
 
-            pip3.14 install .
-            pip3.14 install hypothesis pytest
+            pip3.15 install .
+            pip3.15 install hypothesis pytest
 
             pytest hypo_test --hypothesis-show-statistics
 

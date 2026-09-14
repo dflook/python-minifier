@@ -1,0 +1,54 @@
+FROM fedora:44 AS python3.15
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# CircleCI required tools
+RUN <<EOF
+    dnf install -y \
+        git \
+        tar \
+        gzip \
+        gpg \
+        ca-certificates
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
+
+# Development tools
+RUN <<EOF
+    dnf install -y \
+        @development-tools \
+        findutils \
+        zlib-devel \
+        bzip2-devel \
+        ncurses-devel \
+        gdbm-devel \
+        openssl-devel \
+        sqlite-devel \
+        tk-devel \
+        libuuid-devel \
+        readline-devel \
+        libnsl2-devel \
+        xz-devel \
+        libffi-devel \
+        wget
+    git clone https://github.com/python/cpython.git
+    cd cpython
+    git checkout v3.15.0rc2
+    ./configure
+    make
+    make install
+    cd ..
+    rm -rf cpython
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
+
+# Other packages required for tests
+RUN <<EOF
+    dnf install -y bzip2
+    dnf clean all && rm -rf /var/cache/dnf/*
+EOF
+
+RUN pip3 install --no-cache-dir tox==4.61.4 virtualenv==21.7.9 cachetools==7.1.8 chardet==7.6.0 colorama==0.4.6 distlib==0.4.3 filelock==3.32.6 packaging==26.3 platformdirs==4.11.8 pluggy==1.6.0 pyproject-api==1.11.0
+
+WORKDIR /tmp/work
+ENTRYPOINT ["/bin/bash"]

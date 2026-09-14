@@ -15,7 +15,7 @@ jobs:
     outputs:
       release_version: ${{ steps.set_version.outputs.version }}
     container:
-      image: danielflook/python-minifier-build:python3.14-2025-09-26
+      image: danielflook/python-minifier-build:python3.15-2026-09-10
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1

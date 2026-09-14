@@ -10,6 +10,17 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [3.4.0] - Unreleased
+
+### Added
+- Python 3.15 support, including:
+  + PEP 810 lazy imports
+  + PEP 798 unpacking in comprehensions
+
+### Fixed
+- The combine imports transform now combines all runs of `from` imports that can be combined.
+  Previously only a leading run of imports from the same module was combined.
+
 ## [3.3.0] - 2026-09-04
 
 ### Added
@@ -331,6 +342,7 @@ the minified code may only run with Python 3.12.
 - python-minifier package
 - pyminify command
 
+[3.4.0]: https://github.com/dflook/python-minifier/compare/3.3.0...3.4.0
 [3.3.0]: https://github.com/dflook/python-minifier/compare/3.2.0...3.3.0
 [3.2.0]: https://github.com/dflook/python-minifier/compare/3.1.1...3.2.0
 [3.1.1]: https://github.com/dflook/python-minifier/compare/3.1.0...3.1.1

@@ -186,7 +186,7 @@ def alias(draw) -> ast.alias:
 
 @composite
 def Import(draw) -> ast.Import:
-    return ast.Import(names=draw(lists(alias(), min_size=1, max_size=3)))
+    return ast.Import(names=draw(lists(alias(), min_size=1, max_size=3)), is_lazy=draw(sampled_from([0, 1])))
 
 
 @composite
@@ -194,7 +194,8 @@ def ImportFrom(draw) -> ast.ImportFrom:
     return ast.ImportFrom(
         module=draw(name()),
         names=draw(lists(alias(), min_size=1, max_size=3)),
-        level=draw(integers(min_value=0, max_value=2))
+        level=draw(integers(min_value=0, max_value=2)),
+        is_lazy=draw(sampled_from([0, 1]))
     )
 
 
