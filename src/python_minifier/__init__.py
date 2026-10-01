@@ -22,6 +22,7 @@ from python_minifier.rename import (
 )
 from python_minifier.transforms.combine_imports import CombineImports
 from python_minifier.transforms.constant_folding import FoldConstants
+from python_minifier.transforms.dead_code import eliminate_dead_code
 from python_minifier.transforms.remove_annotations import RemoveAnnotations
 from python_minifier.transforms.remove_annotations_options import RemoveAnnotationsOptions
 from python_minifier.transforms.remove_asserts import RemoveAsserts
@@ -75,7 +76,11 @@ def minify(
     remove_builtin_exception_brackets=True,
     constant_folding=True,
     prefer_single_line=False,
-    remove_dead_branches=True
+    remove_dead_branches=True,
+    remove_unused_imports=False,
+    remove_unused_variables=False,
+    remove_unused_definitions=False,
+    remove_unreachable=False
 ):
     """
     Minify a python module
@@ -112,6 +117,10 @@ def minify(
     :param bool constant_folding: If literal expressions should be evaluated
     :param bool prefer_single_line: If semi-colons should be preferred over newlines where there is no difference in output size
     :param bool remove_dead_branches: If if-statements with a constant False test should be removed
+    :param bool remove_unused_imports: If imported names that are never used should be removed
+    :param bool remove_unused_variables: If assignments to variables that are never used should be removed
+    :param bool remove_unused_definitions: If functions and classes that are never used should be removed
+    :param bool remove_unreachable: If statements that follow a return, raise, break or continue should be removed
 
     :rtype: str
 
@@ -163,6 +172,15 @@ def minify(
 
     if remove_dead_branches:
         module = RemoveDeadBranches()(module)
+
+    if remove_unused_imports or remove_unused_variables or remove_unused_definitions or remove_unreachable:
+        module = eliminate_dead_code(
+            module,
+            remove_imports=remove_unused_imports,
+            remove_variables=remove_unused_variables,
+            remove_definitions=remove_unused_definitions,
+            remove_unreachable=remove_unreachable
+        )
 
     if remove_explicit_return_none:
         module = RemoveExplicitReturnNone()(module)

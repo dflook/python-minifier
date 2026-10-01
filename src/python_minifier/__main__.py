@@ -255,6 +255,30 @@ def parse_args():
         help='Disable removing branches that are never executed',
         dest='remove_dead_branches',
     )
+    minification_options.add_argument(
+        '--remove-unused-imports',
+        action='store_true',
+        help='Enable removing imports of names that are never used',
+        dest='remove_unused_imports',
+    )
+    minification_options.add_argument(
+        '--remove-unused-variables',
+        action='store_true',
+        help='Enable removing assignments to variables that are never used',
+        dest='remove_unused_variables',
+    )
+    minification_options.add_argument(
+        '--remove-unused-definitions',
+        action='store_true',
+        help='Enable removing functions and classes that are never used',
+        dest='remove_unused_definitions',
+    )
+    minification_options.add_argument(
+        '--remove-unreachable',
+        action='store_true',
+        help='Enable removing statements that follow a return, raise, break or continue',
+        dest='remove_unreachable',
+    )
 
     annotation_options = parser.add_argument_group('remove annotations options', 'Options that affect how annotations are removed')
     annotation_options.add_argument(
@@ -391,6 +415,10 @@ def do_minify(source, filename, minification_args):
         remove_builtin_exception_brackets=minification_args.remove_exception_brackets,
         constant_folding=minification_args.constant_folding,
         prefer_single_line=minification_args.prefer_single_line,
+        remove_unused_imports=minification_args.remove_unused_imports,
+        remove_unused_variables=minification_args.remove_unused_variables,
+        remove_unused_definitions=minification_args.remove_unused_definitions,
+        remove_unreachable=minification_args.remove_unreachable,
     )
 
     # Encode minified result to bytes for comparison and output
