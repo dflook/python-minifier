@@ -30,7 +30,11 @@ def minify(
     remove_builtin_exception_brackets: bool = ...,
     constant_folding: bool = ...,
     prefer_single_line: bool = ...,
-    remove_dead_branches: bool = ...
+    remove_dead_branches: bool = ...,
+    remove_unused_imports: bool = ...,
+    remove_unused_variables: bool = ...,
+    remove_unused_definitions: bool = ...,
+    remove_unreachable: bool = ...
 ) -> Text: ...
 
 

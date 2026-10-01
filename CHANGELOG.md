@@ -10,6 +10,15 @@ and will output source code compatible with the version of the interpreter it is
 This means that if you minify code written for Python 3.11 using python-minifier running with Python 3.12,
 the minified code may only run with Python 3.12.
 
+## [Unreleased]
+
+### Added
+- New transforms to remove dead code. They are all disabled by default, and repeat until there is nothing left to remove:
+  + Remove unused imports, enabled with the `--remove-unused-imports` option.
+  + Remove assignments to unused variables, enabled with the `--remove-unused-variables` option.
+  + Remove unused function and class definitions, enabled with the `--remove-unused-definitions` option.
+  + Remove statements that follow a `return`, `raise`, `break` or `continue`, enabled with the `--remove-unreachable` option.
+
 ## [3.4.0] - 2026-09-29
 
 ### Added

@@ -31,4 +31,8 @@ They can be enabled or disabled through the minify function, or passing options 
    rename_globals
    remove_asserts
    remove_debug
+   remove_unused_imports
+   remove_unused_variables
+   remove_unused_definitions
+   remove_unreachable
    prefer_single_line
