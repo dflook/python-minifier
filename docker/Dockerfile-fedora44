@@ -33,7 +33,7 @@ RUN <<EOF
         wget
     git clone https://github.com/python/cpython.git
     cd cpython
-    git checkout v3.15.0rc2
+    git checkout v3.15.0rc3
     ./configure
     make
     make install
