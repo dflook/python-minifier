@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         uses: $/.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:${{ matrix.python }}-2026-09-10
+          image: danielflook/python-minifier-build:${{ matrix.python }}-2026-10-07
           run: |
             
             if [[ "${{ matrix.python }}" == "python3.4" ]]; then
@@ -68,7 +68,7 @@ jobs:
       - name: Run tests
         uses: $/.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:python3.15-2026-09-10
+          image: danielflook/python-minifier-build:python3.15-2026-10-07
           run: |
 
             pip3.15 install .
