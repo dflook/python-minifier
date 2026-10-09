@@ -72,7 +72,7 @@ jobs:
       - name: Run tests
         uses: dflook/run-in-container@main
         with:
-          image: danielflook/python-minifier-build:python${{ matrix.python }}-2026-09-10
+          image: danielflook/python-minifier-build:python${{ matrix.python }}-2026-10-07
           volumes: |
             /corpus:/corpus
             /corpus-results:/corpus-results
@@ -143,7 +143,7 @@ jobs:
       - name: Generate Report
         uses: dflook/run-in-container@main
         with:
-          image: danielflook/python-minifier-build:python3.15-2026-09-10
+          image: danielflook/python-minifier-build:python3.15-2026-10-07
           volumes: |
             /corpus-results:/corpus-results
           run: |

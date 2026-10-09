@@ -1,4 +1,4 @@
-FROM danielflook/python-minifier-build:python3.15-2026-09-10 AS fuzz
+FROM danielflook/python-minifier-build:python3.15-2026-10-07 AS fuzz
 
 RUN pip3 install --no-cache-dir --root-user-action=ignore 'hypothesis[cli]' hypofuzz
 

@@ -24,7 +24,7 @@ jobs:
         sdist: ${{ steps.package.outputs.sdist }}
         wheel: ${{ steps.package.outputs.wheel }}
     container:
-      image: danielflook/python-minifier-build:python3.15-2026-09-10
+      image: danielflook/python-minifier-build:python3.15-2026-10-07
     permissions:
       contents: read
     steps:
@@ -85,7 +85,7 @@ jobs:
     outputs:
         wheel: ${{ steps.package.outputs.wheel }}
     container:
-      image: danielflook/python-minifier-build:python2.7-2026-09-10
+      image: danielflook/python-minifier-build:python2.7-2026-10-07
     steps:
       - name: Download source distribution artifact
         uses: actions/download-artifact@v7.0.0
@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: [package_python3]
     container:
-      image: danielflook/python-minifier-build:python3.15-2026-09-10
+      image: danielflook/python-minifier-build:python3.15-2026-10-07
     permissions:
       contents: read
     steps:
@@ -177,7 +177,7 @@ jobs:
       - name: Test
         uses: $/.github/actions/run-in-container
         with:
-          image: danielflook/python-minifier-build:python${{ matrix.python }}-2026-09-10
+          image: danielflook/python-minifier-build:python${{ matrix.python }}-2026-10-07
           run: |
             if [[ "${{ matrix.package_type }}" == "sdist" ]]; then
               pip${{ matrix.python }} install dist/${{needs.package_python3.outputs.sdist}}
@@ -217,7 +217,7 @@ jobs:
     permissions:
       contents: read
     container:
-      image: danielflook/python-minifier-build:python3.15-2026-09-10
+      image: danielflook/python-minifier-build:python3.15-2026-10-07
     steps:
       - name: Download distribution artifacts
         uses: actions/download-artifact@v7.0.0
