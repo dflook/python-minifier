@@ -4,6 +4,31 @@ import re
 import sys
 
 
+def _shortest_repr(value):
+    """
+    The shortest repr of a str, preferring single quotes on a tie.
+
+    repr() only switches to double quotes when the string contains a single
+    quote and no double quote, so a string containing more single quotes than
+    double quotes is rendered with every single quote escaped. Try the double
+    quoted form too and keep whichever is shorter.
+    """
+
+    s = repr(value)
+
+    if "'" not in value or '"' not in value:
+        return s
+
+    prefix = s[:s.index("'")]
+    body = s[len(prefix) + 1:-1]
+    double_quoted = prefix + '"' + body.replace("\\'", "'").replace('"', '\\"') + '"'
+
+    if len(double_quoted) < len(s):
+        return double_quoted
+
+    return s
+
+
 class TokenTypes(object):
     NoToken = 0
     Identifier = 1
@@ -145,7 +170,7 @@ class TokenPrinter(object):
 
     def stringliteral(self, value):
         """Add a string literal to the output code."""
-        s = repr(value)
+        s = _shortest_repr(value)
 
         if sys.version_info < (3, 0) and self.unicode_literals:
             if s[0] == 'u':
